@@ -16,13 +16,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
 @Composable
 fun InputLoginTextField(
     value: String,
     onTextChange: (String) -> Unit,
     icon: ImageVector,
     placeholder: String,
-    modifire: Modifier
+    modifier: Modifier
 ) {
     OutlinedTextField(
         value = value,
@@ -38,12 +39,13 @@ fun InputLoginTextField(
         singleLine = true,
         shape = RoundedCornerShape(24.dp),
         placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color.LightGray) },
-        modifier = modifire
-            .height(50.dp).fillMaxWidth().padding(horizontal = 8.dp, ),
+        modifier = modifier
+            .height(48.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         leadingIcon = {
             Icon(
-                imageVector = icon,
-                contentDescription = ""
+                imageVector = icon, contentDescription = ""
             )
 
         },

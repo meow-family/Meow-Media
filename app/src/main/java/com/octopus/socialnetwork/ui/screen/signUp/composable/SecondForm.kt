@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
-
+import com.octopus.socialnetwork.ui.composable.InputTextField
 
 
 @Composable
@@ -33,8 +33,8 @@ fun SecondForm() {
     ) {
 
 
-        InputAuth(
-            label = stringResource(R.string.first_name),
+        InputTextField(
+            placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
             value = firstName,
@@ -43,8 +43,8 @@ fun SecondForm() {
                 firstName = it
             },
         )
-        InputAuth(
-            label = stringResource(R.string.last_name),
+        InputTextField(
+            placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
             value = lastName,
@@ -69,8 +69,8 @@ fun SecondForm() {
                 expandedDropdownMenu = false
             }
         )
-        InputAuth(
-            label = stringResource(R.string.birthday),
+        InputTextField(
+            placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.Person,
             action = ImeAction.Done,
             value = birthday,

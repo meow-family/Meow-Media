@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.InputTextField
 
 
 @Composable
@@ -30,8 +31,8 @@ fun FirstForm() {
             .fillMaxSize()
             .padding(vertical = 32.dp)
     ) {
-        InputAuth(
-            label = stringResource(R.string.username),
+        InputTextField(
+            placeholder = stringResource(R.string.username),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
             value = userName,
@@ -39,8 +40,8 @@ fun FirstForm() {
                 userName = it
             },
         )
-        InputAuth(
-            label = stringResource(R.string.email),
+        InputTextField(
+            placeholder = stringResource(R.string.email),
             icon = Icons.Default.Email,
             action = ImeAction.Next,
             value = email,
@@ -48,8 +49,8 @@ fun FirstForm() {
                 email = it
             },
         )
-        InputAuth(
-            label = stringResource(R.string.re_email),
+        InputTextField(
+            placeholder = stringResource(R.string.re_email),
             icon = Icons.Default.Email,
             action = ImeAction.Next,
             value = reEmail,
@@ -57,8 +58,8 @@ fun FirstForm() {
                 reEmail = it
             },
         )
-        InputAuth(
-            label = stringResource(R.string.password),
+        InputTextField(
+            placeholder = stringResource(R.string.password),
             icon = Icons.Default.Lock,
             action = ImeAction.Next,
             value = password,

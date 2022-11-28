@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.InputTextField
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -28,8 +29,8 @@ fun DropdownMenuApp(
     ExposedDropdownMenuBox(
         expanded = expanded, onExpandedChange = onExpandedChange
     ) {
-        InputAuth(
-            label = stringResource(R.string.gender),
+        InputTextField(
+            placeholder = stringResource(R.string.gender),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
             value = value,

@@ -1,6 +1,7 @@
-package com.octopus.socialnetwork.ui.screen.signUp.composable
+package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,14 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun InputAuth(
-    label: String,
+fun InputTextField(
+    placeholder: String,
     icon: ImageVector,
     value: String,
     isPassword: Boolean = false,
@@ -30,20 +33,21 @@ fun InputAuth(
 ) {
     OutlinedTextField(
         modifier = Modifier
+            .height(48.dp)
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        shape = RoundedCornerShape(25.dp),
+            .padding(horizontal = 8.dp),
+        shape = RoundedCornerShape(24.dp),
         value = value,
         readOnly = isReadOnly,
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(imeAction = action),
-        placeholder = { Text(label) },
+        placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color.LightGray) },
         leadingIcon = {
             Icon(
                 icon,
-                contentDescription = "$label Icon",
+                contentDescription = "$placeholder Icon",
                 tint = Color.Gray,
             )
         },
@@ -55,5 +59,6 @@ fun InputAuth(
             cursorColor = Color.Red,
 
             ),
+        textStyle = TextStyle(color = Color.Black, fontSize = 14.sp)
     )
 }
