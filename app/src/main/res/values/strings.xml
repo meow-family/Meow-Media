@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">SocialNetwork</string>
+
+    <!-- Sign Up  -->
+    <string name="create_account">Create Account</string>
+    <string name="sig_up_note">Please fill the input below here</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="re_email">Re-email</string>
+    <string name="password">Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="next">Next</string>
+    <string name="revers">Revers</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
 </resources>
