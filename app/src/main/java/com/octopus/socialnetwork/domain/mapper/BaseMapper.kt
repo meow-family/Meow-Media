@@ -1,0 +1,14 @@
+package com.octopus.socialnetwork.domain.mapper
+
+interface BaseMapper<I,O> {
+    fun map(input: I) : O
+}
+
+class ListBaseMapper<I, O>(val mapper: BaseMapper<I,O>): BaseMapper<List<I>, List<O>> {
+    override fun map(input: List<I>): List<O> {
+        return if (input.isEmpty()) emptyList()
+        else input.map {
+            mapper.map(it)
+        }
+    }
+}
