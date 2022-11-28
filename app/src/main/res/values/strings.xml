@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SocialNetwork</string>
+    <string name="description">we should put reasonable text here so it looks like a real design, not blah blah blah</string>
+    <string name="login">Login</string>
+    <string name="donot_have_account">\"Don’t have a account? \"</string>
+    <string name="background">background</string>
+    <string name="signup_here">Sign up here</string>
+    <string name="password">Password</string>
+    <string name="username_or_email">Username or email</string>
 </resources>
