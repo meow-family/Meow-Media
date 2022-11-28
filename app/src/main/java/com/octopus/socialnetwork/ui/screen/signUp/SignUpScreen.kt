@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.signUp
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,13 +53,11 @@ fun SignUpContent(pager: PagerState) {
 
 
     Column(
-
         modifier = Modifier
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top,
         ) {
 
         Text(
@@ -138,7 +137,7 @@ fun SignUpContent(pager: PagerState) {
                     style = TextStyle(color = Color.White)
                 )
             }
-            Spacer(modifier = Modifier.height(42.dp))
+            Spacer(modifier = Modifier.height(0.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
