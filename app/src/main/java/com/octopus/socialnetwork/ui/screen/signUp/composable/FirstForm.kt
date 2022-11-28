@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 
 
 @Composable
@@ -40,6 +41,7 @@ fun FirstForm() {
                 userName = it
             },
         )
+        SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.email),
             icon = Icons.Default.Email,
@@ -49,6 +51,7 @@ fun FirstForm() {
                 email = it
             },
         )
+        SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.re_email),
             icon = Icons.Default.Email,
@@ -58,6 +61,7 @@ fun FirstForm() {
                 reEmail = it
             },
         )
+        SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.password),
             icon = Icons.Default.Lock,

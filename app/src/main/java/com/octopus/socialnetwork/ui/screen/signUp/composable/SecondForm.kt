@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 
 
 @Composable
@@ -43,6 +44,7 @@ fun SecondForm() {
                 firstName = it
             },
         )
+        SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
@@ -53,7 +55,7 @@ fun SecondForm() {
                 lastName = it
             },
         )
-
+        SpacerVertical16()
         DropdownMenuApp(
             expanded = expandedDropdownMenu,
             onValueChange = {},
@@ -69,6 +71,7 @@ fun SecondForm() {
                 expandedDropdownMenu = false
             }
         )
+        SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.Person,
