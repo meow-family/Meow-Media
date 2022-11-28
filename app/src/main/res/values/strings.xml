@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SocialNetwork</string>
+
+    <string name="icon_on_boarding">Icon On Boarding</string>
+    <string name="on_boarding_text">Connect With The People You Love!</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
 </resources>
