@@ -1,20 +1,18 @@
 package com.octopus.socialnetwork.data.remote.service
 
-import com.octopus.socialnetwork.data.remote.dto.AuthResponse
+import com.octopus.socialnetwork.data.remote.dto.auth.AuthResponse
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 
 interface SocialService {
 
-    //login
     @POST("user_authenticate")
     suspend fun login(
         @Query("username") username: String,
         @Query("password") password: String,
     ): AuthResponse
 
-    //signup
     @POST("user_add")
     suspend fun signup(
         @Query("firstname") firstName: String,
