@@ -1,10 +1,13 @@
 package com.octopus.socialnetwork.ui.screen.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,20 +15,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.LoginImage
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 
 
@@ -74,7 +78,9 @@ private fun LoginContent(
             fontWeight = FontWeight.ExtraBold
         )
         Text(
-            modifier = Modifier.padding(bottom = 28.dp),
+            modifier = Modifier
+                .padding(bottom = 28.dp)
+                .padding(horizontal = 42.dp),
             text = stringResource(R.string.description),
             fontSize = 14.sp,
             color = Color.Gray,
@@ -82,41 +88,32 @@ private fun LoginContent(
             fontWeight = FontWeight.Light,
             textAlign = TextAlign.Center
         )
-        InputLoginTextField(
+        InputTextField(
             value = state.usernameOrEmail,
-            onTextChange = onChangeUsernameOrEmail,
+            onValueChange = onChangeUsernameOrEmail,
             icon = Icons.Filled.Person,
             placeholder = stringResource(R.string.username_or_email),
-            modifire = Modifier
+            action = ImeAction.Next,
         )
         SpacerVertical16()
-
-        InputLoginTextField(
+        InputTextField(
             value = state.password,
-            onTextChange = onChangePassword,
-            icon = ImageVector.vectorResource(id = R.drawable.ic_baseline_lock_24),
+            isPassword = true,
+            onValueChange = onChangePassword,
+            icon = Icons.Default.Lock,
             placeholder = stringResource(R.string.password),
-            modifire = Modifier
+            action = ImeAction.Done,
         )
         Spacer(modifier = Modifier.weight(1f))
-        LoginButton(login = login)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 16.dp),
-
-            ) {
-            Text(
-                text = stringResource(R.string.donot_have_account),
-                fontSize = 14.sp,
-                color = Color.Gray,
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Light,
-            )
-            SpacerVertical16()
-            TextSignUpButton(text = stringResource(R.string.signup_here), onClick = signUp)
-
-        }
-
+        CustomButton(
+            text = stringResource(R.string.login),
+            onClick = login
+        )
+        TextWithAction(
+            text = stringResource(R.string.donot_have_account),
+            textAction = stringResource(R.string.signup_here),
+            onClick = signUp
+        )
 
     }
 }

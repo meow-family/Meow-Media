@@ -14,17 +14,20 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun LoginButton( login: ()-> Unit){
+fun CustomButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: () -> Unit
+) {
     Button(
-        onClick = login,
-        modifier = Modifier
+        onClick = onClick,
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(44.dp),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
-
     ) {
-        Text(text = "Login", color = Color.White )
+        Text(text = text, color = Color.White)
     }
 }
