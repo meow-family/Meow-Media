@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +42,8 @@ import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistr
 import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Preview(showSystemUi = true)
@@ -49,12 +52,14 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val pager = rememberPagerState(0)
+    val pagerState = rememberPagerState(0)
+    val coroutineScope = rememberCoroutineScope()
 
     RegisterContent(
-        state = state, pager = pager,
+        state = state, pagerState = pagerState,
         register = viewModel::register,
         tryLogin = viewModel::tryLogin,
+        coroutineScope = coroutineScope,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
         onChangeReEmail = viewModel::onChangeReEmail,
@@ -70,9 +75,10 @@ fun RegisterScreen(
 @Composable
 private fun RegisterContent(
     state: RegisterUiState,
-    pager: PagerState,
+    pagerState: PagerState,
     register: () -> Unit,
     tryLogin: () -> Unit,
+    coroutineScope: CoroutineScope,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
     onChangeReEmail: (String) -> Unit,
@@ -109,14 +115,17 @@ private fun RegisterContent(
             Arrangement.Center, verticalAlignment = Alignment.CenterVertically
         ) {
 
-            StepIndicatorRegistration("1", (pager.currentPage == 0 || pager.currentPage == 1))
+            StepIndicatorRegistration(
+                "1",
+                (pagerState.currentPage == 0 || pagerState.currentPage == 1)
+            )
 
             Divider(
                 modifier = Modifier
                     .width(96.dp)
                     .padding(horizontal = 2.dp), color = Color.Gray
             )
-            StepIndicatorRegistration("2", pager.currentPage == 1)
+            StepIndicatorRegistration("2", pagerState.currentPage == 1)
 
         }
         Image(
@@ -126,7 +135,8 @@ private fun RegisterContent(
         )
         HorizontalPager(
             count = 2,
-            state = pager,
+            state = pagerState,
+            userScrollEnabled = false
         ) { page ->
             when (page) {
                 0 -> {
@@ -163,8 +173,16 @@ private fun RegisterContent(
         ) {
 
             CustomButton(
-                text = stringResource(if (pager.currentPage == 0) R.string.next else R.string.create_account),
-                onClick = register
+                text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
+                onClick = {
+                    if (pagerState.currentPage == 0) {
+                        coroutineScope.launch {
+                            pagerState.scrollToPage(pagerState.currentPage + 1)
+                        }
+                    } else {
+                        register()
+                    }
+                }
             )
             SpacerVertical16()
             TextWithAction(
