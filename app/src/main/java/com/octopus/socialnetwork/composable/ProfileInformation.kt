@@ -10,55 +10,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import com.octopus.socialnetwork.ui.composable.LoginImage
 
 @Composable
-fun ProfileImages(backImageProfile: Int, profileImage: Int) {
+fun ProfileImages(backImageProfile: Painter, profileImage: Painter)
+{
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(216.dp)
     ) {
-        Image(
-            painter = painterResource(id = backImageProfile),
-            contentDescription = "back profile image",
+
+
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(188.dp),
+//        ) {
+//            Image(
+//                painter = backImageProfile,
+//                contentDescription = "back profile image",
+//                contentScale = ContentScale.Crop
+//            )
+//            ShadowImage()
+//        }
+        LoginImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(188.dp)
+                .height(188.dp),
+            painter = backImageProfile
         )
 
         Image(
-            painter = painterResource(id = profileImage),
+            painter = profileImage,
             contentDescription = "profile image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(86.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.BottomCenter)
+                .zIndex(1f)
 
 
         )
     }
 
-}
-
-@Composable
-fun SmallImageHolder(image: Int) {
-    Image(
-        painter = painterResource(id = image),
-        contentDescription = "image",
-        modifier = Modifier.size(width = 117.52.dp, height = 101.dp)
-    )
-}
-
-@Composable
-fun LargeImageHolder(image: Int) {
-    Image(
-        painter = painterResource(id = image),
-        contentDescription = "image",
-        modifier = Modifier.size(width = 117.52.dp, height = 190.dp)
-    )
 }
 

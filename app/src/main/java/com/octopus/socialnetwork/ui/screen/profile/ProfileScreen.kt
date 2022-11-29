@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -8,27 +9,54 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.composable.*
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.Red600
 import com.octopus.socialnetwork.ui.theme.White50
 
-@Composable
-fun ProfileScreen() {
 
-    Column(modifier = Modifier.fillMaxSize()) {
+@Preview(showSystemUi = true)
+@Composable
+fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+
+    val state by viewModel.state.collectAsState()
+    ProfileContent(
+        state = state,
+        follow = viewModel::onClickFollow,
+        message = viewModel::onClickMessage
+    )
+}
+
+@Composable
+fun ProfileContent(
+    state: ProfileUiState,
+    follow:() -> Unit,
+    message: () -> Unit
+) {
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color.White)
+    ) {
+
         ProfileImages(
-            backImageProfile = R.drawable.ic_launcher_foreground,
-            profileImage = R.drawable.ic_launcher_background
+            backImageProfile = painterResource(id =  R.drawable.login_background),
+            profileImage =  painterResource(id = R.drawable.profile_image)
         )
 
         Column(
@@ -37,7 +65,7 @@ fun ProfileScreen() {
                 .height(136.dp)
         ) {
             Text(
-                text = "Mostafa Mohamed",
+                text = state.fullName,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsTypography.subtitle1.fontFamily,
@@ -45,7 +73,7 @@ fun ProfileScreen() {
                 fontSize = PoppinsTypography.subtitle1.fontSize
             )
             Text(
-                text = "@wesamnabeel99",
+                text = state.username,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontWeight = FontWeight.Light,
                 fontFamily = PoppinsTypography.caption.fontFamily,
@@ -55,10 +83,11 @@ fun ProfileScreen() {
             )
 
             SpaceVertically10dp()
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally))
+            {
 
                 Text(
-                    text = "15",
+                    text = state.friendsCount,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsTypography.caption.fontFamily,
                     fontStyle = PoppinsTypography.caption.fontStyle,
@@ -74,7 +103,7 @@ fun ProfileScreen() {
                 )
                 SpaceHorizontally16dp()
                 Text(
-                    text = "9",
+                    text = state.postCount,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsTypography.caption.fontFamily,
                     fontStyle = PoppinsTypography.caption.fontStyle,
@@ -89,12 +118,13 @@ fun ProfileScreen() {
                     fontSize = PoppinsTypography.caption.fontSize
                 )
 
-                SpaceVertically8dp()
+
             }
+            SpaceVertically8dp()
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
 
                 Button(
-                    onClick = {},
+                    onClick = follow,
                     modifier = Modifier
                         .height(25.dp)
                         .width(87.dp),
@@ -120,7 +150,7 @@ fun ProfileScreen() {
                 }
                 SpaceHorizontally8dp()
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = message,
                     modifier = Modifier
                         .height(25.dp)
                         .width(29.dp),
@@ -141,7 +171,7 @@ fun ProfileScreen() {
         Divider(
             color = Color(color = 0xFFBCBCBC), modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp)
+                .height(1.dp).alpha(1f)
         )
 
 
@@ -151,9 +181,3 @@ fun ProfileScreen() {
 }
 
 
-@Preview(showSystemUi = true)
-@Composable
-fun SignProfilePreview() {
-    ProfileScreen()
-
-}
