@@ -1,9 +1,9 @@
 package com.octopus.socialnetwork.di
 
-import com.octopus.socialnetwork.data.repository.sign_in.SignInRepository
-import com.octopus.socialnetwork.data.repository.sign_in.SignInRepositoryImpl
-import com.octopus.socialnetwork.data.repository.sign_up.SignUpRepository
-import com.octopus.socialnetwork.data.repository.sign_up.SignUpRepositoryImpl
+import com.octopus.socialnetwork.data.repository.authentication_repository.SignInRepository
+import com.octopus.socialnetwork.data.repository.authentication_repository.SignInRepositoryImpl
+import com.octopus.socialnetwork.data.repository.authentication_repository.SignUpRepository
+import com.octopus.socialnetwork.data.repository.authentication_repository.SignUpRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -49,6 +49,8 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+        buildConfigField "String", "API_KEY",localProperties['ApiKey']
+        buildConfigField "String", "BASE_URL",localProperties['BaseUrl']
     }
 
 }
@@ -58,7 +60,7 @@ dependencies {
     // Room database
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
-    kapt "androidx.room:room-compiler:2.5.0-beta01"
+    kapt "androidx.room:room-compiler:2.5.0-beta02"
 
     // Retrofit
     def retrofit_version = '2.9.0'
