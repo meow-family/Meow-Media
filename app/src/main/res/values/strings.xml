@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SocialNetwork</string>
+    <string name="app_name">Social Network</string>
     <string name="description">we should put reasonable text here so it looks like a real design, not blah blah blah</string>
     <string name="donot_have_account">\"Don’t have a account? \"</string>
     <string name="background">background</string>

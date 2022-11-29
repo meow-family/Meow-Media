@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork
+package com.octopus.socialnetwork.ui.screen.main
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
