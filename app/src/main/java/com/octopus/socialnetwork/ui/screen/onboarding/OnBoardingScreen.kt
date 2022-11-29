@@ -1,10 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.onboarding
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,15 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.TextWithAction
+
 
 @Composable
 fun OnBoardingScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 32.dp),
+            .padding(vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -31,38 +36,30 @@ fun OnBoardingScreen() {
             modifier = Modifier.padding(top = 64.dp)
         )
 
-        Text(text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Center,
+        Text(
+            text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Start,
             color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(top = 42.dp))
+            modifier = Modifier.padding(top = 42.dp, start = 16.dp)
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = {}, modifier = Modifier
-            .fillMaxWidth()
-            .height(44.dp),
-            shape = RoundedCornerShape(22.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
-            elevation = ButtonDefaults.elevation(0.dp)
-        ) {
-            Text(text = stringResource(R.string.create_account),
-                color = MaterialTheme.colors.background,
-                style = MaterialTheme.typography.button)
-        }
-
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(text = stringResource(R.string.already_have_an_account),
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.caption)
-
-            Text(text = stringResource(R.string.login), color = MaterialTheme.colors.primary,
-                style = MaterialTheme.typography.body2)
-        }
+        CustomButton(
+            text = stringResource(R.string.create_account),
+            onClick = {}
+        )
+        TextWithAction(
+            text = stringResource(R.string.already_have_an_account),
+            textAction = stringResource(R.string.login),
+            onClick = {}
+        )
 
     }
 
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun OnBoardingPreview() {
+    OnBoardingScreen()
 }
