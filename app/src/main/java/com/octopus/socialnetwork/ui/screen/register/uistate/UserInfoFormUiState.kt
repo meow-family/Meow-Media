@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.signUp.uistate
+package com.octopus.socialnetwork.ui.screen.register.uistate
 
 
 data class UserInfoFormUiState(

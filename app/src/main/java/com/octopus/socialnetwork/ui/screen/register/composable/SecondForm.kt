@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.signUp.composable
+package com.octopus.socialnetwork.ui.screen.register.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

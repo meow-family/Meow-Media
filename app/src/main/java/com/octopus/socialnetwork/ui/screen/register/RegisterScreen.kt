@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.signUp
+package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,22 +32,22 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.screen.signUp.composable.FirstForm
-import com.octopus.socialnetwork.ui.screen.signUp.composable.SecondForm
-import com.octopus.socialnetwork.ui.screen.signUp.composable.StepText
+import com.octopus.socialnetwork.ui.screen.register.composable.FirstForm
+import com.octopus.socialnetwork.ui.screen.register.composable.SecondForm
+import com.octopus.socialnetwork.ui.screen.register.composable.StepText
 
 @ExperimentalPagerApi
 @Preview(showSystemUi = true)
 @Composable
-fun SignUpScreen() {
+fun RegisterScreen() {
     val pager = rememberPagerState(0)
 
-    SignUpContent(pager)
+    RegisterContent(pager)
 }
 
 @ExperimentalPagerApi
 @Composable
-fun SignUpContent(pager: PagerState) {
+private fun RegisterContent(pager: PagerState) {
 
     Column(
         modifier = Modifier

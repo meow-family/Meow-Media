@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.signUp.composable
+package com.octopus.socialnetwork.ui.screen.register.composable
 
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
