@@ -4,7 +4,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.octopus.socialnetwork.ui.screen.login.LoginScreen
+import com.octopus.socialnetwork.ui.screen.post.PostScreen
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 @ExperimentalPagerApi
@@ -12,9 +12,9 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 @Composable
 fun SocialNetworkApp() {
     SocialNetworkTheme {
-        Scaffold() {
+        Scaffold {
 //            SignUpScreen()
-            LoginScreen()
+            PostScreen()
         }
     }
 
