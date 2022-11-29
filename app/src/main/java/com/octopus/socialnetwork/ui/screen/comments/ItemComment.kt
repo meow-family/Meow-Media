@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 
 @Preview
 @Composable
-fun ItemComment(){
+fun ItemComment() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +37,7 @@ fun ItemComment(){
         val likeCounter = createRef()
         val reply = createRef()
         val contentTime = createRef()
-        val dividerLine = createRef()
+
         Box(
             modifier = Modifier
                 .wrapContentSize()
