@@ -87,4 +87,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
+    // Constraint Layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
+
 }
