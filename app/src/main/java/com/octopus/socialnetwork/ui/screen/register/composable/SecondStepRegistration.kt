@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
 @Composable
-fun SecondForm(
+fun SecondStepRegistration(
     userInfoForm: UserInfoFormUiState,
     onChangeFirstName: (String) -> Unit,
     onChangeLastName: (String) -> Unit,
@@ -36,7 +36,6 @@ fun SecondForm(
             .fillMaxSize()
             .padding(vertical = 32.dp)
     ) {
-
 
         InputTextField(
             placeholder = stringResource(R.string.first_name),

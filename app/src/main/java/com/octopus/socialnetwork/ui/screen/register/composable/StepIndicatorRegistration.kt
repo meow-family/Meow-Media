@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun StepText(text: String, isDone: Boolean) {
+fun StepIndicatorRegistration(text: String, isDone: Boolean) {
     Text(
         text = text, modifier = Modifier
             .background(

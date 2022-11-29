@@ -36,9 +36,9 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.screen.register.composable.FirstForm
-import com.octopus.socialnetwork.ui.screen.register.composable.SecondForm
-import com.octopus.socialnetwork.ui.screen.register.composable.StepText
+import com.octopus.socialnetwork.ui.screen.register.composable.FirstStepRegistration
+import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistration
+import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
@@ -109,14 +109,14 @@ private fun RegisterContent(
             Arrangement.Center, verticalAlignment = Alignment.CenterVertically
         ) {
 
-            StepText("1", (pager.currentPage == 0 || pager.currentPage == 1))
+            StepIndicatorRegistration("1", (pager.currentPage == 0 || pager.currentPage == 1))
 
             Divider(
                 modifier = Modifier
                     .width(96.dp)
                     .padding(horizontal = 2.dp), color = Color.Gray
             )
-            StepText("2", pager.currentPage == 1)
+            StepIndicatorRegistration("2", pager.currentPage == 1)
 
         }
         Image(
@@ -130,7 +130,7 @@ private fun RegisterContent(
         ) { page ->
             when (page) {
                 0 -> {
-                    FirstForm(
+                    FirstStepRegistration(
                         state.userInfoForm,
                         onChangeUserName = onChangeUserName,
                         onChangeEmail = onChangeEmail,
@@ -140,7 +140,7 @@ private fun RegisterContent(
                 }
 
                 1 -> {
-                    SecondForm(
+                    SecondStepRegistration(
                         state.userInfoForm,
                         onChangeFirstName = onChangeFirstName,
                         onChangeLastName = onChangeLastName,

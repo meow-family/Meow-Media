@@ -19,7 +19,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
 @Composable
-fun FirstForm(
+fun FirstStepRegistration(
     userInfoForm: UserInfoFormUiState,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
