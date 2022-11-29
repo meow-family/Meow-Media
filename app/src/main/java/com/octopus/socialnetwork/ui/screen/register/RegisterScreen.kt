@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -35,19 +39,49 @@ import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.register.composable.FirstForm
 import com.octopus.socialnetwork.ui.screen.register.composable.SecondForm
 import com.octopus.socialnetwork.ui.screen.register.composable.StepText
+import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 @ExperimentalPagerApi
 @Preview(showSystemUi = true)
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    viewModel: RegisterViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
     val pager = rememberPagerState(0)
 
-    RegisterContent(pager)
+    RegisterContent(
+        state = state, pager = pager,
+        register = viewModel::register,
+        tryLogin = viewModel::tryLogin,
+        onChangeUserName = viewModel::onChangeUserName,
+        onChangeEmail = viewModel::onChangeEmail,
+        onChangeReEmail = viewModel::onChangeReEmail,
+        onChangePassword = viewModel::onChangePassword,
+        onChangeFirstName = viewModel::onChangeFirstName,
+        onChangeLastName = viewModel::onChangeLastName,
+        onChangeGender = viewModel::onChangeGender,
+        onChangeBirthday = viewModel::onChangeBirthday,
+    )
 }
 
 @ExperimentalPagerApi
 @Composable
-private fun RegisterContent(pager: PagerState) {
+private fun RegisterContent(
+    state: RegisterUiState,
+    pager: PagerState,
+    register: () -> Unit,
+    tryLogin: () -> Unit,
+    onChangeUserName: (String) -> Unit,
+    onChangeEmail: (String) -> Unit,
+    onChangeReEmail: (String) -> Unit,
+    onChangePassword: (String) -> Unit,
+    onChangeFirstName: (String) -> Unit,
+    onChangeLastName: (String) -> Unit,
+    onChangeGender: (String) -> Unit,
+    onChangeBirthday: (String) -> Unit,
+) {
 
     Column(
         modifier = Modifier
@@ -55,7 +89,7 @@ private fun RegisterContent(pager: PagerState) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
-        ) {
+    ) {
 
         Text(
             stringResource(id = R.string.create_account),
@@ -96,11 +130,23 @@ private fun RegisterContent(pager: PagerState) {
         ) { page ->
             when (page) {
                 0 -> {
-                    FirstForm()
+                    FirstForm(
+                        state.userInfoForm,
+                        onChangeUserName = onChangeUserName,
+                        onChangeEmail = onChangeEmail,
+                        onChangeReEmail = onChangeReEmail,
+                        onChangePassword = onChangePassword,
+                    )
                 }
 
                 1 -> {
-                    SecondForm()
+                    SecondForm(
+                        state.userInfoForm,
+                        onChangeFirstName = onChangeFirstName,
+                        onChangeLastName = onChangeLastName,
+                        onChangeGender = onChangeGender,
+                        onChangeBirthday = onChangeBirthday,
+                    )
                 }
 
             }
@@ -118,13 +164,13 @@ private fun RegisterContent(pager: PagerState) {
 
             CustomButton(
                 text = stringResource(if (pager.currentPage == 0) R.string.next else R.string.create_account),
-                onClick = {}
+                onClick = register
             )
             SpacerVertical16()
             TextWithAction(
                 text = stringResource(R.string.already_have_an_account),
                 textAction = stringResource(R.string.login),
-                onClick = {}
+                onClick = tryLogin
             )
 
         }
@@ -132,3 +178,14 @@ private fun RegisterContent(pager: PagerState) {
     }
 }
 
+
+@Preview
+@Composable
+@ExperimentalPagerApi
+fun RegisterScreenPreview() {
+    SocialNetworkTheme {
+        Surface {
+            RegisterScreen()
+        }
+    }
+}

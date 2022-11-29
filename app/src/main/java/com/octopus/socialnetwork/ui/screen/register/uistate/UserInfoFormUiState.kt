@@ -9,5 +9,5 @@ data class UserInfoFormUiState(
     var firstName: String = "",
     var lastName: String = "",
     var gender: String = "",
-    var birthDay: String = "",
+    var birthday: String = "",
 )

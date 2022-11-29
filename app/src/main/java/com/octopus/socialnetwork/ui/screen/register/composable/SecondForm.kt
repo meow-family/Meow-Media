@@ -17,16 +17,20 @@ import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
 @Composable
-fun SecondForm() {
+fun SecondForm(
+    userInfoForm: UserInfoFormUiState,
+    onChangeFirstName: (String) -> Unit,
+    onChangeLastName: (String) -> Unit,
+    onChangeGender: (String) -> Unit,
+    onChangeBirthday: (String) -> Unit,
+) {
 
     var expandedDropdownMenu by remember { mutableStateOf(false) }
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-    var birthday by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,28 +42,24 @@ fun SecondForm() {
             placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = firstName,
+            value = userInfoForm.firstName,
             isPassword = true,
-            onValueChange = {
-                firstName = it
-            },
+            onValueChange = onChangeFirstName,
         )
         SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = lastName,
+            value = userInfoForm.lastName,
             isPassword = true,
-            onValueChange = {
-                lastName = it
-            },
+            onValueChange = onChangeLastName,
         )
         SpacerVertical16()
         DropdownMenuApp(
             expanded = expandedDropdownMenu,
-            onValueChange = {},
-            value = gender,
+            onValueChange = onChangeGender,
+            value = userInfoForm.gender,
             onExpandedChange = {
                 expandedDropdownMenu = !expandedDropdownMenu
             },
@@ -67,7 +67,7 @@ fun SecondForm() {
                 expandedDropdownMenu = false
             },
             onClick = { selectedGender ->
-                gender = selectedGender
+                userInfoForm.gender = selectedGender
                 expandedDropdownMenu = false
             }
         )
@@ -76,10 +76,8 @@ fun SecondForm() {
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.Person,
             action = ImeAction.Done,
-            value = birthday,
-            onValueChange = {
-                birthday = it
-            },
+            value = userInfoForm.birthday,
+            onValueChange = onChangeBirthday,
         )
 
     }
