@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SocialNetwork</string>
+    <string name="app_name">Social Network</string>
     <string name="description">we should put reasonable text here so it looks like a real design, not blah blah blah</string>
     <string name="donot_have_account">\"Don’t have a account? \"</string>
     <string name="background">background</string>
@@ -24,9 +24,14 @@
 
     <string name="icon_on_boarding">Icon On Boarding</string>
     <string name="on_boarding_text">Connect With The People You Love!</string>
+    <string name="octopusyan">Octopusyan</string>
 
     <string name="friends">Friends</string>
     <string name="posts">Posts</string>
     <string name="follow_icon_name">Follow</string>
     <string name="add_icon_name">add icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="comment_icon">Comment Icon</string>
+    <string name="like_icon">Like Icon</string>
+    <string name="this_is_post_image">this is post image</string>
 </resources>
