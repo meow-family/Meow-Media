@@ -37,7 +37,6 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.register.composable.FirstStepRegistration
 import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistration
@@ -174,37 +173,30 @@ private fun RegisterContent(
             }
 
         }
+        CustomButton(
+            text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
+            enabled = !emailState.isValid,
+            onClick = {
+                if (pagerState.currentPage == 0) {
+                    coroutineScope.launch {
+                        pagerState.scrollToPage(pagerState.currentPage + 1)
+                    }
+                } else {
+                    register()
+                }
+            }
+        )
 
     }
 
     Box(
         Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            CustomButton(
-                text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
-                enabled = !emailState.isValid,
-                onClick = {
-                    if (pagerState.currentPage == 0) {
-                        coroutineScope.launch {
-                            pagerState.scrollToPage(pagerState.currentPage + 1)
-                        }
-                    } else {
-                        register()
-                    }
-                }
-            )
-            SpacerVertical16()
-            TextWithAction(
-                text = stringResource(R.string.already_have_an_account),
-                textAction = stringResource(R.string.login),
-                onClick = tryLogin
-            )
-
-        }
+        TextWithAction(
+            text = stringResource(R.string.already_have_an_account),
+            textAction = stringResource(R.string.login),
+            onClick = tryLogin
+        )
 
     }
 }
