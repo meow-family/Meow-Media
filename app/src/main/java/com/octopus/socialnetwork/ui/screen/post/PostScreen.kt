@@ -9,13 +9,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.octopus.socialnetwork.R
+import coil.compose.rememberAsyncImagePainter
+import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
-import com.octopus.socialnetwork.ui.composable.post.PostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.theme.Transparent
 
@@ -42,15 +41,15 @@ fun PostContent(
     share: () -> Unit
 ) {
 
-    PostImage(
-
-        painter = painterResource(id = R.drawable.login_background))
+    PostImage(postImage = rememberAsyncImagePainter(model = state.postImage))
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.End
     ) {
+
+
         Card(
             modifier = Modifier
                 .height(300.dp)
@@ -61,15 +60,13 @@ fun PostContent(
             PostAction(
                 likeCount = state.likeCount,
                 commentCount = state.commentCount,
-                shareCount = state.shareCount,
                 like = like,
                 comment = comment,
-                share = share
+                share = share,
+                modifier = Modifier
             )
         }
     }
-
-
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -81,8 +78,8 @@ fun PostContent(
                 .wrapContentHeight()
                 .background(color = Transparent)
         ) {
-            PostDetails(
-                painter = painterResource(id = R.drawable.login_background),
+            LargPostDetails(
+                profileImage = rememberAsyncImagePainter(model = state.profileImage),
                 userName = state.userName,
                 fullName = state.fullName,
                 postDescription = state.postDescription
@@ -95,6 +92,6 @@ fun PostContent(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PostScreenPreview(){
+fun PostScreenPreview() {
     PostScreen()
 }

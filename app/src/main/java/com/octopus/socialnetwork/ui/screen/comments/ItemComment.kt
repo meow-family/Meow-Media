@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -12,23 +11,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.theme.light_outline
 
-@Preview
 @Composable
-fun ItemComment() {
+fun ItemComment(commentDetails: CommentDetailsUiState) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color.White)
-            .padding(16.dp, 0.dp, 50.dp, 18.dp)
-    ) {
+            .padding(16.dp)
+     ) {
         val userImage = createRef()
         val fullName = createRef()
         val userName = createRef()
@@ -43,21 +40,19 @@ fun ItemComment() {
                 .wrapContentSize()
                 .clip(CircleShape)
                 .constrainAs(userImage) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start, 16.dp)
-                }
+                 }
         ) {
-            image(painterResource(id = R.drawable.static_user_image), size = 50)
+            image(rememberAsyncImagePainter(model = commentDetails.userProfileImage), size = 50)
         }
-        Text(text = "Alexa Marie",
+        Text(text = commentDetails.fullName,
             fontSize = 14.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.constrainAs(fullName) {
-                top.linkTo(parent.top, 8.dp)
+                top.linkTo(userImage.top, 4.dp)
                 start.linkTo(userImage.end, 8.dp)
             })
-        Text(text = "@alexa_maire",
+        Text(text = commentDetails.userName,
             fontSize = 12.sp,
             color = light_outline,
             fontWeight = FontWeight.Normal,
@@ -67,7 +62,7 @@ fun ItemComment() {
                 end.linkTo(fullName.end)
             })
 
-        Text(text = "This is my rabbit it is so cute her name tota but before 4 years she is dead (I am sad for that, and I still miss her)",
+        Text(text = commentDetails.comment,
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Normal,
@@ -82,8 +77,8 @@ fun ItemComment() {
                 .wrapContentSize()
                 .constrainAs(like) {
                     top.linkTo(postText.bottom, 14.dp)
-                    start.linkTo(parent.start, 18.dp)
-                }
+                    start.linkTo(postText.start)
+                 }
         ) {
             Icon(
                 modifier = Modifier
@@ -95,7 +90,7 @@ fun ItemComment() {
             )
         }
 
-        Text(text = "12",
+        Text(text = commentDetails.likeCounter,
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
@@ -103,9 +98,10 @@ fun ItemComment() {
                 .wrapContentSize()
                 .alpha(.3f)
                 .constrainAs(likeCounter) {
-                    top.linkTo(postText.bottom, 12.dp)
-                    start.linkTo(parent.start, 36.dp)
-                })
+                    start.linkTo(like.end,4.dp)
+                    top.linkTo(like.top)
+                    bottom.linkTo(like.bottom)
+                 })
 
         Text(text = "Reply",
             fontSize = 12.sp,
