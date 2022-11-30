@@ -27,7 +27,6 @@ fun PostContent() {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color.White)
             .padding(16.dp, 0.dp, 50.dp, 16.dp)
     ) {
         val userImage = createRef()

@@ -22,7 +22,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
-        buildConfigField "String", "API_KEY",localProperties['ApiKey']
+        buildConfigField "String", "API_KEY", localProperties['ApiKey']
         buildConfigField "String", "BASE_URL", localProperties['BaseUrl']
     }
 
@@ -89,6 +89,11 @@ dependencies {
 
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
+    // ViewPager
+    implementation 'com.google.accompanist:accompanist-pager:0.25.1'
+//Material Icons
+    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
 
 }
