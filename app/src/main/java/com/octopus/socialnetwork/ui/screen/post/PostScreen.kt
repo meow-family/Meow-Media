@@ -19,7 +19,7 @@ import com.octopus.socialnetwork.ui.composable.post.PostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.theme.Transparent
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun PostScreen(
     viewModel: PostViewModel = hiltViewModel()
@@ -42,7 +42,9 @@ fun PostContent(
     share: () -> Unit
 ) {
 
-    PostImage(painter = painterResource(id = R.drawable.login_background))
+    PostImage(
+
+        painter = painterResource(id = R.drawable.login_background))
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -89,4 +91,10 @@ fun PostContent(
     }
 
 
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PostScreenPreview(){
+    PostScreen()
 }
