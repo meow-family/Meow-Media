@@ -29,4 +29,7 @@
     <string name="posts">Posts</string>
     <string name="follow_icon_name">Follow</string>
     <string name="add_icon_name">add icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="comment_icon">Comment Icon</string>
+    <string name="like_icon">Like Icon</string>
 </resources>

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.composable.*
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.Red600
 import com.octopus.socialnetwork.ui.theme.White50

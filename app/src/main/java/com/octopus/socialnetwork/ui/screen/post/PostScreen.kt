@@ -1,35 +1,49 @@
 package com.octopus.socialnetwork.ui.screen.post
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Comment
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.post.composibale.BackgroundImage
-import com.octopus.socialnetwork.ui.screen.post.composibale.PostDescription
-import com.octopus.socialnetwork.ui.screen.post.composibale.ProfileImage
-import com.octopus.socialnetwork.ui.screen.post.composibale.UserDetails
+import com.octopus.socialnetwork.ui.composable.post.PostAction
+import com.octopus.socialnetwork.ui.composable.post.PostDetails
+import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.theme.Transparent
 
+@Preview(showSystemUi = true)
 @Composable
-fun PostScreen() {
-    BackgroundImage()
-    PostDetails()
-    PostContent()
+fun PostScreen(
+    viewModel: PostViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
+    PostContent(
+        state = state,
+        like = viewModel::like,
+        comment = viewModel::comment,
+        share = viewModel::share
+    )
+
 }
 
 @Composable
-fun PostDetails() {
+fun PostContent(
+    state: PostUiState,
+    like: () -> Unit,
+    comment: () -> Unit,
+    share: () -> Unit
+) {
+
+    PostImage(painter = painterResource(id = R.drawable.login_background))
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -38,79 +52,41 @@ fun PostDetails() {
         Card(
             modifier = Modifier
                 .height(300.dp)
-                .width(48.dp),
+                .width(72.dp),
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Transparent,
         ) {
-            Column(
-                modifier = Modifier.padding(8.dp),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_like),
-                        contentDescription = "Like Icon",
-                        tint = Color.White
-                    )
-                    Text(text = "15", color = Color.White)
-                }
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Comment,
-                        contentDescription = "Comment Icon",
-                        tint = Color.White
-                    )
-                    Text(text = "50", color = Color.White)
-                }
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = "Share Icon",
-                        tint = Color.White
-                    )
-                    Text(text = "16", color = Color.White)
-                }
-            }
+            PostAction(
+                likeCount = state.likeCount,
+                commentCount = state.commentCount,
+                shareCount = state.shareCount,
+                like = like,
+                comment = comment,
+                share = share
+            )
         }
     }
-}
 
-@Composable
-fun PostContent() {
+
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom,
     ) {
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(145.dp),
-            elevation = 0.dp,
-            backgroundColor = Transparent,
-            shape = RoundedCornerShape(0.dp)
+                .wrapContentHeight()
+                .background(color = Transparent)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 16.dp
-                    )
-            ) {
-                Row {
-                    ProfileImage()
-                    Spacer(modifier = Modifier.width(8.dp))
-                    UserDetails()
-                }
-                Spacer(modifier = Modifier.height(14.dp))
-                PostDescription()
-            }
+            PostDetails(
+                painter = painterResource(id = R.drawable.login_background),
+                userName = state.userName,
+                fullName = state.fullName,
+                postDescription = state.postDescription
+            )
         }
     }
+
+
 }
