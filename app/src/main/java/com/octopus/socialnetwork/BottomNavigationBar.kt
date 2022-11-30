@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -23,7 +24,7 @@ import com.octopus.socialnetwork.ui.Navigation
 fun BottomNavigation(
     items: List<BottomNavItem>,
     navController: NavHostController,
-    onItemClick: (BottomNavItem) -> Unit
+    onItemClick: (BottomNavItem) -> Unit,
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
     Scaffold(
@@ -57,21 +58,27 @@ fun BottomNavigation(
 
         bottomBar = {
             BottomAppBar(
+                modifier = Modifier.height(91.dp),
                 backgroundColor = Color.White,
+
                 content = {
                     Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.height(91.dp)
-                    ) {
-                        items.forEach { item ->
+
+                        ) {
+                        items.forEachIndexed { index, item ->
                             val selected = item.route == backStackEntry.value?.destination?.route
                             BottomNavigationItem(
                                 selected = selected,
                                 onClick = { onItemClick(item) },
                                 selectedContentColor = MaterialTheme.colors.onBackground,
                                 unselectedContentColor = MaterialTheme.colors.secondary,
+
                                 icon = {
-                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ) {
                                         Icon(
                                             imageVector = item.icon,
                                             contentDescription = item.name
