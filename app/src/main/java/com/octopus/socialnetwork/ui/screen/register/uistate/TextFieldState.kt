@@ -6,25 +6,27 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
 
 
-open class TextFieldState(
-    private val validator: (String) -> String? = { null },
-) {
-    var text: String by mutableStateOf("")
-    var isFocusedDirty: Boolean by mutableStateOf(false)
-    private var isFocused: Boolean by mutableStateOf(false)
-    private var displayErrors: Boolean by mutableStateOf(false)
+ class TextFieldState(
+     private val validator: (String) -> String? = { null },
+ ) {
+     var text: String by mutableStateOf("")
+     var isFocusedDirty: Boolean by mutableStateOf(false)
+     private var isFocused: Boolean by mutableStateOf(false)
+     private var displayErrors: Boolean by mutableStateOf(false)
 
+     val isValid: Boolean
+         get() = isValidator()
 
-    private fun isValidator(): Boolean {
-        return !validator(text).isNullOrBlank()
-    }
+     private fun isValidator(): Boolean {
+         return !validator(text).isNullOrBlank()
+     }
 
-    fun onFocusChange(focused: Boolean) {
-        isFocused = focused
-        if (focused) isFocusedDirty = true
-    }
+     fun onFocusChange(focused: Boolean) {
+         isFocused = focused
+         if (focused) isFocusedDirty = true
+     }
 
-    fun enableShowErrors() {
+     fun enableShowErrors() {
         if (isFocusedDirty) {
             displayErrors = true
         }
@@ -32,13 +34,13 @@ open class TextFieldState(
 
     private fun showErrors() = isValidator() && displayErrors
 
-    open fun getError(): String? {
-        return if (showErrors()) {
-            validator(text)
-        } else {
-            null
-        }
-    }
+     fun getError(): String? {
+         return if (showErrors()) {
+             validator(text)
+         } else {
+             null
+         }
+     }
 }
 
 fun textFieldStateSaver(state: TextFieldState = TextFieldState()) =

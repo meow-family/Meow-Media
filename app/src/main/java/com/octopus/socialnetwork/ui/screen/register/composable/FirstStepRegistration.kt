@@ -14,7 +14,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
@@ -23,6 +25,7 @@ fun FirstStepRegistration(
     userInfoForm: UserInfoFormUiState,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
+    emailState: TextFieldState,
     onChangeReEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
 ) {
@@ -39,12 +42,11 @@ fun FirstStepRegistration(
             onValueChange = onChangeUserName,
         )
         SpacerVertical16()
-        InputTextField(
+        InputTextFieldValidation(
+            emailState,
             placeholder = stringResource(R.string.email),
             icon = Icons.Default.Email,
             action = ImeAction.Next,
-            value = userInfoForm.email,
-            onValueChange = onChangeEmail,
         )
         SpacerVertical16()
         InputTextField(

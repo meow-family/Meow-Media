@@ -17,7 +17,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +43,10 @@ import com.octopus.socialnetwork.ui.screen.register.composable.FirstStepRegistra
 import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistration
 import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
+import com.octopus.socialnetwork.ui.screen.register.uistate.textFieldStateSaver
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import com.octopus.socialnetwork.ui.util.emailValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -55,7 +60,12 @@ fun RegisterScreen(
     val pagerState = rememberPagerState(0)
     val coroutineScope = rememberCoroutineScope()
 
+    val emailState by rememberSaveable(stateSaver = textFieldStateSaver()) {
+        mutableStateOf(TextFieldState(validator = ::emailValidation))
+    }
+
     RegisterContent(
+        emailState = emailState,
         state = state, pagerState = pagerState,
         register = viewModel::register,
         tryLogin = viewModel::tryLogin,
@@ -74,6 +84,7 @@ fun RegisterScreen(
 @ExperimentalPagerApi
 @Composable
 private fun RegisterContent(
+    emailState: TextFieldState,
     state: RegisterUiState,
     pagerState: PagerState,
     register: () -> Unit,
@@ -143,6 +154,7 @@ private fun RegisterContent(
                     FirstStepRegistration(
                         state.userInfoForm,
                         onChangeUserName = onChangeUserName,
+                        emailState = emailState,
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
@@ -174,6 +186,7 @@ private fun RegisterContent(
 
             CustomButton(
                 text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
+                enabled = !emailState.isValid,
                 onClick = {
                     if (pagerState.currentPage == 0) {
                         coroutineScope.launch {
