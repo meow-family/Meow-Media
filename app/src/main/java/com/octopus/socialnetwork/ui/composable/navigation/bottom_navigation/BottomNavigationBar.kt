@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork
+package com.octopus.socialnetwork.ui.composable.navigation.bottom_navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.octopus.socialnetwork.ui.Navigation
+import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.navigation.Navigation
 
 
 @Composable

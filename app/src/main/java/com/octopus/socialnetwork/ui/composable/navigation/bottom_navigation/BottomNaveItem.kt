@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork
+package com.octopus.socialnetwork.ui.composable.navigation.bottom_navigation
 
 
 import androidx.compose.ui.Modifier

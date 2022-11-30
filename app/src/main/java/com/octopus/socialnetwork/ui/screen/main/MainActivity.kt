@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui
+package com.octopus.socialnetwork.ui.screen.main
 
 import android.os.Bundle
 import android.view.WindowManager
@@ -24,12 +24,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.octopus.socialnetwork.BottomNavItem
-import com.octopus.socialnetwork.BottomNavigation
-import com.octopus.socialnetwork.Screen
+import com.octopus.socialnetwork.ui.composable.navigation.bottom_navigation.BottomNavItem
+import com.octopus.socialnetwork.ui.composable.navigation.bottom_navigation.BottomNavigation
+import com.octopus.socialnetwork.ui.screen.home.HomeScreen
+import com.octopus.socialnetwork.ui.screen.login.LoginScreen
+import com.octopus.socialnetwork.ui.screen.onboarding.OnBoardingScreen
+import com.octopus.socialnetwork.ui.screen.post.PostScreen
+import com.octopus.socialnetwork.ui.utils.NavigationItems
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalPagerApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,30 +51,31 @@ class MainActivity : ComponentActivity() {
                     systemUiController.isNavigationBarContrastEnforced = true
                 }
                 val navController = rememberNavController()
-                BottomNavigation(
-                    items = listOf(
-                        BottomNavItem(
-                            name = "Home",
-                            route = "home",
-                            icon = Icons.Default.Home,
-                        ),
-                        BottomNavItem(
-                            name = "Search",
-                            route = "search",
-                            icon = Icons.Default.Search,
-                        ),
-                        BottomNavItem(
-                            name = "Chat",
-                            route = "chat",
-                            icon = Icons.Default.Email,
-
-                            ),
-                        BottomNavItem(
-                            name = "Profile",
-                            route = "profile",
-                            icon = Icons.Default.Person,
-                        ),
+                val menuItems = listOf(
+                    BottomNavItem(
+                        name = "Home",
+                        route = "home",
+                        icon = Icons.Default.Home,
                     ),
+                    BottomNavItem(
+                        name = "Search",
+                        route = "search",
+                        icon = Icons.Default.Search,
+                    ),
+                    BottomNavItem(
+                        name = "Chat",
+                        route = "chat",
+                        icon = Icons.Default.Email,
+
+                        ),
+                    BottomNavItem(
+                        name = "Profile",
+                        route = "profile",
+                        icon = Icons.Default.Person,
+                    ),
+                )
+                BottomNavigation(
+                    items = menuItems,
                     navController = navController,
                     onItemClick = {
                         navController.navigate(it.route)
@@ -78,66 +85,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
-        composable(Screen.HomeScreen.route) {
-            HomeScreen()
-        }
-        composable(Screen.SearchScreen.route) {
-            SearchScreen()
-        }
-        composable(Screen.ChatScreen.route) {
-            ChatScreen()
-        }
-        composable(Screen.ProfileScreen.route) {
-            ProfileScreen()
-        }
-    }
-}
 
-@Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Home screen", style = TextStyle(color = Color.White))
-    }
-}
-
-@Composable
-fun SearchScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Search screen", style = TextStyle(color = Color.White))
-    }
-}
-
-@Composable
-fun ChatScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Chat screen",
-            style = TextStyle(color = Color.White)
-        )
-    }
-}
-
-@Composable
-fun ProfileScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Profile screen", style = TextStyle(color = Color.White)
-        )
-    }
-}
 
