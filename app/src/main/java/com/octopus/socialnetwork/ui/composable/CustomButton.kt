@@ -17,15 +17,18 @@ import androidx.compose.ui.unit.dp
 fun CustomButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean = true,
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(44.dp),
         shape = RoundedCornerShape(24.dp),
+
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
     ) {
         Text(text = text, color = Color.White)
