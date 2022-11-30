@@ -10,12 +10,12 @@ import androidx.compose.ui.res.stringResource
 import com.octopus.socialnetwork.R
 
 @Composable
-fun PostImage(painter: Painter) {
+fun PostImage(postImage: Painter) {
     Image(
         modifier = Modifier.fillMaxSize(),
-        painter =painter,
-        contentScale = ContentScale.FillBounds,
-        contentDescription = stringResource(R.string.description)
+        painter = postImage,
+        contentScale = ContentScale.Crop,
+        contentDescription = stringResource(R.string.this_is_post_image)
     )
 }
 
