@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">SocialNetwork</string>
+    <string name="app_name">Social Network</string>
+    <string name="description">we should put reasonable text here so it looks like a real design, not blah blah blah</string>
+    <string name="donot_have_account">\"Don’t have a account? \"</string>
+    <string name="background">background</string>
+    <string name="signup_here">Sign up here</string>
+    <string name="username_or_email">Username or email</string>
+
+    <!-- Sign Up  -->
+    <string name="create_account">Create Account</string>
+    <string name="sig_up_note">Please fill the input below here</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="re_email">Re-email</string>
+    <string name="password">Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="next">Next</string>
+    <string name="revers">Revers</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
+
+    <string name="icon_on_boarding">Icon On Boarding</string>
+    <string name="on_boarding_text">Connect With The People You Love!</string>
+
+    <string name="friends">Friends</string>
+    <string name="posts">Posts</string>
+    <string name="follow_icon_name">Follow</string>
+    <string name="add_icon_name">add icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="comment_icon">Comment Icon</string>
+    <string name="like_icon">Like Icon</string>
 </resources>
