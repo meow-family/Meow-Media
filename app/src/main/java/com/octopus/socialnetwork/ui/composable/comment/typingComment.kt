@@ -10,13 +10,16 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -45,7 +48,17 @@ fun TypingComment(
                     .padding(12.dp),
                 value = state.text,
                 maxLines = 10,
-                onValueChange = onChangeTypingComment
+                onValueChange = onChangeTypingComment,
+                decorationBox = { innerTextField ->
+                    if (state.text.isEmpty()) {
+                        Text(
+                            text = "Your comment...",
+                            modifier = Modifier.alpha(.5f),
+                            fontSize = 14.sp
+                        )
+                    }
+                    innerTextField()
+                }
             )
 
             IconButton(
