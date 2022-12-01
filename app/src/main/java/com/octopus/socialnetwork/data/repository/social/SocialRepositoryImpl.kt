@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -20,6 +22,38 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
         return socialService.getUserPosts(visitedUserId, currentUserId).payload
+    }
+
+
+    override suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO> {
+        return socialService.viewPost(
+            postId,
+            userId,
+        )
+    }
+
+    override suspend fun viewUserPosts(ownerId: Int, viewerId: Int): List<BaseResponse<PostDTO>> {
+        return socialService.viewUserPosts(
+            ownerId,
+            viewerId,
+        )
+    }
+
+    override suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>> {
+        return socialService.viewNewsFeed(
+            userId,
+        )
+    }
+
+    override suspend fun createPost(): BaseResponse<PostDTO> {
+        return socialService.createPost()
+    }
+
+    override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
+        return socialService.deletePost(
+            postId,
+            userId,
+        )
     }
 
 }

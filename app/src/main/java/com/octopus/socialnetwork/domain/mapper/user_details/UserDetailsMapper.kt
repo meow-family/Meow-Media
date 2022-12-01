@@ -32,7 +32,6 @@ fun UserFriendsDTO.asUserFriends(): UserFriends {
     )
 }
 
-
 fun UserPostsDTO.asUserPosts(): UserPosts {
     return UserPosts(
         posts = posts?.map { it.asPost() } ?: emptyList(),
