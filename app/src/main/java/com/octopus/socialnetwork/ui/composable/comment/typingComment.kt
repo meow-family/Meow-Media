@@ -10,13 +10,13 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.octopus.socialnetwork.R
 
 
 @Composable
@@ -53,11 +53,9 @@ fun TypingComment(
                 enabled = state.text.isNotBlank()
             ) {
                 Icon(
-
-                    painter = painterResource(R.drawable.ic_send),
+                    Icons.Filled.Send,
                     contentDescription = null,
-                    modifier = Modifier.padding(16.dp),
-                    tint = Color.Unspecified
+                    tint = if (state.text.isNotBlank()) Color.Red else Color.Gray
                 )
             }
 
