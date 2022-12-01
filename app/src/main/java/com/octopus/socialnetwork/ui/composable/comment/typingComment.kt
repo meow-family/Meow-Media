@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.octopus.socialnetwork.R
 
 
 @Composable
@@ -52,7 +54,7 @@ fun TypingComment(
                 decorationBox = { innerTextField ->
                     if (state.text.isEmpty()) {
                         Text(
-                            text = "Your comment...",
+                            text = stringResource(R.string.your_commit),
                             modifier = Modifier.alpha(.5f),
                             fontSize = 14.sp
                         )
