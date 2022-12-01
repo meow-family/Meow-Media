@@ -2,6 +2,34 @@ package com.octopus.socialnetwork.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+
+val Black = Color(0xCC000000)
+val Black65 = Color(0xA5000000)
+val Black86 = Color(0x4D000000)
+val Black30 = Color(0x4D000000)
+
+val Gray = Color(0xFFBCBCBC)
+val Gray50 = Color(0x80BCBCBC)
+
+val White = Color(0xFFFFFFFF)
+val errorColor = Color(0xFFDA1414)
+
+val lightPrimaryColor = Color(0xFFE82627)
+val lightOnPrimaryColor = Color(0xFFFFFFFF)
+val lightPrimaryVariantColor = Color(0xFFD9D9D9)
+
+val lightSecondaryColor = Color(0xFFF6F6F6)
+val lightOnSecondaryColor = Color(0xFF797979)
+val lightSecondaryVariantColor = Color(0xB3D9D9D9)
+
+val lightBackgroundColor = Color(0xFFFFFFFF)
+val lightDividerColor = Color(0xFFF4F4F4)
+
+val lightTextPrimaryColor = lightPrimaryColor
+val lightTextSecondaryColor = Black
+val lightTextThirdColor = Black30
+
+
 val Red600 = Color(0xFFE82627)
 val Red500 = Color(0xFFFF3E3E)
 val LightGrayishRed50 = Color(0xFFFAE6E8)
