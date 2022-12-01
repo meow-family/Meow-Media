@@ -115,7 +115,7 @@ fun ItemComment(
                     start.linkTo(likeCounter.end, 24.dp)
                 })
 
-        Text(text = "12h",
+        Text(text = commentDetails.timeAgo,
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,

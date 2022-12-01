@@ -6,4 +6,5 @@ data class CommentDetailsUiState(
     val userProfileImage:String = "",
     val comment:String = "",
     val likeCounter:String  = "",
+    val timeAgo: String = ""
 )
