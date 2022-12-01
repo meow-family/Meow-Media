@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.composable.*
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
@@ -55,8 +56,8 @@ fun ProfileContent(
     ) {
 
         ProfileImages(
-            backImageProfile = painterResource(id =  R.drawable.login_background),
-            profileImage =  painterResource(id = R.drawable.profile_image)
+            backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
+            profileImage = rememberAsyncImagePainter(model = state.profileAvatar)
         )
 
         Column(
