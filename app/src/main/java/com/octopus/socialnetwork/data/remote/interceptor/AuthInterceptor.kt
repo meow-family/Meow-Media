@@ -11,12 +11,12 @@ class AuthInterceptor @Inject constructor() : Interceptor {
         val original = chain.request()
             .url
             .newBuilder()
-            .addQueryParameter(API_KEY_QPK, API_KEY)
+            .addQueryParameter(API_KEY_QUERY, API_KEY)
             .build()
         return chain.proceed((chain.request().newBuilder().url(original).build()))
     }
 
     companion object{
-        const val API_KEY_QPK = "api_key_token"
+        const val API_KEY_QUERY = "api_key_token"
     }
 }

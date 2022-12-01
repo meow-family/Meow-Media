@@ -29,19 +29,19 @@ interface SocialService {
     ): AuthResponse
 
     @GET("user_details")
-    suspend fun userDetails(
-        @Query("guid") guid: Int,
+    suspend fun getUserDetails(
+        @Query("guid") visitedUserId: Int,
     ): BaseResponse<UserDetailsDTO>
 
     @GET("user_friends")
-    suspend fun userFriends(
-        @Query("guid") guid: Int,
+    suspend fun getUserFriends(
+        @Query("guid") visitedUserId: Int,
     ): BaseResponse<UserFriendsDTO>
 
     @GET("wall_list_user")
-    suspend fun userPosts(
-        @Query("uguid") uguid: Int,
-        @Query("guid") guid: Int,
+    suspend fun getUserPosts(
+        @Query("uguid") visitedUserId: Int,
+        @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDTO>
 
 }

@@ -10,16 +10,16 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
 ) : SocialRepository {
 
-    override suspend fun getUserDetails(guid: Int): UserDetailsDTO {
-        return socialService.userDetails(guid).payload
+    override suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO {
+        return socialService.getUserDetails(visitedUserId).payload
     }
 
-    override suspend fun getUserFriends(guid: Int): UserFriendsDTO {
-        return socialService.userFriends(guid).payload
+    override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO {
+        return socialService.getUserFriends(visitedUserId).payload
     }
 
-    override suspend fun getUserPosts(uguid: Int, guid: Int): UserPostsDTO {
-        return socialService.userPosts(uguid, guid).payload
+    override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
+        return socialService.getUserPosts(visitedUserId, currentUserId).payload
     }
 
 }

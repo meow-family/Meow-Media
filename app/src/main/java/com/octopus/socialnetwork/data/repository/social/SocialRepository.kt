@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 
 interface SocialRepository {
-    suspend fun getUserDetails(guid: Int): UserDetailsDTO
-    suspend fun getUserFriends(guid: Int): UserFriendsDTO
-    suspend fun getUserPosts(uguid: Int, guid: Int): UserPostsDTO
+    suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO
+    suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO
+    suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
 }
