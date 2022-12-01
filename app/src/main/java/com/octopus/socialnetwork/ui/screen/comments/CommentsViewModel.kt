@@ -1,6 +1,8 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
 import androidx.lifecycle.ViewModel
+import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
+import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -95,4 +97,14 @@ class CommentsViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
+
+    fun onChangeTypingComment(newValue: String) {
+        _state.update {
+            it.copy(
+                textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
+            )
+        }
+    }
+
+
 }

@@ -17,5 +17,3 @@ val Gray300 = Color(0xFFD9D9D9)
 val light_outline = Color(0xFFBCBCBC)
 val light_grey = Color(0xFFF6F6F6)
 val Transparent = Color(0xA5000000)
-
-val light_outline =Color(0xFFBCBCBC)

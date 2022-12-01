@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments
+package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -9,13 +9,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun image(painter: Painter, size: Int) {
+fun Avatar(modifier: Modifier = Modifier, painter: Painter, size: Int) {
 
     Image(
         painter = painter,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(size.dp),
-     )
+        modifier = modifier.size(size.dp),
+    )
 }

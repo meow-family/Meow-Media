@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.Avatar
+import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 
 
@@ -35,19 +36,20 @@ fun ItemComment(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(16.dp, 8.dp, 8.dp, 8.dp)
+            .padding(16.dp, 8.dp, 8.dp, 16.dp)
     ) {
 
         val (userImage, fullName, userName, postText, like, likeCounter, reply, contentTime) = createRefs()
 
-        Box(
+
+        Avatar(
             modifier = Modifier
                 .clip(CircleShape)
-                .constrainAs(userImage) {
-                }
-        ) {
-            image(rememberAsyncImagePainter(model = commentDetails.userProfileImage), size = 50)
-        }
+                .constrainAs(userImage) {},
+            painter =
+            rememberAsyncImagePainter(model = commentDetails.userAvatar), size = 50
+        )
+
         Text(
             text = commentDetails.fullName,
             fontSize = 14.sp,
