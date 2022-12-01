@@ -48,8 +48,12 @@ fun TypingComment(
                 onValueChange = onChangeTypingComment
             )
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(
+                onClick = { /*TODO*/ },
+                enabled = state.text.isNotBlank()
+            ) {
                 Icon(
+
                     painter = painterResource(R.drawable.ic_send),
                     contentDescription = null,
                     modifier = Modifier.padding(16.dp),

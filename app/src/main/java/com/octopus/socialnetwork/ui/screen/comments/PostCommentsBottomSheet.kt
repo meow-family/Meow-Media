@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingComment
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme

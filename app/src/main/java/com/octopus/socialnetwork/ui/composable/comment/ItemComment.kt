@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments
+package com.octopus.socialnetwork.ui.composable.comment
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
