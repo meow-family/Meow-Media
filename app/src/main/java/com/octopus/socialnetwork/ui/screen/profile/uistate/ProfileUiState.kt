@@ -7,5 +7,4 @@ data class ProfileUiState(
     val postCount: String = "0",
     val profileAvatar: String = "",
     val profileCover: String = ""
-
 )

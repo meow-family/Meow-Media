@@ -1,8 +1,8 @@
-package com.octopus.socialnetwork.data.remote.dto.auth
+package com.octopus.socialnetwork.data.remote.response.dto.base
 
 import com.google.gson.annotations.SerializedName
 
-data class AuthResponse(
+data class BaseResponse<T>(
     @SerializedName("merchant")
     val merchant: String?,
     @SerializedName("url")
@@ -10,9 +10,5 @@ data class AuthResponse(
     @SerializedName("time_token")
     val timeToken: Long?,
     @SerializedName("payload")
-    val payload: Payload?,
-    @SerializedName("code")
-    val code: String?,
-    @SerializedName("message")
-    val message: String?,
+    val payload: T,
 )

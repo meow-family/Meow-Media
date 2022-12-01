@@ -1,9 +1,9 @@
-package com.octopus.socialnetwork.data.remote.dto.auth
-
+package com.octopus.socialnetwork.data.remote.response.dto.user
 
 import com.google.gson.annotations.SerializedName
+import com.octopus.socialnetwork.data.remote.response.dto.auth.Icon
 
-data class Payload(
+data class UserDetailsDTO(
     @SerializedName("guid")
     val guid: Int?,
     @SerializedName("first_name")
@@ -23,7 +23,7 @@ data class Payload(
     @SerializedName("icon")
     val icon: Icon?,
     @SerializedName("cover_url")
-    val coverUrl: Boolean?,
+    val coverUrl: String?,
     @SerializedName("language")
     val language: String?,
 )

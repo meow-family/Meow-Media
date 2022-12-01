@@ -40,16 +40,16 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     ProfileContent(
         state = state,
-        onFollow = viewModel::onClickFollow,
-        onMessage = viewModel::onClickMessage
+        onClickFollow = viewModel::onClickFollow,
+        onClickMessage = viewModel::onClickMessage
     )
 }
 
 @Composable
 private fun ProfileContent(
     state: ProfileUiState,
-    onFollow: () -> Unit,
-    onMessage: () -> Unit
+    onClickFollow: () -> Unit,
+    onClickMessage: () -> Unit
 ) {
 
     Column(
@@ -128,7 +128,7 @@ private fun ProfileContent(
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
 
                 Button(
-                    onClick = onFollow,
+                    onClick = onClickFollow,
                     modifier = Modifier
                         .height(25.dp)
                         .width(87.dp),
@@ -154,7 +154,7 @@ private fun ProfileContent(
                 }
                 SpaceHorizontally8dp()
                 Button(
-                    onClick = onMessage,
+                    onClick = onClickMessage,
                     modifier = Modifier
                         .height(25.dp)
                         .width(29.dp),

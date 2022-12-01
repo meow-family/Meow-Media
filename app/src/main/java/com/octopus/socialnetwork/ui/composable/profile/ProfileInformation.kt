@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable.profile
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -38,7 +40,7 @@ fun ProfileInformation(backImageProfile: Painter, profileImage: Painter) {
                 .size(86.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.BottomCenter)
-                .zIndex(1f)
+                .zIndex(1f).border(1.dp, color = Color.LightGray, shape = CircleShape)
         )
     }
 
