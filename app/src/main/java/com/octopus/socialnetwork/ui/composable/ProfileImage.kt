@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -11,15 +10,11 @@ import com.octopus.socialnetwork.R
 
 
 @Composable
-fun ImageWithShadow(painter: Painter, modifier: Modifier){
-    Box(
+fun ProfileImage(painter: Painter, modifier: Modifier) {
+    Image(
+        painter = painter,
+        contentDescription = stringResource(R.string.profile_image),
+        contentScale = ContentScale.Crop,
         modifier = modifier
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = stringResource(R.string.background),
-            contentScale = ContentScale.Crop,
-        )
-        Box(modifier = Modifier.backgroundVerticalGradientWhite())
-    }
+    )
 }

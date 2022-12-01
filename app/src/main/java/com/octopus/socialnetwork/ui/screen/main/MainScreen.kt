@@ -15,6 +15,7 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 fun SocialNetworkApp() {
     SocialNetworkTheme {
         Scaffold {
+        //  HomeScreen()
             RegisterScreen()
 //            LoginScreen()
             //ProfileScreen()

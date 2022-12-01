@@ -1,17 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.model.user_details.UserDetails
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
