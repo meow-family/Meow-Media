@@ -4,6 +4,12 @@ import com.octopus.socialnetwork.data.repository.authentication_repository.SignI
 import com.octopus.socialnetwork.data.repository.authentication_repository.SignInRepositoryImpl
 import com.octopus.socialnetwork.data.repository.authentication_repository.SignUpRepository
 import com.octopus.socialnetwork.data.repository.authentication_repository.SignUpRepositoryImpl
+import com.octopus.socialnetwork.data.repository.sign_in.SignInRepository
+import com.octopus.socialnetwork.data.repository.sign_in.SignInRepositoryImpl
+import com.octopus.socialnetwork.data.repository.sign_up.SignUpRepository
+import com.octopus.socialnetwork.data.repository.sign_up.SignUpRepositoryImpl
+import com.octopus.socialnetwork.data.repository.social.SocialRepository
+import com.octopus.socialnetwork.data.repository.social.SocialRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,5 +31,11 @@ abstract class RepositoryModule {
     abstract fun bindSignUpRepository(
         signUpRepositoryImpl: SignUpRepositoryImpl,
     ): SignUpRepository
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindSocialRepository(
+        socialRepositoryImpl: SocialRepositoryImpl,
+    ): SocialRepository
 
 }

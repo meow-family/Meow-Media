@@ -38,9 +38,7 @@ fun TextWithAction(
             modifier = Modifier
                 .clickable { onClick }
                 .padding(4.dp)
-                .clip(
-                    RoundedCornerShape(24.dp)
-                ),
+                .clip(RoundedCornerShape(24.dp)),
             text = textAction,
             fontSize = 14.sp,
             color = Color.Red,

@@ -1,11 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.onboarding
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,13 +12,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 
 
 @Composable
-fun OnBoardingScreen() {
+fun OnBoardingScreen(
+    viewModel: OnBoardingViewModel = hiltViewModel()
+) {
+
+    OnBoardingContent(
+        onClickLogin = viewModel::onClickLogin,
+        onClickCreateAccount = viewModel::onClickCreateAccount
+        )
+}
+
+@Composable
+private fun OnBoardingContent(
+    onClickLogin: () -> Unit,
+    onClickCreateAccount: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,12 +57,12 @@ fun OnBoardingScreen() {
 
         CustomButton(
             text = stringResource(R.string.create_account),
-            onClick = {}
+            onClick = onClickCreateAccount
         )
         TextWithAction(
             text = stringResource(R.string.already_have_an_account),
             textAction = stringResource(R.string.login),
-            onClick = {}
+            onClick = onClickLogin
         )
 
     }
