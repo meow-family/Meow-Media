@@ -1,10 +1,10 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import com.octopus.socialnetwork.data.repository.authentication_repository.SignInRepository
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import javax.inject.Inject
 
 class SignInUseCase @Inject constructor(
-    private val signInRepository: SignInRepository,
+    private val signInRepository: AuthenticationRepository,
 ) {
     suspend operator fun invoke(username: String, password: String): LoginResponse {
         val validateRequestWithLogin = signInRepository.login(username, password)

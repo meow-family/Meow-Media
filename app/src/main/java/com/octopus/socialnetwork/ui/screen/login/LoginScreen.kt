@@ -92,7 +92,7 @@ private fun LoginContent(
             textAlign = TextAlign.Center
         )
         InputTextField(
-            value = state.usernameOrEmail,
+            value = state.username,
             onValueChange = onChangeUsernameOrEmail,
             icon = Icons.Filled.Person,
             placeholder = stringResource(R.string.username_or_email),

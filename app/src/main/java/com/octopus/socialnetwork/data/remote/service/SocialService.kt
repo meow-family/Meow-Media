@@ -5,9 +5,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
-import retrofit2.http.GET
-import com.octopus.socialnetwork.data.remote.dto.auth.AuthResponse
 import retrofit2.Response
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -29,7 +28,7 @@ interface SocialService {
         @Query("username") userName: String,
         @Query("password") password: String,
     ): Response<AuthResponse>
-  }
+
     @GET("user_details")
     suspend fun getUserDetails(
         @Query("guid") visitedUserId: Int,
