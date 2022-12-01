@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -16,6 +17,8 @@ fun ImageWithShadow(painter: Painter, modifier: Modifier){
         modifier = modifier
     ) {
         Image(
+            modifier = Modifier
+                .fillMaxSize(),
             painter = painter,
             contentDescription = stringResource(R.string.background),
             contentScale = ContentScale.Crop,
