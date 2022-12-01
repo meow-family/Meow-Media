@@ -14,15 +14,15 @@ import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
-import com.octopus.socialnetwork.ui.screen.post.PostUiState
-import com.octopus.socialnetwork.ui.theme.Transparent
+import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 @Composable
 fun ItemPost(
     post: PostUiState,
-    like: () -> Unit,
-    comment: () -> Unit,
-    share: () -> Unit
+    onLike: () -> Unit,
+    onComment: () -> Unit,
+    onShare: () -> Unit
 ) {
 
     Box(
@@ -33,31 +33,24 @@ fun ItemPost(
 
         PostImage(postImage = rememberAsyncImagePainter(model = post.postImage))
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.End
+
+        Card(
+            modifier = Modifier
+                .height(210.dp)
+                .align(alignment = Alignment.CenterEnd)
+                .width(48.dp),
+            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+            backgroundColor = LightBlack_65,
         ) {
-
-            Card(
-                modifier = Modifier
-                    .height(210.dp)
-                    .width(48.dp),
-                shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-                backgroundColor = Transparent,
-            ) {
-                PostAction(
-                    likeCount = post.likeCount,
-                    commentCount = post.commentCount,
-                    like = like,
-                    comment = comment,
-                    share = share,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
+            PostAction(
+                likeCount = post.likeCount,
+                commentCount = post.commentCount,
+                onLike = onLike,
+                onComment = onComment,
+                onShare = onShare,
+                modifier = Modifier.size(18.dp)
+            )
         }
-
-
 
         Card(
             modifier = Modifier
@@ -72,6 +65,9 @@ fun ItemPost(
             SmallPostDetails(post = post)
 
         }
+
+
+
 
     }
 }

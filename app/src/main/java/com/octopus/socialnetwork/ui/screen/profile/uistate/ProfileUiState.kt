@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.profile
+package com.octopus.socialnetwork.ui.screen.profile.uistate
 
 data class ProfileUiState(
     val fullName: String = "",

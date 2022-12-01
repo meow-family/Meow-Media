@@ -3,15 +3,17 @@ package com.octopus.socialnetwork.ui.composable
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.octopus.socialnetwork.ui.theme.Gray900_2
+import androidx.compose.ui.res.stringResource
+import com.octopus.socialnetwork.R
 
 @Composable
-fun Icons(imageVector: ImageVector,modifier: Modifier) {
+fun Icons(imageVector: ImageVector,tint: Color ,modifier: Modifier) {
     Icon(
         imageVector = imageVector,
-        contentDescription = "icon",
-        tint = Gray900_2,
+        contentDescription = stringResource(R.string.icon),
+        tint =tint,
         modifier = modifier
 
     )

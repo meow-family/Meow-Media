@@ -21,9 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.composable.*
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
+import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.Red600
 import com.octopus.socialnetwork.ui.theme.White50
@@ -38,26 +40,27 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     ProfileContent(
         state = state,
-        follow = viewModel::onClickFollow,
-        message = viewModel::onClickMessage
+        onFollow = viewModel::onClickFollow,
+        onMessage = viewModel::onClickMessage
     )
 }
 
 @Composable
-fun ProfileContent(
+private fun ProfileContent(
     state: ProfileUiState,
-    follow:() -> Unit,
-    message: () -> Unit
+    onFollow: () -> Unit,
+    onMessage: () -> Unit
 ) {
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color.White)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White)
     ) {
 
-        ProfileImages(
-            backImageProfile = painterResource(id =  R.drawable.login_background),
-            profileImage =  painterResource(id = R.drawable.profile_image)
+        ProfileInformation(
+            backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
+            profileImage = rememberAsyncImagePainter(model = state.profileAvatar)
         )
 
         Column(
@@ -125,7 +128,7 @@ fun ProfileContent(
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
 
                 Button(
-                    onClick = follow,
+                    onClick = onFollow,
                     modifier = Modifier
                         .height(25.dp)
                         .width(87.dp),
@@ -135,7 +138,7 @@ fun ProfileContent(
                 ) {
                     Image(
                         painterResource(id = R.drawable.icon_person_add),
-                        contentDescription = "add icon",
+                        contentDescription = stringResource(R.string.icon_person_add),
                         modifier = Modifier.size(14.dp)
                     )
 
@@ -151,7 +154,7 @@ fun ProfileContent(
                 }
                 SpaceHorizontally8dp()
                 Button(
-                    onClick = message,
+                    onClick = onMessage,
                     modifier = Modifier
                         .height(25.dp)
                         .width(29.dp),
@@ -172,7 +175,8 @@ fun ProfileContent(
         Divider(
             color = Color(color = 0xFFBCBCBC), modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp).alpha(1f)
+                .height(1.dp)
+                .alpha(1f)
         )
 
 

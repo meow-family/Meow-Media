@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.InputTextField
-import com.octopus.socialnetwork.ui.composable.LoginImage
+import com.octopus.socialnetwork.ui.composable.ImageWithShadow
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
@@ -65,7 +65,7 @@ private fun LoginContent(
             .background(color = Color.White),
 
         ) {
-        LoginImage( modifier = Modifier
+        ImageWithShadow( modifier = Modifier
             .fillMaxWidth()
             .height(340.dp)
             .wrapContentSize(Alignment.BottomCenter),

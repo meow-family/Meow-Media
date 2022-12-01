@@ -25,9 +25,10 @@ fun PostAction(
     modifier: Modifier,
     likeCount: String,
     commentCount: String,
-    like: () -> Unit,
-    comment: () -> Unit,
-    share: () -> Unit,
+    onLike: () -> Unit,
+    onComment: () -> Unit,
+    onShare: () -> Unit,
+
 
 ) {
     Column(
@@ -38,7 +39,7 @@ fun PostAction(
 
 
         Icon(
-            modifier = modifier.clickable { like },
+            modifier = modifier.clickable { onLike },
             painter = painterResource(R.drawable.ic_like),
             contentDescription = stringResource(R.string.like_icon),
             tint = Color.White
@@ -47,7 +48,7 @@ fun PostAction(
         Text(text = likeCount, color = Color.White)
         SpaceVertically24dp()
         Icon(
-            modifier = modifier.clickable { comment },
+            modifier = modifier.clickable { onComment },
             imageVector = Icons.Sharp.Comment,
             contentDescription = stringResource(R.string.comment_icon),
             tint = Color.White
@@ -56,7 +57,7 @@ fun PostAction(
         Text(text = commentCount, color = Color.White)
         SpaceVertically24dp()
         Icon(
-            modifier = modifier.clickable { share },
+            modifier = modifier.clickable { onShare },
             imageVector = Icons.Sharp.Share,
             contentDescription = stringResource(R.string.share_icon),
             tint = Color.White

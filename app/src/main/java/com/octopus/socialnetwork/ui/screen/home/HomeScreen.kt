@@ -17,7 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.ui.composable.ItemPost
-import com.octopus.socialnetwork.ui.composable.TopBar
+import com.octopus.socialnetwork.ui.composable.home.TopBar
+import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 
 
 @Preview(showSystemUi = true)
@@ -29,9 +30,9 @@ fun HomeScreen(
 
     HomeContent(
         state = state,
-        like = viewModel::like,
-        comment = viewModel::comment,
-        share = viewModel::share
+        onClickLike = viewModel::onClickLike,
+        onClickComment = viewModel::onClickComment,
+        onClickShare = viewModel::onClickShare
     )
 
 }
@@ -40,9 +41,9 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
-    like: () -> Unit,
-    comment: () -> Unit,
-    share: () -> Unit
+    onClickLike: () -> Unit,
+    onClickComment: () -> Unit,
+    onClickShare: () -> Unit,
 ) {
 
     Column(
@@ -61,7 +62,10 @@ private fun HomeContent(
         ) {
 
             items(state.posts) {
-                ItemPost(post = it, like = like, comment = comment, share = share)
+                ItemPost(post = it,
+                    onLike = onClickLike,
+                    onComment = onClickComment,
+                    onShare = onClickShare)
             }
         }
     }
