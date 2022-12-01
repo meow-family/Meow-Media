@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = Red600,
@@ -30,14 +31,22 @@ fun SocialNetworkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
+
+    val systemUiController = rememberSystemUiController()
+
+    val colorsTheme = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
 
+    systemUiController.setSystemBarsColor(
+        color = colorsTheme.background,
+        darkIcons = !darkTheme
+    )
+
     MaterialTheme(
-        colors = colors,
+        colors = colorsTheme,
         typography = PoppinsTypography,
         shapes = Shapes,
         content = content
