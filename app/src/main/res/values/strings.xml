@@ -34,4 +34,6 @@
     <string name="comment_icon">Comment Icon</string>
     <string name="like_icon">Like Icon</string>
     <string name="this_is_post_image">this is post image</string>
+    <string name="replay">Reply</string>
+    <string name="your_commit">Your comment…</string>
 </resources>

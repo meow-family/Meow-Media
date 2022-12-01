@@ -22,16 +22,46 @@ class CommentsViewModel @Inject constructor() : ViewModel() {
             it.copy(
                 comments = listOf(
                     CommentDetailsUiState(
-                        "Abullah Bashar", "@98abdullah",
-                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png", "nice photo", "12"
+
+                        "Abullah Bashar",
+                        "@98abdullah",
+                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png",
+                        "nice photo",
+                        "12",
+                        timeAgo = "3h",
                     ),
                     CommentDetailsUiState(
-                        "Abullah Bashar", "@98abdullah",
-                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png", "nice photo", "12"
+
+                        "Abullah Bashar",
+                        "@98abdullah",
+                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png",
+                        "ninice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photoce photo",
+                        "12",
+                        "3h",
                     ),
                     CommentDetailsUiState(
-                        "Abullah Bashar", "@98abdullah",
-                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png", "nice photo", "12"
+                        "Abullah Bashar",
+                        "@98abdullah",
+                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png",
+                        "nice photo",
+                        "12",
+                        "3h",
+                    ),
+                    CommentDetailsUiState(
+                        "Abullah Bashar",
+                        "@98abdullah",
+                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png",
+                        "nice photo",
+                        "12",
+                        "3h",
+                    ),
+                    CommentDetailsUiState(
+                        "Abullah Bashar",
+                        "@98abdullah",
+                        "https://freepngimg.com/thumb/man/22654-6-man-thumb.png",
+                        "ninice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photonice photoce photo",
+                        "12",
+                        "3h",
                     ),
                     CommentDetailsUiState(
                         "Abullah Bashar", "@98abdullah",

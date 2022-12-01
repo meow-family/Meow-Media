@@ -1,13 +1,25 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,9 +49,10 @@ fun PostCommentsContent(state: CommentsUiState) {
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
-            items(state.comments) {
-                ItemComment(commentDetails = it)
+            itemsIndexed(state.comments) { index, item ->
+                ItemComment(commentDetails = item)
+                if (index < state.comments.lastIndex)
+                    Divider()
             }
         }
 
@@ -69,15 +82,19 @@ fun PostCommentsContent(state: CommentsUiState) {
                             .weight(1f)
                             .padding(12.dp),
                         value = textState.value,
+                        maxLines = 10,
                         onValueChange = { textState.value = it },
                     )
 
-                    Icon(
-                        painter = painterResource(R.drawable.ic_send),
-                        contentDescription = null,
-                        modifier = Modifier.padding(16.dp),
-                        tint = Color.Unspecified
-                    )
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_send),
+                            contentDescription = null,
+                            modifier = Modifier.padding(16.dp),
+                            tint = Color.Unspecified
+                        )
+                    }
+
                 }
             }
         }
