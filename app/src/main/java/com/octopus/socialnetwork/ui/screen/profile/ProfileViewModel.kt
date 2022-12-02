@@ -9,9 +9,6 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserPostsCountUseCase
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.asProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,7 +45,7 @@ class ProfileViewModel  @Inject constructor(
                 val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount)
                 updateUiState(profileUiState)
 
-                val result1 = fetchUserNotificationsUseCase(31).count
+                val result1 = fetchUserNotificationsUseCase(31,).count
                 val result2 = fetchUserNotificationsCountUseCase(31).notifications
                 val result3 = fetchNotificationItemsUseCase(31).notification.subjectGuid
                 Log.i("NOTIFICATIONS","result1-----${result1}-----") //17
