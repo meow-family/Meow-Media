@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -71,4 +72,11 @@ interface SocialService {
         @Query("post_guid") postId: Int,
         @Query("guid") userId: Int,
     ): BaseResponse<PostDTO>
+
+    @POST("like_add")
+    suspend fun like(
+        @Query("uguid") userId: Int,
+        @Query("subject_guid") contentId: Int,
+        @Query("type") typeContent: String,
+    ): BaseResponse<LikeDTO>
 }

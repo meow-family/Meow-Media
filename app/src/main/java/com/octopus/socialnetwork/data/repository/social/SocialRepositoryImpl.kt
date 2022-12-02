@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -55,5 +56,14 @@ class SocialRepositoryImpl @Inject constructor(
             userId,
         )
     }
+
+    override suspend fun like(
+        userId: Int,
+        contentId: Int,
+        typeContent: String
+    ): BaseResponse<LikeDTO> {
+        return socialService.like(userId, contentId, typeContent)
+    }
+
 
 }

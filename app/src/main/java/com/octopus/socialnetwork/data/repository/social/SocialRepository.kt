@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -21,4 +22,5 @@ interface SocialRepository {
     suspend fun createPost(): BaseResponse<PostDTO>
 
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun like(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 }
