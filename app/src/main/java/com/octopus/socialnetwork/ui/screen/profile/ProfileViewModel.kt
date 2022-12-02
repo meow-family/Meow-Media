@@ -3,6 +3,9 @@ package com.octopus.socialnetwork.ui.screen.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
 import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserPostsCountUseCase
@@ -20,8 +23,12 @@ import javax.inject.Inject
 class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailsUseCase: FetchUserDetailsUseCase,
     private val  fetchUserFriendsUseCase: FetchUserFriendsUseCase,
-    private val  fetchUserDetailsCountUseCase: FetchUserPostsCountUseCase
-) : ViewModel(){
+    private val  fetchUserDetailsCountUseCase: FetchUserPostsCountUseCase,
+    private val  fetchUserNotificationsUseCase: FetchUserNotificationsUseCase,
+    private val  fetchUserNotificationsCountUseCase: FetchUserNotificationsCountUseCase,
+    private val  fetchNotificationItemsUseCase: FetchNotificationItemsUseCase,
+
+    ) : ViewModel(){
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
@@ -37,6 +44,13 @@ class ProfileViewModel  @Inject constructor(
                 val userPostsCount = fetchUserDetailsCountUseCase(currentUserId, visitedUserId)
                 val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount)
                 updateUiState(profileUiState)
+
+                val result1 = fetchUserNotificationsUseCase(31).count
+                val result2 = fetchUserNotificationsCountUseCase(31).notifications
+                val result3 = fetchNotificationItemsUseCase(31).notification.subjectGuid
+                Log.i("NOTIFICATIONS","result1-----${result1}-----") //17
+                Log.i("NOTIFICATIONS","result2-----${result2}-----") //5
+                Log.i("NOTIFICATIONS","result3-----${result3}-----") //16
             }
         } catch (e: Exception){
 
