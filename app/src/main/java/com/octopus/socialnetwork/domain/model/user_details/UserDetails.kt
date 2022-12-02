@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.domain.model.user_details
 
 
 data class UserDetails(
-    val guid: Int,
+    val id: Int,
     val firstName: String,
     val lastName: String,
     val fullName: String,
@@ -10,7 +10,7 @@ data class UserDetails(
     val email: String,
     val birthDate: String,
     val gender: String,
-    val icon: String,
+    val avatar: String,
     val coverUrl: String,
     val language: String,
 )

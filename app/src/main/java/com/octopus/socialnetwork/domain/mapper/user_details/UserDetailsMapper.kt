@@ -10,7 +10,7 @@ import com.octopus.socialnetwork.domain.model.user_details.UserPosts
 
 fun UserDetailsDTO.asUserDetails(): UserDetails {
     return UserDetails(
-        guid = guid ?: 0,
+        id = id ?: 0,
         firstName = firstName ?: "",
         lastName = lastName ?: "",
         fullName =fullName ?: "",
@@ -18,7 +18,7 @@ fun UserDetailsDTO.asUserDetails(): UserDetails {
         email = email ?: "",
         birthDate = birthDate ?: "",
         gender = gender ?: "",
-        icon = icon?.larger ?: "",
+        avatar = avatar?.larger ?: "",
         coverUrl = coverUrl ?: "",
         language = language ?: "",
     )

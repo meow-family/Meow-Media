@@ -8,7 +8,7 @@ fun UserDetails.asProfileUiState(friendsCount: Int, postsCount: Int): ProfileUiS
         username = username,
         friendsCount = friendsCount.toString(),
         postCount = postsCount.toString(),
-        profileAvatar = icon,
+        profileAvatar = avatar,
         profileCover = coverUrl
     )
 }
