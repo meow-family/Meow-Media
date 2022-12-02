@@ -1,7 +1,8 @@
 package com.octopus.socialnetwork.domain.model.massages.messagesRecentList
 
-data class MessageTo(
+data class MessageSender(
+    val userId:Int,
     val fullName :String,
     val userName :String,
-    val icon : IconSizes
+    val icon : IconSizes,
 )

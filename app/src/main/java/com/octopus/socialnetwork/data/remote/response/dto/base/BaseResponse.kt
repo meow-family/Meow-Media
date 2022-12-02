@@ -3,12 +3,16 @@ package com.octopus.socialnetwork.data.remote.response.dto.base
 import com.google.gson.annotations.SerializedName
 
 data class BaseResponse<T>(
+    @SerializedName("code")
+    val code: String?,
     @SerializedName("merchant")
     val merchant: String?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("time_token")
+    val timeToken: Int?,
     @SerializedName("url")
     val url: String?,
-    @SerializedName("time_token")
-    val timeToken: Long?,
     @SerializedName("payloadDTO")
-    val payload: T,
+    val Result: T?
 )

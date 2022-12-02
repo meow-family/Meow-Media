@@ -1,9 +1,9 @@
-package com.octopus.socialnetwork.data.remote.response.dto.massages.RecentmessagesListDto
+package com.octopus.socialnetwork.data.remote.response.dto.massages
 
 
 import com.google.gson.annotations.SerializedName
 
-data class MessageDetailsDTO (
+data class MessageDTO (
     @SerializedName("answered")
     val answered: Int?,
     @SerializedName("id")
@@ -15,9 +15,9 @@ data class MessageDetailsDTO (
     @SerializedName("message")
     val message: String?,
     @SerializedName("message_from")
-    val messageFrom: MessageFromDTO?,
+    val messageFrom: MessageSenderDTO?,
     @SerializedName("message_to")
-    val messageTo: MessageToDTO?,
+    val messageTo: MessageSenderDTO?,
     @SerializedName("time")
     val time: Int?,
     @SerializedName("viewed")
