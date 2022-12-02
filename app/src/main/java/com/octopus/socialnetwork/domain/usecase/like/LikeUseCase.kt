@@ -9,6 +9,6 @@ class LikeUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke(userId: Int, contentId: Int, typeContent: String): Like {
-        return socialRepository.like(userId, contentId, typeContent).payload.asLike()
+        return socialRepository.like(userId, contentId, typeContent).result.asLike()
     }
 }

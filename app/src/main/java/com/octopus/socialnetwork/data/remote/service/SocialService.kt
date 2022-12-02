@@ -76,14 +76,14 @@ interface SocialService {
 
     @POST("like_add")
     suspend fun like(
-        @Query("uguid") userId: Int,
+        @Query("uguid") currentUserId: Int,
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
     ): BaseResponse<LikeDTO>
 
     @POST("unlike_set")
     suspend fun unlike(
-        @Query("uguid") userId: Int,
+        @Query("uguid") currentUserId: Int,
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
     ): BaseResponse<LikeDTO>
@@ -91,7 +91,7 @@ interface SocialService {
 
     @GET("user_is_friend")
     suspend fun checkUserFriend(
-        @Query("user_b") userId: Int,
+        @Query("user_b") currentUserId: Int,
         @Query("user_a") userIdWantedToCheck: Int,
     ): BaseResponse<CheckUserFriendDTO>
 }

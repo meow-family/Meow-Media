@@ -15,15 +15,15 @@ class SocialRepositoryImpl @Inject constructor(
 ) : SocialRepository {
 
     override suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO {
-        return socialService.getUserDetails(visitedUserId).payload
+        return socialService.getUserDetails(visitedUserId).result
     }
 
     override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO {
-        return socialService.getUserFriends(visitedUserId).payload
+        return socialService.getUserFriends(visitedUserId).result
     }
 
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
-        return socialService.getUserPosts(visitedUserId, currentUserId).payload
+        return socialService.getUserPosts(visitedUserId, currentUserId).result
     }
 
 
@@ -59,26 +59,26 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun like(
-        userId: Int,
+        currentUserId: Int,
         contentId: Int,
         typeContent: String
     ): BaseResponse<LikeDTO> {
-        return socialService.like(userId, contentId, typeContent)
+        return socialService.like(currentUserId, contentId, typeContent)
     }
 
     override suspend fun unlike(
-        userId: Int,
+        currentUserId: Int,
         contentId: Int,
         typeContent: String
     ): BaseResponse<LikeDTO> {
-        return socialService.unlike(userId, contentId, typeContent)
+        return socialService.unlike(currentUserId, contentId, typeContent)
     }
 
     override suspend fun checkUserFriend(
-        userId: Int,
+        currentUserId: Int,
         userIdWantedToCheck: Int
     ): BaseResponse<CheckUserFriendDTO> {
-        return socialService.checkUserFriend(userId, userIdWantedToCheck)
+        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck)
     }
 
 

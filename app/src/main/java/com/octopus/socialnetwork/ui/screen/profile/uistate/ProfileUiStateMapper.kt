@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.profile.uistate
 
-import com.octopus.socialnetwork.domain.model.user_details.UserDetails
+import com.octopus.socialnetwork.domain.model.user.UserDetails
 
 fun UserDetails.asProfileUiState(friendsCount: Int, postsCount: Int): ProfileUiState {
     return ProfileUiState(

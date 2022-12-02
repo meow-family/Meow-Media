@@ -9,6 +9,6 @@ class UnlikeUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke(userId: Int, contentId: Int, typeContent: String): Like {
-        return socialRepository.unlike(userId, contentId, typeContent).payload.asLike()
+        return socialRepository.unlike(userId, contentId, typeContent).result.asLike()
     }
 }

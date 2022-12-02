@@ -23,10 +23,10 @@ interface SocialRepository {
     suspend fun createPost(): BaseResponse<PostDTO>
 
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
-    suspend fun like(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
-    suspend fun unlike(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+    suspend fun unlike(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
-    suspend fun checkUserFriend(userId: Int, userIdWantedToCheck: Int): BaseResponse<CheckUserFriendDTO>
+    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): BaseResponse<CheckUserFriendDTO>
 
 }

@@ -10,5 +10,5 @@ data class BaseResponse<T>(
     @SerializedName("time_token")
     val timeToken: Long?,
     @SerializedName("payload")
-    val payload: T,
+    val result: T,
 )

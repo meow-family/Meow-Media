@@ -1,12 +1,12 @@
-package com.octopus.socialnetwork.domain.mapper.user_details
+package com.octopus.socialnetwork.domain.mapper.user
 
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 import com.octopus.socialnetwork.domain.mapper.posts.asPost
-import com.octopus.socialnetwork.domain.model.user_details.UserDetails
-import com.octopus.socialnetwork.domain.model.user_details.UserFriends
-import com.octopus.socialnetwork.domain.model.user_details.UserPosts
+import com.octopus.socialnetwork.domain.model.user.UserDetails
+import com.octopus.socialnetwork.domain.model.user.UserFriends
+import com.octopus.socialnetwork.domain.model.user.UserPosts
 
 fun UserDetailsDTO.asUserDetails(): UserDetails {
     return UserDetails(
