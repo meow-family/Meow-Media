@@ -2,6 +2,9 @@ package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -44,5 +47,24 @@ interface SocialService {
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDTO>
+
+    // Notifications
+    @GET("notifications_list_user")
+    suspend fun getUserNotifications(
+        @Query("owner_guid") currentUserId: Int,
+        //@Query("types") types: String,
+        //@Query("offset") offset: Int,
+    ): BaseResponse<UserNotificationsDTO>
+
+    @GET("notifications_count")
+    suspend fun getUserNotificationsCount(
+        @Query("guid") currentUserId: Int,
+        //@Query("types") types: String,
+    ): BaseResponse<UserNotificationsCountDTO>
+
+    @GET("notifications_mark_viewed")
+    suspend fun markUserNotificationsAsViewed(
+        @Query("notification_guid") notificationId: Int,
+    ): BaseResponse<NotificationItemsDTO>
 
 }
