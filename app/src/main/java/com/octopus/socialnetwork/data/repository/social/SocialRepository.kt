@@ -33,9 +33,7 @@ interface SocialRepository {
     suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): BaseResponse<CheckUserFriendDTO>
 
 
-    suspend fun getUserNotifications(currentUserId: Int,//types: String, offset:Int
-    ): UserNotificationsDTO
-    suspend fun getUserNotificationsCount(currentUserId: Int,//types: String
-    ): UserNotificationsCountDTO
+    suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO
+    suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
 }

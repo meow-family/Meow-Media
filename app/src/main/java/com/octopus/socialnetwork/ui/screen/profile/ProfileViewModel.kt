@@ -45,8 +45,8 @@ class ProfileViewModel  @Inject constructor(
                 val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount)
                 updateUiState(profileUiState)
 
-                val result1 = fetchUserNotificationsUseCase(31,).count
-                val result2 = fetchUserNotificationsCountUseCase(31).notifications
+                val result1 = fetchUserNotificationsUseCase(31,null, null).count
+                val result2 = fetchUserNotificationsCountUseCase(31,null).notifications
                 val result3 = fetchNotificationItemsUseCase(31).notification.subjectGuid
                 Log.i("NOTIFICATIONS","result1-----${result1}-----") //17
                 Log.i("NOTIFICATIONS","result2-----${result2}-----") //5
