@@ -2,9 +2,9 @@ package com.octopus.socialnetwork.data.remote.response.dto.auth
 
 import com.google.gson.annotations.SerializedName
 
-data class Icon(
+data class Avatar(
     @SerializedName("topbar")
-    val topBar: String?,
+    val varySmall: String?,
     @SerializedName("small")
     val small: String?,
     @SerializedName("smaller")

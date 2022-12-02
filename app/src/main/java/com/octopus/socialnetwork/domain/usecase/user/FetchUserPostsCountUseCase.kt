@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.user_details
+package com.octopus.socialnetwork.domain.usecase.user
 
 import javax.inject.Inject
 

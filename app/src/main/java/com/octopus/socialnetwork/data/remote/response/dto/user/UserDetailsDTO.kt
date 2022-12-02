@@ -1,11 +1,11 @@
 package com.octopus.socialnetwork.data.remote.response.dto.user
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.auth.Icon
+import com.octopus.socialnetwork.data.remote.response.dto.auth.Avatar
 
 data class UserDetailsDTO(
     @SerializedName("guid")
-    val guid: Int?,
+    val id: Int?,
     @SerializedName("first_name")
     val firstName: String?,
     @SerializedName("last_name")
@@ -21,7 +21,7 @@ data class UserDetailsDTO(
     @SerializedName("gender")
     val gender: String?,
     @SerializedName("icon")
-    val icon: Icon?,
+    val avatar: Avatar?,
     @SerializedName("cover_url")
     val coverUrl: String?,
     @SerializedName("language")

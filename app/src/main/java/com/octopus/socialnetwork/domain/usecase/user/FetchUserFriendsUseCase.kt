@@ -1,8 +1,8 @@
-package com.octopus.socialnetwork.domain.usecase.user_details
+package com.octopus.socialnetwork.domain.usecase.user
 
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
-import com.octopus.socialnetwork.domain.mapper.user_details.asUserFriends
-import com.octopus.socialnetwork.domain.model.user_details.UserFriends
+import com.octopus.socialnetwork.domain.mapper.user.asUserFriends
+import com.octopus.socialnetwork.domain.model.user.UserFriends
 import javax.inject.Inject
 
 class FetchUserFriendsUseCase @Inject constructor(
