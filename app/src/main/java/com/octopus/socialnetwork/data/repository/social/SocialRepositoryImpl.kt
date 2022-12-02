@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.data.repository.social
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -71,6 +72,13 @@ class SocialRepositoryImpl @Inject constructor(
         typeContent: String
     ): BaseResponse<LikeDTO> {
         return socialService.unlike(userId, contentId, typeContent)
+    }
+
+    override suspend fun checkUserFriend(
+        userId: Int,
+        userIdWantedToCheck: Int
+    ): BaseResponse<CheckUserFriendDTO> {
+        return socialService.checkUserFriend(userId, userIdWantedToCheck)
     }
 
 

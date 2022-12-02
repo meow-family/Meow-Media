@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -86,4 +87,11 @@ interface SocialService {
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
     ): BaseResponse<LikeDTO>
+
+
+    @GET("user_is_friend")
+    suspend fun checkUserFriend(
+        @Query("user_b") userId: Int,
+        @Query("user_a") userIdWantedToCheck: Int,
+    ): BaseResponse<CheckUserFriendDTO>
 }

@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.data.repository.social
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -25,5 +26,7 @@ interface SocialRepository {
     suspend fun like(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
     suspend fun unlike(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+
+    suspend fun checkUserFriend(userId: Int, userIdWantedToCheck: Int): BaseResponse<CheckUserFriendDTO>
 
 }
