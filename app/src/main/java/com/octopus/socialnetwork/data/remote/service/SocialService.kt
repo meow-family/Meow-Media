@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.massages.RecentmessagesListDto.RecentMessagesListDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -44,5 +45,32 @@ interface SocialService {
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDTO>
+
+    @GET("message_recent")
+    suspend fun getMassagesListRecent(
+        @Query("guid") UserId: Int
+    ): BaseResponse<RecentMessagesListDTO>
+
+//    @POST("message_add")
+//    suspend fun sendMessage(
+//        @Query("from") from: Int,
+//        @Query("to") to: Int,
+//        @Query("massage") message: String
+//    ): Response<>
+//
+//    @POST("message_new")
+//    suspend fun setUnreadMessages(
+//        @Query("from") from: Int,
+//        @Query("to") to: Int,
+//        @Query("markallread") markAllRead: String
+//    ): Response<>
+//
+//    @POST("message_list")
+//    suspend fun setMessageList(
+//        @Query("guid") userId: Int,
+//        @Query("to") to: Int,
+//    ): Response<>
+//
+
 
 }

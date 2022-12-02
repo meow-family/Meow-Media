@@ -9,6 +9,6 @@ data class BaseResponse<T>(
     val url: String?,
     @SerializedName("time_token")
     val timeToken: Long?,
-    @SerializedName("payload")
+    @SerializedName("payloadDTO")
     val payload: T,
 )

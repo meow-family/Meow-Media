@@ -47,7 +47,7 @@ fun InputTextField(
         leadingIcon = {
             Icon(
                 icon,
-                contentDescription = "$placeholder Icon",
+                contentDescription = "$placeholder IconDTO",
                 tint = Color.Gray,
             )
         },
