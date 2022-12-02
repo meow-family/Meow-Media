@@ -4,5 +4,5 @@ data class MessageSender(
     val userId:Int,
     val fullName :String,
     val userName :String,
-    val icon : IconSizes,
+    val avatar : AvatarSizes,
 )

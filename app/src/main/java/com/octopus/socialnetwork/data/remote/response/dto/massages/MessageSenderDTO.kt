@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.data.remote.response.dto.massages
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.auth.Icon
+import com.octopus.socialnetwork.data.remote.response.dto.auth.Avatar
 
 data class MessageSenderDTO(
     @SerializedName("fullname")
@@ -9,7 +9,7 @@ data class MessageSenderDTO(
     @SerializedName("guid")
     val guid: Int?,
     @SerializedName("icon")
-    val icon: Icon?,
+    val avatar: Avatar?,
     @SerializedName("username")
     val username: String?
 )
