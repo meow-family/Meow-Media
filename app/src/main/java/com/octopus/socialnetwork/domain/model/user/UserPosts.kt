@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.model.user_details
+package com.octopus.socialnetwork.domain.model.user
 
 import com.octopus.socialnetwork.domain.model.post.Post
 

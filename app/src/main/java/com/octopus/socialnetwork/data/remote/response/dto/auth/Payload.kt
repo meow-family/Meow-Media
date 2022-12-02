@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Payload(
     @SerializedName("guid")
-    val guid: Int?,
+    val id: Int?,
     @SerializedName("first_name")
     val firstName: String?,
     @SerializedName("last_name")
@@ -21,7 +21,7 @@ data class Payload(
     @SerializedName("gender")
     val gender: String?,
     @SerializedName("icon")
-    val icon: Icon?,
+    val avatar: Avatar?,
     @SerializedName("cover_url")
     val coverUrl: Boolean?,
     @SerializedName("language")
