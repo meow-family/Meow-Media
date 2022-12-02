@@ -23,4 +23,7 @@ interface SocialRepository {
 
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
     suspend fun like(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+
+    suspend fun unlike(userId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+
 }

@@ -65,5 +65,13 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.like(userId, contentId, typeContent)
     }
 
+    override suspend fun unlike(
+        userId: Int,
+        contentId: Int,
+        typeContent: String
+    ): BaseResponse<LikeDTO> {
+        return socialService.unlike(userId, contentId, typeContent)
+    }
+
 
 }

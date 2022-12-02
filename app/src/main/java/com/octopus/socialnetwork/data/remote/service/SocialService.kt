@@ -79,4 +79,11 @@ interface SocialService {
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
     ): BaseResponse<LikeDTO>
+
+    @POST("unlike_set")
+    suspend fun unlike(
+        @Query("uguid") userId: Int,
+        @Query("subject_guid") contentId: Int,
+        @Query("type") typeContent: String,
+    ): BaseResponse<LikeDTO>
 }
