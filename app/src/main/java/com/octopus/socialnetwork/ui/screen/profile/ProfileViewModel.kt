@@ -3,9 +3,9 @@ package com.octopus.socialnetwork.ui.screen.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user_details.FetchUserPostsCountUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsCountUseCase
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.asProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -5,8 +5,8 @@ import com.octopus.socialnetwork.domain.model.post.Post
 
 fun PostDTO.asPost(): Post {
     return Post(
-        guid = guid ?: 0,
-        ownerGuid = ownerGuid ?: 0 ,
-        title =  title ?: "",
+        postId = postId ?: 0,
+        ownerId = ownerId ?: 0,
+        title = title ?: "",
     )
 }
