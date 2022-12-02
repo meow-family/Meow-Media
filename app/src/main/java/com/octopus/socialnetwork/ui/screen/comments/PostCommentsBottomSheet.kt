@@ -1,16 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,41 +32,58 @@ fun PostCommentsBottomSheet(
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun PostCommentsContent(
     state: CommentsUiState,
     onChangeTypingComment: (String) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = Color.White,
-                shape = AbsoluteRoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp)
-            )
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState =
+        BottomSheetState(BottomSheetValue.Collapsed)
+    )
 
-    ) {
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(500.dp)
+                    .background(
+                        color = Color.White,
+                        shape = AbsoluteRoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
 
-        LazyColumn(
-            Modifier
-                .fillMaxWidth()
-                .weight(.8f),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            itemsIndexed(state.comments) { index, item ->
-                ItemComment(commentDetails = item)
-                if (index < state.comments.lastIndex)
-                    Divider()
+                    LazyColumn(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(.8f),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        itemsIndexed(state.comments) { index, item ->
+                            ItemComment(commentDetails = item)
+                            if (index < state.comments.lastIndex)
+                                Divider()
+                        }
+                    }
+
+                    TypingComment(
+                        state = state.textFieldCommentState,
+                        onChangeTypingComment = onChangeTypingComment
+                    )
+
+                }
             }
-        }
-
-        TypingComment(
-            state = state.textFieldCommentState,
-            onChangeTypingComment = onChangeTypingComment
-        )
-
-    }
+        },
+        sheetPeekHeight = 0.dp
+    ) {}
 
 }
 
