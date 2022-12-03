@@ -48,7 +48,7 @@ fun SmallPostDetails(post: PostUiState) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = post.postDate,
+                text = "post.postDate",
                 color = Color.White,
                 fontSize = 10.sp
             )

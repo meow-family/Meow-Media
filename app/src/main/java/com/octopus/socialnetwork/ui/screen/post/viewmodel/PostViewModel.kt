@@ -5,20 +5,22 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.viewpost.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase
 ) : ViewModel() {
 
     init {
         getPostDetails(
-            postId = 1,
-            userId = 1
+            postId = 309,
+            userId = 11
         )
     }
 
