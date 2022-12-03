@@ -8,16 +8,21 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SpaceHorizontally4dp(){
+fun SpaceHorizontally4dp() {
     Spacer(modifier = Modifier.width(4.dp))
 }
 
 @Composable
-fun SpaceHorizontally8dp(){
+fun SpaceHorizontally8dp() {
     Spacer(modifier = Modifier.width(8.dp))
 }
 
 @Composable
-fun SpaceHorizontally16dp(){
+fun SpaceHorizontally16dp() {
     Spacer(modifier = Modifier.width(16.dp))
+}
+
+@Composable
+fun SpaceHorizontally24dp() {
+    Spacer(modifier = Modifier.width(24.dp))
 }
