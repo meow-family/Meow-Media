@@ -3,6 +3,8 @@ package com.octopus.socialnetwork.data.repository.social
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
+import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
@@ -12,6 +14,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNoti
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import retrofit2.http.Query
 
 interface SocialRepository {
 
@@ -58,4 +61,17 @@ interface SocialRepository {
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
     //endregion
 
+    //region comment
+    suspend fun getComments(currentUserId: Int, postId: Int, type: String) : BaseResponse<CommentDTO>
+
+    suspend fun editComment(
+    commentId: Int,
+    comment: String,
+    ): BaseResponse<CommentEditionDTO>
+
+    suspend fun deleteComment(
+        commentId: Int,
+        userId: Int,
+    ) : BaseResponse<Boolean>
+    //endregion
 }

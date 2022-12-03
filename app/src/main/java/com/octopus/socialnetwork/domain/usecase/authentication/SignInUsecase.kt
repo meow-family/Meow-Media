@@ -8,11 +8,14 @@ class SignInUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(username: String, password: String): LoginResponse {
         val validateRequestWithLogin = signInRepository.login(username, password)
-        return if (validateRequestWithLogin.isSuccessful) {
+        return if (validateRequestWithLogin.code == "100") {
             LoginResponse.Success
         } else {
-           val body =  validateRequestWithLogin.body()
-            LoginResponse.Failure(body?.message!!, body.code!!)
+            val body = validateRequestWithLogin.result
+            LoginResponse.Failure(
+                validateRequestWithLogin.message.toString(),
+                validateRequestWithLogin.code.toString()
+            )
         }
     }
 

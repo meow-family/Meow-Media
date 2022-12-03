@@ -6,6 +6,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
+import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
@@ -177,5 +179,24 @@ interface SocialService {
     ): BaseResponse<MessageListDTO>
 
 
+    //region comment
+    @GET("comments_list")
+    suspend fun getCommentsList(
+        @Query ("uguid") currentUserId: Int,
+        @Query("guid") postId: Int,
+        @Query("type") type: String,
+    ): BaseResponse<CommentDTO>
 
+    @POST("comment_edit")
+    suspend fun editComment(
+        @Query("guid") commentId: Int,
+        @Query("comment") comment: String,
+    ): BaseResponse<CommentEditionDTO>
+
+    @POST("comment_delete")
+    suspend fun deleteComment(
+        @Query("id") commentId: Int,
+        @Query("guid") userId: Int,
+    ) : BaseResponse<Boolean>
+    //endregion
 }

@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.screen.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsCountUseCase
@@ -24,9 +25,7 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailsUseCase: FetchUserDetailsUseCase,
     private val  fetchUserFriendsUseCase: FetchUserFriendsUseCase,
     private val  fetchUserDetailsCountUseCase: FetchUserPostsCountUseCase,
-    private val  fetchUserNotificationsUseCase: FetchUserNotificationsUseCase,
-    private val  fetchUserNotificationsCountUseCase: FetchUserNotificationsCountUseCase,
-    private val  fetchNotificationItemsUseCase: FetchNotificationItemsUseCase,
+    private val repository: SocialRepository
 
     ) : ViewModel(){
 
@@ -45,12 +44,8 @@ class ProfileViewModel  @Inject constructor(
                 val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount)
                 updateUiState(profileUiState)
 
-                val result1 = fetchUserNotificationsUseCase(31,null, null).count
-                val result2 = fetchUserNotificationsCountUseCase(31,null).notifications
-                val result3 = fetchNotificationItemsUseCase(31).notification.subjectId
-                Log.i("NOTIFICATIONS","result1-----${result1}-----") //17
-                Log.i("NOTIFICATIONS","result2-----${result2}-----") //5
-                Log.i("NOTIFICATIONS","result3-----${result3}-----") //16
+                val result = repository.deleteComment(236,30)
+                Log.i("TESTING", "result: $result")
             }
         } catch (e: Exception){
 
