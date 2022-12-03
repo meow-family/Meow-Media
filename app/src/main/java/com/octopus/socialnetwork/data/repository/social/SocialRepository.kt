@@ -9,6 +9,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
@@ -82,4 +86,33 @@ interface SocialRepository {
         userId: Int,
     ): BaseResponse<Boolean>
     //endregion
+
+    //region photo
+    suspend fun getPhoto(
+        photoId: Int,
+         userId: Int,
+    ) :BaseResponse<PhotoDTO>
+
+    suspend fun getPhotosListProfileCover(
+        userId: Int,
+        type: String,
+    ): BaseResponse<List<Photo>>
+
+    suspend fun getPhotoViewProfile(
+         photoId: Int,
+         userId: Int,
+    ) : BaseResponse<UserProfileDTO>
+
+    suspend fun deletePhotoProfile(
+        photoId: Int,
+        userId: Int,
+    ) : BaseResponse<ProfilePhotoDeletion>
+
+    suspend fun deleteProfileCover(
+        photoId: Int,
+        userId: Int,
+    ) : BaseResponse<ProfilePhotoDeletion>
+
+//endregion
+
 }

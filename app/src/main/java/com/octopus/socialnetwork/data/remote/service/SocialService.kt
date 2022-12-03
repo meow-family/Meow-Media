@@ -16,6 +16,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_messag
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
@@ -74,9 +78,6 @@ interface SocialService {
     suspend fun viewNewsFeed(
         @Query("guid") userId: Int,
     ): List<BaseResponse<PostDTO>>
-
-
-
 
 
     @POST("wall_delete")
@@ -182,7 +183,7 @@ interface SocialService {
     //region comment
     @GET("comments_list")
     suspend fun getCommentsList(
-        @Query ("uguid") currentUserId: Int,
+        @Query("uguid") currentUserId: Int,
         @Query("guid") postId: Int,
         @Query("type") type: String,
     ): BaseResponse<CommentDTO>
@@ -197,6 +198,40 @@ interface SocialService {
     suspend fun deleteComment(
         @Query("id") commentId: Int,
         @Query("guid") userId: Int,
-    ) : BaseResponse<Boolean>
+    ): BaseResponse<Boolean>
     //endregion
+
+    //region photo
+    @GET("photos_view")
+    suspend fun getPhoto(
+        @Query("photo_guid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ) :BaseResponse<PhotoDTO>
+
+    @GET("photos_list_profile_cover")
+    suspend fun getPhotosListProfileCover(
+        @Query("guid") userId: Int,
+        @Query("type") type: String,
+    ): BaseResponse<List<Photo>>
+
+    @GET("photos_view_profile")
+    suspend fun getPhotoViewProfile(
+      @Query("photo_guid") photoId: Int,
+      @Query("uguid") userId: Int,
+    ) : BaseResponse<UserProfileDTO>
+
+    @GET("photos_delete_profile")
+    suspend fun deletePhotoProfile(
+      @Query("photoid") photoId: Int,
+      @Query("uguid") userId: Int,
+    ) : BaseResponse<ProfilePhotoDeletion>
+
+    @GET("photos_delete_cover")
+    suspend fun deleteCoverPhoto(
+      @Query("photoid") photoId: Int,
+      @Query("uguid") userId: Int,
+    ) : BaseResponse<ProfilePhotoDeletion>
+
+//endregion
+
 }
