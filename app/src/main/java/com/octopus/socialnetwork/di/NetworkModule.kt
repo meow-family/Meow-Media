@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.di
 
-import com.google.gson.Gson
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.SocialService
