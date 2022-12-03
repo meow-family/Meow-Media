@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -29,9 +30,9 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.screen.register.composable.FirstStepRegistration
-import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistration
-import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
+import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
+import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
+import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
@@ -40,8 +41,9 @@ import com.octopus.socialnetwork.ui.theme.textThirdColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
 @Composable
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
 fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
@@ -65,6 +67,7 @@ fun RegisterScreen(
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
 private fun RegisterContent(
@@ -172,6 +175,7 @@ private fun RegisterContent(
 @Preview
 @Composable
 @ExperimentalPagerApi
+@ExperimentalMaterialApi
 fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {

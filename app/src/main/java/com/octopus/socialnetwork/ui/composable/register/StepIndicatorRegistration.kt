@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
