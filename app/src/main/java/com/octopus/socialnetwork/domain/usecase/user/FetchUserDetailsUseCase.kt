@@ -8,8 +8,8 @@ import javax.inject.Inject
 class FetchUserDetailsUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
-    suspend operator fun invoke(guid: Int) : UserDetails {
-        return socialRepository.getUserDetails(guid).asUserDetails()
+    suspend operator fun invoke(ownerId: Int) : UserDetails {
+        return socialRepository.getUserDetails(ownerId).asUserDetails()
     }
 
 }

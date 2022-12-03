@@ -44,6 +44,7 @@ fun SmallPostDetails(post: PostUiState) {
                 text = post.fullName,
                 color = Color.White,
                 fontSize = 14.sp,
+                maxLines = 1,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(8.dp))

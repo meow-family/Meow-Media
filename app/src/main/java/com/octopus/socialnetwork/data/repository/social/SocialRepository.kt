@@ -13,6 +13,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.Pro
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import retrofit2.http.Query
@@ -25,7 +26,7 @@ interface SocialRepository {
     suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): BaseResponse<CheckUserFriendDTO>
+    ): CheckUserFriendDTO
 
     suspend fun editUser(
         currentUserId: Int,
@@ -39,27 +40,27 @@ interface SocialRepository {
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO
 
-    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDTO>
 
-    suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewNewsFeed(currentUserId: Int): List<PostDTO>
 
     suspend fun createPost(
         currentUserId: Int,
         posterOwnerId: Int,
         post: String,
         type: String
-    ): BaseResponse<PostDTO>
+    ): PostDTO
 
-    suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
-    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+    suspend fun deletePost(postId: Int, postOwnerId: Int): PostDTO
+    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): LikeDTO
 
     suspend fun unlike(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): BaseResponse<LikeDTO>
+    ): LikeDTO
     //endregion
 
     //region album
@@ -85,24 +86,24 @@ interface SocialRepository {
     //endregion
 
     //region comment
-    suspend fun getComments(currentUserId: Int, postId: Int, type: String): BaseResponse<CommentDTO>
+    suspend fun getComments(currentUserId: Int, postId: Int, type: String): CommentDTO
 
     suspend fun editComment(
         commentId: Int,
         comment: String,
-    ): BaseResponse<CommentEditionDTO>
+    ): CommentEditionDTO
 
     suspend fun deleteComment(
         commentId: Int,
         userId: Int,
-    ): BaseResponse<Boolean>
+    ): Boolean
     //endregion
 
     //region photo
     suspend fun getPhoto(
         photoId: Int,
-        userId: Int,
-    ): BaseResponse<PhotoDTO>
+         userId: Int,
+    ) :PhotoDTO
 
     suspend fun getPhotosListProfileCover(
         userId: Int,
@@ -110,9 +111,9 @@ interface SocialRepository {
     ): BaseResponse<List<Photo>>
 
     suspend fun getPhotoViewProfile(
-        photoId: Int,
-        userId: Int,
-    ): BaseResponse<UserProfileDTO>
+         photoId: Int,
+         userId: Int,
+    ) : BaseResponse<UserProfileDTO>
 
     suspend fun deletePhotoProfile(
         photoId: Int,
