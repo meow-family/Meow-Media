@@ -1,16 +1,14 @@
 package com.octopus.socialnetwork.data.remote.service
 
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
-import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messages.RecentMessagesDTO
@@ -18,6 +16,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_messag
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -75,9 +75,9 @@ interface SocialService {
         @Query("guid") userId: Int,
     ): List<BaseResponse<PostDTO>>
 
-    // create post without any parameters?
-//    @POST("wall_add")
-//    suspend fun createPost(): BaseResponse<PostDTO>
+
+
+
 
     @POST("wall_delete")
     suspend fun deletePost(

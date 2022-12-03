@@ -1,20 +1,19 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
-import retrofit2.http.Query
 
 interface SocialRepository {
 
@@ -56,22 +55,31 @@ interface SocialRepository {
     //endregion
 
     //region notifications
-    suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO
-    suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO
+    suspend fun getUserNotifications(
+        currentUserId: Int,
+        types: String?,
+        offset: Int?
+    ): UserNotificationsDTO
+
+    suspend fun getUserNotificationsCount(
+        currentUserId: Int,
+        types: String?
+    ): UserNotificationsCountDTO
+
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
     //endregion
 
     //region comment
-    suspend fun getComments(currentUserId: Int, postId: Int, type: String) : BaseResponse<CommentDTO>
+    suspend fun getComments(currentUserId: Int, postId: Int, type: String): BaseResponse<CommentDTO>
 
     suspend fun editComment(
-    commentId: Int,
-    comment: String,
+        commentId: Int,
+        comment: String,
     ): BaseResponse<CommentEditionDTO>
 
     suspend fun deleteComment(
         commentId: Int,
         userId: Int,
-    ) : BaseResponse<Boolean>
+    ): BaseResponse<Boolean>
     //endregion
 }

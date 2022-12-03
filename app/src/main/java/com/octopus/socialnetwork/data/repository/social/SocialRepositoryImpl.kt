@@ -1,8 +1,8 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
@@ -66,9 +66,8 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
-//    override suspend fun createPost(): BaseResponse<PostDTO> {
-////        return socialService.createPost()
-//    }
+
+
 
     override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
         return socialService.deletePost(
@@ -149,18 +148,18 @@ class SocialRepositoryImpl @Inject constructor(
         postId: Int,
         type: String
     ): BaseResponse<CommentDTO> {
-        return socialService.getCommentsList(currentUserId,postId,type)
+        return socialService.getCommentsList(currentUserId, postId, type)
     }
 
     override suspend fun editComment(
         commentId: Int,
         comment: String
     ): BaseResponse<CommentEditionDTO> {
-        return socialService.editComment(commentId,comment)
+        return socialService.editComment(commentId, comment)
     }
 
     override suspend fun deleteComment(commentId: Int, userId: Int): BaseResponse<Boolean> {
-        return socialService.deleteComment(commentId,userId)
+        return socialService.deleteComment(commentId, userId)
     }
     //endregion
 }

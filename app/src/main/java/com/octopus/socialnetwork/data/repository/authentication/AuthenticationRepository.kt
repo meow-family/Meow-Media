@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.data.repository.authentication
 
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
-import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import retrofit2.Response
 
 interface AuthenticationRepository {

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.remote.response.dto.base
+package com.octopus.socialnetwork.data.remote.response.base
 
 import com.google.gson.annotations.SerializedName
 
