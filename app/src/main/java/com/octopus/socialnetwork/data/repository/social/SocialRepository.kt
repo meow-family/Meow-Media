@@ -1,16 +1,14 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
+import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.album.user_list_albums.AlbumDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
-import retrofit2.Response
 
 interface SocialRepository {
     suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO
@@ -29,13 +27,20 @@ interface SocialRepository {
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
-    suspend fun unlike(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+    suspend fun unlike(
+        currentUserId: Int,
+        contentId: Int,
+        typeContent: String
+    ): BaseResponse<LikeDTO>
 
-    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): BaseResponse<CheckUserFriendDTO>
+    suspend fun checkUserFriend(
+        currentUserId: Int,
+        userIdWantedToCheck: Int
+    ): BaseResponse<CheckUserFriendDTO>
 
 
-    suspend fun getUserListPhotos(visitedUserId: Int, currentUserId: Int): AlbumDTO
-    suspend fun getPhotosList(visitedUserId: Int, currentUserId: Int): AlbumPhotosDTO
-    suspend fun postPhotosAlbum(title: String, guid: Int, privacy: Int): Response<AlbumResponse>
-    suspend fun deleteAlbumPhoto(photoid: Int, visitedUserId: Int): Response<AlbumResponse>
+    suspend fun getAlbumsUser(ownerAlbumsUserId: Int, visitedUserId: Int): AlbumsDto
+    suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO
+    suspend fun createAlbum(title: String, currentUserId: Int, privacy: Int): Int
+    suspend fun deleteAlbumPhoto(photoid: Int, visitedUserId: Int): Boolean
 }

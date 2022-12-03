@@ -1,8 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumResponse
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.album.user_list_albums.AlbumDTO
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
@@ -11,7 +10,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
-import retrofit2.Response
 import javax.inject.Inject
 
 class SocialRepositoryImpl @Inject constructor(
@@ -86,27 +84,27 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getUserListPhotos(visitedUserId: Int, currentUserId: Int): AlbumDTO {
-        return socialService.getUserListPhotos(visitedUserId, currentUserId).payload
+    override suspend fun getAlbumsUser(ownerAlbumsUserId: Int, visitedUserId: Int): AlbumsDto {
+        return socialService.getAlbumsUser(ownerAlbumsUserId, visitedUserId).result
     }
 
-    override suspend fun getPhotosList(visitedUserId: Int, currentUserId: Int): AlbumPhotosDTO {
-        return socialService.getPhotosList(visitedUserId).payload
+    override suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO {
+        return socialService.getAlbumPhotos(albumId).result
     }
 
-    override suspend fun postPhotosAlbum(
+    override suspend fun createAlbum(
         title: String,
-        guid: Int,
+        currentUserId: Int,
         privacy: Int
-    ): Response<AlbumResponse> {
-        return socialService.postPhotosAlbum(title, guid, privacy)
+    ): Int {
+        return socialService.createAlbum(title, currentUserId, privacy).result.albumId ?: 0
     }
 
     override suspend fun deleteAlbumPhoto(
         photoid: Int,
         visitedUserId: Int
-    ): Response<AlbumResponse> {
-        return socialService.deleteAlbumPhoto(photoid, visitedUserId)
+    ): Boolean {
+        return socialService.deleteAlbumPhoto(photoid, visitedUserId).result.status ?: false
     }
 
 }

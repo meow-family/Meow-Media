@@ -1,11 +1,12 @@
-package com.octopus.socialnetwork.data.remote.response.dto.album.user_list_albums
+package com.octopus.socialnetwork.data.remote.response.dto.album
 
 
 import com.google.gson.annotations.SerializedName
+import com.octopus.socialnetwork.data.remote.response.dto.album.Album
 
 data class AlbumDTO(
     @SerializedName("albums")
-    val albums: List<Album?>?,
+    val albums: List<Album>?,
     @SerializedName("count")
     val count: Int?,
     @SerializedName("cover_photo")

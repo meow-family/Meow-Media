@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.model.album
 
 
-import com.octopus.socialnetwork.data.remote.response.dto.album.user_list_albums.Album
+import com.octopus.socialnetwork.data.remote.response.dto.album.Album
 
 data class UserAlbum(
     val albums: List<Album>,

@@ -1,8 +1,9 @@
 package com.octopus.socialnetwork.data.remote.service
 
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumResponse
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
+import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
+import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.album.user_list_albums.AlbumDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
@@ -95,31 +96,33 @@ interface SocialService {
         @Query("user_b") currentUserId: Int,
         @Query("user_a") userIdWantedToCheck: Int,
     ): BaseResponse<CheckUserFriendDTO>
+
+
     @GET("photos_list_albums")
-    suspend fun getUserListPhotos(
-        @Query("guid") visitedUserId: Int,
-        @Query("uguid") currentUserId: Int,
-    ): BaseResponse<AlbumDTO>
+    suspend fun getAlbumsUser(
+        @Query("guid") ownerAlbumsUserId: Int,
+        @Query("uguid") visitedUserId: Int,
+    ): BaseResponse<AlbumsDto>
 
     @GET("photos_list")
-    suspend fun getPhotosList(
-        @Query("album_guid") albumVisitedUserId: Int,
+    suspend fun getAlbumPhotos(
+        @Query("album_guid") albumId: Int,
     ): BaseResponse<AlbumPhotosDTO>
 
-    @FormUrlEncoded
-    @POST("photos_album_create")
-    suspend fun postPhotosAlbum(
-        @Path("title") title: String,
-        @Query("guid") guid: Int,
-        @Field("privacy") privacy: Int
-    ): Response<AlbumResponse>
 
-    @FormUrlEncoded
+    @POST("photos_album_create")
+    suspend fun createAlbum(
+        @Path("title") title: String,
+        @Query("guid") currentUserId: Int,
+        @Field("privacy") privacy: Int
+    ): BaseResponse<InfoAlbumDto>
+
+
     @POST("photos_delete")
     suspend fun deleteAlbumPhoto(
         @Path("photoid") photoId: Int,
         @Query("guid") visitedUserId: Int,
-    ): Response<AlbumResponse>
+    ): BaseResponse<StateDto>
 
 
 }
