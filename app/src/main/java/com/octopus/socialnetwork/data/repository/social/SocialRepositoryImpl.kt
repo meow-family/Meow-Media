@@ -13,8 +13,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.Pro
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -58,17 +58,15 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun viewUserPosts(
         visitedUserId: Int,
         currentUserId: Int
-    ): List<BaseResponse<PostDTO>> {
+    ): BaseResponse<AllPostDTO> {
         return socialService.viewUserPosts(
             visitedUserId,
             currentUserId,
         )
     }
 
-    override suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>> {
-        return socialService.viewNewsFeed(
-            userId,
-        )
+    override suspend fun viewNewsFeed(userId: Int): BaseResponse<AllPostDTO> {
+        return socialService.viewNewsFeed(userId)
     }
 
     override suspend fun createPost(

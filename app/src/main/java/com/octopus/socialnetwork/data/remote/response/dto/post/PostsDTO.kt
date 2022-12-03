@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.data.remote.response.dto.post
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 
 data class PostDTO(
@@ -13,9 +13,9 @@ data class PostDTO(
     @SerializedName("text")
     val text: String,
     @SerializedName("user")
-    val user: UserDetailsDTO,
+    val user: UserDTO,
     @SerializedName("image")
     val image: String,
     @SerializedName("posted_user")
-    val posted_user: UserDetailsDTO
+    val posted_user: UserDTO
 )

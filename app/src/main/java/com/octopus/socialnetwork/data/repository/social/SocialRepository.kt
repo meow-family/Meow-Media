@@ -13,6 +13,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.Pro
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
@@ -35,9 +36,9 @@ interface SocialRepository {
     //region post
     suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
 
-    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDTO>
 
-    suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewNewsFeed(userId: Int): BaseResponse<AllPostDTO>
 
     suspend fun createPost(
         currentUserId: Int,

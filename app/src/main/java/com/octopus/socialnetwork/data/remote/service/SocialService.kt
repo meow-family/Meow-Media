@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.data.remote.service
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
@@ -19,6 +20,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.Pro
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
@@ -71,12 +73,12 @@ interface SocialService {
     suspend fun viewUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
-    ): List<BaseResponse<PostDTO>>
+    ): BaseResponse<AllPostDTO>
 
     @GET("wall_list_home")
     suspend fun viewNewsFeed(
         @Query("guid") userId: Int,
-    ): List<BaseResponse<PostDTO>>
+    ): BaseResponse<AllPostDTO>
 
     // create post without any parameters?
     @FormUrlEncoded
