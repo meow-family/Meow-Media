@@ -14,18 +14,26 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 
 interface SocialRepository {
+
+    //region user
     suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO
+    suspend fun checkUserFriend(
+        currentUserId: Int,
+        userIdWantedToCheck: Int
+    ): BaseResponse<CheckUserFriendDTO>
+
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
+    //endregion
 
-
+    //region post
     suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
 
-    suspend fun viewUserPosts(ownerId: Int, viewerId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): List<BaseResponse<PostDTO>>
 
     suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>>
 
-    suspend fun createPost(): BaseResponse<PostDTO>
+//    suspend fun createPost(): BaseResponse<PostDTO>
 
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
@@ -35,19 +43,19 @@ interface SocialRepository {
         contentId: Int,
         typeContent: String
     ): BaseResponse<LikeDTO>
+    //endregion
 
-    suspend fun checkUserFriend(
-        currentUserId: Int,
-        userIdWantedToCheck: Int
-    ): BaseResponse<CheckUserFriendDTO>
+    //region album
+    suspend fun getAlbumsUser(albumOwnerUserId: Int, viewerUserId: Int): AlbumsDto
+    suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO
+    suspend fun createAlbum(title: String, currentUserId: Int, privacy: Int): Int
+    suspend fun deleteAlbumPhoto(photoId: Int, visitedUserId: Int): Boolean
+    //endregion
 
-
+    //region notifications
     suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO
     suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
+    //endregion
 
-    suspend fun getAlbumsUser(ownerAlbumsUserId: Int, visitedUserId: Int): AlbumsDto
-    suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO
-    suspend fun createAlbum(title: String, currentUserId: Int, privacy: Int): Int
-    suspend fun deleteAlbumPhoto(photoid: Int, visitedUserId: Int): Boolean
 }

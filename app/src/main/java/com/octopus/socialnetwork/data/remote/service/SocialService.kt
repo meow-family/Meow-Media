@@ -65,8 +65,8 @@ interface SocialService {
 
     @GET("wall_list_user")
     suspend fun viewUserPosts(
-        @Query("uguid") ownerId: Int,
-        @Query("guid") viewerId: Int,
+        @Query("uguid") visitedUserId: Int,
+        @Query("guid") currentUserId: Int,
     ): List<BaseResponse<PostDTO>>
 
     @GET("wall_list_home")
@@ -74,8 +74,9 @@ interface SocialService {
         @Query("guid") userId: Int,
     ): List<BaseResponse<PostDTO>>
 
-    @POST("wall_add")
-    suspend fun createPost(): BaseResponse<PostDTO>
+    // create post without any parameters?
+//    @POST("wall_add")
+//    suspend fun createPost(): BaseResponse<PostDTO>
 
     @POST("wall_delete")
     suspend fun deletePost(
@@ -100,8 +101,8 @@ interface SocialService {
 
     @GET("user_is_friend")
     suspend fun checkUserFriend(
-        @Query("user_b") currentUserId: Int,
-        @Query("user_a") userIdWantedToCheck: Int,
+        @Query("user_b") receiverUser: Int,
+        @Query("user_a") senderUser: Int,
     ): BaseResponse<CheckUserFriendDTO>
 
     // Notifications
@@ -126,8 +127,8 @@ interface SocialService {
 
     @GET("photos_list_albums")
     suspend fun getAlbumsUser(
-        @Query("guid") ownerAlbumsUserId: Int,
-        @Query("uguid") visitedUserId: Int,
+        @Query("guid") albumOwnerUserId: Int,
+        @Query("uguid") viewerUserId: Int, // TODO: needs confirmation, check before work
     ): BaseResponse<AlbumsDto>
 
     @GET("photos_list")
@@ -140,7 +141,7 @@ interface SocialService {
     suspend fun createAlbum(
         @Path("title") title: String,
         @Query("guid") currentUserId: Int,
-        @Field("privacy") privacy: Int
+        @Field("privacy") privacy: Int,
     ): BaseResponse<InfoAlbumDto>
 
 
