@@ -5,7 +5,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 
 private val Poppins = FontFamily(
@@ -20,7 +19,7 @@ val PoppinsTypography = Typography(
 
     h4 = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 32.sp
+        fontSize = fontSizesTitleExtra
     ),
 
     h6 = TextStyle(
@@ -30,10 +29,10 @@ val PoppinsTypography = Typography(
 
     body1 = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+        fontSize = fontSizesSecondary
     ),
     body2 = TextStyle(
-        fontSize = 14.sp
+        fontSize = fontSizePrimary
     ),
 
     button = TextStyle(
@@ -47,7 +46,6 @@ val PoppinsTypography = Typography(
     ),
 
     overline = TextStyle(
-        fontFamily = Poppins,
-        fontSize = 10.sp
+        fontSize = fontSizesSmall
     ),
 )
