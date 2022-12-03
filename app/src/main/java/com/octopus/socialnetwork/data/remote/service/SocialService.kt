@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.remote.service
 
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
@@ -20,10 +21,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Pho
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import retrofit2.http.*
 
 interface SocialService {
@@ -60,6 +58,18 @@ interface SocialService {
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDTO>
+
+    ///////////////////////////////////////////////////
+    @POST("user_edit")
+    suspend fun editUser(
+        @Query("guid") currentUserId: Int,
+        @Query("new_first_name") firstName: String,
+        @Query("new_last_name") lastName: String,
+        @Query("new_email") email: String,
+        @Query("current_password") currentPassword: String,
+        @Query("new_password") newPassword: String,
+    ): BaseResponse<UserEditDTO>
+    ///////////////////////////////////////////////////////
 
     @GET("wall_view")
     suspend fun viewPost(
@@ -214,7 +224,7 @@ interface SocialService {
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
         @Query("uguid") userId: Int,
-    ) :BaseResponse<PhotoDTO>
+    ): BaseResponse<PhotoDTO>
 
     @GET("photos_list_profile_cover")
     suspend fun getPhotosListProfileCover(
@@ -224,21 +234,21 @@ interface SocialService {
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(
-      @Query("photo_guid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<UserProfileDTO>
+        @Query("photo_guid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<UserProfileDTO>
 
     @GET("photos_delete_profile")
     suspend fun deletePhotoProfile(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
     @GET("photos_delete_cover")
     suspend fun deleteCoverPhoto(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 

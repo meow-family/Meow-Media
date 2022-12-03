@@ -14,10 +14,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Pho
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
+import retrofit2.http.Query
 
 interface SocialRepository {
 
@@ -28,6 +26,14 @@ interface SocialRepository {
         currentUserId: Int,
         userIdWantedToCheck: Int
     ): BaseResponse<CheckUserFriendDTO>
+
+    suspend fun editUser(
+        currentUserId: Int,
+        firstName: String,
+        lastName: String, email: String,
+        currentPassword: String,
+        newPassword: String
+    ): UserEditDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
     //endregion
@@ -95,8 +101,8 @@ interface SocialRepository {
     //region photo
     suspend fun getPhoto(
         photoId: Int,
-         userId: Int,
-    ) :BaseResponse<PhotoDTO>
+        userId: Int,
+    ): BaseResponse<PhotoDTO>
 
     suspend fun getPhotosListProfileCover(
         userId: Int,
@@ -104,19 +110,19 @@ interface SocialRepository {
     ): BaseResponse<List<Photo>>
 
     suspend fun getPhotoViewProfile(
-         photoId: Int,
-         userId: Int,
-    ) : BaseResponse<UserProfileDTO>
+        photoId: Int,
+        userId: Int,
+    ): BaseResponse<UserProfileDTO>
 
     suspend fun deletePhotoProfile(
         photoId: Int,
         userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoDeletion>
 
     suspend fun deleteProfileCover(
         photoId: Int,
         userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 

@@ -15,10 +15,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Pho
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import javax.inject.Inject
 
@@ -44,6 +41,23 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
         return socialService.getUserPosts(visitedUserId, currentUserId).result
+    }
+
+    override suspend fun editUser(
+        currentUserId: Int,
+        firstName: String,
+        lastName: String, email: String,
+        currentPassword: String,
+        newPassword: String
+    ): UserEditDTO {
+        return socialService.editUser(
+            currentUserId,
+            firstName,
+            lastName,
+            email,
+            currentPassword,
+            newPassword
+        ).result
     }
 
     //endregion
@@ -77,7 +91,7 @@ class SocialRepositoryImpl @Inject constructor(
         post: String,
         type: String
     ): BaseResponse<PostDTO> {
-      return socialService.createPost(currentUserId,posterOwnerId,post,type)
+        return socialService.createPost(currentUserId, posterOwnerId, post, type)
     }
 
     override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
@@ -195,14 +209,14 @@ class SocialRepositoryImpl @Inject constructor(
         photoId: Int,
         userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
-        return socialService.deleteCoverPhoto(photoId,userId)
+        return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     override suspend fun deleteProfileCover(
         photoId: Int,
         userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
-        return socialService.deleteCoverPhoto(photoId,userId)
+        return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     //endregion
