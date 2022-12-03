@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages
 
 import com.google.gson.annotations.SerializedName
 
-data class Message (
+data class MessageDTO (
     @SerializedName("answered")
     val answered: Int?,
     @SerializedName("id")
@@ -15,9 +15,9 @@ data class Message (
     @SerializedName("message")
     val message: String?,
     @SerializedName("message_from")
-    val messageSender: MessageUser?,
+    val messageSender: MessageUserDTO?,
     @SerializedName("message_to")
-    val messageReceiver: MessageUser?,
+    val messageReceiver: MessageUserDTO?,
     @SerializedName("time")
     val time: Int?,
     @SerializedName("viewed")

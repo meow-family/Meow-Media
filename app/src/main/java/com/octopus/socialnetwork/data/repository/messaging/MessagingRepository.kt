@@ -9,16 +9,16 @@ interface MessagingRepository {
     suspend fun getRecentMassagesList(messageReceiver: Int): RecentMessagesDTO
 
     suspend fun sendMessage(
-        messageSender: Int,
-        messageReceiver: Int,
+        messageSenderId: Int,
+        messageReceiverId: Int,
         message: String,
     ): SendMessageDTO
 
     suspend fun unreadMessages(
-        messageSender: Int,
-        messageReceiver: Int,
+        messageSenderId: Int,
+        messageReceiverId: Int,
         message: String,
     ): UnreadMessagesDTO
 
-    suspend fun messageList(userId: Int, messageReceiver: Int): MessageListDTO
+    suspend fun messageList(messageSenderId: Int, messageReceiverId: Int): MessageListDTO
 }

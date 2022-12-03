@@ -2,8 +2,8 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages.list_message
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.messages.Message
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUser
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDTO
 
 data class MessageListDTO(
     @SerializedName("count")
@@ -11,7 +11,7 @@ data class MessageListDTO(
     @SerializedName("offset")
     val offset: Boolean?,
     @SerializedName("withuser")
-    val messageReceiver: MessageUser?,
+    val messageReceiver: MessageUserDTO?,
     @SerializedName("list")
-    val messages: List<Message>?
+    val messages: List<MessageDTO>?
 )

@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages
 import com.google.gson.annotations.SerializedName
 import com.octopus.socialnetwork.data.remote.response.dto.auth.Avatar
 
-data class MessageUser(
+data class MessageUserDTO(
     @SerializedName("fullname")
     val fullName: String?,
     @SerializedName("guid")

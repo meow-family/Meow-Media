@@ -2,12 +2,12 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages.unread_messa
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.messages.Message
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUser
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDTO
 
 data class UnreadMessagesDTO(
     @SerializedName("list")
-    val messages: List<Message>?,
+    val messages: List<MessageDTO>?,
     @SerializedName("withuser")
-    val messageReceiver: MessageUser?
+    val messageReceiver: MessageUserDTO?
 )

@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messa
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.messages.Message
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDTO
 
 data class RecentMessagesDTO(
     @SerializedName("count")
@@ -10,5 +10,5 @@ data class RecentMessagesDTO(
     @SerializedName("offset")
     val offset: Int?,
     @SerializedName("list")
-    val messages: List<Message>?,
+    val messages: List<MessageDTO>?,
 )

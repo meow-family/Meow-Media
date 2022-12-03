@@ -12,27 +12,27 @@ class MessagingRepositoryImpl @Inject constructor(
 ) : MessagingRepository {
 
     override suspend fun getRecentMassagesList(messageReceiver: Int): RecentMessagesDTO {
-        return service.getMassagesListRecent(messageReceiver).result
+        return service.getMessagesListRecent(messageReceiver).result
     }
 
     override suspend fun sendMessage(
-        messageSender: Int,
-        messageReceiver: Int,
+        messageSenderId: Int,
+        messageReceiverId: Int,
         message: String
     ): SendMessageDTO {
-        return service.sendMessage(messageSender, messageReceiver, message).result
+        return service.sendMessage(messageSenderId, messageReceiverId, message).result
     }
 
     override suspend fun unreadMessages(
-        messageSender: Int,
-        messageReceiver: Int,
+        messageSenderId: Int,
+        messageReceiverId: Int,
         message: String
     ): UnreadMessagesDTO {
-        return service.unreadMessages(messageSender, messageReceiver, message).result
+        return service.unreadMessages(messageSenderId, messageReceiverId, message).result
     }
 
-    override suspend fun messageList(userId: Int, messageReceiver: Int): MessageListDTO {
-        return service.messageList(userId, messageReceiver).result
+    override suspend fun messageList(messageSenderId: Int, messageReceiverId: Int): MessageListDTO {
+        return service.getMessagesList(messageSenderId, messageReceiverId).result
     }
 }
 

@@ -100,28 +100,28 @@ interface SocialService {
     ): BaseResponse<CheckUserFriendDTO>
 
     @GET("message_recent")
-    suspend fun getMassagesListRecent(
+    suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
     ): BaseResponse<RecentMessagesDTO>
 
     @POST("message_add")
     suspend fun sendMessage(
-        @Query("from") messageSender: Int,
-        @Query("to") messageReceiver: Int,
+        @Query("from") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
         @Query("massage") message: String
     ): BaseResponse<SendMessageDTO>
 
     @POST("message_new")
     suspend fun unreadMessages(
-        @Query("from") messageSender: Int,
-        @Query("to") messageReceiver: Int,
+        @Query("from") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
         @Query("markallread") markAllRead: String
     ): BaseResponse<UnreadMessagesDTO>
 
     @POST("message_list")
-    suspend fun messageList(
-        @Query("guid") userId: Int,
-        @Query("to") messageReceiver: Int,
+    suspend fun getMessagesList(
+        @Query("guid") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
     ): BaseResponse<MessageListDTO>
 
 
