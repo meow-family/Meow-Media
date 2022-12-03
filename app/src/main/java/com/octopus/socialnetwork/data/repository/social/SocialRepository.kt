@@ -34,11 +34,11 @@ interface SocialRepository {
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO
 
     suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDTO>
 
-    suspend fun viewNewsFeed(userId: Int): BaseResponse<AllPostDTO>
+    suspend fun viewNewsFeed(currentUserId: Int): BaseResponse<AllPostDTO>
 
     suspend fun createPost(
         currentUserId: Int,
@@ -47,7 +47,7 @@ interface SocialRepository {
         type: String
     ): BaseResponse<PostDTO>
 
-    suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun deletePost(postId: Int, postOwnerId: Int): BaseResponse<PostDTO>
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
     suspend fun unlike(

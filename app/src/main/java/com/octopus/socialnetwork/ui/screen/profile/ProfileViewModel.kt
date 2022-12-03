@@ -7,9 +7,6 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsCountUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.asProfilePostsUiState
@@ -24,9 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel  @Inject constructor(
-    private val  fetchUserDetailsUseCase: FetchUserDetailsUseCase,
-    private val  fetchUserFriendsUseCase: FetchUserFriendsUseCase,
-    private val  fetchUserDetailsCountUseCase: FetchUserPostsCountUseCase,
+    private val  fetchUserDetailS: FetchUserDetailsUseCase,
+    private val  fetchUserFriends: FetchUserFriendsUseCase,
+    private val  fetchUserDetailsCount: FetchUserPostsCountUseCase,
     private val  fetchUserPostsUseCase: FetchUserPostsUseCase,
     private val repository: SocialRepository
 
@@ -42,10 +39,11 @@ class ProfileViewModel  @Inject constructor(
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int){
         try {
             viewModelScope.launch {
-                val userFriendsCount = fetchUserFriendsUseCase(currentUserId).total
-                val userPostsCount = fetchUserDetailsCountUseCase(currentUserId, visitedUserId)
+                val userFriendsCount = fetchUserFriends(currentUserId).total
+                val userPostsCount = fetchUserDetailsCount(currentUserId, visitedUserId)
                 val profilePosts = fetchUserPostsUseCase(currentUserId, visitedUserId).posts.asProfilePostsUiState()
-                val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount, profilePosts)
+                val profileUiState = fetchUserDetailS(currentUserId).asProfileUiState(userFriendsCount, userPostsCount, profilePosts)
+
                 updateUiState(profileUiState)
 
                 val result = repository.deleteComment(236,30)
