@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.di
 
 import android.content.Context
 import androidx.room.Room
-import com.octopus.socialnetwork.data.local.dao.user.UserDao
+import com.octopus.socialnetwork.data.local.user.UserDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import dagger.Module
 import dagger.Provides

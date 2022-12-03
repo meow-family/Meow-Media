@@ -9,6 +9,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messages.RecentMessagesDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_message.UnreadMessagesDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -123,6 +127,33 @@ interface SocialService {
         @Path("photoid") photoId: Int,
         @Query("guid") visitedUserId: Int,
     ): BaseResponse<StateDto>
+
+
+    @GET("message_recent")
+    suspend fun getMessagesListRecent(
+        @Query("guid") userId: Int
+    ): BaseResponse<RecentMessagesDTO>
+
+    @POST("message_add")
+    suspend fun sendMessage(
+        @Query("from") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
+        @Query("massage") message: String
+    ): BaseResponse<SendMessageDTO>
+
+    @POST("message_new")
+    suspend fun unreadMessages(
+        @Query("from") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
+        @Query("markallread") markAllRead: String
+    ): BaseResponse<UnreadMessagesDTO>
+
+    @POST("message_list")
+    suspend fun getMessagesList(
+        @Query("guid") messageSenderId: Int,
+        @Query("to") messageReceiverId: Int,
+    ): BaseResponse<MessageListDTO>
+
 
 
 }

@@ -9,7 +9,7 @@ data class AuthResponse(
     val url: String?,
     @SerializedName("time_token")
     val timeToken: Long?,
-    @SerializedName("payload")
+    @SerializedName("payloadDTO")
     val payload: Payload?,
     @SerializedName("code")
     val code: String?,

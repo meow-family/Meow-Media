@@ -7,5 +7,5 @@ data class LikeDTO(
     @SerializedName("count")
     val count: Int?,
     @SerializedName("last_three_reactions")
-    val lastThreeReactions: LastThreeReactions?
+    val lastThreeReactions: ReactionDTO?
 )

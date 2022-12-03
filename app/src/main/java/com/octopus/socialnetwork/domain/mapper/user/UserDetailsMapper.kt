@@ -13,7 +13,7 @@ fun UserDetailsDTO.asUserDetails(): UserDetails {
         id = id ?: 0,
         firstName = firstName ?: "",
         lastName = lastName ?: "",
-        fullName =fullName ?: "",
+        fullName = fullName ?: "",
         username = username ?: "",
         email = email ?: "",
         birthDate = birthDate ?: "",
