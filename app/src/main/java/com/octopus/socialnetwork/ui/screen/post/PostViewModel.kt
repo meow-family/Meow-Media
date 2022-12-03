@@ -1,8 +1,8 @@
-package com.octopus.socialnetwork.ui.screen.post.viewmodel
+package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.viewpost.FetchPostDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,17 +20,17 @@ class PostViewModel @Inject constructor(
     init {
         getPostDetails(
             postId = 309,
-            userId = 11
+            postOwnerId = 11
         )
     }
 
     private val _state = MutableStateFlow(PostUiState())
     val state = _state.asStateFlow()
 
-    private fun getPostDetails(postId: Int, userId: Int) {
+    private fun getPostDetails(postId: Int, postOwnerId: Int) {
         viewModelScope.launch {
             try {
-                val post = fetchPostDetails(postId, userId).asPostUiState()
+                val post = fetchPostDetails(postId, postOwnerId).asPostUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,

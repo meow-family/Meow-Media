@@ -30,8 +30,6 @@ data class PostDetailsDTO(
     val access: String?,
     @SerializedName("profile_photo_url")
     val profilePhotoUrl: String?,
-//    @SerializedName("last_three_reactions")
-//    val lastThreeReactions: String,
     @SerializedName("total_likes")
     val totalLikes: Int?,
     @SerializedName("is_liked_by_user")

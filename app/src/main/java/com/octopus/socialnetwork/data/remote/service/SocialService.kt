@@ -66,7 +66,7 @@ interface SocialService {
     @GET("wall_view")
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
-        @Query("guid") userId: Int,
+        @Query("guid") postOwnerId: Int,
     ): BaseResponse<PostDTO>
 
     @GET("wall_list_user")
@@ -77,7 +77,7 @@ interface SocialService {
 
     @GET("wall_list_home")
     suspend fun viewNewsFeed(
-        @Query("guid") userId: Int,
+        @Query("guid") currentUserId: Int,
     ): BaseResponse<AllPostDTO>
 
     // create post without any parameters?
@@ -93,7 +93,7 @@ interface SocialService {
     @POST("wall_delete")
     suspend fun deletePost(
         @Query("post_guid") postId: Int,
-        @Query("guid") userId: Int,
+        @Query("guid") posterOwnerId: Int,
     ): BaseResponse<PostDTO>
 
     @POST("like_add")

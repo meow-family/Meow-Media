@@ -48,8 +48,8 @@ class SocialRepositoryImpl @Inject constructor(
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, userId: Int): PostDTO {
-        return socialService.viewPost(postId, userId).result
+    override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO {
+        return socialService.viewPost(postId, postOwnerId).result
     }
 
     override suspend fun viewUserPosts(
@@ -62,8 +62,8 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun viewNewsFeed(userId: Int): BaseResponse<AllPostDTO> {
-        return socialService.viewNewsFeed(userId)
+    override suspend fun viewNewsFeed(currentUserId: Int): BaseResponse<AllPostDTO> {
+        return socialService.viewNewsFeed(currentUserId)
     }
 
     override suspend fun createPost(
@@ -75,10 +75,10 @@ class SocialRepositoryImpl @Inject constructor(
       return socialService.createPost(currentUserId,posterOwnerId,post,type)
     }
 
-    override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
+    override suspend fun deletePost(postId: Int, postOwnerId: Int): BaseResponse<PostDTO> {
         return socialService.deletePost(
             postId,
-            userId,
+            postOwnerId,
         )
     }
 
