@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.post
+package com.octopus.socialnetwork.ui.screen.post.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.viewmodel.PostViewModel
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 
