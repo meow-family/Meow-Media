@@ -144,7 +144,11 @@ private fun RegisterContent(
                     FirstStepRegistration(
                         state.userInfoForm,
                         onChangeUserName = onChangeUserName,
-                        emailState = TextFieldState(state.userInfoForm.email, ::emailValidation),
+                        emailState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::emailValidation
+                        ),
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
@@ -166,8 +170,8 @@ private fun RegisterContent(
         }
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
-//            enabled = !emailState.isValid,
             onClick = {
+                register()
                 if (pagerState.currentPage == 0) {
                     coroutineScope.launch {
                         pagerState.scrollToPage(pagerState.currentPage + 1)

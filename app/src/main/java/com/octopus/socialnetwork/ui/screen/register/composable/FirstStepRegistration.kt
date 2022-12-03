@@ -41,7 +41,7 @@ fun FirstStepRegistration(
             value = userInfoForm.userName.text,
             onValueChange = onChangeUserName,
         )
-//        SpacerVertical16()
+        SpacerVertical16()
         InputTextFieldValidation(
             emailState,
             onChangeEmail = onChangeEmail,
@@ -49,23 +49,23 @@ fun FirstStepRegistration(
             icon = Icons.Default.Email,
             action = ImeAction.Next,
         )
-//        SpacerVertical16()
-//        InputTextField(
-//            placeholder = stringResource(R.string.re_email),
-//            icon = Icons.Default.Email,
-//            action = ImeAction.Next,
-//            value = userInfoForm.reEmail.text,
-//            onValueChange = onChangeReEmail,
-//        )
-//        SpacerVertical16()
-//        InputTextField(
-//            placeholder = stringResource(R.string.password),
-//            icon = Icons.Default.Lock,
-//            action = ImeAction.Next,
-//            value = userInfoForm.password.text,
-//            isPassword = true,
-//            onValueChange = onChangePassword,
-//        )
+        SpacerVertical16()
+        InputTextField(
+            placeholder = stringResource(R.string.re_email),
+            icon = Icons.Default.Email,
+            action = ImeAction.Next,
+            value = userInfoForm.reEmail.text,
+            onValueChange = onChangeReEmail,
+        )
+        SpacerVertical16()
+        InputTextField(
+            placeholder = stringResource(R.string.password),
+            icon = Icons.Default.Lock,
+            action = ImeAction.Next,
+            value = userInfoForm.password.text,
+            isPassword = true,
+            onValueChange = onChangePassword,
+        )
     }
 
 

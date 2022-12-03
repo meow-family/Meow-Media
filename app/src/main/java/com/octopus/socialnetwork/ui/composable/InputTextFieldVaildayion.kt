@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,11 +42,12 @@ fun InputTextFieldValidation(
             .height(48.dp)
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
-            .onFocusChanged { focusState ->
-                state.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    state.enableShowErrors()
-                }
+            .onFocusChanged {
+//                    focusState ->
+//                state.onFocusChange(focusState.isFocused)
+//                if (!focusState.isFocused) {
+//                    state.enableShowErrors()
+//                }
             },
         shape = RoundedCornerShape(24.dp),
         value = state.state.text,
@@ -55,10 +55,6 @@ fun InputTextFieldValidation(
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         onValueChange = onChangeEmail,
-//        {
-//            Log.v("ameer",it)
-//            state.state.text = it
-//        },
         keyboardOptions = KeyboardOptions(imeAction = action),
         placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color.LightGray) },
         leadingIcon = {
@@ -78,6 +74,7 @@ fun InputTextFieldValidation(
             ),
         textStyle = TextStyle(color = Color.Black, fontSize = 14.sp)
     )
+//    if (state.)
 //    if (state.getError())
 //        TextFieldError(textError = "error")
         state.getError()?.let { error -> TextFieldError(textError = error) }
