@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.data.remote.response.dto.post
 
-
 import com.google.gson.annotations.SerializedName
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 
@@ -56,4 +55,3 @@ data class PostDetailsDTO(
     @SerializedName("message")
     val message: String?,
 )
-
