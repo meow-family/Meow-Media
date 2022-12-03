@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,14 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -42,6 +39,11 @@ import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistr
 import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import com.octopus.socialnetwork.ui.theme.lightDividerColor
+import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textThirdColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -91,7 +93,7 @@ private fun RegisterContent(
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(spacingMedium)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
@@ -99,18 +101,22 @@ private fun RegisterContent(
 
         Text(
             stringResource(id = R.string.create_account),
-            style = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.h4.copy(
+                color = MaterialTheme.colors.textSecondaryColor
+            )
         )
 
         Text(
             stringResource(id = R.string.sig_up_note),
-            style = TextStyle(fontSize = 12.sp, color = Color.Gray)
+            style = MaterialTheme.typography.caption.copy(
+                color = MaterialTheme.colors.textThirdColor
+            )
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 32.dp),
+                .padding(vertical = spacingExtraLarge),
 
             Arrangement.Center, verticalAlignment = Alignment.CenterVertically
         ) {
@@ -121,10 +127,9 @@ private fun RegisterContent(
             )
 
             Divider(
-                modifier = Modifier
-                    .width(96.dp)
-                    .padding(horizontal = 2.dp), color = Color.Gray
+                modifier = Modifier.width(96.dp), color = lightDividerColor
             )
+
             StepIndicatorRegistration("2", pagerState.currentPage == 1)
 
         }

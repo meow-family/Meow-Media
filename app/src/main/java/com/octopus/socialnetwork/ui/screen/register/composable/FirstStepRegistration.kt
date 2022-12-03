@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
+import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 
 @Composable
@@ -29,7 +29,7 @@ fun FirstStepRegistration(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 32.dp)
+            .padding(vertical = spacingExtraLarge)
     ) {
         InputTextField(
             placeholder = stringResource(R.string.username),

@@ -40,7 +40,7 @@ val darkSecondaryColor = Color(0xFFF6F6F6)
 val darkOnSecondaryColor = Color(0xFF797979)
 val darkSecondaryVariantColor = Color(0xB3D9D9D9)
 
-val darkBackgroundColor = Color(0xFFFFFFFF)
+val darkBackgroundColor = Color(0xFF1F1B1B)
 val darkDividerColor = Color(0xFFF4F4F4)
 
 val darkTextPrimaryColor = darkPrimaryColor
@@ -60,3 +60,5 @@ val Gray500 = Color(0xFF9B9B9B)
 val Gray400 = Color(0xFFCDCDCD)
 val Gray300 = Color(0xFFD9D9D9)
 val LightBlack_65 = Color(0xA5000000)
+
+
