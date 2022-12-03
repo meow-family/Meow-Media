@@ -42,4 +42,6 @@
     <string name="is_required">Is required</string>
     <string name="password_short">Password is too short - must be at least 6 characters</string>
     <string name="invalid_email">Invalid email</string>
+    <string name="icon_description"> %1$s Icon </string>
+
 </resources>
