@@ -40,6 +40,8 @@ import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 import com.octopus.socialnetwork.ui.util.emailValidation
+import com.octopus.socialnetwork.ui.util.passwordShortValidation
+import com.octopus.socialnetwork.ui.util.requiredValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -126,12 +128,27 @@ private fun RegisterContent(
                 0 -> {
                     FirstStepRegistration(
                         state.userInfoForm,
-                        onChangeUserName = onChangeUserName,
+                        usernameState = TextFieldState(
+                            state = state.userInfoForm.userName,
+                            showError = state.displayErrors,
+                            validator = ::requiredValidation
+                        ),
                         emailState = TextFieldState(
                             state = state.userInfoForm.email,
                             showError = state.displayErrors,
                             validator = ::emailValidation
                         ),
+                        reEmailState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::emailValidation
+                        ),
+                        passwordState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::passwordShortValidation
+                        ),
+                        onChangeUserName = onChangeUserName,
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
@@ -153,6 +170,7 @@ private fun RegisterContent(
         }
 
         SpacerVertical32()
+
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
             onClick = {
@@ -165,6 +183,7 @@ private fun RegisterContent(
                 }
             }
         )
+
     }
 
     Box(
@@ -176,6 +195,7 @@ private fun RegisterContent(
             onClick = tryLogin
         )
     }
+
 }
 
 

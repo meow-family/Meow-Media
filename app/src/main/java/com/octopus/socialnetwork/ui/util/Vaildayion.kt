@@ -19,9 +19,14 @@ fun emailValidation(email: String): Int? {
     if (email.isEmpty() || email.isBlank()) {
         return R.string.is_required
     }
-    return if (Pattern.matches(
-            Constants.REGEX_EMAIL_VALIDATION,
-            email
-        )
-    ) null else R.string.invalid_email
+    return if (emailValid(email)) null else R.string.invalid_email
 }
+
+fun conformEmailValidation(email: String, reEmail: String): Boolean {
+
+    return ((emailValid(email) == emailValid(reEmail)) && (email == reEmail))
+}
+
+private fun emailValid(email: String): Boolean =
+    Pattern.matches(Constants.REGEX_EMAIL_VALIDATION, email)
+

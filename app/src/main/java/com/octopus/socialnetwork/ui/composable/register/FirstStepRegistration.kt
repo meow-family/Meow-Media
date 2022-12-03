@@ -23,9 +23,12 @@ import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 @Composable
 fun FirstStepRegistration(
     userInfoForm: UserInfoFormUiState,
+    usernameState: TextFieldState,
+    emailState: TextFieldState,
+    reEmailState: TextFieldState,
+    passwordState: TextFieldState,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
-    emailState: TextFieldState,
     onChangeReEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
 ) {
