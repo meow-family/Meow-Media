@@ -8,6 +8,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.Notifica
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -41,7 +42,7 @@ class SocialRepositoryImpl @Inject constructor(
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO> {
+    override suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDetailsDTO> {
         return socialService.viewPost(
             postId,
             userId,
@@ -51,24 +52,30 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun viewUserPosts(
         visitedUserId: Int,
         currentUserId: Int
-    ): List<BaseResponse<PostDTO>> {
+    ): List<BaseResponse<PostDetailsDTO>> {
         return socialService.viewUserPosts(
             visitedUserId,
             currentUserId,
         )
     }
 
-    override suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>> {
+    override suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDetailsDTO>> {
         return socialService.viewNewsFeed(
             userId,
         )
     }
 
-//    override suspend fun createPost(): BaseResponse<PostDTO> {
-////        return socialService.createPost()
-//    }
+    override suspend fun createPost(
+        currentUserId: Int,
+        posterOwnerId: Int,
+        post: String,
+        type: String
+    ): BaseResponse<PostDTO> {
+      return socialService.createPost(currentUserId,posterOwnerId,post,type)
+    }
 
-    override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
+
+    override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDetailsDTO> {
         return socialService.deletePost(
             postId,
             userId,

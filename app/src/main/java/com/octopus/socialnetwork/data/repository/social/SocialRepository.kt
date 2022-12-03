@@ -4,11 +4,12 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -27,15 +28,23 @@ interface SocialRepository {
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDetailsDTO>
 
-    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewUserPosts(
+        visitedUserId: Int,
+        currentUserId: Int
+    ): List<BaseResponse<PostDetailsDTO>>
 
-    suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>>
+    suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDetailsDTO>>
 
-//    suspend fun createPost(): BaseResponse<PostDTO>
+    suspend fun createPost(
+        currentUserId: Int,
+        posterOwnerId: Int,
+        post: String,
+        type: String
+    ): BaseResponse<PostDTO>
 
-    suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDetailsDTO>
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
 
     suspend fun unlike(
@@ -53,8 +62,17 @@ interface SocialRepository {
     //endregion
 
     //region notifications
-    suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO
-    suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO
+    suspend fun getUserNotifications(
+        currentUserId: Int,
+        types: String?,
+        offset: Int?
+    ): UserNotificationsDTO
+
+    suspend fun getUserNotificationsCount(
+        currentUserId: Int,
+        types: String?
+    ): UserNotificationsCountDTO
+
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
     //endregion
 

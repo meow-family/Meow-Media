@@ -7,7 +7,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_lis
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
@@ -16,6 +16,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_messag
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -61,28 +62,34 @@ interface SocialService {
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
         @Query("guid") userId: Int,
-    ): BaseResponse<PostDTO>
+    ): BaseResponse<PostDetailsDTO>
 
     @GET("wall_list_user")
     suspend fun viewUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
-    ): List<BaseResponse<PostDTO>>
+    ): List<BaseResponse<PostDetailsDTO>>
 
     @GET("wall_list_home")
     suspend fun viewNewsFeed(
         @Query("guid") userId: Int,
-    ): List<BaseResponse<PostDTO>>
+    ): List<BaseResponse<PostDetailsDTO>>
 
     // create post without any parameters?
-//    @POST("wall_add")
-//    suspend fun createPost(): BaseResponse<PostDTO>
+    @FormUrlEncoded
+    @POST("wall_add")
+    suspend fun createPost(
+        @Field("owner_guid") currentUserId: Int,
+        @Field("poster_guid") posterOwnerId: Int,
+        @Field("post") text: String,
+        @Field("type") type: String,
+    ): BaseResponse<PostDTO>
 
     @POST("wall_delete")
     suspend fun deletePost(
         @Query("post_guid") postId: Int,
         @Query("guid") userId: Int,
-    ): BaseResponse<PostDTO>
+    ): BaseResponse<PostDetailsDTO>
 
     @POST("like_add")
     suspend fun like(
