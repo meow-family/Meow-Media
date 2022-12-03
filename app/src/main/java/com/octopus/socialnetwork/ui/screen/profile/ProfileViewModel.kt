@@ -47,7 +47,7 @@ class ProfileViewModel  @Inject constructor(
 
                 val result1 = fetchUserNotificationsUseCase(31,null, null).count
                 val result2 = fetchUserNotificationsCountUseCase(31,null).notifications
-                val result3 = fetchNotificationItemsUseCase(31).notification.subjectGuid
+                val result3 = fetchNotificationItemsUseCase(31).notification.subjectId
                 Log.i("NOTIFICATIONS","result1-----${result1}-----") //17
                 Log.i("NOTIFICATIONS","result2-----${result2}-----") //5
                 Log.i("NOTIFICATIONS","result3-----${result3}-----") //16
