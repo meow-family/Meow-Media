@@ -6,6 +6,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -107,6 +110,19 @@ class SocialRepositoryImpl @Inject constructor(
         visitedUserId: Int
     ): Boolean {
         return socialService.deleteAlbumPhoto(photoid, visitedUserId).result.status ?: false
+    }
+
+//----------------------------------- Notifications -----------------------------------//
+    override suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO {
+        return socialService.getUserNotifications(currentUserId, types ?: "", offset ?: 1).result
+    }
+
+    override suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO {
+        return socialService.getUserNotificationsCount(currentUserId, types ?: "").result
+    }
+
+    override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO {
+        return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
 }

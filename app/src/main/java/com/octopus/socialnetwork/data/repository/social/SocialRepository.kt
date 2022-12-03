@@ -6,6 +6,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -38,6 +41,10 @@ interface SocialRepository {
         userIdWantedToCheck: Int
     ): BaseResponse<CheckUserFriendDTO>
 
+
+    suspend fun getUserNotifications(currentUserId: Int, types: String?, offset:Int?): UserNotificationsDTO
+    suspend fun getUserNotificationsCount(currentUserId: Int, types: String?): UserNotificationsCountDTO
+    suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO
 
     suspend fun getAlbumsUser(ownerAlbumsUserId: Int, visitedUserId: Int): AlbumsDto
     suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO

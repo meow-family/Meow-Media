@@ -13,6 +13,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages
 import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messages.RecentMessagesDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_message.UnreadMessagesDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
@@ -100,6 +103,27 @@ interface SocialService {
         @Query("user_b") currentUserId: Int,
         @Query("user_a") userIdWantedToCheck: Int,
     ): BaseResponse<CheckUserFriendDTO>
+
+    // Notifications
+    @GET("notifications_list_user")
+    suspend fun getUserNotifications(
+        @Query("owner_guid") currentUserId: Int,
+        @Query("types") types: String?,
+        @Query("offset") offset: Int?,
+    ): BaseResponse<UserNotificationsDTO>
+
+    @GET("notifications_count")
+    suspend fun getUserNotificationsCount(
+        @Query("guid") currentUserId: Int,
+        @Query("types") types: String?,
+    ): BaseResponse<UserNotificationsCountDTO>
+
+    @GET("notifications_mark_viewed")
+    suspend fun markUserNotificationsAsViewed(
+        @Query("notification_guid") notificationId: Int,
+    ): BaseResponse<NotificationItemsDTO>
+
+}
 
 
     @GET("photos_list_albums")
