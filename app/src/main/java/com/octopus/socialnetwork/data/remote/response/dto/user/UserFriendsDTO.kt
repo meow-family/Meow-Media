@@ -6,5 +6,5 @@ data class UserFriendsDTO(
     @SerializedName("total")
     val total: Int?,
     @SerializedName("friends")
-    val friends: List<UserDetailsDTO>?,
+    val friends: List<UserDTO>?,
 )

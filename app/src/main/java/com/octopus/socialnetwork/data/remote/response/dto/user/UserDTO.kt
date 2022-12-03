@@ -1,9 +1,9 @@
 package com.octopus.socialnetwork.data.remote.response.dto.user
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.auth.Avatar
+import com.octopus.socialnetwork.data.remote.response.dto.base.Avatar
 
-data class UserDetailsDTO(
+data class UserDTO(
     @SerializedName("guid")
     val id: Int?,
     @SerializedName("first_name")

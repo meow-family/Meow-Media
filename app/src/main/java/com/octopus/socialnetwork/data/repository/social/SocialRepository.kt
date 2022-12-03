@@ -9,14 +9,14 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDT
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 
 interface SocialRepository {
 
     //region user
-    suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO
+    suspend fun getUserDetails(visitedUserId: Int): UserDTO
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO
     suspend fun checkUserFriend(
         currentUserId: Int,

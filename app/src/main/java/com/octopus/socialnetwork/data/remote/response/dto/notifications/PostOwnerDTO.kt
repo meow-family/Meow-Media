@@ -2,9 +2,9 @@ package com.octopus.socialnetwork.data.remote.response.dto.notifications
 
 import com.google.gson.annotations.SerializedName
 
-data class PosterDTO(
+data class PostOwnerDTO(
     @SerializedName("guid")
-    val guid: Int?,
+    val userId: Int?,
     @SerializedName("fullname")
     val fullName: String?,
     @SerializedName("icon")

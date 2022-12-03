@@ -6,7 +6,7 @@ data class NotificationItemsDTO(
     @SerializedName("notification")
     val notification: NotificationDTO?,
     @SerializedName("poster")
-    val poster: PosterDTO?,
+    val postOwner: PostOwnerDTO?,
     @SerializedName("entity")
     val entity: Boolean?,
     @SerializedName("post")

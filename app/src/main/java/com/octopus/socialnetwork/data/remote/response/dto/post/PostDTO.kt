@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.post
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 
 data class PostDTO(
     @SerializedName("guid")
@@ -40,17 +40,17 @@ data class PostDTO(
     @SerializedName("total_comments")
     val totalComments: Int?,
     @SerializedName("friends")
-    val friends: List<UserDetailsDTO>?,
+    val friends: List<UserDTO>?,
     @SerializedName("text")
     val text: String?,
     @SerializedName("location")
     val location: String?,
     @SerializedName("user")
-    val user: UserDetailsDTO?,
+    val user: UserDTO?,
     @SerializedName("image")
     val image: String?,
     @SerializedName("posted_user")
-    val postedUser: UserDetailsDTO?,
+    val postedUser: UserDTO?,
     @SerializedName("code")
     val code: String?,
     @SerializedName("message")

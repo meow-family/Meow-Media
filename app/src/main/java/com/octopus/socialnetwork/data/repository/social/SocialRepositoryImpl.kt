@@ -9,7 +9,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNoti
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
@@ -20,7 +20,7 @@ class SocialRepositoryImpl @Inject constructor(
 ) : SocialRepository {
 
     //region user
-    override suspend fun getUserDetails(visitedUserId: Int): UserDetailsDTO {
+    override suspend fun getUserDetails(visitedUserId: Int): UserDTO {
         return socialService.getUserDetails(visitedUserId).result
     }
 

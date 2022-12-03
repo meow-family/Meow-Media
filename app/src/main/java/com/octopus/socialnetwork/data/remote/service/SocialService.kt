@@ -16,10 +16,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_messag
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDetailsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
-import retrofit2.Response
 import retrofit2.http.*
 
 interface SocialService {
@@ -27,7 +26,7 @@ interface SocialService {
     suspend fun login(
         @Query("username") username: String,
         @Query("password") password: String,
-    ): Response<AuthResponse>
+    ): BaseResponse<AuthResponse>
 
     @POST("user_add")
     suspend fun signup(
@@ -39,12 +38,12 @@ interface SocialService {
         @Query("birthdate") birthDate: String,
         @Query("username") userName: String,
         @Query("password") password: String,
-    ): Response<AuthResponse>
+    ): BaseResponse<AuthResponse>
 
     @GET("user_details")
     suspend fun getUserDetails(
         @Query("guid") visitedUserId: Int,
-    ): BaseResponse<UserDetailsDTO>
+    ): BaseResponse<UserDTO>
 
     @GET("user_friends")
     suspend fun getUserFriends(

@@ -14,7 +14,7 @@ fun UserNotificationsDTO.asUserNotifications(): UserNotifications {
 fun NotificationItemsDTO.asNotificationItems(): NotificationItems {
     return NotificationItems(
         notification = notification?.asNotification() ?: Notification(0,"",0,0,0,"",0L,0 ),
-        postOwner = poster?.asPoster() ?: PostOwner(0,"",""),
+        postOwner = postOwner?.asPoster() ?: PostOwner(0,"",""),
         entity = entity ?: false,
         post = post ?: false,
         group = group?.asGroup() ?: Group(0,"",false),
@@ -34,9 +34,9 @@ fun NotificationDTO.asNotification(): Notification {
     )
 }
 
-fun PosterDTO.asPoster(): PostOwner {
+fun PostOwnerDTO.asPoster(): PostOwner {
     return PostOwner(
-        userId = guid ?: 0,
+        userId = userId ?: 0,
         fullName = fullName ?: "",
         icon = icon ?: "",
     )
