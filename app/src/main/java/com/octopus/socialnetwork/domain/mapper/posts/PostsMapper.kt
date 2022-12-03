@@ -8,5 +8,6 @@ fun PostDetailsDTO.asPost(): Post {
         postId = postId ?: 0,
         ownerId = ownerId ?: 0,
         title = title ?: "",
+        postImage = image?: "",
     )
 }

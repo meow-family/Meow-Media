@@ -10,7 +10,9 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.uistate.asProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.asProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +27,7 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailsUseCase: FetchUserDetailsUseCase,
     private val  fetchUserFriendsUseCase: FetchUserFriendsUseCase,
     private val  fetchUserDetailsCountUseCase: FetchUserPostsCountUseCase,
+    private val  fetchUserPostsUseCase: FetchUserPostsUseCase,
     private val repository: SocialRepository
 
     ) : ViewModel(){
@@ -41,7 +44,8 @@ class ProfileViewModel  @Inject constructor(
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsUseCase(currentUserId).total
                 val userPostsCount = fetchUserDetailsCountUseCase(currentUserId, visitedUserId)
-                val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount)
+                val profilePosts = fetchUserPostsUseCase(currentUserId, visitedUserId).posts.asProfilePostsUiState()
+                val profileUiState = fetchUserDetailsUseCase(currentUserId).asProfileUiState(userFriendsCount, userPostsCount, profilePosts)
                 updateUiState(profileUiState)
 
                 val result = repository.deleteComment(236,30)
@@ -60,11 +64,13 @@ class ProfileViewModel  @Inject constructor(
                 friendsCount = profileUiState.friendsCount,
                 postCount = profileUiState.postCount,
                 profileAvatar = profileUiState.profileAvatar,
-                profileCover = profileUiState.profileCover
+                profileCover = profileUiState.profileCover,
+                profilePosts = profileUiState.profilePosts
             )
         }
 
         Log.i("PROFILE_INFO","PROFILE_INFO ${profileUiState.username}")
+        Log.i("PROFILE_INFO","PROFILE_INFO ${profileUiState.profilePosts[0].postId}")
     }
 
 
