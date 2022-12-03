@@ -156,14 +156,13 @@ private fun RegisterContent(
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
             onClick = {
-                register()
-//                if (pagerState.currentPage == 0) {
-//                    coroutineScope.launch {
-//                        pagerState.animateScrollToPage(2)
-//                    }
-//                } else {
-//                    register()
-//                }
+                if (pagerState.currentPage == 0) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(2)
+                    }
+                } else {
+                    register()
+                }
             }
         )
     }

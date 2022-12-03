@@ -4,7 +4,7 @@ package com.octopus.socialnetwork.ui.screen.register.uistate
 class TextFieldState(
     var state: TextFieldUiState,
     private val showError: Boolean,
-    private val validator: (String) -> String? = { null },
+    private val validator: (String) -> Int? = { null },
 ) {
 
     private fun isValidator(): Boolean {
@@ -14,7 +14,7 @@ class TextFieldState(
 
     private fun showError(): Boolean = showError && !isValidator()
 
-    fun getError(): String? {
+    fun getError(): Int? {
         return if (showError()) {
             validator(state.text)
         } else {
