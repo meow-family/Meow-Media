@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.data.remote.service
 
-import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
@@ -79,6 +78,15 @@ interface SocialService {
         @Query("guid") userId: Int,
     ): List<BaseResponse<PostDTO>>
 
+    // create post without any parameters?
+    @FormUrlEncoded
+    @POST("wall_add")
+    suspend fun createPost(
+        @Field("owner_guid") currentUserId: Int,
+        @Field("poster_guid") posterOwnerId: Int,
+        @Field("post") text: String,
+        @Field("type") type: String,
+    ): BaseResponse<PostDTO>
 
     @POST("wall_delete")
     suspend fun deletePost(

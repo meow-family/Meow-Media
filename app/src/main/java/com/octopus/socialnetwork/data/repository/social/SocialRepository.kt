@@ -39,7 +39,12 @@ interface SocialRepository {
 
     suspend fun viewNewsFeed(userId: Int): List<BaseResponse<PostDTO>>
 
-//    suspend fun createPost(): BaseResponse<PostDTO>
+    suspend fun createPost(
+        currentUserId: Int,
+        posterOwnerId: Int,
+        post: String,
+        type: String
+    ): BaseResponse<PostDTO>
 
     suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>

@@ -14,6 +14,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Pho
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDetailsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
@@ -70,6 +71,14 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun createPost(
+        currentUserId: Int,
+        posterOwnerId: Int,
+        post: String,
+        type: String
+    ): BaseResponse<PostDTO> {
+      return socialService.createPost(currentUserId,posterOwnerId,post,type)
+    }
 
     override suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO> {
         return socialService.deletePost(
