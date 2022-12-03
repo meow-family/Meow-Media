@@ -23,23 +23,27 @@ val PoppinsTypography = Typography(
         fontSize = 32.sp
     ),
 
+    h6 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = fontSizePrimary
+    ),
+
     body1 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp
     ),
     body2 = TextStyle(
-        fontFamily = Poppins,
         fontSize = 14.sp
     ),
 
     button = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
+        fontSize = fontSizePrimary
     ),
 
     caption = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = fontSizesCaption
     ),
 
     overline = TextStyle(
