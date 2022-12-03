@@ -123,8 +123,6 @@ interface SocialService {
         @Query("notification_guid") notificationId: Int,
     ): BaseResponse<NotificationItemsDTO>
 
-}
-
 
     @GET("photos_list_albums")
     suspend fun getAlbumsUser(
