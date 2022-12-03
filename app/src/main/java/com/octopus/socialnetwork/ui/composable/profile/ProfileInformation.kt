@@ -1,6 +1,5 @@
-package com.octopus.socialnetwork.composable
+package com.octopus.socialnetwork.ui.composable.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,14 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.octopus.socialnetwork.ui.composable.LoginImage
+import com.octopus.socialnetwork.ui.composable.ImageWithShadow
+import com.octopus.socialnetwork.ui.composable.ProfileImage
+
 
 @Composable
-fun ProfileImages(backImageProfile: Painter, profileImage: Painter)
-{
+fun ProfileInformation(backImageProfile: Painter, profileImage: Painter) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,36 +25,20 @@ fun ProfileImages(backImageProfile: Painter, profileImage: Painter)
     ) {
 
 
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(188.dp),
-//        ) {
-//            Image(
-//                painter = backImageProfile,
-//                contentDescription = "back profile image",
-//                contentScale = ContentScale.Crop
-//            )
-//            ShadowImage()
-//        }
-        LoginImage(
+        ImageWithShadow(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(188.dp),
             painter = backImageProfile
         )
 
-        Image(
+        ProfileImage(
             painter = profileImage,
-            contentDescription = "profile image",
-            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(86.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.BottomCenter)
                 .zIndex(1f)
-
-
         )
     }
 

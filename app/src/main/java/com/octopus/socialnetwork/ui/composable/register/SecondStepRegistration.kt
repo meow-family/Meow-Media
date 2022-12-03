@@ -1,8 +1,9 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
 @Composable
+@ExperimentalMaterialApi
 fun SecondStepRegistration(
     userInfoForm: UserInfoFormUiState,
     onChangeFirstName: (String) -> Unit,

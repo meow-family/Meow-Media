@@ -17,8 +17,8 @@ import com.octopus.socialnetwork.ui.composable.ProfileImage
 
 
 @Composable
-fun PostDetails(
-    painter: Painter,
+fun LargPostDetails(
+    profileImage: Painter,
     fullName: String,
     userName: String,
     postDescription: String
@@ -38,7 +38,7 @@ fun PostDetails(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                painter = painter,
+                painter = profileImage,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)

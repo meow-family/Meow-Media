@@ -3,34 +3,39 @@ package com.octopus.socialnetwork.ui.composable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import com.octopus.socialnetwork.ui.theme.Shapes
+import com.octopus.socialnetwork.ui.theme.heightDefaultButton
+import com.octopus.socialnetwork.ui.theme.spacingMedium
 
 
 @Composable
 fun CustomButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit,
-    enabled: Boolean = true,
+    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
-        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .height(44.dp),
-        shape = RoundedCornerShape(24.dp),
-
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
+            .padding(horizontal = spacingMedium)
+            .height(heightDefaultButton),
+        shape = Shapes.large,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.primary
+        )
     ) {
-        Text(text = text, color = Color.White)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.button.copy(
+                color = MaterialTheme.colors.onPrimary
+            )
+        )
     }
 }

@@ -11,7 +11,7 @@ import com.octopus.socialnetwork.R
 
 
 @Composable
-fun LoginImage(painter: Painter ,modifier: Modifier){
+fun ImageWithShadow(painter: Painter, modifier: Modifier){
     Box(
         modifier = modifier
     ) {
@@ -20,6 +20,6 @@ fun LoginImage(painter: Painter ,modifier: Modifier){
             contentDescription = stringResource(R.string.background),
             contentScale = ContentScale.Crop,
         )
-        ShadowImage()
+        Box(modifier = Modifier.backgroundVerticalGradientWhite())
     }
 }

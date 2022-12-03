@@ -8,4 +8,12 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
 
 ): ViewModel() {
+
+    fun onClickLogin() {
+        //
+    }
+
+    fun onClickCreateAccount() {
+        //
+    }
 }
