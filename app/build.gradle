@@ -96,5 +96,7 @@ dependencies {
 //Material Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+
 
 }
