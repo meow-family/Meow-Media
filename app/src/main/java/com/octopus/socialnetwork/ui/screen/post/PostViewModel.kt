@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
+import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,7 @@ class PostViewModel @Inject constructor(
         )
     }
 
-    private val _state = MutableStateFlow(PostUiState())
+    private val _state = MutableStateFlow(PostMainUiState())
     val state = _state.asStateFlow()
 
     private fun getPostDetails(postId: Int, postOwnerId: Int) {
@@ -36,13 +37,7 @@ class PostViewModel @Inject constructor(
                         isLoading = false,
                         isSuccess = true,
                         isError = false,
-                        userName = post.userName,
-                        fullName = post.fullName,
-                        profileAvatar = post.profileAvatar,
-                        postImage = post.postImage,
-                        postDescription = post.postDescription,
-                        likeCount = post.likeCount,
-                        commentCount = post.commentCount
+                        postDetails = post
                     )
                 }
             } catch (e: Exception) {

@@ -14,7 +14,8 @@ fun PostDTO.asPost(): Post {
         avatar = posted_user.avatar?.larger ?: "",
         totalLikes = details.totalLikes ?: 0,
         totalComments = details.totalComments ?: 0,
-        isLikedByUser = details.isLikedByUser ?: false
+        isLikedByUser = details.isLikedByUser ?: false,
+        timeCreated = details.timeCreated ?: ""
     )
 }
 
