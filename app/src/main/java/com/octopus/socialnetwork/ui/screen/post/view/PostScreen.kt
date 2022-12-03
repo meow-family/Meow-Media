@@ -19,7 +19,6 @@ import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import com.octopus.socialnetwork.ui.screen.post.viewmodel.PostViewModel
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
-
 @Composable
 fun PostScreen(
     viewModel: PostViewModel = hiltViewModel()
@@ -31,7 +30,6 @@ fun PostScreen(
         onComment = viewModel::onClickComment,
         onShare = viewModel::onClickShare
     )
-
 }
 
 @Composable
@@ -41,11 +39,9 @@ private fun PostContent(
     onComment: () -> Unit,
     onShare: () -> Unit,
 ) {
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
         PostImage(postImage = rememberAsyncImagePainter(model = state.postImage))
 
         Card(
@@ -66,7 +62,6 @@ private fun PostContent(
             )
         }
 
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,8 +76,6 @@ private fun PostContent(
                 postDescription = state.postDescription
             )
         }
-
-
     }
 }
 
