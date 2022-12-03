@@ -34,10 +34,12 @@ import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.util.emailValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -125,6 +127,11 @@ private fun RegisterContent(
                     FirstStepRegistration(
                         state.userInfoForm,
                         onChangeUserName = onChangeUserName,
+                        emailState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::emailValidation
+                        ),
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
@@ -149,13 +156,14 @@ private fun RegisterContent(
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
             onClick = {
-                if (pagerState.currentPage == 0) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(2)
-                    }
-                } else {
-                    register()
-                }
+                register()
+//                if (pagerState.currentPage == 0) {
+//                    coroutineScope.launch {
+//                        pagerState.animateScrollToPage(2)
+//                    }
+//                } else {
+//                    register()
+//                }
             }
         )
     }
