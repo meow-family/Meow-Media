@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -29,10 +29,11 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 
 @Composable
 fun InputTextFieldValidation(
-    state: TextFieldState = rememberSaveable { TextFieldState() },
+    state: TextFieldState,
     placeholder: String,
     icon: ImageVector,
     isPassword: Boolean = false,
+    onChangeEmail: (String) -> Unit,
     isReadOnly: Boolean = false,
     trailingIcon: @Composable() (() -> Unit)? = null,
     action: ImeAction = ImeAction.Next,
@@ -49,13 +50,15 @@ fun InputTextFieldValidation(
                 }
             },
         shape = RoundedCornerShape(24.dp),
-        value = state.text,
+        value = state.state.text,
         readOnly = isReadOnly,
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        onValueChange = {
-            state.text = it
-        },
+        onValueChange = onChangeEmail,
+//        {
+//            Log.v("ameer",it)
+//            state.state.text = it
+//        },
         keyboardOptions = KeyboardOptions(imeAction = action),
         placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color.LightGray) },
         leadingIcon = {
@@ -75,7 +78,9 @@ fun InputTextFieldValidation(
             ),
         textStyle = TextStyle(color = Color.Black, fontSize = 14.sp)
     )
-    state.getError()?.let { error -> TextFieldError(textError = error) }
+//    if (state.getError())
+//        TextFieldError(textError = "error")
+        state.getError()?.let { error -> TextFieldError(textError = error) }
 }
 
 @Composable

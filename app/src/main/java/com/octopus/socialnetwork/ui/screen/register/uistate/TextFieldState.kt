@@ -1,52 +1,44 @@
 package com.octopus.socialnetwork.ui.screen.register.uistate
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.setValue
+import android.util.Log
 
 
- class TextFieldState(
+class TextFieldState(
+     var state: TextFieldUiState,
      private val validator: (String) -> String? = { null },
  ) {
-     var text: String by mutableStateOf("")
-     var isFocusedDirty: Boolean by mutableStateOf(false)
-     private var isFocused: Boolean by mutableStateOf(false)
-     private var displayErrors: Boolean by mutableStateOf(false)
 
      val isValid: Boolean
          get() = isValidator()
 
      private fun isValidator(): Boolean {
-         return !validator(text).isNullOrBlank()
+         Log.v("ameer","isValidator text ${state.text} ${validator(state.text) == null}")
+         return validator(state.text) == null
      }
 
      fun onFocusChange(focused: Boolean) {
-         isFocused = focused
-         if (focused) isFocusedDirty = true
+         state.isFocused = focused
+         Log.v("ameer","Asdasdasd")
+         if (focused) state.isFocusedDirty = true
      }
 
      fun enableShowErrors() {
-        if (isFocusedDirty) {
-            displayErrors = true
-        }
-    }
+         Log.v("ameer","enableShowErrors")
+         if (state.isFocusedDirty) {
+             Log.v("ameer","enableShowErrors state.displayErrors = ${state.displayErrors} ")
+             state.displayErrors = true
+             Log.v("ameer","enableShowErrors displayErrors = ${state.displayErrors} ")
+         }
+     }
 
-    private fun showErrors() = isValidator() && displayErrors
+      private fun showErrors() = isValid && state.displayErrors
 
      fun getError(): String? {
          return if (showErrors()) {
-             validator(text)
+             validator(state.text)
          } else {
              null
          }
      }
-}
+ }
 
-fun textFieldStateSaver(state: TextFieldState = TextFieldState()) =
-    listSaver<TextFieldState, Any>(save = { listOf(it.text, it.isFocusedDirty) }, restore = {
-        state.apply {
-            text = it[0] as String
-            isFocusedDirty = it[1] as Boolean
-        }
-    })

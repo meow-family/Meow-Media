@@ -17,5 +17,6 @@ fun passwordShortValidation(text: String): String? {
 
 fun emailValidation(email: String): String? {
     val regexEmailValidation = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})\$"
-    return if (!Pattern.matches(regexEmailValidation, email)) "Invalid email" else null
+
+    return if (Pattern.matches(regexEmailValidation, email)) null else "Invalid email"
 }
