@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,16 +11,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
+import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 
 @Composable
 fun FirstStepRegistration(
     userInfoForm: UserInfoFormUiState,
+    usernameState: TextFieldState,
+    emailState: TextFieldState,
+    reEmailState: TextFieldState,
+    passwordState: TextFieldState,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
     onChangeReEmail: (String) -> Unit,
@@ -29,29 +35,29 @@ fun FirstStepRegistration(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 32.dp)
+            .padding(vertical = spacingExtraLarge)
     ) {
         InputTextField(
             placeholder = stringResource(R.string.username),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = userInfoForm.userName,
+            value = userInfoForm.userName.text,
             onValueChange = onChangeUserName,
         )
         SpacerVertical16()
-        InputTextField(
+        InputTextFieldValidation(
+            emailState,
+            onChangeEmail = onChangeEmail,
             placeholder = stringResource(R.string.email),
             icon = Icons.Default.Email,
             action = ImeAction.Next,
-            value = userInfoForm.email,
-            onValueChange = onChangeEmail,
         )
         SpacerVertical16()
         InputTextField(
             placeholder = stringResource(R.string.re_email),
             icon = Icons.Default.Email,
             action = ImeAction.Next,
-            value = userInfoForm.reEmail,
+            value = userInfoForm.reEmail.text,
             onValueChange = onChangeReEmail,
         )
         SpacerVertical16()
@@ -59,7 +65,7 @@ fun FirstStepRegistration(
             placeholder = stringResource(R.string.password),
             icon = Icons.Default.Lock,
             action = ImeAction.Next,
-            value = userInfoForm.password,
+            value = userInfoForm.password.text,
             isPassword = true,
             onValueChange = onChangePassword,
         )

@@ -15,9 +15,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
-
 
 @Composable
 fun PostScreen(
@@ -30,22 +29,19 @@ fun PostScreen(
         onComment = viewModel::onClickComment,
         onShare = viewModel::onClickShare
     )
-
 }
 
 @Composable
 private fun PostContent(
-    state: PostUiState,
+    state: PostMainUiState,
     onLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
 ) {
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
-        PostImage(postImage = rememberAsyncImagePainter(model = state.postImage))
+        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage))
 
         Card(
             modifier = Modifier
@@ -56,15 +52,14 @@ private fun PostContent(
             backgroundColor = LightBlack_65,
         ) {
             PostAction(
-                likeCount = state.likeCount,
-                commentCount = state.commentCount,
+                likeCount = state.postDetails.likeCount,
+                commentCount = state.postDetails.commentCount,
                 onLike = onLike,
                 onComment = onComment,
                 onShare = onShare,
                 modifier = Modifier
             )
         }
-
 
         Box(
             modifier = Modifier
@@ -74,14 +69,12 @@ private fun PostContent(
                 .background(color = LightBlack_65)
         ) {
             LargPostDetails(
-                profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
-                userName = state.userName,
-                fullName = state.fullName,
-                postDescription = state.postDescription
+                profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),
+                userName = state.postDetails.userName,
+                fullName = state.postDetails.fullName,
+                postDescription = state.postDetails.postDescription
             )
         }
-
-
     }
 }
 

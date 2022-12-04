@@ -1,8 +1,9 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 
 
 @Composable
+@ExperimentalMaterialApi
 fun SecondStepRegistration(
     userInfoForm: UserInfoFormUiState,
     onChangeFirstName: (String) -> Unit,
@@ -41,7 +43,7 @@ fun SecondStepRegistration(
             placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = userInfoForm.firstName,
+            value = userInfoForm.firstName.text,
             isPassword = true,
             onValueChange = onChangeFirstName,
         )
@@ -50,7 +52,7 @@ fun SecondStepRegistration(
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = userInfoForm.lastName,
+            value = userInfoForm.lastName.text,
             isPassword = true,
             onValueChange = onChangeLastName,
         )
@@ -58,7 +60,7 @@ fun SecondStepRegistration(
         DropdownMenuApp(
             expanded = expandedDropdownMenu,
             onValueChange = onChangeGender,
-            value = userInfoForm.gender,
+            value = userInfoForm.gender.text,
             onExpandedChange = {
                 expandedDropdownMenu = !expandedDropdownMenu
             },
@@ -66,7 +68,7 @@ fun SecondStepRegistration(
                 expandedDropdownMenu = false
             },
             onClick = { selectedGender ->
-                userInfoForm.gender = selectedGender
+                userInfoForm.gender.text = selectedGender
                 expandedDropdownMenu = false
             }
         )
@@ -75,7 +77,7 @@ fun SecondStepRegistration(
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.Person,
             action = ImeAction.Done,
-            value = userInfoForm.birthday,
+            value = userInfoForm.birthday.text,
             onValueChange = onChangeBirthday,
         )
 

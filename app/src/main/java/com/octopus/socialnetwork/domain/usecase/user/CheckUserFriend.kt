@@ -13,7 +13,7 @@ class CheckUserFriendUseCase @Inject constructor(
         return socialRepository.checkUserFriend(
             userId,
             userIdWantedToCheck
-        ).result.asCheckUserFriend()
+        ).asCheckUserFriend()
     }
 
 }

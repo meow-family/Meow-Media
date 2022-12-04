@@ -28,33 +28,33 @@ interface SocialRepository {
     suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): BaseResponse<CheckUserFriendDTO>
+    ): CheckUserFriendDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, userId: Int): BaseResponse<PostDTO>
+    suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO
 
     suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDTO>
 
-    suspend fun viewNewsFeed(userId: Int): BaseResponse<AllPostDTO>
+    suspend fun viewNewsFeed(currentUserId: Int): List<PostDTO>
 
     suspend fun createPost(
         currentUserId: Int,
         posterOwnerId: Int,
         post: String,
         type: String
-    ): BaseResponse<PostDTO>
+    ): PostDTO
 
-    suspend fun deletePost(postId: Int, userId: Int): BaseResponse<PostDTO>
-    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): BaseResponse<LikeDTO>
+    suspend fun deletePost(postId: Int, postOwnerId: Int): PostDTO
+    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): LikeDTO
 
     suspend fun unlike(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): BaseResponse<LikeDTO>
+    ): LikeDTO
     //endregion
 
     //region album
@@ -80,24 +80,24 @@ interface SocialRepository {
     //endregion
 
     //region comment
-    suspend fun getComments(currentUserId: Int, postId: Int, type: String): BaseResponse<CommentDTO>
+    suspend fun getComments(currentUserId: Int, postId: Int, type: String): CommentDTO
 
     suspend fun editComment(
         commentId: Int,
         comment: String,
-    ): BaseResponse<CommentEditionDTO>
+    ): CommentEditionDTO
 
     suspend fun deleteComment(
         commentId: Int,
         userId: Int,
-    ): BaseResponse<Boolean>
+    ): Boolean
     //endregion
 
     //region photo
     suspend fun getPhoto(
         photoId: Int,
          userId: Int,
-    ) :BaseResponse<PhotoDTO>
+    ) :PhotoDTO
 
     suspend fun getPhotosListProfileCover(
         userId: Int,
