@@ -40,17 +40,3 @@ fun UserPostsDTO.asUserPosts(): UserPosts {
         count = count ?: 0
     )
 }
-
-fun UserEditDTO.asUserEdit(): UserEdit {
-    return UserEdit(
-        guid = guid ?: 0,
-        firstName = firstName ?: "",
-        lastName = lastName ?: "",
-        username = username ?: "",
-        fullname = fullname ?: "",
-        birthdate = birthdate ?: "",
-        coverUrl = coverUrl.toString() ?: "",
-        email = email ?: "",
-        icon = icon?.large ?: ""
-    )
-}

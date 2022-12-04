@@ -31,10 +31,11 @@ interface SocialRepository {
     suspend fun editUser(
         currentUserId: Int,
         firstName: String,
-        lastName: String, email: String,
+        lastName: String,
+        email: String,
         currentPassword: String,
         newPassword: String
-    ): UserEditDTO
+    ): UserDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
     //endregion

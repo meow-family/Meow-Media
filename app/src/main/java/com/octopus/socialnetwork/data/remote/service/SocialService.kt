@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
-import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
@@ -70,7 +69,7 @@ interface SocialService {
         @Query("new_email") email: String,
         @Query("current_password") currentPassword: String,
         @Query("new_password") newPassword: String,
-    ): BaseResponse<UserEditDTO>
+    ): BaseResponse<UserDTO>
     ///////////////////////////////////////////////////////
 
     @GET("wall_view")

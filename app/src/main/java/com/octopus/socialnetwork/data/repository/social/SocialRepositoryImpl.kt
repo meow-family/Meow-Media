@@ -51,18 +51,12 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun editUser(
         currentUserId: Int,
         firstName: String,
-        lastName: String, email: String,
+        lastName: String,
+        email: String,
         currentPassword: String,
         newPassword: String
-    ): UserEditDTO {
-        return socialService.editUser(
-            currentUserId,
-            firstName,
-            lastName,
-            email,
-            currentPassword,
-            newPassword
-        ).result
+    ): UserDTO {
+        return socialService.editUser(currentUserId, firstName, lastName, email, currentPassword, newPassword).result
     }
 
     //endregion
