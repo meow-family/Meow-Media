@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -14,8 +14,8 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
+@ExperimentalMaterialApi
 fun DropdownMenuApp(
     options: List<String> = listOf("Male", "female"),
     expanded: Boolean,

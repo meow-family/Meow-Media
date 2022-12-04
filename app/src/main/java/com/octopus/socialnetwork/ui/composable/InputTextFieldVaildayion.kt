@@ -11,38 +11,49 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.Shapes
-import com.octopus.socialnetwork.ui.theme.heightDefaultButton
+import com.octopus.socialnetwork.ui.theme.heightInput
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
-fun InputTextField(
+fun InputTextFieldValidation(
+    state: TextFieldState,
     placeholder: String,
     icon: ImageVector,
-    value: String,
+    onChangeEmail: (String) -> Unit,
     isPassword: Boolean = false,
     isReadOnly: Boolean = false,
-    onValueChange: (String) -> Unit,
-    trailingIcon: @Composable() (() -> Unit)? = null,
-    action: ImeAction
+    action: ImeAction = ImeAction.Next,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         modifier = Modifier
-            .height(heightDefaultButton)
+            .height(heightInput)
             .fillMaxWidth()
-            .padding(horizontal = spacingSmall),
+            .padding(horizontal = spacingSmall)
+            .onFocusChanged {
+//                    focusState ->
+//                state.onFocusChange(focusState.isFocused)
+//                if (!focusState.isFocused) {
+//                    state.enableShowErrors()
+//                }
+            },
         shape = Shapes.large,
-        value = value,
+        value = state.state.text,
         readOnly = isReadOnly,
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        onValueChange = onValueChange,
+        onValueChange = onChangeEmail,
         keyboardOptions = KeyboardOptions(imeAction = action),
         placeholder = {
             Text(
@@ -53,18 +64,23 @@ fun InputTextField(
         leadingIcon = {
             Icon(
                 icon,
-                contentDescription = "$placeholder IconDTO",
+                stringResource(id = R.string.icon_description, placeholder),
                 tint = Color.Gray,
             )
         },
         trailingIcon = trailingIcon,
+        textStyle = MaterialTheme.typography.h6,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Red,
-            unfocusedBorderColor = Color.Gray,
-            focusedLabelColor = Color.Red,
-            cursorColor = Color.Red,
+            cursorColor = MaterialTheme.colors.primary,
+            focusedBorderColor = MaterialTheme.colors.primary,
+            unfocusedBorderColor = if (!state.state.isValid && state.showError) MaterialTheme.colors.error else Color.Gray,
+            focusedLabelColor = MaterialTheme.colors.primary,
+            errorBorderColor = MaterialTheme.colors.error,
             textColor = MaterialTheme.colors.textThirdColor
-            ),
-        textStyle = MaterialTheme.typography.h6
-    )
+        ),
+
+        )
+
+    state.getError()?.let { error -> TextFieldError(textError = stringResource(id = error)) }
 }
+

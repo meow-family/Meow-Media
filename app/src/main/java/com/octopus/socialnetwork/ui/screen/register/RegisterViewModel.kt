@@ -13,38 +13,126 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
     private val _state = MutableStateFlow(RegisterUiState())
     val state = _state.asStateFlow()
 
-    fun register() {}
+    fun register() {
+
+    }
+
+    fun showError() {
+        _state.update {
+            it.copy(displayErrors = true)
+        }
+    }
+
+    fun validInputs(valid: Boolean) {
+        _state.update {
+            it.copy(isValidInputs = valid)
+        }
+    }
+
     fun tryLogin() {}
 
     fun onChangeUserName(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(userName = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    userName = it.userInfoForm.userName.copy(
+                        text = newValue
+                    )
+                )
+            )
+        }
     }
 
     fun onChangeLastName(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(lastName = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    lastName = it.userInfoForm.lastName.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
     }
 
     fun onChangeFirstName(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(firstName = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+
+                    firstName = it.userInfoForm.firstName.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
     }
 
     fun onChangeEmail(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(email = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    email = it.userInfoForm.email.copy(
+                        text = newValue
+                    )
+                )
+            )
+        }
     }
 
     fun onChangeReEmail(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(reEmail = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    reEmail = it.userInfoForm.reEmail.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
     }
 
     fun onChangePassword(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(lastName = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    password = it.userInfoForm.password.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
     }
 
     fun onChangeGender(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(gender = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    gender = it.userInfoForm.gender.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
     }
 
     fun onChangeBirthday(newValue: String) {
-        _state.update { it.copy(userInfoForm = it.userInfoForm.copy(birthday = newValue)) }
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm.copy(
+                    birthday = it.userInfoForm.birthday.copy(
+                        text = newValue
+                    )
+
+                )
+            )
+        }
+
     }
+
 }
