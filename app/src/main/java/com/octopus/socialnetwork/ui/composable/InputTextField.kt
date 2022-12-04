@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightDefaultButton
 import com.octopus.socialnetwork.ui.theme.spacingSmall
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
@@ -26,6 +27,7 @@ fun InputTextField(
     placeholder: String,
     icon: ImageVector,
     value: String,
+    modifier: Modifier = Modifier,
     isPassword: Boolean = false,
     isReadOnly: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -33,7 +35,7 @@ fun InputTextField(
     action: ImeAction
 ) {
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .height(heightDefaultButton)
             .fillMaxWidth()
             .padding(horizontal = spacingSmall),
@@ -47,8 +49,8 @@ fun InputTextField(
         placeholder = {
             Text(
                 text = placeholder,
-                style = MaterialTheme.typography.h6,
-            )
+                style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.textSecondaryColor),
+                )
         },
         leadingIcon = {
             Icon(
@@ -63,7 +65,7 @@ fun InputTextField(
             unfocusedBorderColor = Color.Gray,
             focusedLabelColor = Color.Red,
             cursorColor = Color.Red,
-            textColor = MaterialTheme.colors.textThirdColor
+            textColor = MaterialTheme.colors.textSecondaryColor
             ),
         textStyle = MaterialTheme.typography.h6
     )
