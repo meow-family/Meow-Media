@@ -30,6 +30,7 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
+import com.octopus.socialnetwork.ui.composable.ControlCircularProgressVisibility
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.Red600
@@ -197,7 +198,5 @@ private fun ProfileContent(
 
     }
 
-
+    ControlCircularProgressVisibility(isLoading = state.isLoading)
 }
-
-

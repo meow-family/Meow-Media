@@ -46,6 +46,9 @@ class ProfileViewModel  @Inject constructor(
 
                 _state.update {
                     it.copy(
+                        isLoading = false,
+                        isSuccess = true,
+                        isError = false,
                         fullName = profileUiState.fullName,
                         username = profileUiState.username,
                         friendsCount = userFriendsCount.toString(),
@@ -62,8 +65,12 @@ class ProfileViewModel  @Inject constructor(
                 val result = repository.deleteComment(236,30)
                 Log.i("TESTING", "result: $result")
             }
-        } catch (e: Exception){
-
+        } catch (e: Exception) {
+            _state.update { it.copy(
+                isLoading = false,
+                isSuccess = false,
+                isError = true
+            ) }
         }
     }
 
