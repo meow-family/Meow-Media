@@ -8,6 +8,7 @@
 
     <!-- Sign Up  -->
     <string name="create_account">Create Account</string>
+
     <string name="sig_up_note">Please fill the input below here</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
@@ -50,4 +51,10 @@
     <string name="failed_create_account">Failed create account username or email is current used. Change and try again.</string>
     <string name="ok">OK</string>
 
+
+    <!-- Profile  -->
+    <string name="save">Save</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

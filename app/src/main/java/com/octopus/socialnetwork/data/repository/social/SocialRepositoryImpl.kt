@@ -46,6 +46,17 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getUserPosts(visitedUserId, currentUserId).result
     }
 
+    override suspend fun editUser(
+        currentUserId: Int,
+        firstName: String,
+        lastName: String,
+        email: String,
+        currentPassword: String,
+        newPassword: String
+    ): UserDto {
+        return socialService.editUser(currentUserId, firstName, lastName, email, currentPassword, newPassword).result
+    }
+
     //endregion
     //region post
     override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto {

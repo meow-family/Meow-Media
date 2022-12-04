@@ -23,3 +23,8 @@ fun SpaceHorizontally8dp(){
 fun SpaceHorizontally16dp(){
     Spacer(modifier = Modifier.width(spacingMedium))
 }
+
+@Composable
+fun SpaceHorizontally24dp() {
+    Spacer(modifier = Modifier.width(24.dp))
+}

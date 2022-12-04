@@ -31,6 +31,15 @@ interface SocialRepository {
     ): CheckUserFriendDto
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
+    suspend fun editUser(
+        currentUserId: Int,
+        firstName: String,
+        lastName: String,
+        email: String,
+        currentPassword: String,
+        newPassword: String
+    ): UserDto
+
     //endregion
 
     //region post

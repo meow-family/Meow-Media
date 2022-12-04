@@ -1,9 +1,9 @@
 package com.octopus.socialnetwork.domain.mapper.user
 
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.domain.mapper.posts.toPost
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import com.octopus.socialnetwork.domain.mapper.posts.asPost
 import com.octopus.socialnetwork.domain.model.user.UserDetails
 import com.octopus.socialnetwork.domain.model.user.UserFriends
 import com.octopus.socialnetwork.domain.model.user.UserPosts

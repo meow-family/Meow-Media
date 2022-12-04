@@ -64,6 +64,18 @@ interface SocialService {
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDto>
 
+    ///////////////////////////////////////////////////
+    @POST("user_edit")
+    suspend fun editUser(
+        @Query("guid") currentUserId: Int,
+        @Query("new_first_name") firstName: String,
+        @Query("new_last_name") lastName: String,
+        @Query("new_email") email: String,
+        @Query("current_password") currentPassword: String,
+        @Query("new_password") newPassword: String,
+    ): BaseResponse<UserDto>
+    ///////////////////////////////////////////////////////
+
     @GET("wall_view")
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
@@ -233,15 +245,15 @@ interface SocialService {
 
     @GET("photos_delete_profile")
     suspend fun deletePhotoProfile(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
     @GET("photos_delete_cover")
     suspend fun deleteCoverPhoto(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 
