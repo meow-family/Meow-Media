@@ -84,7 +84,7 @@ fun SecondStepRegistration(
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.CalendarMonth,
             action = ImeAction.Done,
-            value = userInfoForm.birthday.text,
+            value = userInfoForm.birthDate.text,
             onValueChange = onChangeBirthday,
         )
         Button(

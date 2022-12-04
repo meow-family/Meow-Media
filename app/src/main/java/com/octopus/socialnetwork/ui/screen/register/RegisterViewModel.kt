@@ -20,34 +20,36 @@ class RegisterViewModel @Inject constructor(
     private val _state = MutableStateFlow(RegisterUiState())
     val state = _state.asStateFlow()
 
-    init {
-        register()
+
+    private fun loading() {
+        _state.update {
+            it.copy(
+                isLoading = !_state.value.isLoading,
+            )
+        }
     }
 
     fun register() {
-        _state.update {
-            it.copy(
-                isLoading = true,
-            )
-        }
+        loading()
 
         viewModelScope.launch {
 
             try {
                 val response =
                     registerUseCase(
-                        "amret",
-                        "ertert",
-                        "karino27fdgfgdfg81@ceosdsfsdfhub.com",
-                        "karino27fdgfgdfg81@ceosdsfsdfhub.com",
-                        "male",
-                        "01/10/2022",
-                        "amusersdfsdfdsfnamesdsd",
-                        "12345dfsdfdsf6"
+                        firstName = state.value.userInfoForm.firstName.text,
+                        lastName = state.value.userInfoForm.lastName.text,
+                        email = state.value.userInfoForm.email.text,
+                        reEmail = state.value.userInfoForm.reEmail.text,
+                        gender = state.value.userInfoForm.gender.text,
+                        birthDate = state.value.userInfoForm.birthDate.text,
+                        userName = state.value.userInfoForm.userName.text,
+                        password = state.value.userInfoForm.password.text
                     )
 
                 when (response) {
                     is LoginResponse.Success -> {
+                        loading()
                         Log.v("ameer", "Success")
                     }
 
@@ -57,6 +59,9 @@ class RegisterViewModel @Inject constructor(
                 }
 
             } catch (e: Exception) {
+
+                Log.v("ameer", "Failure ")
+
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -176,7 +181,7 @@ class RegisterViewModel @Inject constructor(
         _state.update {
             it.copy(
                 userInfoForm = it.userInfoForm.copy(
-                    birthday = it.userInfoForm.birthday.copy(
+                    birthDate = it.userInfoForm.birthDate.copy(
                         text = newValue
                     )
 
