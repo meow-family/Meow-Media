@@ -19,9 +19,10 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EditTextField(
     title: String,
-    keyboardOption: KeyboardOptions
+    keyboardOption: KeyboardOptions,
+    value: String,
+    onValueChange: (String) -> Unit,
 ) {
-    var inputText by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 15.dp)) {
         Text(
             text = title,
@@ -30,13 +31,16 @@ fun EditTextField(
             color = Color.Gray
         )
         BasicTextField(
-            value = inputText,
-            onValueChange = { inputText = it },
-            keyboardOptions = keyboardOption
-        )
+            value = value,
+            onValueChange = onValueChange,
+            keyboardOptions = keyboardOption,
+            singleLine = true,
+            maxLines = 1,
+            )
 
         Divider(
-            color = Color(color = 0xFFBCBCBC), modifier = Modifier
+            color = Color(color = 0xFFBCBCBC),
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 7.dp)
                 .height(1.dp)

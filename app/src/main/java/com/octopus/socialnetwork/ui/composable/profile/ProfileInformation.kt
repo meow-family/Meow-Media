@@ -84,6 +84,9 @@ fun ProfileInformation(backImageProfile: Painter, profileImage: Painter, imageSt
                             tint = MaterialTheme.colors.background,
                         )
                     }
+
+
+
                 }
             }
         }
