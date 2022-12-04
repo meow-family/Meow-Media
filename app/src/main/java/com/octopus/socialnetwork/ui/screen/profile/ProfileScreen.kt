@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,7 @@ import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 
 @Preview(showSystemUi = true)
@@ -70,12 +72,15 @@ private fun ProfileContent(
                 fontWeight = FontWeight.Bold,
                 fontFamily = PoppinsTypography.subtitle1.fontFamily,
                 fontStyle = PoppinsTypography.subtitle1.fontStyle,
-                fontSize = PoppinsTypography.subtitle1.fontSize
+                fontSize = PoppinsTypography.subtitle1.fontSize,
+                color = MaterialTheme.colors.textSecondaryColor,
+                style = MaterialTheme.typography.h6,
             )
             Text(
                 text = state.username,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontWeight = FontWeight.Light,
+                color = MaterialTheme.colors.onSecondary,
                 fontFamily = PoppinsTypography.caption.fontFamily,
                 fontStyle = PoppinsTypography.caption.fontStyle,
                 fontSize = PoppinsTypography.caption.fontSize
