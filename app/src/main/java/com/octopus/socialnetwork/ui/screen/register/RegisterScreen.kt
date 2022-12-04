@@ -62,6 +62,7 @@ fun RegisterScreen(
         register = viewModel::register,
         tryLogin = viewModel::tryLogin,
         coroutineScope = coroutineScope,
+        showError = viewModel::showError,
         onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
@@ -83,6 +84,7 @@ private fun RegisterContent(
     register: () -> Unit,
     tryLogin: () -> Unit,
     coroutineScope: CoroutineScope,
+    showError: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
@@ -178,13 +180,19 @@ private fun RegisterContent(
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
             onClick = {
-                if (pagerState.currentPage == 0) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(2)
+                if (state.isValidInputs) {
+                    if (pagerState.currentPage == 0) {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(2)
+                        }
+                    } else {
+                        register()
                     }
+
                 } else {
-                    register()
+                    showError()
                 }
+
             }
         )
 

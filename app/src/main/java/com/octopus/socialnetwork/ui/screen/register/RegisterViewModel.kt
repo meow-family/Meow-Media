@@ -139,8 +139,10 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeEmail(newValue: String) {
+
         _state.update {
             it.copy(
+                isValidInputs = true,
                 userInfoForm = it.userInfoForm.copy(
                     email = it.userInfoForm.email.copy(
                         text = newValue
