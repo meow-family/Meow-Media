@@ -5,8 +5,17 @@ import com.octopus.socialnetwork.domain.model.post.Post
 
 fun PostDTO.asPost(): Post {
     return Post(
-        guid = guid ?: 0,
-        ownerGuid = ownerGuid ?: 0 ,
-        title =  title ?: "",
+        postId = details.postId ?: 0,
+        ownerId = details.ownerId ?: 0,
+        description = description?: "",
+        image = image ?: "",
+        fullName = posted_user.fullName ?: "",
+        username = posted_user.username ?: "",
+        avatar = posted_user.avatar?.larger ?: "",
+        totalLikes = details.totalLikes ?: 0,
+        totalComments = details.totalComments ?: 0,
+        isLikedByUser = details.isLikedByUser ?: false,
+        timeCreated = details.timeCreated ?: ""
     )
 }
+
