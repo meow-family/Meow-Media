@@ -13,7 +13,4 @@ data class ProfileUiState(
     val profilePosts: List<ProfilePostUiState> = emptyList()
 )
 
-data class ProfilePostUiState(
-    val postId: Int = 0,
-    val postImage: String = ""
-)
+

@@ -22,7 +22,7 @@ fun ProfilePostItem(postImage: Painter) {
             .height(130.dp)
             .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp) )
             .clip(shape = RoundedCornerShape(8.dp)),
-        contentScale = ContentScale.FillBounds,
+        contentScale = ContentScale.Crop,
         painter = postImage,
         contentDescription = stringResource(R.string.this_is_post_image)
     )

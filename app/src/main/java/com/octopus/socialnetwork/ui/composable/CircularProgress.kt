@@ -9,11 +9,12 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ControlCircularProgressVisibility(isLoading: Boolean) {
+
     if(isLoading) Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
-        CircularProgressIndicator(progress = 0.5f)
+        CircularProgressIndicator(progress = 1f)
     }
 
 }
