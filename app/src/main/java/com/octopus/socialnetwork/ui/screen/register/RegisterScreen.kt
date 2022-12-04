@@ -28,6 +28,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.CustomSnackBar
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
@@ -61,6 +62,7 @@ fun RegisterScreen(
         register = viewModel::register,
         tryLogin = viewModel::tryLogin,
         coroutineScope = coroutineScope,
+        onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
         onChangeReEmail = viewModel::onChangeReEmail,
@@ -81,6 +83,7 @@ private fun RegisterContent(
     register: () -> Unit,
     tryLogin: () -> Unit,
     coroutineScope: CoroutineScope,
+    onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
     onChangeReEmail: (String) -> Unit,
@@ -195,11 +198,19 @@ private fun RegisterContent(
             textAction = stringResource(R.string.login),
             onClick = tryLogin
         )
+
+        if (state.failedCreateAccount) {
+            CustomSnackBar(
+                message = stringResource(id = R.string.failed_create_account),
+                onFailedCreateAccount
+            )
+        }
     }
 
     if (state.isLoading) {
         LoadingDialog()
     }
+
 
 }
 

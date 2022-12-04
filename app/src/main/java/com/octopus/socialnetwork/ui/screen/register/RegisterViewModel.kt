@@ -20,17 +20,8 @@ class RegisterViewModel @Inject constructor(
     private val _state = MutableStateFlow(RegisterUiState())
     val state = _state.asStateFlow()
 
-
-    private fun loading() {
-        _state.update {
-            it.copy(
-                isLoading = !_state.value.isLoading,
-            )
-        }
-    }
-
     fun register() {
-        loading()
+        onLoading()
 
         viewModelScope.launch {
 
@@ -49,27 +40,48 @@ class RegisterViewModel @Inject constructor(
 
                 when (response) {
                     is LoginResponse.Success -> {
-                        loading()
-                        Log.v("ameer", "Success")
+                        onLoading()
+                        onSuccess()
+                        Log.v("tester", "Success")
                     }
 
                     is LoginResponse.Failure -> {
-                        Log.v("ameer", "Failure ${response.message}")
+                        onLoading()
+                        onFailedCreateAccount()
+                        Log.v("tester", "Failure ${response.message}")
                     }
                 }
 
             } catch (e: Exception) {
 
-                Log.v("ameer", "Failure ")
-
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = false,
-                        isError = true
-                    )
-                }
+                Log.v("tester", "Failure ")
+                onLoading()
+                onFailedCreateAccount()
             }
+        }
+    }
+
+    private fun onLoading() {
+        _state.update {
+            it.copy(
+                isLoading = !_state.value.isLoading,
+            )
+        }
+    }
+
+    private fun onSuccess() {
+        _state.update {
+            it.copy(
+                isSuccess = !_state.value.isSuccess,
+            )
+        }
+    }
+
+    fun onFailedCreateAccount() {
+        _state.update {
+            it.copy(
+                failedCreateAccount = !_state.value.failedCreateAccount
+            )
         }
     }
 
