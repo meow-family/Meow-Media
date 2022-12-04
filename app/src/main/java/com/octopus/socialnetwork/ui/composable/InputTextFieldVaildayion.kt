@@ -23,6 +23,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightInput
 import com.octopus.socialnetwork.ui.theme.spacingSmall
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
@@ -59,6 +60,7 @@ fun InputTextFieldValidation(
             Text(
                 text = placeholder,
                 style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.textSecondaryColor
             )
         },
         leadingIcon = {
@@ -76,7 +78,7 @@ fun InputTextFieldValidation(
             unfocusedBorderColor = if (!state.state.isValid && state.showError) MaterialTheme.colors.error else Color.Gray,
             focusedLabelColor = MaterialTheme.colors.primary,
             errorBorderColor = MaterialTheme.colors.error,
-            textColor = MaterialTheme.colors.textThirdColor
+            textColor = MaterialTheme.colors.textSecondaryColor
         ),
 
         )
