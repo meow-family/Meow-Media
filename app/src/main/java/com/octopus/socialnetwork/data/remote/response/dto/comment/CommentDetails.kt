@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.comment
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 
 data class CommentDetails(
     @SerializedName("comments:post")
@@ -24,5 +24,5 @@ data class CommentDetails(
     @SerializedName("type")
     val type: String,
     @SerializedName("user")
-    val user: UserDTO
+    val user: UserDto
 )

@@ -11,7 +11,7 @@ fun UserNotificationsDTO.asUserNotifications(): UserNotifications {
     )
 }
 
-fun NotificationItemsDTO.asNotificationItems(): NotificationItems {
+fun NotificationItemsDto.asNotificationItems(): NotificationItems {
     return NotificationItems(
         notification = notification?.asNotification() ?: Notification(0,"",0,0,0,"",0L,0 ),
         postOwner = postOwner?.asPoster() ?: PostOwner(0,"",""),
@@ -21,7 +21,7 @@ fun NotificationItemsDTO.asNotificationItems(): NotificationItems {
     )
 }
 
-fun NotificationDTO.asNotification(): Notification {
+fun NotificationDto.asNotification(): Notification {
     return Notification(
         guid = guid ?: 0,
         type = type ?: "",
@@ -34,7 +34,7 @@ fun NotificationDTO.asNotification(): Notification {
     )
 }
 
-fun PostOwnerDTO.asPoster(): PostOwner {
+fun PostOwnerDto.asPoster(): PostOwner {
     return PostOwner(
         userId = userId ?: 0,
         fullName = fullName ?: "",
@@ -42,7 +42,7 @@ fun PostOwnerDTO.asPoster(): PostOwner {
     )
 }
 
-fun GroupDTO.asGroup(): Group {
+fun GroupDto.asGroup(): Group {
     return Group(
         guid = guid ?: 0,
         title = title ?: "",
@@ -50,7 +50,7 @@ fun GroupDTO.asGroup(): Group {
     )
 }
 
-fun UserNotificationsCountDTO.asUserNotificationsCount(): UserNotificationsCount {
+fun UserNotificationsCountDto.asUserNotificationsCount(): UserNotificationsCount {
     return UserNotificationsCount(
         notifications = notifications ?: 0,
         messages = messages ?: 0,
