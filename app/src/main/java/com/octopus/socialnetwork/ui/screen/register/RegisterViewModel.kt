@@ -25,28 +25,34 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun register() {
+        _state.update {
+            it.copy(
+                isLoading = true,
+            )
+        }
+
         viewModelScope.launch {
 
             try {
-                var re =
+                val response =
                     registerUseCase(
-                    "amret",
-                    "ertert",
-                    "karino27fdgfgdfg81@ceosdsfsdfhub.com",
-                    "karino27fdgfgdfg81@ceosdsfsdfhub.com",
-                    "male",
-                    "01/10/2022",
-                    "amusersdfsdfdsfnamesdsd",
-                    "12345dfsdfdsf6"
-                )
+                        "amret",
+                        "ertert",
+                        "karino27fdgfgdfg81@ceosdsfsdfhub.com",
+                        "karino27fdgfgdfg81@ceosdsfsdfhub.com",
+                        "male",
+                        "01/10/2022",
+                        "amusersdfsdfdsfnamesdsd",
+                        "12345dfsdfdsf6"
+                    )
 
-                when (re) {
+                when (response) {
                     is LoginResponse.Success -> {
                         Log.v("ameer", "Success")
                     }
 
                     is LoginResponse.Failure -> {
-                        Log.v("ameer", "Failure ${re.message}")
+                        Log.v("ameer", "Failure ${response.message}")
                     }
                 }
 

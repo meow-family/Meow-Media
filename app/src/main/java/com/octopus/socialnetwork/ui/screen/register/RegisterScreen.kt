@@ -28,6 +28,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
@@ -194,6 +195,10 @@ private fun RegisterContent(
             textAction = stringResource(R.string.login),
             onClick = tryLogin
         )
+    }
+
+    if (state.isLoading) {
+        LoadingDialog()
     }
 
 }
