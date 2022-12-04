@@ -29,6 +29,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
+import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.Red600
@@ -186,11 +187,11 @@ private fun ProfileContent(
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ){
             items(items = state.profilePosts){
-                PostImage(rememberAsyncImagePainter(model = it.postImage))
+                ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
             }
         }
 

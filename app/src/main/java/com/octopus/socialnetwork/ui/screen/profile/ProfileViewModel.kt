@@ -23,8 +23,8 @@ import javax.inject.Inject
 class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailS: FetchUserDetailsUseCase,
     private val  fetchUserFriends: FetchUserFriendsUseCase,
-    private val  fetchUserDetailsCount: FetchUserPostsCountUseCase,
-    private val  fetchUserPostsUseCase: FetchUserPostsUseCase,
+    private val  fetchUserPostsCount: FetchUserPostsCountUseCase,
+    private val  fetchUserPosts: FetchUserPostsUseCase,
     private val repository: SocialRepository
 
     ) : ViewModel(){
@@ -33,18 +33,31 @@ class ProfileViewModel  @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getUserDetails(16, 28)
+        getUserDetails(20, 20)
     }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int){
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriends(currentUserId).total
-                val userPostsCount = fetchUserDetailsCount(currentUserId, visitedUserId)
-                val profilePosts = fetchUserPostsUseCase(currentUserId, visitedUserId).posts.asProfilePostsUiState()
-                val profileUiState = fetchUserDetailS(currentUserId).asProfileUiState(userFriendsCount, userPostsCount, profilePosts)
+                val userPostsCount = fetchUserPostsCount(currentUserId, visitedUserId)
+                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.asProfilePostsUiState()
+                val profileUiState = fetchUserDetailS(currentUserId).asProfileUiState()
 
-                updateUiState(profileUiState)
+                _state.update {
+                    it.copy(
+                        fullName = profileUiState.fullName,
+                        username = profileUiState.username,
+                        friendsCount = userFriendsCount.toString(),
+                        postCount = userPostsCount.toString(),
+                        profileAvatar = profileUiState.profileAvatar,
+                        profileCover = profileUiState.profileCover,
+                        profilePosts = profilePosts
+                    )
+                }
+
+                Log.i("PROFILE_INFO","PROFILE_INFO ${profileUiState.username}")
+                Log.i("PROFILE_INFO","PROFILE_INFO ${profilePosts[0].postId}")
 
                 val result = repository.deleteComment(236,30)
                 Log.i("TESTING", "result: $result")
@@ -53,24 +66,6 @@ class ProfileViewModel  @Inject constructor(
 
         }
     }
-
-    private fun updateUiState(profileUiState: ProfileUiState){
-        _state.update {
-            it.copy(
-                fullName = profileUiState.fullName,
-                username = profileUiState.username,
-                friendsCount = profileUiState.friendsCount,
-                postCount = profileUiState.postCount,
-                profileAvatar = profileUiState.profileAvatar,
-                profileCover = profileUiState.profileCover,
-                profilePosts = profileUiState.profilePosts
-            )
-        }
-
-        Log.i("PROFILE_INFO","PROFILE_INFO ${profileUiState.username}")
-        Log.i("PROFILE_INFO","PROFILE_INFO ${profileUiState.profilePosts[0].postId}")
-    }
-
 
 
     fun onClickFollow(){

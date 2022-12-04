@@ -4,22 +4,19 @@ import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.model.user.UserDetails
 
 
-fun UserDetails.asProfileUiState(friendsCount: Int, postsCount: Int, profilePosts: List<ProfilePostUiState>): ProfileUiState {
+fun UserDetails.asProfileUiState(): ProfileUiState {
     return ProfileUiState(
         fullName = fullName,
         username = username,
-        friendsCount = friendsCount.toString(),
-        postCount = postsCount.toString(),
         profileAvatar = avatar,
         profileCover = coverUrl,
-        profilePosts = profilePosts
     )
 }
 
 fun Post.asProfilePostUiState(): ProfilePostUiState {
     return ProfilePostUiState(
         postId = postId,
-        postImage = postImage
+        postImage = image
     )
 }
 
