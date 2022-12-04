@@ -11,6 +11,7 @@ fun Post.asPostUiState(): PostUiState {
         postImage = image,
         postDescription = description,
         likeCount = totalLikes.toString(),
-        commentCount = totalComments.toString()
+        commentCount = totalComments.toString(),
+        postDate = timeCreated,
     )
 }

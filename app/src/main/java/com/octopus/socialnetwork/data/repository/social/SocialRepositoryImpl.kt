@@ -38,8 +38,8 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): BaseResponse<CheckUserFriendDTO> {
-        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck)
+    ): CheckUserFriendDTO {
+        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
@@ -62,8 +62,8 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun viewNewsFeed(currentUserId: Int): BaseResponse<AllPostDTO> {
-        return socialService.viewNewsFeed(currentUserId)
+    override suspend fun viewNewsFeed(currentUserId: Int): List<PostDTO> {
+        return socialService.viewNewsFeed(currentUserId).result.posts
     }
 
     override suspend fun createPost(
@@ -71,31 +71,31 @@ class SocialRepositoryImpl @Inject constructor(
         posterOwnerId: Int,
         post: String,
         type: String
-    ): BaseResponse<PostDTO> {
-      return socialService.createPost(currentUserId,posterOwnerId,post,type)
+    ): PostDTO {
+      return socialService.createPost(currentUserId,posterOwnerId,post,type).result
     }
 
-    override suspend fun deletePost(postId: Int, postOwnerId: Int): BaseResponse<PostDTO> {
+    override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDTO {
         return socialService.deletePost(
             postId,
             postOwnerId,
-        )
+        ).result
     }
 
     override suspend fun like(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): BaseResponse<LikeDTO> {
-        return socialService.like(currentUserId, contentId, typeContent)
+    ): LikeDTO {
+        return socialService.like(currentUserId, contentId, typeContent).result
     }
 
     override suspend fun unlike(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): BaseResponse<LikeDTO> {
-        return socialService.unlike(currentUserId, contentId, typeContent)
+    ): LikeDTO {
+        return socialService.unlike(currentUserId, contentId, typeContent).result
     }
 //endregion
 
@@ -153,23 +153,23 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         postId: Int,
         type: String
-    ): BaseResponse<CommentDTO> {
-        return socialService.getCommentsList(currentUserId, postId, type)
+    ): CommentDTO {
+        return socialService.getCommentsList(currentUserId, postId, type).result
     }
 
     override suspend fun editComment(
         commentId: Int,
         comment: String
-    ): BaseResponse<CommentEditionDTO> {
-        return socialService.editComment(commentId, comment)
+    ): CommentEditionDTO {
+        return socialService.editComment(commentId, comment).result
     }
 
-    override suspend fun deleteComment(commentId: Int, userId: Int): BaseResponse<Boolean> {
-        return socialService.deleteComment(commentId, userId)
+    override suspend fun deleteComment(commentId: Int, userId: Int): Boolean {
+        return socialService.deleteComment(commentId, userId).result
     }
 
-    override suspend fun getPhoto(photoId: Int, userId: Int): BaseResponse<PhotoDTO> {
-        return socialService.getPhoto(photoId, userId)
+    override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDTO {
+        return socialService.getPhoto(photoId, userId).result
     }
 
     override suspend fun getPhotosListProfileCover(
