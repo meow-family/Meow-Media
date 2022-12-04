@@ -8,6 +8,7 @@
 
     <!-- Sign Up  -->
     <string name="create_account">Create Account</string>
+
     <string name="sig_up_note">Please fill the input below here</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
@@ -39,4 +40,7 @@
     <string name="profile_image">profile image</string>
     <string name="icon_person_add">icon person add</string>
     <string name="icon">icon</string>
+
+    <!-- Profile  -->
+    <string name="save">Save</string>
 </resources>

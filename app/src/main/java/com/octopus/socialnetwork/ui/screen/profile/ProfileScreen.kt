@@ -60,7 +60,8 @@ private fun ProfileContent(
 
         ProfileInformation(
             backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
-            profileImage = rememberAsyncImagePainter(model = state.profileAvatar)
+            profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
+            "Profile Screen"
         )
 
         Column(
