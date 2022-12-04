@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.mapper.posts
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.domain.model.post.Post
 
-fun PostDto.asPost(): Post {
+fun PostDto.toPost(): Post {
     return Post(
         postId = details?.postId ?: 0,
         ownerId = details?.ownerId ?: 0,

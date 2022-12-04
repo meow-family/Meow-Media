@@ -6,7 +6,7 @@ import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfilePostUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 
 
-fun UserDetails.asProfileUiState(): ProfileUiState {
+fun UserDetails.toProfileUiState(): ProfileUiState {
     return ProfileUiState(
         fullName = fullName,
         username = username,
@@ -15,11 +15,11 @@ fun UserDetails.asProfileUiState(): ProfileUiState {
     )
 }
 
-fun Post.asProfilePostUiState(): ProfilePostUiState {
+fun Post.toProfilePostUiState(): ProfilePostUiState {
     return ProfilePostUiState(
         postId = postId,
         postImage = image
     )
 }
 
-fun List<Post>.asProfilePostsUiState(): List<ProfilePostUiState> = this.map { it.asProfilePostUiState() }
+fun List<Post>.toProfilePostsUiState(): List<ProfilePostUiState> = this.map { it.toProfilePostUiState() }

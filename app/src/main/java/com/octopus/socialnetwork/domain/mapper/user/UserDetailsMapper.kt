@@ -3,12 +3,12 @@ package com.octopus.socialnetwork.domain.mapper.user
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.domain.mapper.posts.asPost
+import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.user.UserDetails
 import com.octopus.socialnetwork.domain.model.user.UserFriends
 import com.octopus.socialnetwork.domain.model.user.UserPosts
 
-fun UserDto.asUserDetails(): UserDetails {
+fun UserDto.toUserDetails(): UserDetails {
     return UserDetails(
         id = id ?: 0,
         firstName = firstName ?: "",
@@ -25,16 +25,16 @@ fun UserDto.asUserDetails(): UserDetails {
 }
 
 
-fun UserFriendsDto.asUserFriends(): UserFriends {
+fun UserFriendsDto.toUserFriends(): UserFriends {
     return UserFriends(
         total = total ?: 0,
-        friends = friends?.map { it.asUserDetails() } ?: emptyList()
+        friends = friends?.map { it.toUserDetails() } ?: emptyList()
     )
 }
 
-fun UserPostsDto.asUserPosts(): UserPosts {
+fun UserPostsDto.toUserPosts(): UserPosts {
     return UserPosts(
-        posts = posts?.map { it.asPost() } ?: emptyList(),
+        posts = posts?.map { it.toPost() } ?: emptyList(),
         count = count ?: 0
     )
 }

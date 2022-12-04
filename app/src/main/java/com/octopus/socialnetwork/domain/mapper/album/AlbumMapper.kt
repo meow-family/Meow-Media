@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.domain.model.album.UserAlbum
 
 
 
-fun AlbumDto.asAlbum(): UserAlbum {
+fun AlbumDto.toAlbum(): UserAlbum {
     return UserAlbum(
         albums = emptyList(),
         count = count ?: 0,

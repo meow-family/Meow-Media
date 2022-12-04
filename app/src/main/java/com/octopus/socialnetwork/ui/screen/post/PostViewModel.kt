@@ -3,9 +3,8 @@ package com.octopus.socialnetwork.ui.screen.post
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
+import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +30,7 @@ class PostViewModel @Inject constructor(
     private fun getPostDetails(postId: Int, postOwnerId: Int) {
         viewModelScope.launch {
             try {
-                val post = fetchPostDetails(postId, postOwnerId).asPostUiState()
+                val post = fetchPostDetails(postId, postOwnerId).toPostUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,

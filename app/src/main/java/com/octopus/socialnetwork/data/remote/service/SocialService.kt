@@ -19,7 +19,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNoti
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
-import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
@@ -217,7 +217,7 @@ interface SocialService {
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
         @Query("uguid") userId: Int,
-    ) :BaseResponse<PhotoDTO>
+    ) :BaseResponse<PhotoDto>
 
     @GET("photos_list_profile_cover")
     suspend fun getPhotosListProfileCover(

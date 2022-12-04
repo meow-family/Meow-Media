@@ -11,7 +11,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNoti
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
-import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
@@ -97,7 +97,7 @@ interface SocialRepository {
     suspend fun getPhoto(
         photoId: Int,
          userId: Int,
-    ) : PhotoDTO
+    ) : PhotoDto
 
     suspend fun getPhotosListProfileCover(
         userId: Int,
