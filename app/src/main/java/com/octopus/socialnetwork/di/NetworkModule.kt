@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.SocialService
@@ -38,8 +40,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
+    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory {
+        return GsonConverterFactory.create(gson)
     }
 
     @Singleton
@@ -55,4 +57,9 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return Gson().newBuilder().excludeFieldsWithoutExposeAnnotation().create()
+    }
 }

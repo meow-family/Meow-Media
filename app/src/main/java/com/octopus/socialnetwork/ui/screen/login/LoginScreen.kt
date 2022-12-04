@@ -37,13 +37,12 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.loginUiState.collectAsState()
     LoginContent(
         state = state,
-        onChangeUsernameOrEmail = viewModel::onChangeUsernameOrEmail,
+        onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
         login = viewModel::login,
-        signUp = viewModel::signUp
     )
 }
 
@@ -54,8 +53,6 @@ private fun LoginContent(
     onChangeUsernameOrEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
-    signUp: () -> Unit
-
 ) {
 
     Column(
@@ -115,7 +112,7 @@ private fun LoginContent(
         TextWithAction(
             text = stringResource(R.string.donot_have_account),
             textAction = stringResource(R.string.signup_here),
-            onClick = signUp
+            onClick = {}
         )
 
     }

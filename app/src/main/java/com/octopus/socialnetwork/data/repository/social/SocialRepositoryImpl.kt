@@ -28,18 +28,18 @@ class SocialRepositoryImpl @Inject constructor(
 
     //region user
     override suspend fun getUserDetails(visitedUserId: Int): UserDTO {
-        return socialService.getUserDetails(visitedUserId).result
+        return socialService.getUserDetails(visitedUserId).result!!
     }
 
     override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO {
-        return socialService.getUserFriends(visitedUserId).result
+        return socialService.getUserFriends(visitedUserId).result!!
     }
 
     override suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
     ): CheckUserFriendDTO {
-        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
+        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result!!
     }
 
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
