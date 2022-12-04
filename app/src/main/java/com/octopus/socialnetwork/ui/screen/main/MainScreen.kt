@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.ui.screen.home.HomeScreen
+import com.octopus.socialnetwork.ui.screen.notifications.NotificationsScreen
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
@@ -14,13 +15,14 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 @ExperimentalMaterialApi
 fun SocialNetworkApp() {
     SocialNetworkTheme {
-        Scaffold {
-            //  HomeScreen()
-            //RegisterScreen()
-            HomeScreen()
-            // RegisterScreen()
-//            LoginScreen()
-        }
+        NotificationsScreen()
+//        Scaffold {
+//            //  HomeScreen()
+//            //RegisterScreen()
+//
+//            // RegisterScreen()
+////            LoginScreen()
+//        }
     }
 
 }

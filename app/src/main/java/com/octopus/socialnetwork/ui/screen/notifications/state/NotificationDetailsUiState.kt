@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.notifications.state
 
 data class NotificationDetailsUiState(
-    val guid: Int = 0,
+    val id: Int = 0,
     val type: String = "",
     val posterId: Int = 0,
     val ownerId: Int = 0,

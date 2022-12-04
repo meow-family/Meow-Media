@@ -67,7 +67,3 @@ val LightBlack_86 = Color(0xDC000000)
 val DividerColor = Color(0x211A22E8)
 
 
-
-
-val LightBlack_86 = Color(0xDC000000)
-

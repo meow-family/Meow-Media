@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.MultiTextStyle
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationDetailsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import com.octopus.socialnetwork.ui.theme.Gray700
@@ -45,25 +46,13 @@ fun ItemNotification(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            Row() {
-                Text(
-                    text = "Ali Omar",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = LightBlack_65,
-                )
-                Text(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp),
-                    text = "has started following you has started following you",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = LightBlack_65,
-                )
-            }
+            MultiTextStyle(
+                name = "Ali Omar",
+                title =  "has started following you has started following you",
+            )
 
             Text(
-                text = "9:01am",
+                text = "9:01 Am",
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
                 color = Gray700,
