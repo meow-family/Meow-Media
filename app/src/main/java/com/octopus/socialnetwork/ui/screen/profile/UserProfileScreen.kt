@@ -1,4 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.profile
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,7 +32,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Preview(showSystemUi = true)
 @Composable
-fun ProfileScreen(
+fun UserProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -50,7 +50,6 @@ private fun ProfileContent(
     onClickFollow: () -> Unit,
     onClickMessage: () -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -128,9 +127,9 @@ private fun ProfileContent(
             }
             SpaceVertically8dp()
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                ButtonFollow(R.string.follow_icon_name,onFollow = onClickFollow)
+                ButtonFollow(buttonText = R.string.edit_profile_test, onFollow = onClickFollow)
                 SpaceHorizontally8dp()
-                ButtonMessage(R.drawable.massage,onMessage = onClickMessage)
+                ButtonMessage(imageButton = R.drawable.logo_out,onMessage = onClickMessage)
             }
 
         }
@@ -142,8 +141,8 @@ private fun ProfileContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            items(items = state.profilePosts){
+        ) {
+            items(items = state.profilePosts) {
                 ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
             }
         }

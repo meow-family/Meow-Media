@@ -18,7 +18,7 @@ import com.octopus.socialnetwork.ui.theme.Red600
 import com.octopus.socialnetwork.ui.theme.White50
 
 @Composable
-fun ButtonFollow(onFollow : ()-> Unit) {
+fun ButtonFollow(buttonText:Int,onFollow : ()-> Unit) {
     Button(
         onClick = onFollow,
         modifier = Modifier
@@ -35,7 +35,7 @@ fun ButtonFollow(onFollow : ()-> Unit) {
         )
 
         Text(
-            text = stringResource(R.string.follow_icon_name),
+            text = stringResource(buttonText),
             Modifier.padding(start = 5.dp),
             fontWeight = FontWeight.W400,
             fontFamily = PoppinsTypography.overline.fontFamily,

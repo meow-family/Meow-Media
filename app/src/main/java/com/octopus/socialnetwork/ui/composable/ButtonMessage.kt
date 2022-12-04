@@ -16,7 +16,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.theme.Red600
 
 @Composable
-fun ButtonMessage(onMessage : ()-> Unit) {
+fun ButtonMessage(imageButton:Int,onMessage : ()-> Unit) {
     Button(
         onClick = onMessage,
         modifier = Modifier
@@ -29,7 +29,7 @@ fun ButtonMessage(onMessage : ()-> Unit) {
 
         ) {
         Image(
-            painterResource(id = R.drawable.massage),
+            painterResource(imageButton),
             contentDescription = stringResource(R.string.add_icon_name)
         )
     }
