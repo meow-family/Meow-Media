@@ -1,9 +1,10 @@
-package com.octopus.socialnetwork.ui.screen.register.composable
+package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.ExposedDropdownMenuDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -12,10 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
+@ExperimentalMaterialApi
 fun DropdownMenuApp(
     options: List<String> = listOf("Male", "female"),
     expanded: Boolean,
@@ -47,7 +49,9 @@ fun DropdownMenuApp(
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(onClick = { onClick(selectionOption) }) {
-                    Text(text = selectionOption)
+                    Text(text = selectionOption,
+                        color = MaterialTheme.colors.textSecondaryColor
+                    )
                 }
             }
         }

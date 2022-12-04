@@ -9,6 +9,10 @@ class FetchNewsFeedPostUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke(currentUserId: Int): List<Post> {
-        return socialRepository.viewNewsFeed(currentUserId).map { it.asPost() }
+        return socialRepository.viewNewsFeed(currentUserId).map {
+            it.asPost()
+        }.filter {
+            it.image.startsWith("https://")
+        }
     }
 }

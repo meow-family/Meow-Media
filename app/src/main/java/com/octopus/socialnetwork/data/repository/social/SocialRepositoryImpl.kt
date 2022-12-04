@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.repository.social
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
@@ -166,8 +166,8 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         postId: Int,
         type: String
-    ): CommentDTO {
-        return socialService.getCommentsList(currentUserId, postId, type).result
+    ): List<CommentDetails> {
+        return socialService.getCommentsList(currentUserId, postId, type).result.comments
     }
 
     override suspend fun editComment(

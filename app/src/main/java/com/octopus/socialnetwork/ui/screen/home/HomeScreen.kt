@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.ui.composable.ItemPost
+import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 
@@ -46,6 +47,7 @@ private fun HomeContent(
     onClickShare: () -> Unit,
 ) {
 
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -55,6 +57,10 @@ private fun HomeContent(
         ) {
         TopBar()
 
+        if (state.isLoading) {
+            Loading()
+        }
+
         LazyColumn(
             Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
@@ -62,10 +68,12 @@ private fun HomeContent(
         ) {
 
             items(state.posts) {
-                ItemPost(post = it,
+                ItemPost(
+                    post = it,
                     onLike = onClickLike,
                     onComment = onClickComment,
-                    onShare = onClickShare)
+                    onShare = onClickShare
+                )
             }
         }
     }

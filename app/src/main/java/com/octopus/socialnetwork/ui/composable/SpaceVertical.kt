@@ -5,30 +5,39 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.octopus.socialnetwork.ui.theme.spacing
+import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
+import com.octopus.socialnetwork.ui.theme.spacingLarge
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 
 @Composable
-fun SpaceVertically8dp() {
-    Spacer(modifier = Modifier.height(8.dp))
+fun SpaceVertically4dp(){
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
-fun SpaceVertically10dp() {
+fun SpaceVertically8dp(){
+    Spacer(modifier = Modifier.height(spacingSmall))
+}
+
+@Composable
+fun SpaceVertically10dp(){
     Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Composable
-fun SpaceVertically24dp() {
-    Spacer(modifier = Modifier.height(24.dp))
+fun SpaceVertically24dp(){
+    Spacer(modifier = Modifier.height(spacingLarge))
 }
 
 @Composable
-fun SpacerVertical16() {
-    Spacer(modifier = Modifier.height(16.dp))
+fun SpacerVertical16(){
+    Spacer(modifier = Modifier.height(spacingMedium))
 }
 
 @Composable
 fun SpacerVertical32() {
-    Spacer(modifier = Modifier.height(32.dp))
+    Spacer(modifier = Modifier.height(spacingExtraLarge))
 }
-
