@@ -63,7 +63,7 @@ val light_outline = Color(0xFFBCBCBC)
 val light_grey = Color(0xFFF6F6F6)
 val Transparent = Color(0xA5000000)
 val LightBlack_65 = Color(0xA5000000)
-
-
-
 val LightBlack_86 = Color(0xDC000000)
+val DividerColor = Color(0x211A22E8)
+
+
