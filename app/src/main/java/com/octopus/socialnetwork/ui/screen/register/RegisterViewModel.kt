@@ -1,20 +1,65 @@
 package com.octopus.socialnetwork.ui.screen.register
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
+import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor() : ViewModel() {
+class RegisterViewModel @Inject constructor(
+    private val registerUseCase: RegisterUseCase
+) : ViewModel() {
     private val _state = MutableStateFlow(RegisterUiState())
     val state = _state.asStateFlow()
 
-    fun register() {
+    init {
+        register()
+    }
 
+    fun register() {
+        viewModelScope.launch {
+
+            try {
+                var re =
+                    registerUseCase(
+                    "amret",
+                    "ertert",
+                    "karino27fdgfgdfg81@ceosdsfsdfhub.com",
+                    "karino27fdgfgdfg81@ceosdsfsdfhub.com",
+                    "male",
+                    "01/10/2022",
+                    "amusersdfsdfdsfnamesdsd",
+                    "12345dfsdfdsf6"
+                )
+
+                when (re) {
+                    is LoginResponse.Success -> {
+                        Log.v("ameer", "Success")
+                    }
+
+                    is LoginResponse.Failure -> {
+                        Log.v("ameer", "Failure ${re.message}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = false,
+                        isError = true
+                    )
+                }
+            }
+        }
     }
 
     fun showError() {
