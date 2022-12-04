@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -62,6 +64,8 @@ fun RegisterScreen(
         register = viewModel::register,
         tryLogin = viewModel::tryLogin,
         coroutineScope = coroutineScope,
+        showError = viewModel::showError,
+        onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
         onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
@@ -83,6 +87,8 @@ private fun RegisterContent(
     register: () -> Unit,
     tryLogin: () -> Unit,
     coroutineScope: CoroutineScope,
+    showError: () -> Unit,
+    onSuccessCreateAccount: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
@@ -175,16 +181,23 @@ private fun RegisterContent(
 
         SpacerVertical32()
 
+
         CustomButton(
             text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
             onClick = {
-                if (pagerState.currentPage == 0) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(2)
+                if (state.isValidInputs) {
+                    if (pagerState.currentPage == 0) {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(2)
+                        }
+                    } else {
+                        register()
                     }
+
                 } else {
-                    register()
+                    showError()
                 }
+
             }
         )
 
@@ -209,6 +222,27 @@ private fun RegisterContent(
 
     if (state.isLoading) {
         LoadingDialog()
+    }
+
+    if (state.isSuccess) {
+        AlertDialog(
+            onDismissRequest = {},
+            title = {
+                Text(text = "Create Account")
+            },
+            text = {
+                Text("GOTO email and active account ")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onSuccessCreateAccount()
+                    }) {
+                    Text(stringResource(id = R.string.ok))
+                }
+            },
+
+            )
     }
 
 

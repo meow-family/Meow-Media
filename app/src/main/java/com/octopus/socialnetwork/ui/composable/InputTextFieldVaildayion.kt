@@ -41,14 +41,7 @@ fun InputTextFieldValidation(
         modifier = Modifier
             .height(heightInput)
             .fillMaxWidth()
-            .padding(horizontal = spacingSmall)
-            .onFocusChanged {
-//                    focusState ->
-//                state.onFocusChange(focusState.isFocused)
-//                if (!focusState.isFocused) {
-//                    state.enableShowErrors()
-//                }
-            },
+            .padding(horizontal = spacingSmall),
         shape = Shapes.large,
         value = state.state.text,
         readOnly = isReadOnly,

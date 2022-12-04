@@ -42,6 +42,11 @@ class RegisterViewModel @Inject constructor(
                     is LoginResponse.Success -> {
                         onLoading()
                         onSuccess()
+                        _state.update {
+                            it.copy(
+                                isSuccess = ! _state.value.isSuccess,
+                            )
+                        }
                         Log.v("tester", "Success")
                     }
 
@@ -81,6 +86,14 @@ class RegisterViewModel @Inject constructor(
         _state.update {
             it.copy(
                 failedCreateAccount = !_state.value.failedCreateAccount
+            )
+        }
+    }
+
+    fun onSuccessCreateAccount() {
+        _state.update {
+            it.copy(
+                isSuccess = false
             )
         }
     }
@@ -139,8 +152,10 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeEmail(newValue: String) {
+
         _state.update {
             it.copy(
+                isValidInputs = true,
                 userInfoForm = it.userInfoForm.copy(
                     email = it.userInfoForm.email.copy(
                         text = newValue
