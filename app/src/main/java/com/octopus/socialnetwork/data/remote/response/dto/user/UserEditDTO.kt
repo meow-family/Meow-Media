@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.user
 
 
 import com.google.gson.annotations.SerializedName
-import com.octopus.socialnetwork.data.remote.response.base.Avatar
+import com.octopus.socialnetwork.data.remote.response.dto.Avatar
 
 
 data class UserEditDTO(
