@@ -20,7 +20,7 @@ fun SocialNetworkApp() {
     SocialNetworkTheme {
         Scaffold {
 
-//            HomeScreen()
+            HomeScreen()
 //             RegisterScreen()
 //             LoginScreen()
 //             NotificationsScreen()

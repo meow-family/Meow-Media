@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
@@ -48,6 +47,7 @@ class CommentsViewModel @Inject constructor(
                 }
             }
         }
+    }
 
         fun onChangeTypingComment(newValue: String) {
             _state.update {
@@ -57,5 +57,5 @@ class CommentsViewModel @Inject constructor(
             }
         }
 
-    }
+
 }
