@@ -5,6 +5,8 @@ import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 
 fun Post.asPostUiState(): PostUiState {
     return PostUiState(
+        postId = postId,
+        ownerId = ownerId,
         userName = username,
         fullName = fullName,
         profileAvatar = avatar,
@@ -13,5 +15,6 @@ fun Post.asPostUiState(): PostUiState {
         likeCount = totalLikes.toString(),
         commentCount = totalComments.toString(),
         postDate = timeCreated,
+
     )
 }

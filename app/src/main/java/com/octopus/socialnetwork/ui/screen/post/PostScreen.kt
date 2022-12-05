@@ -27,6 +27,7 @@ fun PostScreen(
     val state by viewModel.state.collectAsState()
     PostContent(
         state = state,
+        onClickBack = { navController.popBackStack() },
         onLike = viewModel::onClickLike,
         onComment = viewModel::onClickComment,
         onShare = viewModel::onClickShare
@@ -36,6 +37,7 @@ fun PostScreen(
 @Composable
 private fun PostContent(
     state: PostMainUiState,
+    onClickBack: () -> Unit,
     onLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,

@@ -5,25 +5,21 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.octopus.socialnetwork.ui.screen.home.HomeScreen
-import com.octopus.socialnetwork.ui.screen.notifications.NotificationsScreen
-import com.octopus.socialnetwork.ui.screen.register.RegisterScreen
+import com.octopus.socialnetwork.SocialNetworkNavGraph
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 fun SocialNetworkApp() {
     SocialNetworkTheme {
         Scaffold {
-
-            HomeScreen()
-//             RegisterScreen()
-//             LoginScreen()
-//             NotificationsScreen()
+        val navController = rememberNavController()
+            SocialNetworkNavGraph(navController = navController)
         }
     }
 
