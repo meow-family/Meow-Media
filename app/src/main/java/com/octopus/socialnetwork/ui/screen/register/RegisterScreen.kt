@@ -56,7 +56,7 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val pagerState = rememberPagerState(0)
+    val pagerState = rememberPagerState(state.initPage)
     val coroutineScope = rememberCoroutineScope()
 
     RegisterContent(
@@ -183,23 +183,22 @@ private fun RegisterContent(
 
 
         CustomButton(
-            text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
-            onClick = {
-                if (state.isValidInputs) {
-                    if (pagerState.currentPage == 0) {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
-                    } else {
-                        register()
+            text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
+        ) {
+            if (state.isValidInputs) {
+                if (pagerState.currentPage == state.initPage) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(2)
                     }
-
                 } else {
-                    showError()
+                    register()
                 }
 
+            } else {
+                showError()
             }
-        )
+
+        }
 
     }
 
