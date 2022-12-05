@@ -9,10 +9,11 @@ import javax.inject.Inject
 
 class MessagingRepositoryImpl @Inject constructor(
     private val service: SocialService,
-) : MessagingRepository {
+): MessagingRepository {
+
 
     override suspend fun getRecentMassagesList(messageReceiver: Int): RecentMessagesDTO {
-        return service.getMessagesListRecent(messageReceiver).result
+       return service.getMessagesListRecent(messageReceiver).result
     }
 
     override suspend fun sendMessage(

@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import retrofit2.Response
 
 interface AuthenticationRepository {
-    suspend fun login(username: String, password: String): BaseResponse<AuthResponse>
+    suspend fun login(username: String, password: String): AuthResponse
 
     suspend fun signup(
         firstName: String,

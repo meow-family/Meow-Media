@@ -33,12 +33,9 @@ class LoginViewModel @Inject constructor(
     fun login(){
         viewModelScope.launch {
             val loginResponse = loginUseCase(_loginUiState.value.username, _loginUiState.value.password)
-            if (loginResponse is LoginResponse.Success) {
-                Log.i("TESTING","success!")
-            } else if (loginResponse is LoginResponse.Failure){
-                Log.i("TESTING", "error $loginResponse")
+
+            Log.i("TESTING",loginResponse.toString())
             }
-        }
     }
     fun signUp(){
         //
