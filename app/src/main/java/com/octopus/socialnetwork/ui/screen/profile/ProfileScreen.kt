@@ -1,4 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.profile
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
@@ -29,9 +31,10 @@ import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -141,8 +144,8 @@ private fun ProfileContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            items(items = state.profilePosts){
+        ) {
+            items(items = state.profilePosts) {
                 ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
             }
         }

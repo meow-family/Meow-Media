@@ -14,13 +14,11 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 @ExperimentalMaterialApi
 fun SocialNetworkApp() {
     SocialNetworkTheme {
-        Scaffold {
-            //  HomeScreen()
-            //RegisterScreen()
-            HomeScreen()
-            // RegisterScreen()
+        //  HomeScreen()
+        //RegisterScreen()
+//            HomeScreen()
+        // RegisterScreen()
 //            LoginScreen()
-        }
     }
 
 }
@@ -32,8 +30,6 @@ fun SocialNetworkApp() {
 @ExperimentalMaterialApi
 fun SocialNetworkAppPreview() {
     SocialNetworkTheme {
-
         SocialNetworkApp()
-
     }
 }
