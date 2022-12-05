@@ -217,9 +217,9 @@ interface SocialService {
     ): BaseResponse<MessageListDto>
 
     /**
-     * Comments
+     * Comments ....
+     * Region comment
      **/
-    //region comment
     @GET("comments_list")
     suspend fun getCommentsList(
         @Query("uguid") currentUserId: Int,
@@ -240,9 +240,9 @@ interface SocialService {
     ): BaseResponse<Boolean>
 
     /**
-     * Photos
+     * Photos ....
+     * Region photo
      **/
-    //region photo
     @GET("photos_view")
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
