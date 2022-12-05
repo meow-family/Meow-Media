@@ -33,5 +33,4 @@ abstract class RepositoryModule {
     abstract fun bindMessagingRepository(
         messagingRepositoryImpl: MessagingRepositoryImpl,
     ): MessagingRepository
-
 }

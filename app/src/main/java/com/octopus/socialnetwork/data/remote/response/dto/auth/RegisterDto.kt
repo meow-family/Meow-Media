@@ -2,7 +2,6 @@ package com.octopus.socialnetwork.data.remote.response.dto.auth
 
 import com.google.gson.annotations.SerializedName
 
-
 data class RegisterDto(
     @SerializedName("fullname")
     val fullname: String?,

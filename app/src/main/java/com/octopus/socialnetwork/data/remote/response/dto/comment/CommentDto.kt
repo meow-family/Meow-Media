@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.data.remote.response.dto.comment
 
-
 import com.google.gson.annotations.SerializedName
 
 data class CommentDto(

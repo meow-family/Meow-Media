@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.local.user
+package com.octopus.socialnetwork.data.local.dao
 
 import androidx.room.Dao
 

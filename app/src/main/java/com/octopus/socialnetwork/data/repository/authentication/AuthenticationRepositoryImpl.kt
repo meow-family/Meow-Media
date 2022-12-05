@@ -9,6 +9,7 @@ import javax.inject.Inject
 class AuthenticationRepositoryImpl @Inject constructor(
     private val service: SocialService,
 ) : AuthenticationRepository {
+
     override suspend fun login(username: String, password: String): BaseResponse<AuthResponse> {
         return service.login(username, password)
     }
@@ -23,10 +24,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
         userName: String,
         password: String,
     ): BaseResponse<RegisterDto> {
-
         return service.register(
             firstName, lastName, email, reEmail, gender, birthDate, userName, password
         )
-
     }
 }

@@ -14,5 +14,4 @@ data class AllPostDto(
     val viewer_is_friend: Boolean,
     @SerializedName("user")
     val user: UserDto
-
 )

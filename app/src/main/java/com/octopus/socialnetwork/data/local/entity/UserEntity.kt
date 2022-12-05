@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.local.user
+package com.octopus.socialnetwork.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

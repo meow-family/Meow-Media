@@ -1,8 +1,8 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.UnreadMessagesDto
 
 interface MessagingRepository {

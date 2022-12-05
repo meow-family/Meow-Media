@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.data.remote.response.dto.user
-import com.google.gson.annotations.SerializedName
 
+import com.google.gson.annotations.SerializedName
 
 data class CheckUserFriendDto(
     @SerializedName("is_friend")

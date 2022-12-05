@@ -54,5 +54,4 @@ object NetworkModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
-
 }
