@@ -15,7 +15,6 @@ fun Icons(imageVector: ImageVector,tint: Color ,modifier: Modifier) {
         contentDescription = stringResource(R.string.icon),
         tint =tint,
         modifier = modifier
-
     )
 
 }

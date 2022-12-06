@@ -6,6 +6,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_lis
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messages.RecentMessagesDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_message.UnreadMessagesDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
@@ -45,8 +49,35 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
         return socialService.getUserPosts(visitedUserId, currentUserId).result
     }
-
     //endregion
+
+    //region message
+    override suspend fun getMessagesListRecent(visitedUserId: Int): RecentMessagesDTO {
+        return socialService.getMessagesListRecent(visitedUserId).result
+    }
+
+    override suspend fun sendMessage(
+        messageSenderId: Int,
+        messageReceiverId: Int,
+        message: String
+    ): SendMessageDTO {
+        return socialService.sendMessage(messageSenderId, messageReceiverId, message).result
+    }
+
+    override suspend fun unreadMessages(
+        messageSenderId: Int,
+        messageReceiverId: Int,
+        markAllRead: String
+    ): UnreadMessagesDTO {
+        return socialService.unreadMessages(messageSenderId, messageReceiverId, markAllRead).result
+    }
+
+    override suspend fun getMessagesList(visitedUserId: Int, currentUserId: Int): MessageListDTO {
+        return socialService.getMessagesList(visitedUserId, currentUserId).result
+    }
+    //endregion
+
+
     //region post
     override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO {
         return socialService.viewPost(postId, postOwnerId).result
@@ -72,7 +103,7 @@ class SocialRepositoryImpl @Inject constructor(
         post: String,
         type: String
     ): PostDTO {
-      return socialService.createPost(currentUserId,posterOwnerId,post,type).result
+        return socialService.createPost(currentUserId, posterOwnerId, post, type).result
     }
 
     override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDTO {
@@ -190,14 +221,14 @@ class SocialRepositoryImpl @Inject constructor(
         photoId: Int,
         userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
-        return socialService.deleteCoverPhoto(photoId,userId)
+        return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     override suspend fun deleteProfileCover(
         photoId: Int,
         userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
-        return socialService.deleteCoverPhoto(photoId,userId)
+        return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     //endregion

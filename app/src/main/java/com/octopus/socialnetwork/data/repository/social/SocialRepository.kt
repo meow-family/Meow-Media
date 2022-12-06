@@ -6,6 +6,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_lis
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.message_send.SendMessageDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.recent_messages.RecentMessagesDTO
+import com.octopus.socialnetwork.data.remote.response.dto.messages.unread_message.UnreadMessagesDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
@@ -19,6 +23,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDT
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import retrofit2.http.Query
 
 interface SocialRepository {
 
@@ -31,6 +36,25 @@ interface SocialRepository {
     ): CheckUserFriendDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO
+    //endregion
+
+    //region message
+    suspend fun getMessagesListRecent(userId: Int): RecentMessagesDTO
+
+    suspend fun sendMessage(
+        messageSenderId: Int,
+        messageReceiverId: Int,
+        message: String
+    ): SendMessageDTO
+
+    suspend fun unreadMessages(
+        messageSenderId: Int,
+        messageReceiverId: Int,
+        markAllRead: String
+    ): UnreadMessagesDTO
+
+    suspend fun getMessagesList(messageSenderId: Int, messageReceiverId: Int): MessageListDTO
+
     //endregion
 
     //region post
@@ -96,8 +120,8 @@ interface SocialRepository {
     //region photo
     suspend fun getPhoto(
         photoId: Int,
-         userId: Int,
-    ) :PhotoDTO
+        userId: Int,
+    ): PhotoDTO
 
     suspend fun getPhotosListProfileCover(
         userId: Int,
@@ -105,19 +129,19 @@ interface SocialRepository {
     ): BaseResponse<List<Photo>>
 
     suspend fun getPhotoViewProfile(
-         photoId: Int,
-         userId: Int,
-    ) : BaseResponse<UserProfileDTO>
+        photoId: Int,
+        userId: Int,
+    ): BaseResponse<UserProfileDTO>
 
     suspend fun deletePhotoProfile(
         photoId: Int,
         userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoDeletion>
 
     suspend fun deleteProfileCover(
         photoId: Int,
         userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 
