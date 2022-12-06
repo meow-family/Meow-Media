@@ -32,14 +32,15 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .size(width = 0.dp, height = 38.dp),
+            .size(width = 0.dp, height = 48.dp),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
                 contentDescription = "",
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(24.dp),
+                tint = Color.Gray
             )
         },
         trailingIcon = {
@@ -62,12 +63,13 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
         },
         singleLine = true,
         shape = RoundedCornerShape(24.dp),
+
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = Color(0xFFE5E5E5),
+            backgroundColor = Color.LightGray,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
