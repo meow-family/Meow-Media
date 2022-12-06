@@ -209,6 +209,13 @@ interface SocialService {
         @Query("id") commentId: Int,
         @Query("guid") userId: Int,
     ): BaseResponse<Boolean>
+
+    @POST("comment_add")
+    suspend fun addComment(
+        @Query("subject_guid") subject_guid: Int,
+        @Query("comment") comment: String,
+        @Query("uguid") userId: Int
+    ) : BaseResponse<Boolean>
     //endregion
 
     //region photo
@@ -216,7 +223,7 @@ interface SocialService {
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
         @Query("uguid") userId: Int,
-    ) :BaseResponse<PhotoDTO>
+    ): BaseResponse<PhotoDTO>
 
     @GET("photos_list_profile_cover")
     suspend fun getPhotosListProfileCover(
@@ -226,21 +233,21 @@ interface SocialService {
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(
-      @Query("photo_guid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<UserProfileDTO>
+        @Query("photo_guid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<UserProfileDTO>
 
     @GET("photos_delete_profile")
     suspend fun deletePhotoProfile(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
     @GET("photos_delete_cover")
     suspend fun deleteCoverPhoto(
-      @Query("photoid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<ProfilePhotoDeletion>
+        @Query("photoid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 
