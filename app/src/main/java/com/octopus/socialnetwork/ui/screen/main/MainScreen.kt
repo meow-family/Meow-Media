@@ -8,6 +8,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -35,24 +36,24 @@ fun SocialNetworkApp() {
                 BottomNavigation(
                     items = listOf(
                         BottomNavItem(
-                            name = "Home",
+                            name = stringResource(R.string.home),
                             route = "home",
-                            icon = painterResource(id = R.drawable.home),
+                            icon = painterResource(R.drawable.home),
                         ),
                         BottomNavItem(
-                            name = "Search",
+                            name = stringResource(R.string.search),
                             route = "on_boarding",
-                            icon = painterResource(id = R.drawable.search),
+                            icon = painterResource(R.drawable.search),
                         ),
                         BottomNavItem(
-                            name = "Chat",
+                            name = stringResource(R.string.chat),
                             route = "login",
-                            icon = painterResource(id = R.drawable.chat),
+                            icon = painterResource(R.drawable.chat),
                         ),
                         BottomNavItem(
-                            name = "Profile",
+                            name = stringResource(R.string.profile),
                             route = "profile",
-                            icon = painterResource(id = R.drawable.profile),
+                            icon = painterResource(R.drawable.profile),
                         ),
                     ),
                     navController = navController,
