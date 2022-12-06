@@ -30,7 +30,7 @@
     <string name="friends">Friends</string>
     <string name="posts">Posts</string>
     <string name="follow_icon_name">Follow</string>
-    <string name="following_icon_name">Following</string>
+    <string name="requested_icon_name">Requested</string>
     <string name="add_icon_name">add icon</string>
     <string name="share_icon">Share Icon</string>
     <string name="comment_icon">Comment Icon</string>

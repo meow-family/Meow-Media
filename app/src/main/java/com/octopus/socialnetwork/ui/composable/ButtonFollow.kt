@@ -7,7 +7,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,10 +24,8 @@ fun ButtonFollow(onFollow: () -> Unit) {
     var selected by remember { mutableStateOf(false) }
     val backgroundColor = if (selected) White50 else Red600
     val textColor = if (selected) Red600 else White50
-    val text = if (selected) stringResource(id = R.string.following_icon_name)
+    val text = if (selected) stringResource(id = R.string.requested_icon_name)
     else stringResource(id = R.string.follow_icon_name)
-    val painterRes = if (selected) null else R.drawable.icon_person_add_white
-
     Button(
         onClick = {
             selected = !selected
@@ -39,9 +39,9 @@ fun ButtonFollow(onFollow: () -> Unit) {
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
     ) {
         Image(
-            painterResource(id = painterRes ?: R.drawable.icon_person_add_white),
+            painterResource(id =R.drawable.icon_person_add_white),
             contentDescription = stringResource(R.string.icon_person_add),
-            modifier = Modifier.size(14.dp)
+            modifier = Modifier.size(14.dp).alpha(if (selected) 0f else 1f)
         )
 
         Text(
