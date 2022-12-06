@@ -3,25 +3,25 @@ package com.octopus.socialnetwork.domain.mapper.notifications
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.*
 import com.octopus.socialnetwork.domain.model.notifications.*
 
-fun UserNotificationsDTO.asUserNotifications(): UserNotifications {
+fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
     return UserNotifications(
-        notifications = list?.map { it.asNotificationItems() } ?: emptyList(),
+        notifications = list?.map { it.toNotificationItems() } ?: emptyList(),
         count = count ?: 0,
         offset = offset ?: 0
     )
 }
 
-fun NotificationItemsDTO.asNotificationItems(): NotificationItems {
+fun NotificationItemsDto.toNotificationItems(): NotificationItems {
     return NotificationItems(
-        notification = notification?.asNotification() ?: Notification(0,"",0,0,0,"",0L,0 ),
-        postOwner = postOwner?.asPoster() ?: PostOwner(0,"",""),
+        notification = notification?.toNotification() ?: Notification(0,"",0,0,0,"",0L,0 ),
+        postOwner = postOwner?.toPoster() ?: PostOwner(0,"",""),
         entity = entity ?: false,
         post = post ?: false,
-        group = group?.asGroup() ?: Group(0,"",false),
+        group = group?.toGroup() ?: Group(0,"",false),
     )
 }
 
-fun NotificationDTO.asNotification(): Notification {
+fun NotificationDto.toNotification(): Notification {
     return Notification(
         guid = guid ?: 0,
         type = type ?: "",
@@ -34,7 +34,7 @@ fun NotificationDTO.asNotification(): Notification {
     )
 }
 
-fun PostOwnerDTO.asPoster(): PostOwner {
+fun PostOwnerDto.toPoster(): PostOwner {
     return PostOwner(
         userId = userId ?: 0,
         fullName = fullName ?: "",
@@ -42,7 +42,7 @@ fun PostOwnerDTO.asPoster(): PostOwner {
     )
 }
 
-fun GroupDTO.asGroup(): Group {
+fun GroupDto.toGroup(): Group {
     return Group(
         guid = guid ?: 0,
         title = title ?: "",
@@ -50,7 +50,7 @@ fun GroupDTO.asGroup(): Group {
     )
 }
 
-fun UserNotificationsCountDTO.asUserNotificationsCount(): UserNotificationsCount {
+fun UserNotificationsCountDto.toUserNotificationsCount(): UserNotificationsCount {
     return UserNotificationsCount(
         notifications = notifications ?: 0,
         messages = messages ?: 0,

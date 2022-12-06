@@ -2,23 +2,23 @@ package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
-import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
-import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDTO
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.delete_photo.ProfilePhotoDeletion
-import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.Photo
-import com.octopus.socialnetwork.data.remote.response.dto.photo.photoDetails.PhotoDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.photo_profile.UserProfileDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDTO
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
+import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import javax.inject.Inject
 
@@ -27,42 +27,53 @@ class SocialRepositoryImpl @Inject constructor(
 ) : SocialRepository {
 
     //region user
-    override suspend fun getUserDetails(visitedUserId: Int): UserDTO {
+    override suspend fun getUserDetails(visitedUserId: Int): UserDto {
         return socialService.getUserDetails(visitedUserId).result
     }
 
-    override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDTO {
+    override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto {
         return socialService.getUserFriends(visitedUserId).result
     }
 
     override suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): CheckUserFriendDTO {
+    ): CheckUserFriendDto {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 
-    override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDTO {
+    override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto {
         return socialService.getUserPosts(visitedUserId, currentUserId).result
+    }
+
+    override suspend fun editUser(
+        currentUserId: Int,
+        firstName: String,
+        lastName: String,
+        email: String,
+        currentPassword: String,
+        newPassword: String
+    ): UserDto {
+        return socialService.editUser(currentUserId, firstName, lastName, email, currentPassword, newPassword).result
     }
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDTO {
+    override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto {
         return socialService.viewPost(postId, postOwnerId).result
     }
 
     override suspend fun viewUserPosts(
         visitedUserId: Int,
         currentUserId: Int
-    ): BaseResponse<AllPostDTO> {
+    ): BaseResponse<AllPostDto> {
         return socialService.viewUserPosts(
             visitedUserId,
             currentUserId,
         )
     }
 
-    override suspend fun viewNewsFeed(currentUserId: Int): List<PostDTO> {
+    override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
         return socialService.viewNewsFeed(currentUserId).result.posts
     }
 
@@ -71,11 +82,11 @@ class SocialRepositoryImpl @Inject constructor(
         posterOwnerId: Int,
         post: String,
         type: String
-    ): PostDTO {
+    ): PostDto {
       return socialService.createPost(currentUserId,posterOwnerId,post,type).result
     }
 
-    override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDTO {
+    override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto {
         return socialService.deletePost(
             postId,
             postOwnerId,
@@ -86,7 +97,7 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): LikeDTO {
+    ): LikeDto {
         return socialService.like(currentUserId, contentId, typeContent).result
     }
 
@@ -94,7 +105,7 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         contentId: Int,
         typeContent: String
-    ): LikeDTO {
+    ): LikeDto {
         return socialService.unlike(currentUserId, contentId, typeContent).result
     }
 //endregion
@@ -105,7 +116,7 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getAlbumsUser(albumOwnerUserId, viewerUserId).result
     }
 
-    override suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDTO {
+    override suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDto {
         return socialService.getAlbumPhotos(albumId).result
     }
 
@@ -137,11 +148,11 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun getUserNotificationsCount(
         currentUserId: Int,
         types: String?
-    ): UserNotificationsCountDTO {
+    ): UserNotificationsCountDto {
         return socialService.getUserNotificationsCount(currentUserId, types ?: "").result
     }
 
-    override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDTO {
+    override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
@@ -153,14 +164,14 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         postId: Int,
         type: String
-    ): CommentDTO {
-        return socialService.getCommentsList(currentUserId, postId, type).result
+    ): List<CommentDetails> {
+        return socialService.getCommentsList(currentUserId, postId, type).result.comments
     }
 
     override suspend fun editComment(
         commentId: Int,
         comment: String
-    ): CommentEditionDTO {
+    ): CommentEditionDto {
         return socialService.editComment(commentId, comment).result
     }
 
@@ -168,7 +179,7 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.deleteComment(commentId, userId).result
     }
 
-    override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDTO {
+    override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto {
         return socialService.getPhoto(photoId, userId).result
     }
 
@@ -182,7 +193,7 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun getPhotoViewProfile(
         photoId: Int,
         userId: Int
-    ): BaseResponse<UserProfileDTO> {
+    ): BaseResponse<UserProfileDto> {
         return socialService.getPhotoViewProfile(photoId, userId)
     }
 

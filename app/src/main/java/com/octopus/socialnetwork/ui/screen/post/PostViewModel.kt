@@ -7,7 +7,6 @@ import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.navigate.PostScreenArgs
 import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

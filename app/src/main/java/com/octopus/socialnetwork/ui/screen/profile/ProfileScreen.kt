@@ -72,6 +72,10 @@ private fun ProfileContent(
                         .background(color = Color.White)
                 ) {
 
+        ProfileInformation(
+            backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
+            profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
+        )
                     ProfileInformation(
                         backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
                         profileImage = rememberAsyncImagePainter(model = state.profileAvatar)

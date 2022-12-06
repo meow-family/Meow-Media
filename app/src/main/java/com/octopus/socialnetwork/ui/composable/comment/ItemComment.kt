@@ -93,7 +93,7 @@ fun ItemComment(
             )
         }
 
-        Text(text = commentDetails.likeCounter,
+        Text(text = commentDetails.likeCounter.toString(),
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
@@ -117,7 +117,7 @@ fun ItemComment(
                     start.linkTo(likeCounter.end, 24.dp)
                 })
 
-        Text(text = commentDetails.timeAgo,
+        Text(text = commentDetails.timeCreated.toString(),
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,

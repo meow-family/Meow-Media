@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.octopus.socialnetwork.ui.theme.spacing
+import com.octopus.socialnetwork.ui.theme.spacingLarge
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
@@ -22,4 +23,9 @@ fun SpaceHorizontally8dp(){
 @Composable
 fun SpaceHorizontally16dp(){
     Spacer(modifier = Modifier.width(spacingMedium))
+}
+
+@Composable
+fun SpaceHorizontally24dp() {
+    Spacer(modifier = Modifier.width(spacingLarge))
 }

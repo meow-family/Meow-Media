@@ -8,7 +8,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.ui.navigate.SocialNetworkNavGraph
-import com.octopus.socialnetwork.ui.screen.home.HomeScreen
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
