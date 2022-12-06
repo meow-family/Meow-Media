@@ -6,11 +6,12 @@ import androidx.navigation.compose.NavHost
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
 import com.octopus.socialnetwork.ui.screen.login.loginRoute
 import com.octopus.socialnetwork.ui.screen.onboarding.onBoardingRoute
+import com.octopus.socialnetwork.ui.screen.post.postRoute
 import com.octopus.socialnetwork.ui.screen.profile.profileRoute
 
 @Composable
 fun SocialNetworkNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "homeScreen") {
+    NavHost(navController = navController, startDestination = "home") {
         homeRoute(navController)
         onBoardingRoute(navController)
         loginRoute(navController)

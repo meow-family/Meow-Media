@@ -49,5 +49,6 @@
     <string name="icon_description"> %1$s Icon </string>
     <string name="failed_create_account">Failed create account username or email is current used. Change and try again.</string>
     <string name="ok">OK</string>
+    <string name="add">Add</string>
 
 </resources>

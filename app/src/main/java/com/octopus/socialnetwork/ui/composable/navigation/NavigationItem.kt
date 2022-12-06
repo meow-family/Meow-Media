@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.navigation
+package com.octopus.socialnetwork.ui.composable.navigation
 
 
 import androidx.compose.ui.graphics.painter.Painter

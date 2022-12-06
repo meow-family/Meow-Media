@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.navigation
+package com.octopus.socialnetwork.ui.composable.navigation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
