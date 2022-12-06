@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -53,6 +54,7 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 fun RegisterScreen(
+    navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -255,7 +257,7 @@ private fun RegisterContent(
 fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
-            RegisterScreen()
+
         }
     }
 }
