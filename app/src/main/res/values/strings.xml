@@ -50,6 +50,7 @@
     <string name="icon_description"> %1$s Icon </string>
     <string name="failed_create_account">Failed create account username or email is current used. Change and try again.</string>
     <string name="ok">OK</string>
+    <string name="add">Add</string>
 
 
     <!-- Profile  -->
@@ -57,5 +58,9 @@
     <string name="new_password">New Password</string>
     <string name="current_password">Current Password</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Profile</string>
     <string name="MessageScreenUpbar">Message</string>
 </resources>
