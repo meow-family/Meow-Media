@@ -1,4 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.profile
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -31,9 +32,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Preview(showSystemUi = true)
 @Composable
-fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
-) {
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
 
     val state by viewModel.state.collectAsState()
     ProfileContent(
@@ -142,8 +141,8 @@ private fun ProfileContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            items(items = state.profilePosts){
+        ) {
+            items(items = state.profilePosts) {
                 ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
             }
         }
