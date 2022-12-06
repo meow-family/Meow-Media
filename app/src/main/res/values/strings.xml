@@ -39,11 +39,15 @@
     <string name="profile_image">profile image</string>
     <string name="icon_person_add">icon person add</string>
     <string name="icon">icon</string>
+    <string name="notification">Notification</string>
+
     <string name="image_register">Image register</string>
 
     <string name="is_required">Is required</string>
     <string name="password_short">Password is too short - must be at least 6 characters</string>
     <string name="invalid_email">Invalid email</string>
     <string name="icon_description"> %1$s Icon </string>
+    <string name="failed_create_account">Failed create account username or email is current used. Change and try again.</string>
+    <string name="ok">OK</string>
 
 </resources>

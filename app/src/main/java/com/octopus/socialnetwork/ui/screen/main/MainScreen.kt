@@ -1,24 +1,26 @@
 package com.octopus.socialnetwork.ui.screen.main
 
+import android.annotation.SuppressLint
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.octopus.socialnetwork.ui.screen.home.HomeScreen
+import com.octopus.socialnetwork.SocialNetworkNavGraph
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 fun SocialNetworkApp() {
     SocialNetworkTheme {
-        //  HomeScreen()
-        //RegisterScreen()
-//            HomeScreen()
-        // RegisterScreen()
-//            LoginScreen()
+        Scaffold {
+        val navController = rememberNavController()
+            SocialNetworkNavGraph(navController = navController)
+        }
     }
 
 }
@@ -30,6 +32,8 @@ fun SocialNetworkApp() {
 @ExperimentalMaterialApi
 fun SocialNetworkAppPreview() {
     SocialNetworkTheme {
+
         SocialNetworkApp()
+
     }
 }

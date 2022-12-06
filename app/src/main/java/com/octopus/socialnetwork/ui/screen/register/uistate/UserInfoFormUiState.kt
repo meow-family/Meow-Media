@@ -9,5 +9,5 @@ data class UserInfoFormUiState(
     var firstName: TextFieldUiState = TextFieldUiState(),
     var lastName: TextFieldUiState = TextFieldUiState(),
     var gender: TextFieldUiState = TextFieldUiState(),
-    var birthday: TextFieldUiState = TextFieldUiState(),
+    var birthDate: TextFieldUiState = TextFieldUiState(),
 )

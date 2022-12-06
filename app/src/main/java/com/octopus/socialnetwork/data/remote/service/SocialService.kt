@@ -1,11 +1,12 @@
 package com.octopus.socialnetwork.data.remote.service
 
+import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
-import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
+import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
@@ -36,7 +37,7 @@ interface SocialService {
     ): BaseResponse<AuthResponse>
 
     @POST("user_add")
-    suspend fun signup(
+    suspend fun register(
         @Query("firstname") firstName: String,
         @Query("lastname") lastName: String,
         @Query("email") email: String,
@@ -45,7 +46,7 @@ interface SocialService {
         @Query("birthdate") birthDate: String,
         @Query("username") userName: String,
         @Query("password") password: String,
-    ): BaseResponse<AuthResponse>
+    ): BaseResponse<RegisterDto>
 
     @GET("user_details")
     suspend fun getUserDetails(

@@ -10,10 +10,11 @@ import com.octopus.socialnetwork.ui.screen.profile.profileRoute
 
 @Composable
 fun SocialNetworkNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "homeScreen") {
         homeRoute(navController)
         onBoardingRoute(navController)
         loginRoute(navController)
         profileRoute(navController)
+        postRoute(navController)
     }
 }

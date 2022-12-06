@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
@@ -20,11 +21,13 @@ import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 @Composable
 fun PostScreen(
+    navController: NavController,
     viewModel: PostViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     PostContent(
         state = state,
+        onClickBack = { navController.popBackStack() },
         onLike = viewModel::onClickLike,
         onComment = viewModel::onClickComment,
         onShare = viewModel::onClickShare
@@ -34,6 +37,7 @@ fun PostScreen(
 @Composable
 private fun PostContent(
     state: PostMainUiState,
+    onClickBack: () -> Unit,
     onLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
@@ -72,7 +76,7 @@ private fun PostContent(
                 profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),
                 userName = state.postDetails.userName,
                 fullName = state.postDetails.fullName,
-                postDescription = state.postDetails.postDescription
+                postDescription = state.postDetails.postDescription,
             )
         }
     }
