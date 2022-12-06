@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.TextWithAction
@@ -20,6 +21,7 @@ import com.octopus.socialnetwork.ui.composable.TextWithAction
 
 @Composable
 fun OnBoardingScreen(
+    navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel()
 ) {
 
@@ -69,8 +71,3 @@ private fun OnBoardingContent(
 
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun OnBoardingPreview() {
-    OnBoardingScreen()
-}

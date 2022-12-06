@@ -10,6 +10,7 @@ val zero: Dp = 0.dp
 
 val spacing: Dp = 4.dp
 val spacingSmall: Dp = 8.dp
+val spacingXSmall: Dp = 12.dp
 val spacingMedium: Dp = 16.dp
 val spacingLarge: Dp = 24.dp
 val spacingExtraLarge: Dp = 32.dp
@@ -25,3 +26,5 @@ val fontSizesTitleExtra: TextUnit = 32.sp
 
 val heightInput: Dp = 48.dp
 val heightDefaultButton: Dp = 48.dp
+val heightBottomAppBar: Dp = 72.dp
+val sizeDefaultIcon: Dp = 24.dp

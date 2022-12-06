@@ -96,10 +96,13 @@ dependencies {
 
     // ViewPager
     implementation 'com.google.accompanist:accompanist-pager:0.25.1'
-//Material Icons
+    //Material Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+
+    //navigation-compose
+    implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
 
 
 }
