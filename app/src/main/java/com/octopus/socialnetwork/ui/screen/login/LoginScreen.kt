@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.InputTextField
@@ -31,9 +32,10 @@ import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun LoginScreen(
+    navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
