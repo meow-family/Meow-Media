@@ -10,7 +10,8 @@ data class ProfileUiState(
     val postCount: String = "0",
     val profileAvatar: String = "",
     val profileCover: String = "",
-    val profilePosts: List<ProfilePostUiState> = emptyList()
+    val profilePosts: List<ProfilePostUiState> = emptyList(),
+    val isFriend: Boolean = false
 )
 
 

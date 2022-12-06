@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
-import com.octopus.socialnetwork.ui.composable.profile.ButtonFollow
+import com.octopus.socialnetwork.ui.composable.ButtonFollow
 import com.octopus.socialnetwork.ui.composable.profile.ButtonMessage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem

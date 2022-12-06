@@ -6,11 +6,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.octopus.socialnetwork.ui.screen.home.HomeScreen
-import com.octopus.socialnetwork.ui.screen.notifications.NotificationsScreen
-import com.octopus.socialnetwork.ui.screen.register.RegisterScreen
+import com.octopus.socialnetwork.ui.screen.profile.ProfileScreen
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
-
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -19,8 +16,8 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 fun SocialNetworkApp() {
     SocialNetworkTheme {
         Scaffold {
-
-            HomeScreen()
+            ProfileScreen()
+            //HomeScreen()
 //             RegisterScreen()
 //             LoginScreen()
 //             NotificationsScreen()
