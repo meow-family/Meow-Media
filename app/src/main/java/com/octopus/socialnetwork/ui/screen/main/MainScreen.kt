@@ -34,17 +34,17 @@ fun SocialNetworkApp() {
             floatingActionButtonPosition = FabPosition.Center,
             bottomBar = {
                 BottomNavigation(
-                    items = listOf(
-                        BottomNavItem(
-                            name = stringResource(R.string.home),
-                            route = "home",
-                            icon = painterResource(R.drawable.home),
-                        ),
-                        BottomNavItem(
-                            name = stringResource(R.string.search),
-                            route = "on_boarding",
-                            icon = painterResource(R.drawable.search),
-                        ),
+                     listOf(
+                         BottomNavItem(
+                             name = stringResource(R.string.home),
+                             route = "home",
+                             icon = painterResource(R.drawable.home),
+                         ),
+                         BottomNavItem(
+                             name = stringResource(R.string.search),
+                             route = "on_boarding",
+                             icon = painterResource(R.drawable.search),
+                         ),
                         BottomNavItem(
                             name = stringResource(R.string.chat),
                             route = "login",
