@@ -1,8 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.post
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
+import com.octopus.socialnetwork.ui.navigate.PostScreenArgs
 import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
@@ -15,27 +17,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
-    private val fetchPostDetails: FetchPostDetailsUseCase
+    private val fetchPostDetails: FetchPostDetailsUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    init {
-        getPostDetails(
-            postId = 309,
-            postOwnerId = 11
-        )
-    }
-
     private val _state = MutableStateFlow(PostMainUiState())
     val state = _state.asStateFlow()
 
-    private fun getPostDetails(postId: Int, postOwnerId: Int) {
+    private val args: PostScreenArgs = PostScreenArgs(savedStateHandle)
+
+    init {
+        getPostDetails()
+    }
+
+    private fun getPostDetails() {
         viewModelScope.launch {
             try {
-                val post = fetchPostDetails(postId, postOwnerId).asPostUiState()
+                val post = fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).asPostUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        isSuccess = true,
                         isError = false,
                         postDetails = post
                     )
@@ -44,7 +44,6 @@ class PostViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        isSuccess = false,
                         isError = true
                     )
                 }

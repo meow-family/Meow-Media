@@ -2,7 +2,6 @@ package com.octopus.socialnetwork.ui.screen.profile.uistate
 
 data class ProfileUiState(
     val isLoading: Boolean = true,
-    val isSuccess: Boolean = false,
     val isError: Boolean = false,
     val fullName: String = "",
     val username: String = "",

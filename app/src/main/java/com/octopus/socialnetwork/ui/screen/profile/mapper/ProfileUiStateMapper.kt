@@ -18,6 +18,7 @@ fun UserDetails.asProfileUiState(): ProfileUiState {
 fun Post.asProfilePostUiState(): ProfilePostUiState {
     return ProfilePostUiState(
         postId = postId,
+        postOwnerId = ownerId,
         postImage = image
     )
 }

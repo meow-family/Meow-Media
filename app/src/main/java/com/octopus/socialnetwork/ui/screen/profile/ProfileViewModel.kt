@@ -41,7 +41,6 @@ class ProfileViewModel  @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        isSuccess = true,
                         isError = false,
                         fullName = profileUiState.fullName,
                         username = profileUiState.username,
@@ -56,7 +55,6 @@ class ProfileViewModel  @Inject constructor(
         } catch (e: Exception) {
             _state.update { it.copy(
                 isLoading = false,
-                isSuccess = false,
                 isError = true
             ) }
         }

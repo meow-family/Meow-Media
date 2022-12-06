@@ -46,4 +46,5 @@
     <string name="invalid_email">Invalid email</string>
     <string name="icon_description"> %1$s Icon </string>
 
+    <string name="icon_arrow_back"> icon arrow back </string>
 </resources>
