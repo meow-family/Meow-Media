@@ -39,7 +39,7 @@ fun ItemPost(
         Card(
             modifier = Modifier
                 .height(210.dp)
-                .align(alignment = Alignment.CenterEnd)
+                .align(alignment = Alignment.TopEnd)
                 .width(48.dp),
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = LightBlack_65,

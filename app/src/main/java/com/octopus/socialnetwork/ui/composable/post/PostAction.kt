@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Comment
@@ -30,7 +31,7 @@ fun PostAction(
     onShare: () -> Unit,
 
 
-) {
+    ) {
     Column(
         modifier = Modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,12 +56,16 @@ fun PostAction(
         )
         SpaceVertically8dp()
         Text(text = commentCount, color = Color.White)
+
         SpaceVertically24dp()
-        Icon(
-            modifier = modifier.clickable { onShare },
-            imageVector = Icons.Sharp.Share,
-            contentDescription = stringResource(R.string.share_icon),
-            tint = Color.White
-        )
+
+        IconButton(onClick = onShare) {
+            Icon(
+                modifier = modifier,
+                imageVector = Icons.Sharp.Share,
+                contentDescription = stringResource(R.string.share_icon),
+                tint = Color.White
+            )
+        }
     }
 }

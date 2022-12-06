@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.Share
 import com.octopus.socialnetwork.ui.composable.home.TopBar
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
@@ -81,6 +82,9 @@ private fun HomeContent(
                     onShare = onClickShare
                 )
             }
+        }
+        if (state.share){
+            Share()
         }
     }
 }

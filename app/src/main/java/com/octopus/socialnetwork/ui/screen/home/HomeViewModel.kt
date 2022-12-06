@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.home
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
@@ -30,23 +31,23 @@ class HomeViewModel @Inject constructor(
             try {
                 val post = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
                 _state.update { it.copy(
-                    posts = post,
-                    isLoading = false,
-                    isSuccess = true,
-                    isError = false
-                ) }
+                        posts = post,
+                        isLoading = false,
+                        isSuccess = true,
+                        isError = false
+                    ) }
             } catch (e: Exception) {
                 _state.update { it.copy(
-                    isLoading = false,
-                    isSuccess = false,
-                    isError = true
-                ) }
+                        isLoading = false,
+                        isSuccess = false,
+                        isError = true
+                    ) }
             }
         }
     }
 
     fun onClickLike() {
-        //
+     //
     }
 
     fun onClickComment() {
@@ -54,8 +55,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickShare() {
-        //
+        _state.update { it.copy(share = true) }
     }
-
-
 }
