@@ -68,19 +68,15 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickFollow() {
         viewModelScope.launch {
-            if (!_state.value.isFriend) {
-                val isFriend = addFriendUseCase(30, 20).success
+            if (!_state.value.isRequested) {
+                val isRequested = addFriendUseCase(30, 20).success
                 _state.update {
                     it.copy(
-                        isFriend = isFriend
+                        isRequested = isRequested
                     )
                 }
             } else {
-                _state.update {
-                    it.copy(
-                        isFriend = false
-                    )
-                }
+                // we should add remove friend request here
             }
 
         }

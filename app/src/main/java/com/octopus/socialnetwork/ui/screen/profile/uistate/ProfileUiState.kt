@@ -11,7 +11,7 @@ data class ProfileUiState(
     val profileAvatar: String = "",
     val profileCover: String = "",
     val profilePosts: List<ProfilePostUiState> = emptyList(),
-    val isFriend: Boolean = false
+    val isRequested: Boolean = false
 )
 
 
