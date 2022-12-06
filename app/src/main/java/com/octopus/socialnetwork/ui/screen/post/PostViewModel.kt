@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.post.mapper.asPostUiState
+import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val post =
-                    fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).asPostUiState()
+                    fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).toPostUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,
