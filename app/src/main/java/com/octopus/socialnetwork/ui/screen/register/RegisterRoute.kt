@@ -8,6 +8,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 
 private const val ROUTE = "register"
 
+
+fun NavController.navigateToRegister() {
+    navigate(ROUTE)
+}
+
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 fun NavGraphBuilder.registerRoute(navController: NavController) {
     composable(ROUTE) {
