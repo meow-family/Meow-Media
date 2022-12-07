@@ -43,7 +43,6 @@ import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
-import com.octopus.socialnetwork.ui.theme.darkBackgroundColor
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
@@ -109,7 +108,7 @@ private fun RegisterContent(
 
     Column(
         modifier = Modifier
-            .background(darkBackgroundColor)
+            .background(MaterialTheme.colors.background)
             .padding(spacingMedium)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),

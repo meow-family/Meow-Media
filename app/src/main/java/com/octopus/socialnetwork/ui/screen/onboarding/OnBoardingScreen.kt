@@ -55,7 +55,7 @@ private fun OnBoardingContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkBackgroundColor)
+            .background(MaterialTheme.colors.background)
             .padding(vertical = spacingExtraLarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween

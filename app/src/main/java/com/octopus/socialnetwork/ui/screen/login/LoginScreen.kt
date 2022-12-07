@@ -1,9 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -39,7 +37,6 @@ import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
-import com.octopus.socialnetwork.ui.theme.darkBackgroundColor
 
 
 @Composable
@@ -75,7 +72,7 @@ private fun LoginContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(darkBackgroundColor),
+            .background(MaterialTheme.colors.background),
 
         ) {
         ImageWithShadow( modifier = Modifier
