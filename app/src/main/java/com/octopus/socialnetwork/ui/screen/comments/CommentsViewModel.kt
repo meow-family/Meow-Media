@@ -58,9 +58,8 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    fun addComment() {
-
-        viewModelScope.launch {
+    suspend fun addComment() {
+         viewModelScope.launch {
             try {
                 addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
                 _state.update {
@@ -76,6 +75,7 @@ class CommentsViewModel @Inject constructor(
                     )
                 }
             }
-        }
+        }.join()
+
     }
 }

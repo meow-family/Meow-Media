@@ -21,6 +21,7 @@ import com.octopus.socialnetwork.ui.composable.comment.TopBar
 import com.octopus.socialnetwork.ui.composable.comment.TypingComment
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import kotlin.reflect.KSuspendFunction0
 
 
 @Composable
@@ -38,9 +39,9 @@ fun PostCommentsBottomSheet(
 
  @Composable
 private fun PostCommentsContent(
-    state: CommentsUiState,
-    onChangeTypingComment: (String) -> Unit,
-    onClickSend: () -> Unit
+     state: CommentsUiState,
+     onChangeTypingComment: (String) -> Unit,
+     onClickSend: KSuspendFunction0<Unit>
 ) {
     val listState = rememberLazyListState()
 

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 fun TypingComment(
     state: TextFieldValue,
     onChangeTypingComment: (String) -> Unit,
-    onClickSend : () -> Unit,
+    onClickSend: suspend () -> Unit,
     listState: LazyListState,
     index: Int
 ) {
@@ -74,8 +74,8 @@ fun TypingComment(
                 onClick = {
                     run {
                         coroutineScope.launch {
-                             listState.animateScrollToItem(index = index)
-                             onClickSend()
+                            onClickSend()
+                            listState.animateScrollToItem(index = index)
                         }
                     }
                 },
