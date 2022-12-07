@@ -6,7 +6,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.ui.navigation.MainRoute
-import com.octopus.socialnetwork.ui.screen.register.RegisterScreen
 
 private const val ROUTE = MainRoute.Group
 
@@ -18,6 +17,6 @@ fun NavController.navigateToGroup() {
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 fun NavGraphBuilder.groupRoute(navController: NavController) {
     composable(ROUTE) {
-        RegisterScreen(navController)
+        GroupScreen(navController)
     }
 }

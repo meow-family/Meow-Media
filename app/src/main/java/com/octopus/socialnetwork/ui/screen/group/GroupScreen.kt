@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,7 +20,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.ui.screen.group.uistate.GroupUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
-import com.octopus.socialnetwork.ui.theme.darkBackgroundColor
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 
 @Composable
@@ -46,7 +46,7 @@ private fun GroupContent(
 
     Column(
         modifier = Modifier
-            .background(darkBackgroundColor)
+            .background(MaterialTheme.colors.background)
             .padding(spacingMedium)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
