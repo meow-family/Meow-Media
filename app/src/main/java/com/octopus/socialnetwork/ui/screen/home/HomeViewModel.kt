@@ -34,10 +34,10 @@ class HomeViewModel @Inject constructor(
     private fun getPosts(currentUserId: Int) {
         viewModelScope.launch {
             try {
-                val post = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
+                val posts = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
                 _state.update {
                     it.copy(
-                        posts = post,
+                        posts = posts,
                         isLoading = false,
                         isSuccess = true,
                         isError = false
@@ -58,16 +58,14 @@ class HomeViewModel @Inject constructor(
     fun onClickLike(postId: Int) {
         viewModelScope.launch {
             try {
-                _state.update {
-                    it.copy(isLoading = true)
-                }
+
 
                 _state.value.posts.find { it.postId == postId }?.let { post ->
 
-                    if (post.isLiked) {
-                        likeUseCase(userId = 30, contentId = post.postId, typeContent = "post")
+                    if (!post.isLiked) {
+                        likeUseCase(userId = 16, contentId = post.postId, typeContent = "post")
                     } else {
-                        unlikeUseCase(userId = 30, contentId = post.postId, typeContent = "post")
+                        unlikeUseCase(userId = 16, contentId = post.postId, typeContent = "post")
                     }
 
                     _state.update {

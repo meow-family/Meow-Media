@@ -15,6 +15,6 @@ fun Post.toPostUiState(): PostUiState {
         likeCount = totalLikes.toString(),
         commentCount = totalComments.toString(),
         postDate = timeCreated,
-        isLiked = this.isLikedByUser
+        isLiked = isLikedByUser
     )
 }
