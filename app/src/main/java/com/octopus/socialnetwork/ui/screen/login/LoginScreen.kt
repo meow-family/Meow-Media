@@ -37,7 +37,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val state by viewModel.loginUiState.collectAsState()
+    val state by viewModel.state.collectAsState()
     LoginContent(
         state = state,
         onChangeUsernameOrEmail = viewModel::onChangeUsername,

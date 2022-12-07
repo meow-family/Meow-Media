@@ -1,9 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,32 +10,37 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-) : ViewModel(){
+) : ViewModel() {
 
-    private val _loginUiState = MutableStateFlow(LoginUiState())
-    val loginUiState = _loginUiState.asStateFlow()
+    private val _state = MutableStateFlow(LoginUiState())
+    val state = _state.asStateFlow()
 
 
-    fun onChangeUsername(username: String){
-        _loginUiState.update { it.copy(username = username) }
-    }
-    fun onChangePassword(newValue: String){
-        _loginUiState.update { it.copy(password = newValue) }
+    fun onChangeUsername(username: String) {
+        _state.update { it.copy(username = username) }
     }
 
-    fun login(){
+    fun onChangePassword(newValue: String) {
+        _state.update { it.copy(password = newValue) }
+    }
+
+    fun login() {
         viewModelScope.launch {
-            val loginResponse = loginUseCase(_loginUiState.value.username, _loginUiState.value.password)
+            try {
+                loginUseCase(_state.value.username, _state.value.password)
 
-            Log.i("TESTING",loginResponse.toString())
+            }catch (e:Exception){
+               _state.update { it.copy(
+                   isError = true,
+
+               ) }
             }
+
+        }
     }
-    fun signUp(){
-        //
-    }
+    
 }
