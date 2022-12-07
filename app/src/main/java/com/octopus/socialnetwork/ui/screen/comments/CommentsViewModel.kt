@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
-import com.octopus.socialnetwork.ui.screen.comments.mapper.asCommentDetailsUiState
+import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +33,7 @@ class CommentsViewModel @Inject constructor(
                     currentUserId = 31,
                     postId = 324,
                     type = "post"
-                ).map { it.asCommentDetailsUiState() }
+                ).map { it.toCommentDetailsUiState() }
                 _state.update {
                     it.copy(
                         comments = postComments
@@ -73,7 +73,7 @@ class CommentsViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isError = true
-                     )
+                    )
                 }
             }
         }

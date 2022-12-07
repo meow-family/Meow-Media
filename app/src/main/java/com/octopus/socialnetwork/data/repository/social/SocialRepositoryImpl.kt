@@ -186,43 +186,43 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.deleteComment(commentId, userId).result
     }
 
+
     override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto {
-        override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails {
-            return socialService.addComment(postId, comment, userId).result
-        }
-
-        override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDTO {
-            return socialService.getPhoto(photoId, userId).result
-        }
-
-        override suspend fun getPhotosListProfileCover(
-            userId: Int,
-            type: String
-        ): BaseResponse<List<Photo>> {
-            return socialService.getPhotosListProfileCover(userId, type)
-        }
-
-        override suspend fun getPhotoViewProfile(
-            photoId: Int,
-            userId: Int
-        ): BaseResponse<UserProfileDto> {
-            return socialService.getPhotoViewProfile(photoId, userId)
-        }
-
-        override suspend fun deletePhotoProfile(
-            photoId: Int,
-            userId: Int
-        ): BaseResponse<ProfilePhotoDeletion> {
-            return socialService.deleteCoverPhoto(photoId, userId)
-        }
-
-        override suspend fun deleteProfileCover(
-            photoId: Int,
-            userId: Int
-        ): BaseResponse<ProfilePhotoDeletion> {
-            return socialService.deleteCoverPhoto(photoId, userId)
-        }
-
-        //endregion
-
+        return socialService.getPhoto(photoId, userId).result
     }
+
+    override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails {
+        return socialService.addComment(postId, comment, userId).result
+    }
+
+    override suspend fun getPhotosListProfileCover(
+        userId: Int,
+        type: String
+    ): BaseResponse<List<Photo>> {
+        return socialService.getPhotosListProfileCover(userId, type)
+    }
+
+    override suspend fun getPhotoViewProfile(
+        photoId: Int,
+        userId: Int
+    ): BaseResponse<UserProfileDto> {
+        return socialService.getPhotoViewProfile(photoId, userId)
+    }
+
+    override suspend fun deletePhotoProfile(
+        photoId: Int,
+        userId: Int
+    ): BaseResponse<ProfilePhotoDeletion> {
+        return socialService.deleteCoverPhoto(photoId, userId)
+    }
+
+    override suspend fun deleteProfileCover(
+        photoId: Int,
+        userId: Int
+    ): BaseResponse<ProfilePhotoDeletion> {
+        return socialService.deleteCoverPhoto(photoId, userId)
+    }
+
+    //endregion
+
+}
