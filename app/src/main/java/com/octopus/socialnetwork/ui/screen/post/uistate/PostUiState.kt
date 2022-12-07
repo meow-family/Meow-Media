@@ -11,4 +11,5 @@ data class PostUiState(
     val postDescription: String = "",
     val likeCount: String = "",
     val commentCount: String = "",
+    val isLiked: Boolean = false
 )

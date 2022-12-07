@@ -50,7 +50,8 @@ fun ItemPost(
                 onLike = onLike,
                 onComment = onComment,
                 onShare = onShare,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(18.dp),
+                isLikedByUser=post.isLiked,
             )
         }
 

@@ -10,6 +10,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.like.UnLikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto

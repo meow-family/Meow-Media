@@ -3,6 +3,8 @@ package com.octopus.socialnetwork.ui.screen.post
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.like.LikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.UnlikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
@@ -16,10 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
+    private val likeUseCase: LikeUseCase,
+    private val unlikeUseCase: UnlikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val args: PostScreenArgs = PostScreenArgs(savedStateHandle)
+
 
     init {
         getPostDetails()
@@ -52,7 +57,39 @@ class PostViewModel @Inject constructor(
     }
 
     fun onClickLike() {
-        //
+        viewModelScope.launch {
+            try {
+
+                _state.update {
+                    it.copy(isLoading = true)
+                }
+                _state.value.postDetails.let { post ->
+
+                    if (post.isLiked) {
+                        likeUseCase(userId = 30, contentId = post.postId, typeContent = "post")
+                    } else {
+                        unlikeUseCase(userId = 30, contentId = post.postId, typeContent = "post")
+                    }
+
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = false
+                        )
+                    }
+
+                    getPostDetails()
+
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
+            }
+        }
     }
 
     fun onClickComment() {

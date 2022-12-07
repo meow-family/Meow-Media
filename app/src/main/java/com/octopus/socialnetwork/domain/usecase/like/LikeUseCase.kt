@@ -8,7 +8,7 @@ import javax.inject.Inject
 class LikeUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
-    suspend operator fun invoke(userId: Int, contentId: Int, typeContent: String): Like {
-        return socialRepository.like(userId, contentId, typeContent).toLike()
+    suspend operator fun invoke(userId: Int, contentId: Int, typeContent: String): Int? {
+        return socialRepository.like(userId, contentId, typeContent).count
     }
 }

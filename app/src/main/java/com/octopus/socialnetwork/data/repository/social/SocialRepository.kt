@@ -6,6 +6,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.like.UnLikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO

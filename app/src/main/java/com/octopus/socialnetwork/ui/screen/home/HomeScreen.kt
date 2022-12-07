@@ -46,7 +46,7 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
-    onClickLike: () -> Unit,
+    onClickLike: (Int) -> Unit,
     onClickComment: () -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit
@@ -76,7 +76,7 @@ private fun HomeContent(
                 ItemPost(
                     post = it,
                     onClickPost = onClickPost,
-                    onLike = onClickLike,
+                    onLike = { onClickLike(it.postId) },
                     onComment = onClickComment,
                     onShare = onClickShare
                 )

@@ -18,6 +18,7 @@ import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
+import kotlin.reflect.KFunction3
 
 @Composable
 fun PostScreen(
@@ -58,6 +59,7 @@ private fun PostContent(
             PostAction(
                 likeCount = state.postDetails.likeCount,
                 commentCount = state.postDetails.commentCount,
+                isLikedByUser = state.postDetails.isLiked,
                 onLike = onLike,
                 onComment = onComment,
                 onShare = onShare,
