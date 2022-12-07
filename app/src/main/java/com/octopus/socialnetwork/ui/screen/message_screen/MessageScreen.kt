@@ -13,15 +13,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.MessageItem
 import com.octopus.socialnetwork.ui.composable.SearchViewItem
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
-@Preview(showSystemUi = true)
 @Composable
-fun MessageScreen() {
+fun MessageScreen(
+    navController: NavController,
+) {
     MessageViewContent()
 }
 

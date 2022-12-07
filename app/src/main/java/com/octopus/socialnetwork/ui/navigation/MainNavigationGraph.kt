@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.octopus.socialnetwork.ui.screen.group.groupRoute
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
 import com.octopus.socialnetwork.ui.screen.login.loginRoute
+import com.octopus.socialnetwork.ui.screen.message_screen.messageRoute
 import com.octopus.socialnetwork.ui.screen.profile.profileRoute
 
 @Composable
@@ -17,7 +18,7 @@ fun MainNavigationGraph(navController: NavHostController) {
     ) {
         homeRoute(navController)
         groupRoute(navController)
-        loginRoute(navController)
+        messageRoute(navController)
         profileRoute(navController)
 
     }
