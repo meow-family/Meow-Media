@@ -20,7 +20,7 @@ fun MainNavigationGraph(navController: NavHostController) {
         groupRoute(navController)
         messageRoute(navController)
         profileRoute(navController)
-
+        detailsNavigationGraph(navController)
     }
 }
 
