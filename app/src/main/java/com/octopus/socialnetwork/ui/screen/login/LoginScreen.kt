@@ -1,6 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.login
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,7 +51,7 @@ fun LoginScreen(
     val state by viewModel.state.collectAsState()
     LoginContent(
         state = state,
-        onChangeUsernameOrEmail = viewModel::onChangeUsernameOrEmail,
+        onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
         login = viewModel::login,
         signUp = {
