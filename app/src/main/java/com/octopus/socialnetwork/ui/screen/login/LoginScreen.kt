@@ -35,7 +35,9 @@ import com.octopus.socialnetwork.ui.composable.ImageWithShadow
 import com.octopus.socialnetwork.ui.composable.InputTextField
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
 
 
@@ -50,7 +52,7 @@ fun LoginScreen(
         state = state,
         onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
-        login = viewModel::login,
+        login = { navController.navigateToMain() },
         signUp = {
             navController.navigateToRegister()
         }
