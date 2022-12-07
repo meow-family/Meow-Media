@@ -14,11 +14,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.interaction.interactionGroup
-import com.octopus.socialnetwork.ui.composable.post.PostAction
+import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
-import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 @Composable
 fun ItemPost(
@@ -47,11 +45,11 @@ fun ItemPost(
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Color.Transparent,
         ) {
-            interactionGroup(interactions =
+            InteractionGroup(interactions =
             listOf({
                 InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_like, count = 10)
             }, {
-                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_notification, count = 10)
+                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_baseline_comment_24, count = 10)
             }, {
                 InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_send)
             })

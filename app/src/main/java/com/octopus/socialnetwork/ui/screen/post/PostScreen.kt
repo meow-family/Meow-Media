@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -16,10 +17,10 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.interaction.interactionGroup
+import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
-import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
+import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
@@ -49,7 +50,7 @@ private fun PostContent(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage))
+        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage),)
 
         Card(
             modifier = Modifier
@@ -59,11 +60,11 @@ private fun PostContent(
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Color.Transparent,
         ) {
-            interactionGroup(interactions =
+            InteractionGroup(interactions =
             listOf({
                 InteractionIcon(icon = R.drawable.ic_like, count = 10)
             }, {
-                InteractionIcon(icon = R.drawable.ic_notification, count = 10)
+                InteractionIcon(icon =R.drawable.ic_baseline_comment_24 , count = 10)
             }, {
                 InteractionIcon(icon = R.drawable.ic_send)
             })
@@ -76,7 +77,7 @@ private fun PostContent(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .align(alignment = Alignment.BottomCenter)
-                .background(color = LightBlack_65)
+                .shadowLightBlack()
         ) {
             LargPostDetails(
                 profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),

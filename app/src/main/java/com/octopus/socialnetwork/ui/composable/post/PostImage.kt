@@ -14,7 +14,7 @@ fun PostImage(postImage: Painter) {
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = postImage,
-        contentScale = ContentScale.FillBounds,
+        contentScale = ContentScale.Crop,
         contentDescription = stringResource(R.string.this_is_post_image)
     )
 }
