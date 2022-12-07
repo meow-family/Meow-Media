@@ -3,8 +3,10 @@ package com.octopus.socialnetwork.ui.screen.post.mapper
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 
-fun Post.asPostUiState(): PostUiState {
+fun Post.toPostUiState(): PostUiState {
     return PostUiState(
+        postId = postId,
+        ownerId = ownerId,
         userName = username,
         fullName = fullName,
         profileAvatar = avatar,
@@ -13,5 +15,6 @@ fun Post.asPostUiState(): PostUiState {
         likeCount = totalLikes.toString(),
         commentCount = totalComments.toString(),
         postDate = timeCreated,
+
     )
 }

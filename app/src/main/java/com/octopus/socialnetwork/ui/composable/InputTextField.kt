@@ -3,9 +3,9 @@ package com.octopus.socialnetwork.ui.composable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -13,18 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.octopus.socialnetwork.ui.theme.Shapes
+import com.octopus.socialnetwork.ui.theme.heightDefaultButton
+import com.octopus.socialnetwork.ui.theme.spacingSmall
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
 fun InputTextField(
     placeholder: String,
     icon: ImageVector,
     value: String,
+    modifier: Modifier = Modifier,
     isPassword: Boolean = false,
     isReadOnly: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -32,18 +35,23 @@ fun InputTextField(
     action: ImeAction
 ) {
     OutlinedTextField(
-        modifier = Modifier
-            .height(48.dp)
+        modifier = modifier
+            .height(heightDefaultButton)
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        shape = RoundedCornerShape(24.dp),
+            .padding(horizontal = spacingSmall),
+        shape = Shapes.large,
         value = value,
         readOnly = isReadOnly,
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(imeAction = action),
-        placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color.LightGray) },
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.textSecondaryColor),
+                )
+        },
         leadingIcon = {
             Icon(
                 icon,
@@ -57,8 +65,8 @@ fun InputTextField(
             unfocusedBorderColor = Color.Gray,
             focusedLabelColor = Color.Red,
             cursorColor = Color.Red,
-
+            textColor = MaterialTheme.colors.textSecondaryColor
             ),
-        textStyle = TextStyle(color = Color.Black, fontSize = 14.sp)
+        textStyle = MaterialTheme.typography.h6
     )
 }

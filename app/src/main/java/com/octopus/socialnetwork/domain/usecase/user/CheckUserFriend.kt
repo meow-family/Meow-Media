@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.usecase.user
 
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
-import com.octopus.socialnetwork.domain.mapper.user.asCheckUserFriend
+import com.octopus.socialnetwork.domain.mapper.user.toCheckUserFriend
 import com.octopus.socialnetwork.domain.model.user.UserFriendChecker
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class CheckUserFriendUseCase @Inject constructor(
         return socialRepository.checkUserFriend(
             userId,
             userIdWantedToCheck
-        ).asCheckUserFriend()
+        ).toCheckUserFriend()
     }
 
 }

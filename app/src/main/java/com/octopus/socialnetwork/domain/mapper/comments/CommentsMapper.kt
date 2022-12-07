@@ -10,8 +10,8 @@ fun CommentDetails.toComment(): Comment {
         isLikedByUser = isLikedByUser ?: false,
         timeCreated = timeCreated ?: 0,
         totalLikes = totalLikes ?: 0,
-        fullName = user.fullName ?: "",
-        username =user.username ?: "",
-        avatar = user.avatar?.small ?: "",
+        fullName = user?.fullName ?: "",
+        username =user?.username ?: "",
+        avatar = user?.avatar?.small ?: "",
     )
 }

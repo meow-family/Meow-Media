@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UserNotificationsDTO(
     @SerializedName("list")
-    val list: List<NotificationItemsDTO>?,
+    val list: List<NotificationItemsDto>?,
     @SerializedName("count")
     val count: Int?,
     @SerializedName("offset")

@@ -1,20 +1,12 @@
 package com.octopus.socialnetwork.data.repository.authentication
 
-import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import retrofit2.Response
+import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
+import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
+import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
 
 interface AuthenticationRepository {
-    suspend fun login(username: String, password: String): BaseResponse<AuthResponse>
+    suspend fun login(username: String, password: String): AuthResponse
 
-    suspend fun signup(
-        firstName: String,
-        lastName: String,
-        email: String,
-        reEmail: String,
-        gender: String,
-        birthDate: String,
-        userName: String,
-        password: String,
-    ): BaseResponse<AuthResponse>
+    suspend fun register(params: RegisterUseCase.Params): BaseResponse<RegisterDto>
 }

@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,14 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
-import com.octopus.socialnetwork.ui.composable.post.PostAction
+import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
-import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 @Composable
 fun ItemPost(
     post: PostUiState,
+    onClickPost: (Int, Int) -> Unit,
     onLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit
@@ -29,6 +31,7 @@ fun ItemPost(
         modifier = Modifier
             .height(380.dp)
             .clip(shape = RoundedCornerShape(16.dp))
+            .clickable { onClickPost(post.postId, post.ownerId) }
     ) {
 
         PostImage(postImage = rememberAsyncImagePainter(model = post.postImage))
@@ -40,16 +43,18 @@ fun ItemPost(
                 .align(alignment = Alignment.CenterEnd)
                 .width(48.dp),
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-            backgroundColor = LightBlack_65,
+            backgroundColor = Color.Transparent,
         ) {
-            PostAction(
-                likeCount = post.likeCount,
-                commentCount = post.commentCount,
-                onLike = onLike,
-                onComment = onComment,
-                onShare = onShare,
-                modifier = Modifier.size(18.dp)
+            InteractionGroup(interactions =
+            listOf({
+                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_like, count = 10)
+            }, {
+                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_baseline_comment_24, count = 10)
+            }, {
+                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_send)
+            })
             )
+
         }
 
         Card(
@@ -65,8 +70,6 @@ fun ItemPost(
             SmallPostDetails(post = post)
 
         }
-
-
 
 
     }

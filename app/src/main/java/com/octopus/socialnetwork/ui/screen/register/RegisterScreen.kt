@@ -1,17 +1,18 @@
 package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,46 +21,55 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.CustomSnackBar
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
+import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.screen.register.composable.FirstStepRegistration
-import com.octopus.socialnetwork.ui.screen.register.composable.SecondStepRegistration
-import com.octopus.socialnetwork.ui.screen.register.composable.StepIndicatorRegistration
+import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
+import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
+import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.util.emailValidation
+import com.octopus.socialnetwork.ui.util.passwordShortValidation
+import com.octopus.socialnetwork.ui.util.requiredValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
-@Preview(showSystemUi = true)
 @Composable
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
 fun RegisterScreen(
+    navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val pagerState = rememberPagerState(0)
+    val pagerState = rememberPagerState(state.initPage)
     val coroutineScope = rememberCoroutineScope()
 
     RegisterContent(
         state = state, pagerState = pagerState,
-        register = viewModel::register,
-        tryLogin = viewModel::tryLogin,
+        onClickRegister = viewModel::register,
         coroutineScope = coroutineScope,
+        showError = viewModel::showError,
+        onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
+        onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
         onChangeReEmail = viewModel::onChangeReEmail,
@@ -68,17 +78,24 @@ fun RegisterScreen(
         onChangeLastName = viewModel::onChangeLastName,
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
+        onClickLogin = {
+            navController.navigateToMain()
+        },
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
 private fun RegisterContent(
     state: RegisterUiState,
     pagerState: PagerState,
-    register: () -> Unit,
-    tryLogin: () -> Unit,
+    onClickRegister: () -> Unit,
+    onClickLogin: () -> Unit,
     coroutineScope: CoroutineScope,
+    showError: () -> Unit,
+    onSuccessCreateAccount: () -> Unit,
+    onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
     onChangeReEmail: (String) -> Unit,
@@ -91,7 +108,8 @@ private fun RegisterContent(
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .background(MaterialTheme.colors.background)
+            .padding(spacingMedium)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
@@ -99,49 +117,54 @@ private fun RegisterContent(
 
         Text(
             stringResource(id = R.string.create_account),
-            style = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.h4.copy(
+                color = MaterialTheme.colors.textSecondaryColor
+            )
         )
 
         Text(
             stringResource(id = R.string.sig_up_note),
-            style = TextStyle(fontSize = 12.sp, color = Color.Gray)
+            style = MaterialTheme.typography.caption.copy(
+                color = MaterialTheme.colors.textThirdColor
+            )
         )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 32.dp),
+        StepIndicatorRegistration(pagerState.currentPage)
 
-            Arrangement.Center, verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            StepIndicatorRegistration(
-                "1",
-                (pagerState.currentPage == 0 || pagerState.currentPage == 1)
-            )
-
-            Divider(
-                modifier = Modifier
-                    .width(96.dp)
-                    .padding(horizontal = 2.dp), color = Color.Gray
-            )
-            StepIndicatorRegistration("2", pagerState.currentPage == 1)
-
-        }
         Image(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             painter = painterResource(R.drawable.signup),
-            contentDescription = "image"
+            contentDescription = stringResource(R.string.image_register)
         )
         HorizontalPager(
             count = 2,
             state = pagerState,
-            userScrollEnabled = false
+            userScrollEnabled = false,
         ) { page ->
             when (page) {
                 0 -> {
                     FirstStepRegistration(
                         state.userInfoForm,
+                        usernameState = TextFieldState(
+                            state = state.userInfoForm.userName,
+                            showError = state.displayErrors,
+                            validator = ::requiredValidation
+                        ),
+                        emailState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::emailValidation
+                        ),
+                        reEmailState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::emailValidation
+                        ),
+                        passwordState = TextFieldState(
+                            state = state.userInfoForm.email,
+                            showError = state.displayErrors,
+                            validator = ::passwordShortValidation
+                        ),
                         onChangeUserName = onChangeUserName,
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
@@ -163,47 +186,83 @@ private fun RegisterContent(
 
         }
 
+        SpacerVertical32()
+
+
+        CustomButton(
+            text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
+        ) {
+            if (state.isValidInputs) {
+                if (pagerState.currentPage == state.initPage) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(2)
+                    }
+                } else {
+                    onClickRegister()
+                }
+
+            } else {
+                showError()
+            }
+
+        }
+
     }
 
     Box(
         Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        TextWithAction(
+            text = stringResource(R.string.already_have_an_account),
+            textAction = stringResource(R.string.login),
+            onClick = onClickLogin
+        )
 
-            CustomButton(
-                text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
-                onClick = {
-                    if (pagerState.currentPage == 0) {
-                        coroutineScope.launch {
-                            pagerState.scrollToPage(pagerState.currentPage + 1)
-                        }
-                    } else {
-                        register()
-                    }
-                }
+        if (state.failedCreateAccount) {
+            CustomSnackBar(
+                message = stringResource(id = R.string.failed_create_account),
+                onFailedCreateAccount
             )
-            SpacerVertical16()
-            TextWithAction(
-                text = stringResource(R.string.already_have_an_account),
-                textAction = stringResource(R.string.login),
-                onClick = tryLogin
-            )
-
         }
-
     }
+
+    if (state.isLoading) {
+        LoadingDialog()
+    }
+
+    if (state.isSuccess) {
+        AlertDialog(
+            onDismissRequest = {},
+            title = {
+                Text(text = "Create Account")
+            },
+            text = {
+                Text("GOTO email and active account ")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onSuccessCreateAccount()
+                    }) {
+                    Text(stringResource(id = R.string.ok))
+                }
+            },
+
+            )
+    }
+
+
 }
 
 
 @Preview
 @Composable
 @ExperimentalPagerApi
+@ExperimentalMaterialApi
 fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
-            RegisterScreen()
+
         }
     }
 }
