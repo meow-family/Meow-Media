@@ -20,13 +20,15 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserPosts: FetchUserPostsUseCase,
     private val addFriendUseCase: AddFriendUseCase,
     private val removeFriendUseCase: RemoveFriendUseCase,
+    private val checkUserFriendUseCase: CheckUserFriendUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-        getUserDetails(20, 20)
+        getUserDetails(20, 30)
+        isRequestSent(30, 20)
     }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int) {
@@ -59,6 +61,18 @@ class ProfileViewModel @Inject constructor(
                     isLoading = false,
                     isSuccess = false,
                     isError = true
+                )
+            }
+        }
+    }
+
+    private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
+        viewModelScope.launch {
+            val isRequestSent =
+                checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
+            _state.update {
+                it.copy(
+                    isRequestExists = isRequestSent
                 )
             }
         }
