@@ -9,10 +9,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.composable.interaction.interactionGroup
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
@@ -49,20 +53,22 @@ private fun PostContent(
 
         Card(
             modifier = Modifier
-                .height(300.dp)
+                .height(210.dp)
                 .align(alignment = Alignment.CenterEnd)
-                .width(72.dp),
+                .width(48.dp),
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-            backgroundColor = LightBlack_65,
+            backgroundColor = Color.Transparent,
         ) {
-            PostAction(
-                likeCount = state.postDetails.likeCount,
-                commentCount = state.postDetails.commentCount,
-                onLike = onLike,
-                onComment = onComment,
-                onShare = onShare,
-                modifier = Modifier
+            interactionGroup(interactions =
+            listOf({
+                InteractionIcon(icon = R.drawable.ic_like, count = 10)
+            }, {
+                InteractionIcon(icon = R.drawable.ic_notification, count = 10)
+            }, {
+                InteractionIcon(icon = R.drawable.ic_send)
+            })
             )
+
         }
 
         Box(
