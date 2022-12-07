@@ -41,6 +41,7 @@ interface SocialRepository {
     ): UserDto
 
     suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): CheckUserFriendDto
+    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): CheckUserFriendDto
 
     //endregion
 

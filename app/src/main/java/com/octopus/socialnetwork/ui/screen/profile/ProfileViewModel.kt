@@ -2,10 +2,7 @@ package com.octopus.socialnetwork.ui.screen.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.*
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -21,7 +18,8 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val fetchUserPosts: FetchUserPostsUseCase,
-    private val addFriendUseCase: AddFriendUseCase
+    private val addFriendUseCase: AddFriendUseCase,
+    private val removeFriendUseCase: RemoveFriendUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileUiState())
@@ -68,15 +66,24 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickFollow() {
         viewModelScope.launch {
-            if (!_state.value.isRequested) {
-                val isRequested = addFriendUseCase(30, 20).success
+            if (!_state.value.isRequestExists) {
+                val result = addFriendUseCase(30, 20)
                 _state.update {
                     it.copy(
-                        isRequested = isRequested
+                        isRequestExists = result.requestExists,
+                        isRequestSent = result.success,
+                        isFriend = result.isFriend
                     )
                 }
             } else {
-                // we should add remove friend request here
+                removeFriendUseCase(30, 20)
+                _state.update {
+                    it.copy(
+                        isRequestExists = false,
+                        isRequestSent = false,
+                        isFriend = false,
+                    )
+                }
             }
 
         }

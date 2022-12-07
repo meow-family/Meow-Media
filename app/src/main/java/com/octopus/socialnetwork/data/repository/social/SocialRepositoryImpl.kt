@@ -68,6 +68,13 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.addFriend(currentUserId, userIdWantedToAdd).result
     }
 
+    override suspend fun removeFriend(
+        currentUserId: Int,
+        userIdWantedToAdd: Int
+    ): CheckUserFriendDto {
+        return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
+    }
+
     //endregion
     //region post
     override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto {
