@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.AlbumPhotosDTO
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDTO
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.edit.CommentEditionDTO
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDTO
 import com.octopus.socialnetwork.data.remote.response.dto.messages.list_messages.MessageListDTO
@@ -212,10 +213,10 @@ interface SocialService {
 
     @POST("comment_add")
     suspend fun addComment(
-        @Query("subject_guid") subject_guid: Int,
+        @Query("subject_guid") postId: Int,
         @Query("comment") comment: String,
         @Query("uguid") userId: Int
-    ) : BaseResponse<Boolean>
+    ) : BaseResponse<CommentDetails>
     //endregion
 
     //region photo

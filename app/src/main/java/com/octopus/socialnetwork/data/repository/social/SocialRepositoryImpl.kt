@@ -168,8 +168,8 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.deleteComment(commentId, userId).result
     }
 
-    override suspend fun addComment(subject_guid: Int, comment: String, userId: Int) : Boolean {
-        return socialService.addComment(subject_guid,comment,userId).result
+    override suspend fun addComment(postId: Int, comment: String, userId: Int) : CommentDetails {
+        return socialService.addComment(postId,comment,userId).result
     }
 
     override suspend fun getPhoto(photoId: Int, userId: Int): PhotoDTO {
