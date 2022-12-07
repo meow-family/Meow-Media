@@ -5,6 +5,8 @@ data class CommentDetailsUiState(
     val userName: String = "",
     val userAvatar: String = "",
     val comment: String = "",
-    val likeCounter: String = "",
-    val timeAgo: String = ""
+    val commentOwnerId : Int = 0,
+    val isLikedByUser : Boolean = false,
+    val likeCounter: Int = 0,
+    val timeCreated: Int = 0,
 )
