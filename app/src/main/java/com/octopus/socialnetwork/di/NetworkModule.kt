@@ -1,7 +1,5 @@
 package com.octopus.socialnetwork.di
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.SocialService
@@ -21,7 +19,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTMDBApiService(
+    fun provideSocialNetworkService(
         retrofit: Retrofit,
     ): SocialService {
         return retrofit.create(SocialService::class.java)

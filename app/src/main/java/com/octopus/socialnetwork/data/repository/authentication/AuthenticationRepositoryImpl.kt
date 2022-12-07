@@ -1,9 +1,12 @@
 package com.octopus.socialnetwork.data.repository.authentication
 
+import com.octopus.socialnetwork.SocialNetworkApplication.Companion.USER_ID_KEY
+import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.octopus.socialnetwork.data.util.Constants.REQUEST_SUCCEED
 import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
 import javax.inject.Inject
 
