@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 
 
-private const val ROUTE = "postScreen"
+private const val ROUTE = "post"
 fun NavController.navigateToPostScreen(postId: Int,postOwner: Int){
     navigate("$ROUTE/$postId/$postOwner")
 }

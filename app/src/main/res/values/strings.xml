@@ -62,4 +62,6 @@
     <string name="search">Search</string>
     <string name="chat">Chat</string>
     <string name="profile">Profile</string>
+
+    <string name="icon_arrow_back"> icon arrow back </string>
 </resources>
