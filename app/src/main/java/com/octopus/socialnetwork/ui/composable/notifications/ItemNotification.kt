@@ -9,21 +9,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.MultiTextStyle
-import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationDetailsUiState
-import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.Gray700
-import com.octopus.socialnetwork.ui.theme.LightBlack_65
+import com.octopus.socialnetwork.ui.util.extensions.convertTimeCreatedToDate
+import com.octopus.socialnetwork.ui.util.extensions.setNotificationsType
+
 
 @Composable
 fun ItemNotification(
-    notification: NotificationDetailsUiState,
+    notification: NotificationItemsUiState,
     onClick: (Int) -> Unit,
 ) {
     Row(
@@ -34,7 +35,7 @@ fun ItemNotification(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.profile_image),
+            painter = rememberAsyncImagePainter(model = notification.posterDetails.posterAvatar),
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)
@@ -47,12 +48,12 @@ fun ItemNotification(
             horizontalAlignment = Alignment.Start
         ) {
             MultiTextStyle(
-                name = "Ali Omar",
-                title =  "has started following you has started following you",
+                name = notification.posterDetails.posterFullName,
+                title =  stringResource(id = notification.notificationDetails.type.setNotificationsType()),
             )
 
             Text(
-                text = "9:01 Am",
+                text = notification.notificationDetails.timeCreated.convertTimeCreatedToDate(),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
                 color = Gray700,

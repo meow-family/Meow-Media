@@ -23,7 +23,7 @@ fun SocialNetworkApp() {
             HomeScreen()
 //             RegisterScreen()
 //             LoginScreen()
-//             NotificationsScreen()
+             NotificationsScreen()
         }
     }
 

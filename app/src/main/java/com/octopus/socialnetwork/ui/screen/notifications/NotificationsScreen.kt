@@ -57,9 +57,8 @@ private fun NotificationsContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.notifications) {
-                ItemNotification(it) {
-
+            items(state.notifications) { NotificationItemsUiState ->
+                ItemNotification(NotificationItemsUiState) {
                 }
 
             }

@@ -29,6 +29,7 @@ fun NotificationAppBar() {
         Text(
             modifier = Modifier,
             text = stringResource(R.string.notification),
+            color = Color.Black,
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp,
         )
@@ -36,6 +37,7 @@ fun NotificationAppBar() {
         Icon(
             painter = painterResource(R.drawable.ic_notification),
             contentDescription = stringResource(id = R.string.notification),
+            tint = Color.Black,
         )
     }
 }
