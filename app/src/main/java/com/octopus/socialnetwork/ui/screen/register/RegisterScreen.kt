@@ -39,7 +39,7 @@ import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
-import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
@@ -80,7 +80,7 @@ fun RegisterScreen(
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
         onClickLogin = {
-            navController.navigateToLogin()
+            navController.navigateToMain()
         },
     )
 }

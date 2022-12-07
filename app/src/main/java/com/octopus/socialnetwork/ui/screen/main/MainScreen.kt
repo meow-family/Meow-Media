@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.SocialNetworkNavGraph
 import com.octopus.socialnetwork.ui.composable.navigation.BottomNavItem
 import com.octopus.socialnetwork.ui.composable.navigation.BottomNavigation
 import com.octopus.socialnetwork.ui.composable.navigation.FloatingActionButton
+import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
+import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
@@ -24,54 +25,53 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
-fun SocialNetworkApp() {
-    SocialNetworkTheme {
-        val navController = rememberNavController()
+fun MainScreen(navController: NavHostController) {
 
-        Scaffold(
-            modifier = Modifier.navigationBarsPadding(),
-            isFloatingActionButtonDocked = true,
-            floatingActionButtonPosition = FabPosition.Center,
-            bottomBar = {
-                BottomNavigation(
-                     listOf(
-                         BottomNavItem(
-                             name = stringResource(R.string.home),
-                             route = "home",
-                             icon = painterResource(R.drawable.home),
-                         ),
-                         BottomNavItem(
-                             name = stringResource(R.string.search),
-                             route = "on_boarding",
-                             icon = painterResource(R.drawable.search),
-                         ),
-                        BottomNavItem(
-                            name = stringResource(R.string.chat),
-                            route = "login",
-                            icon = painterResource(R.drawable.chat),
-                        ),
-                        BottomNavItem(
-                            name = stringResource(R.string.profile),
-                            route = "profile",
-                            icon = painterResource(R.drawable.profile),
-                        ),
+    Scaffold(
+        modifier = Modifier.navigationBarsPadding(),
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
+        bottomBar = {
+            BottomNavigation(
+                listOf(
+                    BottomNavItem(
+                        name = stringResource(R.string.home),
+                        route = MainRoute.Home,
+                        icon = painterResource(R.drawable.home),
                     ),
-                    navController = navController,
-                    onItemClick = {
-                        navController.navigate(it.route)
-                    })
+                    BottomNavItem(
+                        name = stringResource(R.string.search),
+                        route = MainRoute.Group,
+                        icon = painterResource(R.drawable.search),
+                    ),
+                    BottomNavItem(
+                        name = stringResource(R.string.chat),
+                        route = MainRoute.Chat,
+                        icon = painterResource(R.drawable.chat),
+                    ),
+                    BottomNavItem(
+                        name = stringResource(R.string.profile),
+                        route = MainRoute.Profile,
+                        icon = painterResource(R.drawable.profile),
+                    ),
+                ),
+                navController = navController,
+                onItemClick = {
+                    navController.navigate(it.route)
+                }
+            )
 
-            },
-            floatingActionButton = {
-                FloatingActionButton {}
-            }
-        ) {
-
-            SocialNetworkNavGraph(navController = navController)
-
+        },
+        floatingActionButton = {
+            FloatingActionButton {}
         }
+    ) {
+
+        MainNavigationGraph(navController)
 
     }
+
+
 
 }
 
@@ -83,7 +83,7 @@ fun SocialNetworkApp() {
 fun SocialNetworkAppPreview() {
     SocialNetworkTheme {
 
-        SocialNetworkApp()
+//        SocialNetworkApp()
 
     }
 }

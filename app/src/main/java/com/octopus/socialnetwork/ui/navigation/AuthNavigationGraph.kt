@@ -1,18 +1,17 @@
 package com.octopus.socialnetwork.ui.navigation
 
 
-import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.navigation
 import com.octopus.socialnetwork.ui.screen.login.loginRoute
 import com.octopus.socialnetwork.ui.screen.onboarding.onBoardingRoute
 import com.octopus.socialnetwork.ui.screen.register.registerRoute
 
-@Composable
-fun AuthNavigationGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = "on_boarding",
+fun NavGraphBuilder.authNavigationGraph(navController: NavHostController) {
+
+    navigation(
+        startDestination = AuthenticationRoute.OnBoarding,
         route = Graph.AUTH
     ) {
         onBoardingRoute(navController)
@@ -20,4 +19,11 @@ fun AuthNavigationGraph(navController: NavHostController) {
         registerRoute(navController)
 
     }
+}
+
+
+object AuthenticationRoute {
+    const val OnBoarding = "onBoarding"
+    const val Login = "login"
+    const val Register = "register"
 }
