@@ -18,21 +18,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.composable.notifications.NotificationAppBar
+import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import com.octopus.socialnetwork.ui.theme.DividerColor
+import com.octopus.socialnetwork.ui.util.extensions.setScreenDestinationOnClickNotification
 
 
-@Preview(showSystemUi = true)
 @Composable
 fun NotificationsScreen(
+    navController: NavController,
     viewModel: NotificationsViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.state.collectAsState()
     NotificationsContent(
         state = state,
+        onClickNotification = { notificationItemsUiState ->
+            notificationItemsUiState
+                .notificationDetails.type
+                .setScreenDestinationOnClickNotification(
+                navController,
+                notificationItemsUiState
+            )
+        },
+        onClickBack = {
+            navController.navigateToHomeScreen()
+        }
     )
 }
 
@@ -40,6 +55,8 @@ fun NotificationsScreen(
 @Composable
 private fun NotificationsContent(
     state: NotificationsUiState,
+    onClickNotification: (NotificationItemsUiState) -> Unit,
+    onClickBack: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -48,7 +65,7 @@ private fun NotificationsContent(
             .background(color = Color.White),
     ) {
 
-        NotificationAppBar()
+        NotificationAppBar(onClickBack)
 
         Divider(color = DividerColor, thickness = 1.dp)
 
@@ -58,9 +75,7 @@ private fun NotificationsContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(state.notifications) { NotificationItemsUiState ->
-                ItemNotification(NotificationItemsUiState) {
-                }
-
+                ItemNotification(NotificationItemsUiState, onClickNotification)
             }
         }
     }

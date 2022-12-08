@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
@@ -21,8 +22,10 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailS: FetchUserDetailsUseCase,
     private val  fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val  fetchUserPosts: FetchUserPostsUseCase,
+    savedStateHandle: SavedStateHandle,
     ) : ViewModel(){
 
+    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 

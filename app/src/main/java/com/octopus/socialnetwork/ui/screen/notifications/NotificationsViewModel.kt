@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
@@ -16,18 +17,21 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
     private val  fetchUserNotifications: FetchUserNotificationsUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel(){
+    private val args: NotificationsScreenArgs = NotificationsScreenArgs(savedStateHandle)
+
     private val _state = MutableStateFlow(NotificationsUiState())
     val state = _state.asStateFlow()
 
     init {
-        getNotifications(16)
+        getNotifications()
     }
 
-    private fun getNotifications(userId: Int) {
+    private fun getNotifications() {
         try {
             viewModelScope.launch {
-                val userNotifications = fetchUserNotifications(userId, null, null).toNotificationsUiState().notifications
+                val userNotifications = fetchUserNotifications(args.userId.toInt(), null, null).toNotificationsUiState().notifications
 
                 _state.update {
                     it.copy(

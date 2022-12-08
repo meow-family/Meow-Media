@@ -20,8 +20,8 @@ import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
+import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-
 
 @Composable
 fun HomeScreen(
@@ -37,6 +37,9 @@ fun HomeScreen(
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
+        },
+        onClickNotifications = { argUserId ->
+            navController.navigateToNotificationsScreen(argUserId)
         }
     )
 
@@ -49,7 +52,8 @@ private fun HomeContent(
     onClickLike: () -> Unit,
     onClickComment: () -> Unit,
     onClickShare: () -> Unit,
-    onClickPost: (Int, Int) -> Unit
+    onClickPost: (Int, Int) -> Unit,
+    onClickNotifications: (Int) -> Unit
 ) {
 
 
@@ -60,7 +64,10 @@ private fun HomeContent(
             .background(color = Color.White),
 
         ) {
-        TopBar()
+        TopBar(
+            userId = 16,
+            onClickNotifications = onClickNotifications
+        )
 
         if (state.isLoading) {
             Loading()

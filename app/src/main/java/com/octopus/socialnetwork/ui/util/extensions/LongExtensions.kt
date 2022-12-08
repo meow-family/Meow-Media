@@ -4,6 +4,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun Long.convertTimeCreatedToDate() : String {
-    return SimpleDateFormat("yyyy-MM-dd HH:mm a", Locale("en"))
+    return SimpleDateFormat("HH:mm a", Locale("en"))
         .format(Date(this * 1000))
 }

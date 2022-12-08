@@ -17,9 +17,11 @@ import com.octopus.socialnetwork.ui.composable.Icons
 import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.theme.Gray900_2
 
-@Preview()
 @Composable
-fun TopBar() {
+fun TopBar(
+    userId: Int,
+    onClickNotifications: (Int) -> Unit
+) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -34,7 +36,7 @@ fun TopBar() {
         Icons(
             imageVector = Icons.Default.Notifications,
             tint = Gray900_2,
-            modifier = Modifier.size(24.dp).clickable {  },
+            modifier = Modifier.size(24.dp).clickable { onClickNotifications(userId) },
         )
 
     }

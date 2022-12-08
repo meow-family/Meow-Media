@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.composable.notifications
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
@@ -19,18 +20,19 @@ import com.octopus.socialnetwork.ui.composable.MultiTextStyle
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.Gray700
 import com.octopus.socialnetwork.ui.util.extensions.convertTimeCreatedToDate
-import com.octopus.socialnetwork.ui.util.extensions.setNotificationsType
+import com.octopus.socialnetwork.ui.util.extensions.setNotificationsTitle
 
 
 @Composable
 fun ItemNotification(
     notification: NotificationItemsUiState,
-    onClick: (Int) -> Unit,
+    onClickNotification: (NotificationItemsUiState) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { onClickNotification(notification) },
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -49,7 +51,7 @@ fun ItemNotification(
         ) {
             MultiTextStyle(
                 name = notification.posterDetails.posterFullName,
-                title =  stringResource(id = notification.notificationDetails.type.setNotificationsType()),
+                title =  stringResource(id = notification.notificationDetails.type.setNotificationsTitle()),
             )
 
             Text(

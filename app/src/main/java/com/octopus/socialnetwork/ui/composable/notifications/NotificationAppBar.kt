@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.composable.notifications
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -14,30 +15,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.theme.Gray900_2
 
 @Composable
-fun NotificationAppBar() {
+fun NotificationAppBar(
+    onClickBack: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
             .padding(16.dp)
             .background(color = Color.White),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            modifier = Modifier,
-            text = stringResource(R.string.notification),
-            color = Color.Black,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp,
+        Icon(
+            painter = painterResource(id = R.drawable.ic_arrow_back),
+            contentDescription = stringResource(id = R.string.icon_arrow_back),
+            tint = Gray900_2,
+            modifier = Modifier.size(24.dp).clickable { onClickBack() }
         )
 
-        Icon(
-            painter = painterResource(R.drawable.ic_notification),
-            contentDescription = stringResource(id = R.string.notification),
-            tint = Color.Black,
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.notification),
+            color = Gray900_2,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp,
         )
     }
 }
