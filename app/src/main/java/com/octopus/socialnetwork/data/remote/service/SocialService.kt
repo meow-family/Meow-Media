@@ -10,6 +10,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
+import com.octopus.socialnetwork.data.remote.response.dto.group.GroupDetailsDto
+import com.octopus.socialnetwork.data.remote.response.dto.group.GroupMembersDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
@@ -31,6 +33,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import retrofit2.http.*
 
 interface SocialService {
+    /**
+     * Auth
+     */
     @POST("user_authenticate")
     suspend fun login(
         @Query("username") username: String,
@@ -49,6 +54,9 @@ interface SocialService {
         @Query("password") password: String,
     ): BaseResponse<RegisterDto>
 
+    /**
+     * User
+     */
     @GET("user_details")
     suspend fun getUserDetails(
         @Query("guid") visitedUserId: Int,
@@ -65,7 +73,6 @@ interface SocialService {
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDto>
 
-    ///////////////////////////////////////////////////
     @POST("user_edit")
     suspend fun editUser(
         @Query("guid") currentUserId: Int,
@@ -75,8 +82,16 @@ interface SocialService {
         @Query("current_password") currentPassword: String,
         @Query("new_password") newPassword: String,
     ): BaseResponse<UserDto>
-    ///////////////////////////////////////////////////////
 
+    @GET("user_is_friend")
+    suspend fun checkUserFriend(
+        @Query("user_b") receiverUser: Int,
+        @Query("user_a") senderUser: Int,
+    ): BaseResponse<CheckUserFriendDto>
+
+    /**
+     * Post
+     */
     @GET("wall_view")
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
@@ -94,7 +109,6 @@ interface SocialService {
         @Query("guid") currentUserId: Int,
     ): BaseResponse<AllPostDto>
 
-    // create post without any parameters?
     @FormUrlEncoded
     @POST("wall_add")
     suspend fun createPost(
@@ -110,6 +124,9 @@ interface SocialService {
         @Query("guid") posterOwnerId: Int,
     ): BaseResponse<PostDto>
 
+    /**
+     * Like
+     */
     @POST("like_add")
     suspend fun like(
         @Query("uguid") currentUserId: Int,
@@ -124,14 +141,9 @@ interface SocialService {
         @Query("type") typeContent: String,
     ): BaseResponse<LikeDto>
 
-
-    @GET("user_is_friend")
-    suspend fun checkUserFriend(
-        @Query("user_b") receiverUser: Int,
-        @Query("user_a") senderUser: Int,
-    ): BaseResponse<CheckUserFriendDto>
-
-    // Notifications
+    /**
+     * Notification
+     */
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") currentUserId: Int,
@@ -150,7 +162,9 @@ interface SocialService {
         @Query("notification_guid") notificationId: Int,
     ): BaseResponse<NotificationItemsDto>
 
-
+    /**
+     * Album
+     */
     @GET("photos_list_albums")
     suspend fun getAlbumsUser(
         @Query("guid") albumOwnerUserId: Int,
@@ -162,7 +176,6 @@ interface SocialService {
         @Query("album_guid") albumId: Int,
     ): BaseResponse<AlbumPhotosDto>
 
-
     @POST("photos_album_create")
     suspend fun createAlbum(
         @Path("title") title: String,
@@ -170,14 +183,15 @@ interface SocialService {
         @Field("privacy") privacy: Int,
     ): BaseResponse<InfoAlbumDto>
 
-
     @POST("photos_delete")
     suspend fun deleteAlbumPhoto(
         @Path("photoid") photoId: Int,
         @Query("guid") visitedUserId: Int,
     ): BaseResponse<StateDto>
 
-
+    /**
+     * Message
+     */
     @GET("message_recent")
     suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
@@ -203,8 +217,9 @@ interface SocialService {
         @Query("to") messageReceiverId: Int,
     ): BaseResponse<MessageListDto>
 
-
-    //region comment
+    /**
+     * Comment
+     */
     @GET("comments_list")
     suspend fun getCommentsList(
         @Query("uguid") currentUserId: Int,
@@ -230,9 +245,10 @@ interface SocialService {
         @Query("comment") comment: String,
         @Query("uguid") userId: Int
     ): BaseResponse<CommentDetails>
-    //endregion
 
-    //region photo
+    /**
+     * Photo
+     */
     @GET("photos_view")
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
@@ -263,6 +279,24 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
-//endregion
+    /**
+     * Group
+     */
+    @GET("groups_view")
+    suspend fun getGroup(
+        @Query("guid") groupId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<GroupDetailsDto>
 
+    @GET("groups_members")
+    suspend fun getGroupMembers(
+        @Query("guid") groupId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<GroupMembersDto>
+
+    @GET("groups_add")
+    suspend fun joinGroup(
+        @Query("guid") groupId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<GroupJoinDto>
 }
