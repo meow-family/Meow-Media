@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages
 
 import com.google.gson.annotations.SerializedName
 
-data class MessageDto (
+data class MessageDto(
     @SerializedName("answered")
     val answered: Int?,
     @SerializedName("id")

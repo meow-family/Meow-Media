@@ -7,19 +7,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.domain.model.messages.Avatar
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
+    avatar: String,
     nameOfSender: String,
     lastMessage: String,
     countMessagesNotSeen: Int,
     seen: Boolean,
-    time: String
+    time: Int
 ) {
     Column(Modifier.fillMaxWidth()) {
         Row(
@@ -30,7 +34,7 @@ fun MessageItem(
             horizontalArrangement = Arrangement.Center
         ) {
             ProfileImage(
-                painter = painterResource(id = R.drawable.profile_image),
+                painter = rememberAsyncImagePainter(model = avatar),
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
@@ -67,7 +71,7 @@ fun MessageItem(
                 modifier = Modifier.align(Alignment.CenterVertically),
             ) {
                 Text(
-                    text = time,
+                    text = time.toString(),
                     modifier = Modifier.align(Alignment.End),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
