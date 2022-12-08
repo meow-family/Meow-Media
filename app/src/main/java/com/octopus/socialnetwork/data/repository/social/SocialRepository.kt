@@ -100,6 +100,8 @@ interface SocialRepository {
         commentId: Int,
         userId: Int,
     ): Boolean
+
+    suspend fun addComment(postId : Int, comment: String, userId: Int): CommentDetails
     //endregion
 
     //region photo

@@ -5,9 +5,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import com.octopus.socialnetwork.ui.navigation.MainRoute
 import androidx.navigation.navArgument
 
-private const val ROUTE = "profile"
+private const val ROUTE = MainRoute.Profile
 
 
 fun NavController.navigateToProfileScreen(userId: Int){

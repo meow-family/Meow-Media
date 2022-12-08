@@ -64,6 +64,8 @@
     <string name="profile">Profile</string>
 
     <string name="icon_arrow_back"> icon arrow back </string>
+    <string name="MessageScreenUpbar">Message</string>
+    <string name="Comments">Comments</string>
 
     <!-- Notification Titles  -->
     <string name="liked_your_post">liked your post</string>

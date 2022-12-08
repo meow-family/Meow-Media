@@ -1,9 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -26,12 +31,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.InputTextField
 import com.octopus.socialnetwork.ui.composable.ImageWithShadow
+import com.octopus.socialnetwork.ui.composable.InputTextField
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
-
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
+import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
 
 
 @Composable
@@ -45,7 +52,10 @@ fun LoginScreen(
         state = state,
         onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
-        login = viewModel::login,
+        login = { navController.navigateToMain() },
+        signUp = {
+            navController.navigateToRegister()
+        }
     )
 }
 
@@ -56,14 +66,15 @@ private fun LoginContent(
     onChangeUsernameOrEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
+    signUp: () -> Unit
+
 ) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White).verticalScroll(rememberScrollState()),
-
+            .background(MaterialTheme.colors.background),
 
         ) {
         ImageWithShadow( modifier = Modifier
@@ -116,7 +127,7 @@ private fun LoginContent(
         TextWithAction(
             text = stringResource(R.string.donot_have_account),
             textAction = stringResource(R.string.signup_here),
-            onClick = {}
+            onClick = signUp
         )
 
     }
