@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
@@ -15,7 +16,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val args: CommentsScreenArgs = CommentsScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(CommentsUiState())
     val state = _state.asStateFlow()
@@ -28,9 +32,9 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 31,
-                    postId = 324,
-                    type = "post"
+                    currentUserId = 16,
+                    postId = args.postId.toInt(),
+                    type = args.type
                 ).map { it.toCommentDetailsUiState() }
                 _state.update {
                     it.copy(

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingComment
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
@@ -26,19 +27,20 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
 @Composable
-fun PostCommentsBottomSheet(
+fun CommentsScreen(
+    navController: NavController,
     viewModel: CommentsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    PostCommentsContent(
+    CommentsContent(
         state = state,
         onChangeTypingComment = viewModel::onChangeTypingComment
     )
 }
 
 @Composable
-private fun PostCommentsContent(
+private fun CommentsContent(
     state: CommentsUiState,
     onChangeTypingComment: (String) -> Unit,
 ) {
@@ -80,7 +82,7 @@ private fun PostCommentsContent(
 fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
-            PostCommentsBottomSheet()
+            //CommentsScreen()
         }
     }
 }
