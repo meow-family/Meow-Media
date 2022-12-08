@@ -21,7 +21,6 @@ class EditProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow(EditProfileUiState())
     val state = _state.asStateFlow()
 
-
     private fun updateUserData() {
         viewModelScope.launch {
             try {
@@ -31,7 +30,7 @@ class EditProfileViewModel @Inject constructor(
                     lastName = _state.value.lastName,
                     email = _state.value.email,
                     currentPassword = _state.value.currentPassword,
-                    newPassword = _state.value.newPassword
+                    newPassword = _state.value.newPassword,
                 )
                 _state.update {
                     it.copy(
@@ -57,6 +56,13 @@ class EditProfileViewModel @Inject constructor(
         updateUserData()
     }
 
+    fun onChangeImage(image: String){
+        _state.update {
+            it.copy(
+                profileAvatar = image
+            )
+        }
+    }
     fun onChangeFirstName(newValue: String) {
         _state.update { it.copy(firstName = newValue) }
     }
