@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Social Network</string>
     <string name="description">we should put reasonable text here so it looks like a real design, not blah</string>
-    <string name="donot_have_account">\"Don’t have a account? \"</string>
+    <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
     <string name="signup_here">Sign up here</string>
     <string name="username_or_email">Username or email</string>
@@ -64,4 +64,6 @@
     <string name="profile">Profile</string>
 
     <string name="icon_arrow_back"> icon arrow back </string>
+    <string name="MessageScreenUpbar">Message</string>
+    <string name="Comments">Comments</string>
 </resources>

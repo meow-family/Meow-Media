@@ -15,18 +15,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.composable.notifications.NotificationAppBar
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import com.octopus.socialnetwork.ui.theme.DividerColor
 
 
-@Preview(showSystemUi = true)
 @Composable
 fun NotificationsScreen(
+    navController: NavController,
     viewModel: NotificationsViewModel = hiltViewModel(),
 ) {
 

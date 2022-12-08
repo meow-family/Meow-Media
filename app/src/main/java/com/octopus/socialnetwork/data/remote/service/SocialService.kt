@@ -1,26 +1,27 @@
 package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.UnLikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.UnreadMessagesDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
@@ -223,6 +224,13 @@ interface SocialService {
         @Query("id") commentId: Int,
         @Query("guid") userId: Int,
     ): BaseResponse<Boolean>
+
+    @POST("comment_add")
+    suspend fun addComment(
+        @Query("subject_guid") postId: Int,
+        @Query("comment") comment: String,
+        @Query("uguid") userId: Int
+    ): BaseResponse<CommentDetails>
     //endregion
 
     //region photo
@@ -230,7 +238,7 @@ interface SocialService {
     suspend fun getPhoto(
         @Query("photo_guid") photoId: Int,
         @Query("uguid") userId: Int,
-    ) :BaseResponse<PhotoDto>
+    ): BaseResponse<PhotoDto>
 
     @GET("photos_list_profile_cover")
     suspend fun getPhotosListProfileCover(
@@ -240,9 +248,9 @@ interface SocialService {
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(
-      @Query("photo_guid") photoId: Int,
-      @Query("uguid") userId: Int,
-    ) : BaseResponse<UserProfileDto>
+        @Query("photo_guid") photoId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<UserProfileDto>
 
     @GET("photos_delete_profile")
     suspend fun deletePhotoProfile(
