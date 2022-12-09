@@ -20,7 +20,6 @@ import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
-import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotification
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 
@@ -30,20 +29,19 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val notificationsCountState by viewModel.notificationsCountState.collectAsState()
 
     HomeContent(
         state = state,
+        notificationsCountState = notificationsCountState,
         onClickLike = viewModel::onClickLike,
         onClickComment = viewModel::onClickComment,
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
-        onClickNotification = {
-            navController.navigateToNotification()
-        },
-        onClickNotifications = { argUserId ->
-            navController.navigateToNotificationsScreen(argUserId)
+        onClickNotifications = {
+            navController.navigateToNotificationsScreen()
         }
     )
 
@@ -53,13 +51,12 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
+    notificationsCountState: Int,
     onClickLike: () -> Unit,
     onClickComment: () -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
-    onClickNotification: () -> Unit,
-    onClickPost: (Int, Int) -> Unit,
-    onClickNotifications: (Int) -> Unit
+    onClickNotifications: () -> Unit
 ) {
 
 
@@ -71,9 +68,8 @@ private fun HomeContent(
 
         ) {
 
-        TopBar(onClickNotification)
         TopBar(
-            userId = 16,
+            notificationsCount = notificationsCountState,
             onClickNotifications = onClickNotifications
         )
 

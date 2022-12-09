@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.composable.notifications.NotificationAppBar
 import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
@@ -67,6 +68,10 @@ private fun NotificationsContent(
         NotificationAppBar(onClickBack)
 
         Divider(color = DividerColor, thickness = 1.dp)
+
+        if (state.isLoading) {
+            Loading()
+        }
 
         LazyColumn(modifier = Modifier
                 .fillMaxWidth(),

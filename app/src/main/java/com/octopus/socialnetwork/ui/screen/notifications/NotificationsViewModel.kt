@@ -19,7 +19,6 @@ class NotificationsViewModel @Inject constructor(
     private val  fetchUserNotifications: FetchUserNotificationsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel(){
-    private val args: NotificationsScreenArgs = NotificationsScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(NotificationsUiState())
     val state = _state.asStateFlow()
@@ -31,7 +30,7 @@ class NotificationsViewModel @Inject constructor(
     private fun getNotifications() {
         try {
             viewModelScope.launch {
-                val userNotifications = fetchUserNotifications(args.userId.toInt(), null, null).toNotificationsUiState().notifications
+                val userNotifications = fetchUserNotifications(16, null, null).toNotificationsUiState().notifications
 
                 _state.update {
                     it.copy(
