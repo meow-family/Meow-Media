@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumDto
 import com.octopus.socialnetwork.domain.model.album.UserAlbum
 
 
-
 fun AlbumDto.toAlbum(): UserAlbum {
     return UserAlbum(
         albums = emptyList(),
