@@ -1,15 +1,28 @@
 package com.octopus.socialnetwork.data.remote.response.dto.group.others
 
+import com.google.gson.annotations.SerializedName
+
 data class Group(
+    @SerializedName("description")
     val description: String,
-    val guid: Int,
-    val ismember: Boolean,
+    @SerializedName("guid")
+    val currentUserId: Int,
+    @SerializedName("ismember")
+    val isMember: Boolean,
+    @SerializedName("membership")
     val membership: String,
-    val owner_guid: Int,
-    val request_exists: Boolean,
+    @SerializedName("owner_guid")
+    val ownerGuid: Int,
+    @SerializedName("request_exists")
+    val requestExists: Boolean,
+    @SerializedName("subtype")
     val subtype: String,
-    val time_created: Int,
+    @SerializedName("time_created")
+    val timeCreated: Int,
+    @SerializedName("title")
     val title: String,
-    val total_requests: Int,
+    @SerializedName("total_requests")
+    val totalRequests: Int,
+    @SerializedName("type")
     val type: String
 )

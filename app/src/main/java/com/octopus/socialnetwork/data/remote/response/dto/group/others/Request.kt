@@ -1,15 +1,28 @@
 package com.octopus.socialnetwork.data.remote.response.dto.group.others
 
+import com.google.gson.annotations.SerializedName
+
 data class Request(
+    @SerializedName("birthdate")
     val birthdate: String,
-    val cover_url: String,
+    @SerializedName("cover_url")
+    val coverUrl: String,
+    @SerializedName("email")
     val email: String,
-    val first_name: String,
-    val fullname: String,
+    @SerializedName("first_name")
+    val firstName: String,
+    @SerializedName("fullname")
+    val fullName: String,
+    @SerializedName("gender")
     val gender: String,
-    val guid: Int,
+    @SerializedName("guid")
+    val currentUserId: Int,
+    @SerializedName("icon")
     val icon: Icon,
+    @SerializedName("language")
     val language: String,
-    val last_name: String,
+    @SerializedName("last_name")
+    val lastName: String,
+    @SerializedName("username")
     val username: String
 )
