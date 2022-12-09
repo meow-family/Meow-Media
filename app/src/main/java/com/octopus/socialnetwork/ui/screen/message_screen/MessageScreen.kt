@@ -82,4 +82,3 @@ fun MessageViewContent(state: MessageMainUiState) {
 
 
 }
-//name :String ,lastMessage:String ,avatar:String,time:Int,seen:Boolean,

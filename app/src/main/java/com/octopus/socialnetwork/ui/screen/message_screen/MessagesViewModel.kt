@@ -1,12 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.message_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.messages.GetMessagesListRecentUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.MessageListUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.MessagesSendUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.UnreadMessagesUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.GetMessageListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.SendMessagesUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.GetUnreadMessagesUseCase
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toMessageUiStateMapper
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,32 +17,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MessagesViewModel @Inject constructor(
-    private val fetchRecentMessages: GetMessagesListRecentUseCase,
-    private val fetchMessagesList: MessageListUseCase,
-    private val fetchUnreadMessages: UnreadMessagesUseCase,
-    private val fetchMessagesSend: MessagesSendUseCase
+    private val fetchRecentMessages: GetRecentMessagesListUseCase,
+    private val fetchMessagesList: GetMessageListUseCase,
+    private val fetchUnreadMessages: GetUnreadMessagesUseCase,
+    private val fetchMessagesSend: SendMessagesUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
+    val userId = 16
 
     init {
-        getMessagesDetails(5)
+        getMessagesDetails(userId)
     }
 
     private fun getMessagesDetails(userId: Int) {
 
         try {
             viewModelScope.launch {
+
                 val recentMessages =
-                    fetchRecentMessages(userId)?.map { it.toMessageUiStateMapper() }
+                    fetchRecentMessages(userId).map { it.toMessageUiStateMapper() }
+
+
 
                 _state.update {
                     it.copy(
                         isFail = false,
                         isLoading = false,
-                        recentMessages = recentMessages!!
+                        recentMessages = recentMessages
 
                     )
                 }

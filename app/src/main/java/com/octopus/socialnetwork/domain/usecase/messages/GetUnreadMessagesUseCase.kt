@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.domain.mapper.messages.asUnreadMassages
 import com.octopus.socialnetwork.domain.model.messages.UnreadMessageDetails
 import javax.inject.Inject
 
-class UnreadMessagesUseCase @Inject constructor(
+class GetUnreadMessagesUseCase @Inject constructor(
     private val socialRepository: MessagingRepository
 ) {
     suspend operator fun invoke(from: Int, to: Int, unreadMessage: String): UnreadMessageDetails {

@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.domain.mapper.messages.asSendMassagesList
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
 import javax.inject.Inject
 
-class MessagesSendUseCase @Inject constructor(
+class SendMessagesUseCase @Inject constructor(
     private val socialRepository: MessagingRepository
 ) {
     suspend operator fun invoke(from: Int, to: Int, message: String): MessageDetails {

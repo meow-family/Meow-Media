@@ -5,11 +5,11 @@ import com.octopus.socialnetwork.ui.screen.message_screen.uistate.RecentMessages
 
 fun MessageDetails.toMessageUiStateMapper(): RecentMessagesUiState {
     return RecentMessagesUiState(
-        idOfSender = userId,
+        idOfSender = messageSender.userId,
         nameOfSender = messageSender.fullName,
         message = message,
         timeOfLastSend = time,
         viewed = viewed,
-        avatar = messageReceiver.avatar,
+        avatar = messageSender.avatar,
         )
 }
