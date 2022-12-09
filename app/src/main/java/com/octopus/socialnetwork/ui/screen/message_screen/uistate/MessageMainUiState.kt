@@ -4,6 +4,8 @@ data class MessageMainUiState(
     val isFail: Boolean = false,
     val isLoading: Boolean = true,
     val messages: MessageUiState = MessageUiState(),
-    val recentMessages: List<RecentMessagesUiState> = emptyList()
+    var countUnreadMessages:Int =0,
+    val recentMessages: List<RecentMessagesUiState> = emptyList(),
 
-)
+
+    )

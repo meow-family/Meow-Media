@@ -26,9 +26,9 @@ class MessagingRepositoryImpl @Inject constructor(
     override suspend fun unreadMessages(
         messageSenderId: Int,
         messageReceiverId: Int,
-        message: String
+        markAllRead: Int
     ): UnreadMessagesDto {
-        return service.unreadMessages(messageSenderId, messageReceiverId, message).result
+        return service.unreadMessages(messageSenderId, messageReceiverId, markAllRead).result
     }
 
     override suspend fun messageList(messageSenderId: Int, messageReceiverId: Int): MessageListDto {

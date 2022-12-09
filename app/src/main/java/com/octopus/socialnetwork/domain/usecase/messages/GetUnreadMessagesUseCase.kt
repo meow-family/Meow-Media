@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetUnreadMessagesUseCase @Inject constructor(
     private val socialRepository: MessagingRepository
 ) {
-    suspend operator fun invoke(from: Int, to: Int, unreadMessage: String): UnreadMessageDetails {
+    suspend operator fun invoke(from: Int, to: Int, unreadMessage: Int): UnreadMessageDetails {
         return socialRepository.unreadMessages(from, to, unreadMessage).asUnreadMassages()
     }
 }

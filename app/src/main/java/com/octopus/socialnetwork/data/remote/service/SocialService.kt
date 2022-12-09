@@ -194,7 +194,7 @@ interface SocialService {
     suspend fun unreadMessages(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("markallread") markAllRead: String
+        @Query("markallread") markAllRead: Int
     ): BaseResponse<UnreadMessagesDto>
 
     @POST("message_list")

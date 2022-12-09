@@ -21,9 +21,8 @@ fun MessageItem(
     avatar: String,
     nameOfSender: String,
     lastMessage: String,
-    countMessagesNotSeen: Int,
-    seen: Boolean,
-    time: Int
+    seen: String,
+    time: String
 ) {
     Column(Modifier.fillMaxWidth()) {
         Row(
@@ -80,7 +79,7 @@ fun MessageItem(
 
                 )
                 SpaceVertically4dp()
-                if (seen) {
+                if (seen=="1") {
                     Text(
                         text = "Seen",
                         modifier = Modifier.align(Alignment.End),
@@ -92,7 +91,7 @@ fun MessageItem(
 
                 } else {
 
-                    CircleShapeWithText(numberOfMessages = countMessagesNotSeen)
+                    CircleShapeWithText()
                 }
 
             }

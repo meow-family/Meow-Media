@@ -50,7 +50,8 @@ fun UnreadMessagesDto.asUnreadMassages(): UnreadMessageDetails {
         messageReceiver = messageReceiver?.asMessageTo()
             ?: MessageUser(
                 0, "", "", ""
-            )
+            ),
+        messages = messages?.map { it.asMassagesDetails() } ?: emptyList()
     )
 }
 
