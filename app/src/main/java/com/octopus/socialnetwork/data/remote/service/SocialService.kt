@@ -11,6 +11,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.group.GroupDetailsDto
+import com.octopus.socialnetwork.data.remote.response.dto.group.GroupJoinDto
+import com.octopus.socialnetwork.data.remote.response.dto.group.GroupLeaveDto
 import com.octopus.socialnetwork.data.remote.response.dto.group.GroupMembersDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
@@ -299,4 +301,10 @@ interface SocialService {
         @Query("guid") groupId: Int,
         @Query("uguid") userId: Int,
     ): BaseResponse<GroupJoinDto>
+
+    @GET("groups_unjoin")
+    suspend fun leaveGroup(
+        @Query("guid") groupId: Int,
+        @Query("uguid") userId: Int,
+    ): BaseResponse<GroupLeaveDto>
 }
