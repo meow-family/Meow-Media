@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -19,19 +18,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
+import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightInput
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
-import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
 fun InputTextFieldValidation(
-    state: TextFieldState,
+    state: TextFieldUiState,
     placeholder: String,
     icon: ImageVector,
-    onChangeEmail: (String) -> Unit,
+    showError: Boolean,
+    onChangeValue: (String) -> Unit,
     isPassword: Boolean = false,
     isReadOnly: Boolean = false,
     action: ImeAction = ImeAction.Next,
@@ -43,11 +42,11 @@ fun InputTextFieldValidation(
             .fillMaxWidth()
             .padding(horizontal = spacingSmall),
         shape = Shapes.large,
-        value = state.state.text,
+        value = state.text,
         readOnly = isReadOnly,
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        onValueChange = onChangeEmail,
+        onValueChange = onChangeValue,
         keyboardOptions = KeyboardOptions(imeAction = action),
         placeholder = {
             Text(
@@ -68,7 +67,7 @@ fun InputTextFieldValidation(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = MaterialTheme.colors.primary,
             focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = if (!state.state.isValid && state.showError) MaterialTheme.colors.error else Color.Gray,
+            unfocusedBorderColor = if (!state.isValid && showError) MaterialTheme.colors.error else Color.Gray,
             focusedLabelColor = MaterialTheme.colors.primary,
             errorBorderColor = MaterialTheme.colors.error,
             textColor = MaterialTheme.colors.textSecondaryColor
@@ -76,6 +75,9 @@ fun InputTextFieldValidation(
 
         )
 
-    state.getError()?.let { error -> TextFieldError(textError = stringResource(id = error)) }
+    if (!state.isValid && showError) {
+        state.error?.let { TextFieldError(textError = it) }
+    }
+//    state.getError()?.let { error -> TextFieldError(textError = stringResource(id = error)) }
 }
 

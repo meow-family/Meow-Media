@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable.register
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.InputTextField
+import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.rememberDatePicker
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
@@ -38,6 +37,7 @@ import com.octopus.socialnetwork.ui.theme.zero
 @ExperimentalMaterialApi
 fun SecondStepRegistration(
     userInfoForm: UserInfoFormUiState,
+    showError: Boolean,
     onChangeFirstName: (String) -> Unit,
     onChangeLastName: (String) -> Unit,
     onChangeGender: (String) -> Unit,
@@ -52,28 +52,28 @@ fun SecondStepRegistration(
             .padding(vertical = 32.dp)
     ) {
 
-        InputTextField(
+        InputTextFieldValidation(
+            state = userInfoForm.firstName,
+            onChangeValue = onChangeFirstName,
             placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = userInfoForm.firstName.text,
-            isPassword = false,
-            onValueChange = onChangeFirstName,
+            showError = showError
         )
         SpacerVertical16()
-        InputTextField(
+        InputTextFieldValidation(
+            state = userInfoForm.lastName,
+            onChangeValue = onChangeLastName,
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
             action = ImeAction.Next,
-            value = userInfoForm.lastName.text,
-            isPassword = false,
-            onValueChange = onChangeLastName,
+            showError = showError
         )
         SpacerVertical16()
         DropdownMenuApp(
             expanded = expandedDropdownMenu,
             onValueChange = onChangeGender,
-            value = userInfoForm.gender.text,
+            state = userInfoForm.gender,
             onExpandedChange = {
                 expandedDropdownMenu = !expandedDropdownMenu
             },
@@ -82,20 +82,22 @@ fun SecondStepRegistration(
             },
             onClick = { selectedGender ->
                 userInfoForm.gender.text = selectedGender
+                onChangeGender(selectedGender)
                 expandedDropdownMenu = false
-            }
+            },
+            showError = showError
         )
         SpacerVertical16()
 
         Box() {
-            InputTextField(
-                modifier = Modifier.clickable(enabled = true, onClick = { datePicker.show() }),
-                isReadOnly = true,
+            InputTextFieldValidation(
+                state = userInfoForm.birthDate,
+                onChangeValue = onChangeBirthday,
                 placeholder = stringResource(R.string.birthday),
                 icon = Icons.Default.CalendarMonth,
                 action = ImeAction.Done,
-                value = userInfoForm.birthDate.text,
-                onValueChange = onChangeBirthday,
+                isReadOnly = true,
+                showError = showError
             )
             Button(
                 modifier = Modifier

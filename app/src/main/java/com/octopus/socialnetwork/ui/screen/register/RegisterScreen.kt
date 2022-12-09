@@ -41,14 +41,10 @@ import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
-import com.octopus.socialnetwork.ui.util.emailValidation
-import com.octopus.socialnetwork.ui.util.passwordShortValidation
-import com.octopus.socialnetwork.ui.util.requiredValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -145,26 +141,7 @@ private fun RegisterContent(
                 0 -> {
                     FirstStepRegistration(
                         state.userInfoForm,
-                        usernameState = TextFieldState(
-                            state = state.userInfoForm.userName,
-                            showError = state.displayErrors,
-                            validator = ::requiredValidation
-                        ),
-                        emailState = TextFieldState(
-                            state = state.userInfoForm.email,
-                            showError = state.displayErrors,
-                            validator = ::emailValidation
-                        ),
-                        reEmailState = TextFieldState(
-                            state = state.userInfoForm.email,
-                            showError = state.displayErrors,
-                            validator = ::emailValidation
-                        ),
-                        passwordState = TextFieldState(
-                            state = state.userInfoForm.email,
-                            showError = state.displayErrors,
-                            validator = ::passwordShortValidation
-                        ),
+                        showError = state.displayErrors,
                         onChangeUserName = onChangeUserName,
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
@@ -175,6 +152,7 @@ private fun RegisterContent(
                 1 -> {
                     SecondStepRegistration(
                         state.userInfoForm,
+                        showError = state.displayErrors,
                         onChangeFirstName = onChangeFirstName,
                         onChangeLastName = onChangeLastName,
                         onChangeGender = onChangeGender,
@@ -192,18 +170,38 @@ private fun RegisterContent(
         CustomButton(
             text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
         ) {
-            if (state.isValidInputs) {
-                if (pagerState.currentPage == state.initPage) {
+            val userInput = state.userInfoForm
+            if (pagerState.currentPage == state.initPage) {
+
+                if (userInput.userName.isValid && userInput.email.isValid && userInput.reEmail.isValid && userInput.password.isValid) {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(2)
                     }
                 } else {
-                    onClickRegister()
+                    showError()
                 }
 
             } else {
-                showError()
+                if (userInput.firstName.isValid && userInput.lastName.isValid && userInput.gender.isValid && userInput.birthDate.isValid) {
+                    onClickRegister()
+                } else {
+                    showError()
+                }
+
             }
+
+//            if (state.isValidInputs) {
+//                if (pagerState.currentPage == state.initPage) {
+//                    coroutineScope.launch {
+//                        pagerState.animateScrollToPage(2)
+//                    }
+//                } else {
+//                    onClickRegister()
+//                }
+//
+//            } else {
+//                showError()
+//            }
 
         }
 
