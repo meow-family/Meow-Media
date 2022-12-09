@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AlbumPhotosDto(
     @SerializedName("album")
-    val albumDetails: AlbumDetails?,
+    val albumDetails: AlbumDetailsDto?,
     @SerializedName("list")
     val images: List<ImageList?>?
 )

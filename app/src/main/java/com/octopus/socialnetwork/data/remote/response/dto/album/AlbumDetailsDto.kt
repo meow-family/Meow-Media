@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.album
 
 import com.google.gson.annotations.SerializedName
 
-data class AlbumDetails(
+data class AlbumDetailsDto(
     @SerializedName("guid")
     val id: Int?,
     @SerializedName("owner_guid")
