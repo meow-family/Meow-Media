@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
-import org.intellij.lang.annotations.JdkConstants.FontStyle
+import com.octopus.socialnetwork.ui.theme.LightBlack_65
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xffff0000)
@@ -25,7 +25,7 @@ fun InteractionIcon(count: Int? = null, icon: Int = R.drawable.ic_like, ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(56.dp))
-            .background(Color(0x30202020)),
+            .background(color = LightBlack_65),
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp),

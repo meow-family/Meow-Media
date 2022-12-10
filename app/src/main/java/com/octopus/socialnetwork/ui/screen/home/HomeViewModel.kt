@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
@@ -14,12 +15,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fetchNewsFeedPost: FetchNewsFeedPostUseCase
+    private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
+    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
-
 
     init {
         getPosts(16)
@@ -29,18 +30,17 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val post = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
+                val currentNotificationsCount = fetchNotificationsCount(currentUserId).notifications
                 _state.update { it.copy(
+                    notificationsCount = currentNotificationsCount,
                     posts = post,
                     isLoading = false,
-                    isSuccess = true,
                     isError = false
                 ) }
+
+
             } catch (e: Exception) {
-                _state.update { it.copy(
-                    isLoading = false,
-                    isSuccess = false,
-                    isError = true
-                ) }
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
@@ -49,9 +49,6 @@ class HomeViewModel @Inject constructor(
         //
     }
 
-    fun onClickComment() {
-        //
-    }
 
     fun onClickShare() {
         //

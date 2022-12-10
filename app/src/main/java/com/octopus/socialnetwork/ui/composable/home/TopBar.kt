@@ -1,13 +1,7 @@
 package com.octopus.socialnetwork.ui.composable.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
@@ -17,14 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.Icons
+import com.octopus.socialnetwork.ui.composable.notifications.NotificationIconWithCount
 import com.octopus.socialnetwork.ui.composable.shadowLightBlack
-import com.octopus.socialnetwork.ui.theme.Gray900_2
 
 
 @Composable
 fun TopBar(
-    onClickNotification: () -> Unit,
+    notificationsCount: Int,
+    onClickNotifications: () -> Unit
 ) {
     Row(
         Modifier
@@ -38,13 +32,11 @@ fun TopBar(
 
     ) {
         AppName(text = stringResource(R.string.octopusyan))
-        Icons(
-            imageVector = Icons.Default.Notifications,
-            tint = Gray900_2,
-            modifier = Modifier
-                .size(24.dp)
-                .clickable { onClickNotification() },
-        )
 
+        NotificationIconWithCount(
+            notificationCount = notificationsCount,
+            icon = Icons.Default.Notifications,
+            onClick = onClickNotifications
+        )
     }
 }

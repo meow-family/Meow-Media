@@ -146,17 +146,16 @@ class SocialRepositoryImpl @Inject constructor(
     //region notifications
     override suspend fun getUserNotifications(
         currentUserId: Int,
-        types: String?,
-        offset: Int?
+        types: String,
+        offset: Int
     ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId, types ?: "", offset ?: 1).result
+        return socialService.getUserNotifications(currentUserId, types , offset).result
     }
 
     override suspend fun getUserNotificationsCount(
         currentUserId: Int,
-        types: String?
     ): UserNotificationsCountDto {
-        return socialService.getUserNotificationsCount(currentUserId, types ?: "").result
+        return socialService.getUserNotificationsCount(currentUserId).result
     }
 
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {

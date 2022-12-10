@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.profile.EditTextField
@@ -38,7 +39,7 @@ fun EditProfileScreen(
         onChangeCurrentPassword = viewModel::onChangeCurrentPassword,
         onChangeNewPassword = viewModel::onChangeNewPassword,
         onClickSave = viewModel::onClickSave,
-
+        onClickBack = { }
 
     )
 }
@@ -51,7 +52,9 @@ private fun EditProfileContent(
     onChangeEmail: (String) -> Unit,
     onChangeCurrentPassword: (String) -> Unit,
     onChangeNewPassword: (String) -> Unit,
-    onClickSave: () -> Unit
+    onClickSave: () -> Unit,
+    onClickBack: () -> Unit
+
 
 ) {
 
@@ -61,7 +64,7 @@ private fun EditProfileContent(
             .background(color = Color.White)
     ) {
         item {
-            TopBarArrow()
+            AppBar(onClickBack = onClickBack, title = stringResource(R.string.edit_profile))
             ProfileInformation(
                 painterResource(id = R.drawable.black),
                 painterResource(id = R.drawable.iron_man),

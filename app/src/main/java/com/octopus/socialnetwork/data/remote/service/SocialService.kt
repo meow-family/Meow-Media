@@ -142,7 +142,6 @@ interface SocialService {
     @GET("notifications_count")
     suspend fun getUserNotificationsCount(
         @Query("guid") currentUserId: Int,
-        @Query("types") types: String?,
     ): BaseResponse<UserNotificationsCountDto>
 
     @GET("notifications_mark_viewed")
