@@ -9,7 +9,7 @@ data class PostUiState(
     val profileAvatar: String = "",
     val postImage: String = "",
     val postDescription: String = "",
-    val likeCount: String = "",
+    var likeCount: String = "",
     val commentCount: String = "",
-    val isLiked: Boolean = false
+    var isLiked: Boolean = false
 )

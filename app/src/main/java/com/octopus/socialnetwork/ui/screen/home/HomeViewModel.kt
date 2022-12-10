@@ -1,26 +1,25 @@
 package com.octopus.socialnetwork.ui.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.like.LikePostUseCase
 import com.octopus.socialnetwork.domain.usecase.like.LikeUseCase
 import com.octopus.socialnetwork.domain.usecase.like.UnlikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.PrimitiveIterator
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val likeUseCase: LikeUseCase,
-    private val unlikeUseCase: UnlikeUseCase
+    private val likePostUseCase: LikePostUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -28,7 +27,7 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getPosts(16)
+        getPosts(23)
     }
 
     private fun getPosts(currentUserId: Int) {
@@ -58,29 +57,19 @@ class HomeViewModel @Inject constructor(
     fun onClickLike(postId: Int) {
         viewModelScope.launch {
             try {
-
-
-                _state.value.posts.find { it.postId == postId }?.let { post ->
-
-                    if (!post.isLiked) {
-                        likeUseCase(userId = 16, contentId = post.postId, typeContent = "post")
-                    } else {
-                        unlikeUseCase(userId = 16, contentId = post.postId, typeContent = "post")
-                    }
-
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            isError = false
+                val posts = _state.value.posts
+                posts.find { it.postId == postId }?.let { post ->
+                    likePostUseCase(postId = postId, isLiked = post.isLiked)?.let { newLikesCount ->
+                        changePostState(
+                            postId = postId,
+                            isLiked = post.isLiked.not(),
+                            newLikesCount = newLikesCount
                         )
                     }
-
-                    getPosts(16)
-
                 }
 
-
             } catch (e: Exception) {
+                Log.i("TESTING", "failed due to exception ${e}")
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -88,6 +77,21 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private fun changePostState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
+
+        _state.update { homeUiState ->
+            homeUiState.copy(
+                posts = _state.value.posts.map { post ->
+                    if (post.postId == postId) post.copy(
+                        isLiked = isLiked,
+                        likeCount = newLikesCount.toString()
+                    )
+                    else post
+                }
+            )
         }
     }
 
