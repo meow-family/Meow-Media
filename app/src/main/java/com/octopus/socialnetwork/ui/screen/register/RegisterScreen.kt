@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -24,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -36,10 +35,11 @@ import com.octopus.socialnetwork.ui.composable.CustomSnackBar
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
 import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
-import com.octopus.socialnetwork.ui.screen.main.navigateToMain
+import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
@@ -47,6 +47,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
 
 @Composable
 @ExperimentalPagerApi
@@ -75,7 +76,7 @@ fun RegisterScreen(
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
         onClickLogin = {
-            navController.navigateToMain()
+            navController.navigateToLogin()
         },
     )
 }
@@ -89,7 +90,7 @@ private fun RegisterContent(
     onClickRegister: () -> Unit,
     onClickLogin: () -> Unit,
     coroutineScope: CoroutineScope,
-    showError: () -> Unit,
+    showError: (Int) -> Unit,
     onSuccessCreateAccount: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
@@ -107,6 +108,8 @@ private fun RegisterContent(
             .background(MaterialTheme.colors.background)
             .padding(spacingMedium)
             .fillMaxSize()
+            .padding(top = spacingMedium, start = spacingMedium, end = spacingMedium)
+
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
     ) {
@@ -141,7 +144,7 @@ private fun RegisterContent(
                 0 -> {
                     FirstStepRegistration(
                         state.userInfoForm,
-                        showError = state.displayErrors,
+                        showError = state.displayErrorsFirstStepRegistration,
                         onChangeUserName = onChangeUserName,
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
@@ -152,7 +155,7 @@ private fun RegisterContent(
                 1 -> {
                     SecondStepRegistration(
                         state.userInfoForm,
-                        showError = state.displayErrors,
+                        showError = state.displayErrorsSecondStepRegistration,
                         onChangeFirstName = onChangeFirstName,
                         onChangeLastName = onChangeLastName,
                         onChangeGender = onChangeGender,
@@ -178,50 +181,42 @@ private fun RegisterContent(
                         pagerState.animateScrollToPage(2)
                     }
                 } else {
-                    showError()
+                    showError(1)
                 }
 
             } else {
                 if (userInput.firstName.isValid && userInput.lastName.isValid && userInput.gender.isValid && userInput.birthDate.isValid) {
                     onClickRegister()
                 } else {
-                    showError()
+                    showError(2)
                 }
 
             }
 
-//            if (state.isValidInputs) {
-//                if (pagerState.currentPage == state.initPage) {
-//                    coroutineScope.launch {
-//                        pagerState.animateScrollToPage(2)
-//                    }
-//                } else {
-//                    onClickRegister()
-//                }
-//
-//            } else {
-//                showError()
-//            }
+
+        }
+
+        Box(
+            Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter
+        ) {
+            TextWithAction(
+                text = stringResource(R.string.already_have_an_account),
+                textAction = stringResource(R.string.login),
+                onClick = onClickLogin
+            )
+
 
         }
 
     }
 
-    Box(
-        Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter
-    ) {
-        TextWithAction(
-            text = stringResource(R.string.already_have_an_account),
-            textAction = stringResource(R.string.login),
-            onClick = onClickLogin
-        )
 
-        if (state.failedCreateAccount) {
-            CustomSnackBar(
-                message = stringResource(id = R.string.failed_create_account),
-                onFailedCreateAccount
-            )
-        }
+
+    if (state.failedCreateAccount) {
+        CustomSnackBar(
+            message = stringResource(id = R.string.failed_create_account),
+            onFailedCreateAccount
+        )
     }
 
     if (state.isLoading) {
@@ -229,24 +224,18 @@ private fun RegisterContent(
     }
 
     if (state.isSuccess) {
-        AlertDialog(
-            onDismissRequest = {},
-            title = {
-                Text(text = "Create Account")
-            },
-            text = {
-                Text("GOTO email and active account ")
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onSuccessCreateAccount()
-                    }) {
-                    Text(stringResource(id = R.string.ok))
+        Dialog(onDismissRequest = { }) {
+            DialogCreateAccount(
+                checkEmail = {
+                    onSuccessCreateAccount()
+                    onClickLogin()
+                },
+                skip = {
+                    onSuccessCreateAccount()
                 }
-            },
-
             )
+        }
+
     }
 
 

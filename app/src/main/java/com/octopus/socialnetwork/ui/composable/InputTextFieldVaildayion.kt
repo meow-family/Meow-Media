@@ -76,7 +76,7 @@ fun InputTextFieldValidation(
         )
 
     if (!state.isValid && showError) {
-        state.error?.let { TextFieldError(textError = it) }
+        state.error?.let { TextFieldError(textError = stringResource(it)) }
     }
 //    state.getError()?.let { error -> TextFieldError(textError = stringResource(id = error)) }
 }

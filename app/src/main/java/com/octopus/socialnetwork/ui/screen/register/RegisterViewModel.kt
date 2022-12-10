@@ -59,11 +59,6 @@ class RegisterViewModel @Inject constructor(
                     is LoginResponse.Success -> {
                         onLoading()
                         onSuccess()
-                        _state.update {
-                            it.copy(
-                                isSuccess = ! _state.value.isSuccess,
-                            )
-                        }
                         Log.v("tester", "Success")
                     }
 
@@ -115,10 +110,21 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun showError() {
-        _state.update {
-            it.copy(displayErrors = true)
+    fun showError(step: Int) {
+        when (step) {
+            1 -> {
+                _state.update {
+                    it.copy(displayErrorsFirstStepRegistration = true)
+                }
+            }
+
+            2 -> {
+                _state.update {
+                    it.copy(displayErrorsSecondStepRegistration = true)
+                }
+            }
         }
+
     }
 
     fun validInputs(valid: Boolean) {
@@ -139,7 +145,7 @@ class RegisterViewModel @Inject constructor(
 
     }
 
-    private fun usernameState(username: String, isValidInputs: Boolean, error: String? = null) {
+    private fun usernameState(username: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
@@ -164,7 +170,7 @@ class RegisterViewModel @Inject constructor(
 
     }
 
-    private fun emailState(email: String, isValidInputs: Boolean, error: String? = null) {
+    private fun emailState(email: String, isValidInputs: Boolean, error: Int? = null) {
 
         _state.update {
             it.copy(
@@ -194,7 +200,7 @@ class RegisterViewModel @Inject constructor(
 
     }
 
-    private fun reEmailState(reEmail: String, isValidInputs: Boolean, error: String? = null) {
+    private fun reEmailState(reEmail: String, isValidInputs: Boolean, error: Int? = null) {
 
         _state.update {
             it.copy(
@@ -219,7 +225,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun passwordState(password: String, isValidInputs: Boolean, error: String? = null) {
+    private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
@@ -244,7 +250,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun firstNameState(firstName: String, isValidInputs: Boolean, error: String? = null) {
+    private fun firstNameState(firstName: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
@@ -269,7 +275,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun lastNameState(lastName: String, isValidInputs: Boolean, error: String? = null) {
+    private fun lastNameState(lastName: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
@@ -308,7 +314,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun genderState(gender: String, isValidInputs: Boolean, error: String? = null) {
+    private fun genderState(gender: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
@@ -332,7 +338,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun birthdayState(gender: String, isValidInputs: Boolean, error: String? = null) {
+    private fun birthdayState(gender: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,

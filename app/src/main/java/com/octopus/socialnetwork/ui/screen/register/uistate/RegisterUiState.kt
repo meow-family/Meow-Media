@@ -6,6 +6,7 @@ data class RegisterUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val isValidInputs: Boolean = false,
-    val displayErrors: Boolean = false,
+    val displayErrorsFirstStepRegistration: Boolean = false,
+    val displayErrorsSecondStepRegistration: Boolean = false,
     val failedCreateAccount: Boolean = false,
 )
