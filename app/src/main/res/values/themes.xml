@@ -2,9 +2,11 @@
 <resources>
 
     <style name="Theme.SocialNetwork" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/black</item>
     </style>
 
-    <style name="DatePickerDialogTheme" parent="android:Theme.DeviceDefault.Dialog" />
+    <style name="DatePickerDialogTheme" parent="android:Theme.DeviceDefault.Dialog" >
+        <item name="android:colorAccent">@color/primaryColor</item>
+    </style>
 
 </resources>

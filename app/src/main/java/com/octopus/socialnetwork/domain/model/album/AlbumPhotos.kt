@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.domain.model.album
 
 
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumDetails
-import com.octopus.socialnetwork.data.remote.response.dto.album.album_photos_list.ImageList
+import com.octopus.socialnetwork.data.remote.response.dto.album.ImageList
 
 
 data class AlbumPhotos(

@@ -4,7 +4,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.domain.model.album.AlbumDetails
 import com.octopus.socialnetwork.domain.model.album.Albums
 
-//fun AlbumsDto.asAlbums(): Albums {
+//fun AlbumsDto.toAlbums(): Albums {
 //
 //    return Albums(
 //        albums =  albums.map {  } ?: emptyList() ,

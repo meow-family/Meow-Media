@@ -1,9 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
-import com.octopus.socialnetwork.ui.screen.comments.mapper.asCommentDetailsUiState
+import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val addCommentUseCase: AddCommentUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val args: CommentsScreenArgs = CommentsScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(CommentsUiState())
     val state = _state.asStateFlow()
@@ -28,17 +34,15 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 31,
-                    postId = 324,
-                    type = "post"
-                ).map { it.asCommentDetailsUiState() }
+                    currentUserId = 16,
+                    postId = args.postId.toInt(),
+                    type = args.type
+                ).map { it.toCommentDetailsUiState() }
                 _state.update {
                     it.copy(
-                        isSuccess = true,
                         comments = postComments
                     )
                 }
-
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
@@ -49,13 +53,33 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-        fun onChangeTypingComment(newValue: String) {
-            _state.update {
-                it.copy(
-                    textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
-                )
-            }
+    fun onChangeTypingComment(newValue: String) {
+        _state.update {
+            it.copy(
+                textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
+
+            )
         }
+    }
 
+    suspend fun addComment() {
+         viewModelScope.launch {
+            try {
+                addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
+                _state.update {
+                    it.copy(
+                        textFieldCommentState = it.textFieldCommentState.copy(text = "")
+                    )
+                }
+                getPostComments()
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true
+                    )
+                }
+            }
+        }.join()
 
+    }
 }

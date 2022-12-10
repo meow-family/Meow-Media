@@ -1,13 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
-import com.octopus.socialnetwork.ui.screen.profile.mapper.asProfilePostsUiState
-import com.octopus.socialnetwork.ui.screen.profile.mapper.asProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,8 +22,10 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailS: FetchUserDetailsUseCase,
     private val  fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val  fetchUserPosts: FetchUserPostsUseCase,
+    savedStateHandle: SavedStateHandle,
     ) : ViewModel(){
 
+    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
@@ -34,14 +37,13 @@ class ProfileViewModel  @Inject constructor(
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.asProfilePostsUiState()
+                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).asProfileUiState()
+                val profileUiState = fetchUserDetailS(currentUserId).toProfileUiState()
 
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        isSuccess = true,
                         isError = false,
                         fullName = profileUiState.fullName,
                         username = profileUiState.username,
@@ -56,7 +58,6 @@ class ProfileViewModel  @Inject constructor(
         } catch (e: Exception) {
             _state.update { it.copy(
                 isLoading = false,
-                isSuccess = false,
                 isError = true
             ) }
         }

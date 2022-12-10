@@ -30,7 +30,8 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 
 @Composable
 fun ItemComment(
-    commentDetails: CommentDetailsUiState
+    commentDetails: CommentDetailsUiState,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -89,7 +90,7 @@ fun ItemComment(
             Icon(
                 painter = painterResource(R.drawable.ic_heart),
                 contentDescription = "print",
-                tint = Color.Red
+                tint = if (commentDetails.isLikedByUser) Color.Unspecified else Color.Gray
             )
         }
 
@@ -101,9 +102,9 @@ fun ItemComment(
                 .alpha(.3f)
                 .constrainAs(likeCounter) {
                     start.linkTo(like.end, 4.dp)
-                    top.linkTo(like.top)
+                    top.linkTo(like.top,4.dp)
                     bottom.linkTo(like.bottom)
-                })
+                 })
 
         Text(text = stringResource(R.string.replay),
             fontSize = 12.sp,

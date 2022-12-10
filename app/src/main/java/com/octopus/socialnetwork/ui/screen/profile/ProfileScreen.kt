@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,104 +24,117 @@ import com.octopus.socialnetwork.ui.composable.profile.ButtonFollow
 import com.octopus.socialnetwork.ui.composable.profile.ButtonMessage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
+import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 
-@Preview(showSystemUi = true)
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.state.collectAsState()
     ProfileContent(
         state = state,
+        onClickBack = { navController.popBackStack() },
         onClickFollow = viewModel::onClickFollow,
-        onClickMessage = viewModel::onClickMessage
+        onClickMessage = viewModel::onClickMessage,
+        onClickPost = { postId, postOwnerId ->
+            navController.navigateToPostScreen(postId, postOwnerId)
+        }
     )
 }
 
 @Composable
 private fun ProfileContent(
     state: ProfileUiState,
+    onClickBack: () -> Unit,
     onClickFollow: () -> Unit,
-    onClickMessage: () -> Unit
+    onClickMessage: () -> Unit,
+    onClickPost: (Int, Int) -> Unit
 ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            item( span = { GridItemSpan(3) }) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color.White)
+                ) {
+                    ProfileInformation(
+                        backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
+                        profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
+                        "Profile Screen"
+                    )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-    ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(136.dp)
+                    ) {
+                        Text(
+                            text = state.fullName,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsTypography.subtitle1.fontFamily,
+                            fontStyle = PoppinsTypography.subtitle1.fontStyle,
+                            fontSize = PoppinsTypography.subtitle1.fontSize,
+                            color = MaterialTheme.colors.textSecondaryColor,
+                            style = MaterialTheme.typography.h6,
+                        )
+                        Text(
+                            text = state.username,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colors.onSecondary,
+                            fontFamily = PoppinsTypography.caption.fontFamily,
+                            fontStyle = PoppinsTypography.caption.fontStyle,
+                            fontSize = PoppinsTypography.caption.fontSize
 
-        ProfileInformation(
-            backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
-            profileImage = rememberAsyncImagePainter(model = state.profileAvatar)
-        )
+                        )
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(136.dp)
-        ) {
-            Text(
-                text = state.fullName,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                fontWeight = FontWeight.Bold,
-                fontFamily = PoppinsTypography.subtitle1.fontFamily,
-                fontStyle = PoppinsTypography.subtitle1.fontStyle,
-                fontSize = PoppinsTypography.subtitle1.fontSize,
-                color = MaterialTheme.colors.textSecondaryColor,
-                style = MaterialTheme.typography.h6,
-            )
-            Text(
-                text = state.username,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                fontWeight = FontWeight.Light,
-                color = MaterialTheme.colors.onSecondary,
-                fontFamily = PoppinsTypography.caption.fontFamily,
-                fontStyle = PoppinsTypography.caption.fontStyle,
-                fontSize = PoppinsTypography.caption.fontSize
+                        SpaceVertically10dp()
+                        Row(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        {
 
-            )
-
-            SpaceVertically10dp()
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally))
-            {
-
-                Text(
-                    text = state.friendsCount,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsTypography.caption.fontFamily,
-                    fontStyle = PoppinsTypography.caption.fontStyle,
-                    fontSize = PoppinsTypography.caption.fontSize
-                )
-                SpaceHorizontally4dp()
-                Text(
-                    text = stringResource(R.string.friends),
-                    fontWeight = FontWeight.W400,
-                    fontFamily = PoppinsTypography.caption.fontFamily,
-                    fontStyle = PoppinsTypography.caption.fontStyle,
-                    fontSize = PoppinsTypography.caption.fontSize
-                )
-                SpaceHorizontally16dp()
-                Text(
-                    text = state.postCount,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = PoppinsTypography.caption.fontFamily,
-                    fontStyle = PoppinsTypography.caption.fontStyle,
-                    fontSize = PoppinsTypography.caption.fontSize
-                )
-                SpaceHorizontally4dp()
-                Text(
-                    text = stringResource(R.string.posts),
-                    fontWeight = FontWeight.W400,
-                    fontFamily = PoppinsTypography.caption.fontFamily,
-                    fontStyle = PoppinsTypography.caption.fontStyle,
-                    fontSize = PoppinsTypography.caption.fontSize
-                )
+                            Text(
+                                text = state.friendsCount,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = PoppinsTypography.caption.fontFamily,
+                                fontStyle = PoppinsTypography.caption.fontStyle,
+                                fontSize = PoppinsTypography.caption.fontSize
+                            )
+                            SpaceHorizontally4dp()
+                            Text(
+                                text = stringResource(R.string.friends),
+                                fontWeight = FontWeight.W400,
+                                fontFamily = PoppinsTypography.caption.fontFamily,
+                                fontStyle = PoppinsTypography.caption.fontStyle,
+                                fontSize = PoppinsTypography.caption.fontSize
+                            )
+                            SpaceHorizontally16dp()
+                            Text(
+                                text = state.postCount,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = PoppinsTypography.caption.fontFamily,
+                                fontStyle = PoppinsTypography.caption.fontStyle,
+                                fontSize = PoppinsTypography.caption.fontSize
+                            )
+                            SpaceHorizontally4dp()
+                            Text(
+                                text = stringResource(R.string.posts),
+                                fontWeight = FontWeight.W400,
+                                fontFamily = PoppinsTypography.caption.fontFamily,
+                                fontStyle = PoppinsTypography.caption.fontStyle,
+                                fontSize = PoppinsTypography.caption.fontSize
+                            )
 
 
             }
@@ -133,22 +145,17 @@ private fun ProfileContent(
                 ButtonMessage(R.drawable.massage,onMessage = onClickMessage)
             }
 
-        }
+                    }
+                    Divider()
+                }
+            }
 
-        Divider()
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            items(items = state.profilePosts){
-                ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
+            items(items = state.profilePosts){ ProfilePostUiState ->
+                ProfilePostItem(
+                    post = ProfilePostUiState,
+                    onClickPost = onClickPost
+                )
             }
         }
-
-    }
-
 
 }
