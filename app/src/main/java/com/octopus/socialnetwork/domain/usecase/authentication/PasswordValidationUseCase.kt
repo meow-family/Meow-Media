@@ -40,7 +40,7 @@ class PasswordValidationUseCase @Inject constructor() {
 
 
     companion object {
-        val PASSWORD_REGEX = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+        val PASSWORD_REGEX = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$")
     }
 
 }

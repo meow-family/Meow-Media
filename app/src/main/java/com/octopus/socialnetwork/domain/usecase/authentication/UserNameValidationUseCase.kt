@@ -31,7 +31,7 @@ class UserNameValidationUseCase @Inject constructor() {
     private fun isLongUserName(username: String): Boolean = username.length > 29
 
     companion object {
-        val USERNAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]{6,29}$")
+        val USERNAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]{5,29}$")
     }
 
 }

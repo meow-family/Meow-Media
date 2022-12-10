@@ -23,7 +23,7 @@ class NameValidationUseCase @Inject constructor() {
     }
 
     companion object {
-        val NAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9]$")
+        val NAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]{0,50}\$")
     }
 
 }
