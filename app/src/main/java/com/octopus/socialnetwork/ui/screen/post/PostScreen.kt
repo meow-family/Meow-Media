@@ -25,6 +25,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
+import com.octopus.socialnetwork.ui.composable.post.PostAction
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
@@ -86,23 +87,27 @@ private fun PostContent(
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Color.Transparent,
         ) {
-            PostAction(
-                likeCount = state.postDetails.likeCount,
-                commentCount = state.postDetails.commentCount,
-                isLikedByUser = state.postDetails.isLiked,
-                onLike = onLike,
-                onComment = onComment,
-                onShare = onShare,
-                modifier = Modifier
-
-            InteractionGroup
-             (interactions = listOf({
-                InteractionIcon(icon = R.drawable.ic_like, count = 10)
-            }, {
-                InteractionIcon(icon =R.drawable.ic_baseline_comment_24 , count = 10)
-            }, {
-                InteractionIcon(icon = R.drawable.ic_send)
-            })
+            InteractionGroup(
+                interactions =
+                listOf({
+                    InteractionIcon(
+                        icon = R.drawable.ic_like,
+                        count = state.postDetails.likeCount,
+                        onClick = onLike,
+                        tint = if (state.postDetails.isLiked) Color.Red else Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_baseline_comment_24,
+                        count =  state.postDetails.commentCount,
+                        onClick = onComment,
+                        tint = Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_send,
+                        onClick = onShare, tint = Color.White)
+                })
             )
 
         }

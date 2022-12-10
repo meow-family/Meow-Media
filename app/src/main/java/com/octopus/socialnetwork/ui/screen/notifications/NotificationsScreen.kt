@@ -42,6 +42,7 @@ fun NotificationsScreen(
         onClickNotification = { notification ->
             notification.notificationDetails.type
                 .setScreenDestinationOnClickNotification(navController, notification)
+
         },
         onClickBack = { navController.navigateToHomeScreen() }
     )

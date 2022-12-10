@@ -34,7 +34,8 @@ fun HomeScreen(
     HomeContent(
         state = state,
         onClickLike = viewModel::onClickLike,
-        onClickComment ={postId ->navController.navigateToCommentsScreen(postId,"post")},
+        onClickComment ={ postId ->
+            navController.navigateToCommentsScreen(postId,"post")},
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
@@ -51,7 +52,7 @@ fun HomeScreen(
 private fun HomeContent(
     state: HomeUiState,
     onClickLike: (Int) -> Unit,
-    onClickComment: () -> Unit,
+    onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickNotifications: () -> Unit
