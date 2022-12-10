@@ -44,9 +44,7 @@
 
     <string name="image_register">Image register</string>
 
-    <string name="is_required">Is required</string>
-    <string name="password_short">Password is too short - must be at least 6 characters</string>
-    <string name="invalid_email">Invalid email</string>
+
     <string name="icon_description"> %1$s Icon </string>
     <string name="failed_create_account">Failed create account username or email is current used. Change and try again.</string>
     <string name="ok">OK</string>
@@ -66,4 +64,27 @@
     <string name="icon_arrow_back"> icon arrow back </string>
     <string name="MessageScreenUpbar">Message</string>
     <string name="Comments">Comments</string>
+
+    <string name="email_empty">Email is Required should not empty.</string>
+    <string name="email_invalid">Please Enter valid email.</string>
+    <string name="email_not_confirm">Is not confirm with email.</string>
+
+    <string name="username_empty">UserName is Required should not empty.</string>
+    <string name="username_short">UserName should be minimum six characters.</string>
+    <string name="username_long">UserName should be maximum twenty-nine characters.</string>
+    <string name="username_not_clean">UserName content just uppercase letter or lowercase letter.</string>
+
+    <string name="password_empty">Password is Required should not empty.</string>
+    <string name="password_short">Password is too short - must be at least 6 characters</string>
+    <string name="password_long">Password is too Long - maximum fifty characters.</string>
+    <string name="password_not_clean">password have .</string>
+
+    <string name="is_required">Is required</string>
+
+    <string name="create_account_success">Create account success </string>
+    <string name="create_account_message">now need active account check your email now.</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_name">Name should be just letter</string>
+    <string name="check_email">Check Email</string>
+    <string name="not_now">Not Now</string>
 </resources>
