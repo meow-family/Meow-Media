@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
@@ -141,7 +142,6 @@ interface SocialService {
     @GET("notifications_count")
     suspend fun getUserNotificationsCount(
         @Query("guid") currentUserId: Int,
-        @Query("types") types: String?,
     ): BaseResponse<UserNotificationsCountDto>
 
     @GET("notifications_mark_viewed")
@@ -222,6 +222,13 @@ interface SocialService {
         @Query("id") commentId: Int,
         @Query("guid") userId: Int,
     ): BaseResponse<Boolean>
+
+    @POST("comment_add")
+    suspend fun addComment(
+        @Query("subject_guid") postId: Int,
+        @Query("comment") comment: String,
+        @Query("uguid") userId: Int
+    ): BaseResponse<CommentDetails>
     //endregion
 
     //region photo

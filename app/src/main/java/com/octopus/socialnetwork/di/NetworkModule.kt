@@ -19,7 +19,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTMDBApiService(
+    fun provideSocialNetworkService(
         retrofit: Retrofit,
     ): SocialService {
         return retrofit.create(SocialService::class.java)
