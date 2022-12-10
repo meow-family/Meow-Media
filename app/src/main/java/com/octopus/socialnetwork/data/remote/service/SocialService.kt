@@ -80,7 +80,7 @@ interface SocialService {
     @GET("wall_view")
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
-        @Query("guid") postOwnerId: Int,
+        @Query("guid") currentUserId: Int,
     ): BaseResponse<PostDto>
 
     @GET("wall_list_user")
@@ -142,7 +142,6 @@ interface SocialService {
     @GET("notifications_count")
     suspend fun getUserNotificationsCount(
         @Query("guid") currentUserId: Int,
-        @Query("types") types: String?,
     ): BaseResponse<UserNotificationsCountDto>
 
     @GET("notifications_mark_viewed")
