@@ -39,7 +39,7 @@ fun InteractionIcon(
             Icon(
                 modifier = Modifier
                     .size(16.dp)
-                    .clickable { onClick },
+                    .clickable { onClick() },
                 painter = painterResource(icon),
                 contentDescription = stringResource(R.string.like_icon),
                 tint = tint

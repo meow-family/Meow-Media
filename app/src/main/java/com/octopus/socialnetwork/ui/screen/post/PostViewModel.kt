@@ -38,7 +38,10 @@ class PostViewModel @Inject constructor(
                 val post =
                     fetchPostDetails(args.postId.toInt(), 16).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
-                Log.i("TESTING",fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).toString())
+                Log.i(
+                    "TESTING",
+                    fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).toString()
+                )
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -50,13 +53,13 @@ class PostViewModel @Inject constructor(
             try {
 
                 val post = _state.value.postDetails
-                    updatePostLikeState(
-                        newLikeState = post.isLiked.not(),
-                        newLikesCount = updateLikeUseCase(
-                            postId = post.postId,
-                            isLiked = post.isLiked
-                        ) ?: 0
-                    )
+                updatePostLikeState(
+                    newLikeState = post.isLiked.not(),
+                    newLikesCount = updateLikeUseCase(
+                        postId = post.postId,
+                        isLiked = post.isLiked
+                    ) ?: 0
+                )
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
