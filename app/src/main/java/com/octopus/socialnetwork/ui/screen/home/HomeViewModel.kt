@@ -3,9 +3,7 @@ package com.octopus.socialnetwork.ui.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.LikePostUseCase
-import com.octopus.socialnetwork.domain.usecase.like.LikeUseCase
-import com.octopus.socialnetwork.domain.usecase.like.UnlikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
@@ -19,22 +17,22 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val likePostUseCase: LikePostUseCase,
+    private val updateLikeUseCase: UpdateLikeUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(HomeUiState())
-    val state = _state.asStateFlow()
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState = _homeUiState.asStateFlow()
 
 
     init {
-        getPosts(23)
+        getPosts(16)
     }
 
     private fun getPosts(currentUserId: Int) {
         viewModelScope.launch {
             try {
                 val posts = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
-                _state.update {
+                _homeUiState.update {
                     it.copy(
                         posts = posts,
                         isLoading = false,
@@ -43,7 +41,7 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                _state.update {
+                _homeUiState.update {
                     it.copy(
                         isLoading = false,
                         isSuccess = false,
@@ -57,34 +55,26 @@ class HomeViewModel @Inject constructor(
     fun onClickLike(postId: Int) {
         viewModelScope.launch {
             try {
-                val posts = _state.value.posts
+                val posts = _homeUiState.value.posts
                 posts.find { it.postId == postId }?.let { post ->
-                    likePostUseCase(postId = postId, isLiked = post.isLiked)?.let { newLikesCount ->
-                        changePostState(
-                            postId = postId,
-                            isLiked = post.isLiked.not(),
-                            newLikesCount = newLikesCount
-                        )
-                    }
-                }
-
-            } catch (e: Exception) {
-                Log.i("TESTING", "failed due to exception ${e}")
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = true
+                    Log.i("TESTING", "postId $postId")
+                    updatePostLikeState(
+                        postId = postId,
+                        isLiked = post.isLiked.not(),
+                        newLikesCount = updateLikeUseCase(postId = postId, isLiked = post.isLiked) ?: 0
                     )
                 }
+            } catch (e: Exception) {
+                Log.i("TESTING", "failed due to exception ${e}")
+                _homeUiState.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
 
-    private fun changePostState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
-
-        _state.update { homeUiState ->
+    private fun updatePostLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
+        _homeUiState.update { homeUiState ->
             homeUiState.copy(
-                posts = _state.value.posts.map { post ->
+                posts = _homeUiState.value.posts.map { post ->
                     if (post.postId == postId) post.copy(
                         isLiked = isLiked,
                         likeCount = newLikesCount.toString()

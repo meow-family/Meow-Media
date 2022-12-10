@@ -43,7 +43,7 @@ interface SocialRepository {
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto
+    suspend fun viewPost(postId: Int, currentUserId: Int): PostDto
 
     suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDto>
 

@@ -28,7 +28,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.homeUiState.collectAsState()
 
     HomeContent(
         state = state,
