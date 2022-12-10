@@ -78,11 +78,11 @@ private fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            items(state.posts) {
+            items(state.posts) {post ->
                 ItemPost(
-                    post = it,
+                    post = post,
                     onClickPost = onClickPost,
-                    onLike = { onClickLike(it.postId) },
+                    onLike = { onClickLike(post.postId) },
                     onComment = onClickComment,
                     onShare = onClickShare
                 )

@@ -10,11 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 
@@ -36,31 +37,34 @@ fun ItemPost(
 
         PostImage(postImage = rememberAsyncImagePainter(model = post.postImage))
 
+        Column(
+            modifier = Modifier.wrapContentHeight().align(alignment = Alignment.CenterEnd)
+                .width(48.dp).padding(vertical = 8.dp),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.CenterHorizontally
 
-        Card(
-            modifier = Modifier
-                .height(210.dp)
-                .align(alignment = Alignment.CenterEnd)
-                .width(48.dp),
-            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-            backgroundColor = Color.Transparent,
+
         ) {
-            PostAction(
-                likeCount = post.likeCount,
-                commentCount = post.commentCount,
-                onLike = onLike,
-                onComment = onComment,
-                onShare = onShare,
-                modifier = Modifier.size(18.dp),
-                isLikedByUser=post.isLiked,
+            InteractionIcon(
+                icon = painterResource(id = R.drawable.ic_like),
+                count = post.likeCount,
+                tint =if (post.isLiked) Color.Red else Color.White,
+                onClick = onLike
             )
-            InteractionGroup(interactions =
-            listOf({ InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_like, count = 10) },
-                   { InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_baseline_comment_24, count = 10) }, {
-                     InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_send) }))
+
+            InteractionIcon(
+                icon = painterResource(id = R.drawable.ic_baseline_comment_24),
+                count = post.commentCount,
+                tint = Color.White,
+                onClick = onComment
+            )
+            InteractionIcon(
+                icon = painterResource(id = R.drawable.ic_baseline_share_24),
+                tint = Color.White,
+                onClick = onShare
+            )
 
         }
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()

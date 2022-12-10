@@ -66,4 +66,5 @@
     <string name="icon_arrow_back"> icon arrow back </string>
     <string name="MessageScreenUpbar">Message</string>
     <string name="Comments">Comments</string>
+    <string name="arrow_back">arrow back</string>
 </resources>

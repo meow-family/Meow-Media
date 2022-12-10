@@ -7,13 +7,11 @@ import com.octopus.socialnetwork.domain.usecase.like.UnlikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.PrimitiveIterator
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +37,6 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         posts = posts,
                         isLoading = false,
-                        isSuccess = true,
                         isError = false
                     )
                 }
@@ -47,7 +44,6 @@ class HomeViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        isSuccess = false,
                         isError = true
                     )
                 }
