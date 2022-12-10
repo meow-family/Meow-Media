@@ -11,7 +11,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
-import com.octopus.socialnetwork.data.remote.response.dto.like.UnLikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
@@ -81,7 +80,7 @@ interface SocialService {
     @GET("wall_view")
     suspend fun viewPost(
         @Query("post_guid") postId: Int,
-        @Query("guid") postOwnerId: Int,
+        @Query("guid") currentUserId: Int,
     ): BaseResponse<PostDto>
 
     @GET("wall_list_user")
@@ -143,7 +142,6 @@ interface SocialService {
     @GET("notifications_count")
     suspend fun getUserNotificationsCount(
         @Query("guid") currentUserId: Int,
-        @Query("types") types: String?,
     ): BaseResponse<UserNotificationsCountDto>
 
     @GET("notifications_mark_viewed")

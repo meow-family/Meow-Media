@@ -19,28 +19,29 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
-import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotification
+import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-
 
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.homeUiState.collectAsState()
 
     HomeContent(
         state = state,
         onClickLike = viewModel::onClickLike,
-        onClickComment = viewModel::onClickComment,
+        onClickComment ={ postId ->
+            navController.navigateToCommentsScreen(postId,"post")},
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
-        onClickNotification = {
-            navController.navigateToNotification()
+        onClickNotifications = {
+            navController.navigateToNotificationsScreen()
         }
     )
 
@@ -51,10 +52,10 @@ fun HomeScreen(
 private fun HomeContent(
     state: HomeUiState,
     onClickLike: (Int) -> Unit,
-    onClickComment: () -> Unit,
+    onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
-    onClickNotification: () -> Unit,
+    onClickNotifications: () -> Unit
 ) {
 
 
@@ -66,11 +67,10 @@ private fun HomeContent(
 
         ) {
 
-        TopBar(onClickNotification)
+        TopBar(notificationsCount =state.notificationsCount,
+            onClickNotifications = onClickNotifications)
 
-        if (state.isLoading) {
-            Loading()
-        }
+        if (state.isLoading) { Loading() }
 
         LazyColumn(
             Modifier.fillMaxSize(),
@@ -78,12 +78,12 @@ private fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            items(state.posts) {post ->
+            items(state.posts) {
                 ItemPost(
-                    post = post,
+                    post = it,
                     onClickPost = onClickPost,
-                    onLike = { onClickLike(post.postId) },
-                    onComment = onClickComment,
+                    onLike = { onClickLike(it.postId) },
+                    onComment = { onClickComment(it.postId) },
                     onShare = onClickShare
                 )
             }

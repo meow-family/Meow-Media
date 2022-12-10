@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.EditProfileInformation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
@@ -22,6 +23,7 @@ import com.octopus.socialnetwork.ui.composable.profile.TopBarArrow
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 
 
+@Preview(showSystemUi = true)
 @Composable
 fun EditProfileScreen(
     viewModel: EditProfileViewModel = hiltViewModel()
@@ -36,7 +38,8 @@ fun EditProfileScreen(
         onChangeCurrentPassword = viewModel::onChangeCurrentPassword,
         onChangeNewPassword = viewModel::onChangeNewPassword,
         onClickSave = viewModel::onClickSave,
-        onBack = {}
+        onClickBack = { }
+
     )
 }
 
@@ -49,7 +52,8 @@ private fun EditProfileContent(
     onChangeCurrentPassword: (String) -> Unit,
     onChangeNewPassword: (String) -> Unit,
     onClickSave: () -> Unit,
-    onBack:() -> Unit,
+    onClickBack: () -> Unit
+
 
 ) {
 
@@ -105,6 +109,7 @@ private fun EditProfileContent(
 
     }
 }
+
 
 
 

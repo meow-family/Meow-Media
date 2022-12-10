@@ -6,6 +6,5 @@ import com.google.gson.annotations.SerializedName
 data class LikeDto(
     @SerializedName("count")
     val count: Int?,
-    @SerializedName("last_three_reactions")
-    val lastThreeReactions: Reaction?
+
 )
