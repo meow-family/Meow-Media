@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.notifications.NotificationsWithBadge
+import com.octopus.socialnetwork.ui.composable.notifications.NotificationIconWithCount
 import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 
 
@@ -33,8 +33,8 @@ fun TopBar(
     ) {
         AppName(text = stringResource(R.string.octopusyan))
 
-        NotificationsWithBadge(
-            badgeCount = notificationsCount,
+        NotificationIconWithCount(
+            notificationCount = notificationsCount,
             icon = Icons.Default.Notifications,
             onClick = onClickNotifications
         )

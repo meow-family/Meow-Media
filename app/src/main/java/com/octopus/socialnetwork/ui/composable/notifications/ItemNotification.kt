@@ -39,13 +39,10 @@ fun ItemNotification(
         Image(
             painter = rememberAsyncImagePainter(model = notification.posterDetails.posterAvatar),
             contentDescription = stringResource(R.string.profile_image),
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(44.dp),
+            modifier = Modifier.clip(CircleShape).size(44.dp),
             contentScale = ContentScale.Crop,
         )
-        Column(modifier = Modifier
-            .padding(start = 16.dp),
+        Column(modifier = Modifier.padding(start = 16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {

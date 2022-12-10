@@ -16,15 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val fetchUserNotificationsCountUseCase: FetchUserNotificationsCountUseCase
+    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
-
-    private val _notificationsCountState = MutableStateFlow(0)
-    val notificationsCountState = _notificationsCountState.asStateFlow()
-
 
     init {
         getPosts(16)
@@ -34,24 +30,17 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val post = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
-                val currentNotificationsCount = fetchUserNotificationsCountUseCase(currentUserId, null).notifications
+                val currentNotificationsCount = fetchNotificationsCount(currentUserId).notifications
                 _state.update { it.copy(
+                    notificationsCount = currentNotificationsCount,
                     posts = post,
                     isLoading = false,
-                    isSuccess = true,
                     isError = false
                 ) }
 
-                _notificationsCountState.update { oldNotificationsCount ->
-                    oldNotificationsCount + currentNotificationsCount
-                }
 
             } catch (e: Exception) {
-                _state.update { it.copy(
-                    isLoading = false,
-                    isSuccess = false,
-                    isError = true
-                ) }
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
@@ -60,9 +49,6 @@ class HomeViewModel @Inject constructor(
         //
     }
 
-    fun onClickComment() {
-        //
-    }
 
     fun onClickShare() {
         //

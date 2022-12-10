@@ -13,10 +13,8 @@ fun String.setNotificationsTitle() : Int {
     return when(this){
         notificationsTypes.LIKE_POST -> R.string.liked_your_post
         notificationsTypes.COMMENTS_POST -> R.string.add_comments_to_your_post
-        notificationsTypes.GROUP_JOIN_REQUEST -> R.string.asked_to_join_group
         notificationsTypes.LIKE_ANNOTATION_COMMENTS_POST -> R.string.liked_your_comment
         notificationsTypes.WALL_FRIENDS_TAG -> R.string.mentioned_you_in_comment
-        notificationsTypes.OSSNPOKE_POKE -> R.string.poked_you
         else -> R.string.started_following_you
     }
 }
@@ -52,3 +50,6 @@ fun String.setScreenDestinationOnClickNotification(
     }
 
 }
+
+fun setBadgeCountValue(badgeCount: Int):
+        String = if (badgeCount in 1..9) badgeCount.toString() else "+9"

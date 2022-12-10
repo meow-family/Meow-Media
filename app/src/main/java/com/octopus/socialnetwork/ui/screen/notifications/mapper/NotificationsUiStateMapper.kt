@@ -9,11 +9,11 @@ import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItems
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationPosterUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 
-fun UserNotifications.toNotificationsUiState(): NotificationsUiState {
-    return NotificationsUiState(
-        notifications = notifications.map { NotificationItems ->
-            NotificationItems.toNotificationItemsUiState()
-        }
+
+fun NotificationItems.toNotificationsUiState(): NotificationItemsUiState {
+    return NotificationItemsUiState(
+        notificationDetails = notification.toNotificationDetailsUiState(),
+        posterDetails = postOwner.toNotificationPosterUiState()
     )
 }
 

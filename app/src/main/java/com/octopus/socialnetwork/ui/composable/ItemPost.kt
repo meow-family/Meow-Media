@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
@@ -47,11 +48,11 @@ fun ItemPost(
         ) {
             InteractionGroup(interactions =
             listOf({
-                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_like, count = 10)
+                InteractionIcon(icon = R.drawable.ic_like, count = 10)
             }, {
-                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_baseline_comment_24, count = 10)
+                InteractionIcon(icon = R.drawable.ic_baseline_comment_24, count = 10)
             }, {
-                InteractionIcon(icon = com.octopus.socialnetwork.R.drawable.ic_send)
+                InteractionIcon(icon = R.drawable.ic_send)
             })
             )
 

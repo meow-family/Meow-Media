@@ -15,12 +15,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
-import com.octopus.socialnetwork.ui.composable.notifications.NotificationAppBar
+import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
@@ -37,17 +39,11 @@ fun NotificationsScreen(
     val state by viewModel.state.collectAsState()
     NotificationsContent(
         state = state,
-        onClickNotification = { notificationItemsUiState ->
-            notificationItemsUiState
-                .notificationDetails.type
-                .setScreenDestinationOnClickNotification(
-                navController,
-                notificationItemsUiState
-            )
+        onClickNotification = { notification ->
+            notification.notificationDetails.type
+                .setScreenDestinationOnClickNotification(navController, notification)
         },
-        onClickBack = {
-            navController.navigateToHomeScreen()
-        }
+        onClickBack = { navController.navigateToHomeScreen() }
     )
 }
 
@@ -59,27 +55,21 @@ private fun NotificationsContent(
     onClickBack: () -> Unit
 ) {
     Column(
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White),
+        horizontalAlignment = Alignment.Start, modifier = Modifier
+            .fillMaxSize().background(color = Color.White),
     ) {
 
-        NotificationAppBar(onClickBack)
-
+        AppBar(onClickBack, stringResource(R.string.notification))
         Divider(color = DividerColor, thickness = 1.dp)
+        if (state.isLoading) { Loading() }
 
-        if (state.isLoading) {
-            Loading()
-        }
-
-        LazyColumn(modifier = Modifier
-                .fillMaxWidth(),
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.notifications) { NotificationItemsUiState ->
-                ItemNotification(NotificationItemsUiState, onClickNotification)
+            items(state.notifications) { notification ->
+                ItemNotification(notification, onClickNotification)
             }
         }
     }

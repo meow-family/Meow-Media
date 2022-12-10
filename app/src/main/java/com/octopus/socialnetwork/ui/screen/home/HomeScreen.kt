@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
@@ -29,13 +30,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val notificationsCountState by viewModel.notificationsCountState.collectAsState()
 
     HomeContent(
         state = state,
-        notificationsCountState = notificationsCountState,
         onClickLike = viewModel::onClickLike,
-        onClickComment = viewModel::onClickComment,
+        onClickComment ={postId ->navController.navigateToCommentsScreen(postId,"post")},
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
@@ -51,9 +50,8 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
-    notificationsCountState: Int,
     onClickLike: () -> Unit,
-    onClickComment: () -> Unit,
+    onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickNotifications: () -> Unit
@@ -68,14 +66,10 @@ private fun HomeContent(
 
         ) {
 
-        TopBar(
-            notificationsCount = notificationsCountState,
-            onClickNotifications = onClickNotifications
-        )
+        TopBar(notificationsCount =state.notificationsCount,
+            onClickNotifications = onClickNotifications)
 
-        if (state.isLoading) {
-            Loading()
-        }
+        if (state.isLoading) { Loading() }
 
         LazyColumn(
             Modifier.fillMaxSize(),
@@ -88,7 +82,7 @@ private fun HomeContent(
                     post = it,
                     onClickPost = onClickPost,
                     onLike = onClickLike,
-                    onComment = onClickComment,
+                    onComment = { onClickComment(it.postId) },
                     onShare = onClickShare
                 )
             }
