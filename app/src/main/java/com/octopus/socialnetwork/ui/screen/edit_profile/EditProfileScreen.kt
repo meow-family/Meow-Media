@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.EditProfileInformation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
@@ -23,7 +22,7 @@ import com.octopus.socialnetwork.ui.composable.profile.TopBarArrow
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun EditProfileScreen(
     viewModel: EditProfileViewModel = hiltViewModel()
@@ -63,7 +62,7 @@ private fun EditProfileContent(
             .background(color = Color.White)
     ) {
         item {
-            TopBarArrow(title = stringResource(id = R.string.edit_profile), onClickBack = onBack)
+            TopBarArrow(title = stringResource(id = R.string.edit_profile), onClickBack = onClickBack)
             EditProfileInformation(
                 backImageProfile = painterResource(id = R.drawable.black),
                 profileImage = painterResource(id = R.drawable.iron_man),
