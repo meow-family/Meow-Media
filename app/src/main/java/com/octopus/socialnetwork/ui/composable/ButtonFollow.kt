@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable.profile
+package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

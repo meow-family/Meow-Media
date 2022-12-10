@@ -18,21 +18,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
-import com.octopus.socialnetwork.ui.composable.profile.ButtonFollow
+import com.octopus.socialnetwork.ui.composable.ButtonFollow
 import com.octopus.socialnetwork.ui.composable.profile.ButtonMessage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
+import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 
-@Preview(showSystemUi = true)
 @Composable
 fun UserProfileScreen(
+    navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -40,13 +42,17 @@ fun UserProfileScreen(
     ProfileContent(
         state = state,
         onClickFollow = viewModel::onClickFollow,
-        onClickMessage = viewModel::onClickMessage
+        onClickMessage = viewModel::onClickMessage,
+        onClickPost = { postId, postOwnerId ->
+             navController.navigateToPostScreen(postId, postOwnerId)
+        }
     )
 }
 
 @Composable
 private fun ProfileContent(
     state: ProfileUiState,
+    onClickPost: (Int, Int) -> Unit,
     onClickFollow: () -> Unit,
     onClickMessage: () -> Unit
 ) {
@@ -58,7 +64,7 @@ private fun ProfileContent(
 
         ProfileInformation(
             backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
-            profileImage = rememberAsyncImagePainter(model = state.profileAvatar)
+            profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
         )
 
         Column(
@@ -143,7 +149,10 @@ private fun ProfileContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(items = state.profilePosts) {
-                ProfilePostItem(postImage = rememberAsyncImagePainter(model = it.postImage))
+                ProfilePostItem(
+                    post = it,
+                    onClickPost = onClickPost
+                )
             }
         }
 
