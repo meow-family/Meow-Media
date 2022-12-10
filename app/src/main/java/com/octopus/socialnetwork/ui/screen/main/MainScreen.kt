@@ -71,8 +71,6 @@ fun MainScreen(navController: NavHostController) {
 
     }
 
-
-
 }
 
 
