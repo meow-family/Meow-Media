@@ -7,4 +7,5 @@ data class HomeUiState(
     val isLoading: Boolean = true,
     val isSuccess: Boolean = false,
     val isError: Boolean = false,
+    val notificationsCount: Int = 0
 )

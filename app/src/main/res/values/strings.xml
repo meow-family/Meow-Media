@@ -65,6 +65,7 @@
     <string name="MessageScreenUpbar">Message</string>
     <string name="Comments">Comments</string>
 
+
     <string name="email_empty">Email is Required should not empty.</string>
     <string name="email_invalid">Please Enter valid email.</string>
     <string name="email_not_confirm">Is not confirm with email.</string>
@@ -87,4 +88,14 @@
     <string name="invalid_name">Name should be just letter</string>
     <string name="check_email">Check Email</string>
     <string name="not_now">Not Now</string>
+
+    <!-- Notification Titles  -->
+    <string name="liked_your_post">liked your post</string>
+    <string name="liked_your_comment">liked your comment</string>
+    <string name="add_comments_to_your_post">has add comments to your post</string>
+    <string name="asked_to_join_group">asked to join a group</string>
+    <string name="mentioned_you_in_comment">mentioned you in a comment</string>
+    <string name="poked_you">has poked you</string>
+    <string name="started_following_you">has started following you</string>
+
 </resources>
