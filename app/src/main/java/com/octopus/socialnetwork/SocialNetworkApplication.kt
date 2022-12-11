@@ -32,7 +32,7 @@ class SocialNetworkApplication : Application() {
 
     companion object {
         var isFirstTimeLaunch = false
-        var userId = 0
+        var userId = 11
         const val USER_ID_KEY = "user_id"
 
     }

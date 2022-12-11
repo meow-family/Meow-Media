@@ -29,12 +29,13 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.homeUiState.collectAsState()
 
     HomeContent(
         state = state,
         onClickLike = viewModel::onClickLike,
-        onClickComment ={postId ->navController.navigateToCommentsScreen(postId,"post")},
+        onClickComment ={ postId ->
+            navController.navigateToCommentsScreen(postId,"post")},
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
@@ -50,7 +51,7 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
-    onClickLike: () -> Unit,
+    onClickLike: (Int) -> Unit,
     onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
@@ -81,7 +82,7 @@ private fun HomeContent(
                 ItemPost(
                     post = it,
                     onClickPost = onClickPost,
-                    onLike = onClickLike,
+                    onLike = { onClickLike(it.postId) },
                     onComment = { onClickComment(it.postId) },
                     onShare = onClickShare
                 )

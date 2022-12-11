@@ -12,7 +12,7 @@ data class SendMessageDto(
     @SerializedName("message_to")
     val messageReceiver: MessageUserDto?,
     @SerializedName("time")
-    val time: Int?,
+    val time: Long?,
     @SerializedName("viewed")
     val viewed: String?
 )

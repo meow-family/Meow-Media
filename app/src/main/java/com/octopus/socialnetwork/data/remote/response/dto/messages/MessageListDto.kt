@@ -7,7 +7,7 @@ data class MessageListDto(
     @SerializedName("count")
     val count: Int?,
     @SerializedName("offset")
-    val offset: Boolean?,
+    val offset: Int?,
     @SerializedName("withuser")
     val messageReceiver: MessageUserDto?,
     @SerializedName("list")

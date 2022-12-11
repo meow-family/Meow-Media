@@ -61,13 +61,16 @@ private fun PostContent(
             modifier = Modifier
                 .padding(horizontal = 24.dp, vertical = 24.dp)
                 .clip(CircleShape)
-                .background(color = LightBlack_65).zIndex(1f).size(32.dp)
+                .background(color = LightBlack_65)
+                .zIndex(1f)
+                .size(32.dp)
                 .align(alignment = Alignment.TopStart)
         ) {
-            IconButton(onClick = onClickBack
+            IconButton(
+                onClick = onClickBack
             ) {
                 Icon(
-                    painter =  painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
                     contentDescription = stringResource(id = R.string.icon_arrow_back),
                     tint = White50,
                     modifier = Modifier.size(20.dp)
@@ -75,24 +78,39 @@ private fun PostContent(
             }
 
         }
-        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage),)
+        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage))
 
         Card(
             modifier = Modifier
                 .height(210.dp)
                 .align(alignment = Alignment.CenterEnd)
                 .width(48.dp),
+            elevation = 0.dp,
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Color.Transparent,
         ) {
-            InteractionGroup(interactions =
-            listOf({
-                InteractionIcon(icon = R.drawable.ic_like, count = 10)
-            }, {
-                InteractionIcon(icon =R.drawable.ic_baseline_comment_24 , count = 10)
-            }, {
-                InteractionIcon(icon = R.drawable.ic_send)
-            })
+            InteractionGroup(
+                interactions =
+                listOf({
+                    InteractionIcon(
+                        icon = R.drawable.ic_like,
+                        count = state.postDetails.likeCount,
+                        onClick = onLike,
+                        tint = if (state.postDetails.isLiked) Color.Red else Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_baseline_comment_24,
+                        count = state.postDetails.commentCount,
+                        onClick = onComment,
+                        tint = Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_send,
+                        onClick = onShare, tint = Color.White
+                    )
+                })
             )
 
         }

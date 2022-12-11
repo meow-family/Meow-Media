@@ -66,8 +66,8 @@ class SocialRepositoryImpl @Inject constructor(
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto {
-        return socialService.viewPost(postId, postOwnerId).result
+    override suspend fun viewPost(postId: Int, currentUserId: Int): PostDto {
+        return socialService.viewPost(postId, currentUserId).result
     }
 
     override suspend fun viewUserPosts(
