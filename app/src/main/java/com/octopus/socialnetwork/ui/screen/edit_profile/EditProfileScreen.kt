@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
@@ -33,7 +32,6 @@ import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiSta
 fun EditProfileScreen(
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
-
     val state by viewModel.state.collectAsState()
     EditProfileContent(
         state = state,
@@ -64,13 +62,15 @@ private fun EditProfileContent(
         contract = ActivityResultContracts.GetContent()
     ){ newImage: Uri? ->
         if (newImage == null) return@rememberLauncherForActivityResult
-        onChangeImage(newImage.toString())
 
         val input = mContext.contentResolver.openInputStream(newImage) ?: return@rememberLauncherForActivityResult
         val outputFile = mContext.filesDir.resolve("profilePic.jpg")
         input.copyTo(outputFile.outputStream())
-        val uri = outputFile.toUri()
-
+        val uri = outputFile
+        onChangeImage(
+//            newImage.toString()
+            uri.toString()
+        )
 //        input.close()
     }
 

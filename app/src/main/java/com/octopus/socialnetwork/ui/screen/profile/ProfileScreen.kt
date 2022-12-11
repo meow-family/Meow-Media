@@ -36,7 +36,6 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-
     val state by viewModel.state.collectAsState()
     ProfileContent(
         state = state,

@@ -3,7 +3,11 @@ package com.octopus.socialnetwork.ui.screen.edit_profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
+import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
+import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditProfileUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,21 +20,59 @@ import javax.inject.Inject
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase,
-) : ViewModel() {
+    private val  fetchUserDetails: FetchUserDetailsUseCase,
+    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
+    dataStorePreferences: DataStorePreferences,
+
+    ) : ViewModel() {
 
     private val _state = MutableStateFlow(EditProfileUiState())
     val state = _state.asStateFlow()
 
-    private fun updateUserData() {
+    init {
+       val userId =  19 //dataStorePreferences.readString(SocialNetworkApplication.USER_ID_KEY)
+        if(userId != null){
+            _state.update { it.copy(userId = userId) }
+        }
+
+        showUserData(_state.value.userId)
+    }
+
+    fun showUserData(currentUserId: Int) {
+        try {
+            viewModelScope.launch {
+                val profileUiState = fetchUserDetails(currentUserId).toEditProfileUiState()
+                _state.update {
+                    it.copy(
+                        firstName = profileUiState.firstName,
+                        lastName = profileUiState.lastName,
+                        email = profileUiState.email,
+                        profileAvatar = profileUiState.profileAvatar,
+                        profileCover = profileUiState.profileCover,
+                        isLoading = false,
+                        isError = false,
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            _state.update { it.copy(
+                isLoading = false,
+                isError = true
+            ) }
+        }
+    }
+    
+    private fun updateUserData(currentUserId: Int) {
         viewModelScope.launch {
             try {
                 updateUserInfoUseCase(
-                    currentUserId = 16,
+                    currentUserId = currentUserId,
                     firstName = _state.value.firstName,
                     lastName = _state.value.lastName,
                     email = _state.value.email,
                     currentPassword = _state.value.currentPassword,
                     newPassword = _state.value.newPassword,
+                    newGender = _state.value.gender,
                 )
                 _state.update {
                     it.copy(
@@ -40,6 +82,11 @@ class EditProfileViewModel @Inject constructor(
                     )
                 }
 
+//                socialRepository.changeProfileImage(_state.value.profileAvatar, userId = currentUserId)
+//                changeProfileImageUseCase(
+//                  file = _state.value.profileAvatar,
+//                    userId = currentUserId,
+//                )
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
@@ -51,15 +98,15 @@ class EditProfileViewModel @Inject constructor(
             }
         }
     }
-
+    
     fun onClickSave() {
-        updateUserData()
+        updateUserData(_state.value.userId)
     }
 
-    fun onChangeImage(image: String){
+    fun onChangeImage(file: String){
         _state.update {
             it.copy(
-                profileAvatar = image
+                profileAvatar = file
             )
         }
     }

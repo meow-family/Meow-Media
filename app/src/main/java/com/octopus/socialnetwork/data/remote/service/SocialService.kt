@@ -24,10 +24,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface SocialService {
@@ -74,7 +72,8 @@ interface SocialService {
         @Query("new_email") email: String,
         @Query("current_password") currentPassword: String,
         @Query("new_password") newPassword: String,
-    ): BaseResponse<UserDto>
+        @Query("new_gender") newGender: String,
+    ): BaseResponse<UserEditDTO>
     ///////////////////////////////////////////////////////
 
     @GET("wall_view")
@@ -263,6 +262,12 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
+    @Multipart
+    @POST("photos_profile_add")
+    suspend fun changeProfileImage(
+        @Part("userphoto") image: MultipartBody.Part,
+        @Query("guid") userId: Int,
+    ): BaseResponse<UserProfileDto>
 //endregion
 
 }

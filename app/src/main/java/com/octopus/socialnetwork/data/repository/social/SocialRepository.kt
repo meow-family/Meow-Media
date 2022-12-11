@@ -1,24 +1,22 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
+import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
+import java.io.File
 
 interface SocialRepository {
 
@@ -31,14 +29,16 @@ interface SocialRepository {
     ): CheckUserFriendDto
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
+
     suspend fun editUser(
         currentUserId: Int,
         firstName: String,
         lastName: String,
         email: String,
         currentPassword: String,
-        newPassword: String
-    ): UserDto
+        newPassword: String,
+        newGender: String,
+    ): UserEditDTO
 
     //endregion
 
@@ -129,6 +129,11 @@ interface SocialRepository {
         photoId: Int,
         userId: Int,
     ) : BaseResponse<ProfilePhotoDeletion>
+
+    suspend fun changeProfileImage(
+        file: File,
+        userId: Int,
+    ) : UserProfileDto
 
 //endregion
 

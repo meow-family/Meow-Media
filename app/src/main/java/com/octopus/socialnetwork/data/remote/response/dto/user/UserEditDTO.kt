@@ -7,7 +7,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.Avatar
 
 data class UserEditDTO(
     @SerializedName("birthdate")
-    val birthdate: String?,
+    val birthDate: String?,
     @SerializedName("cover_url")
     val coverUrl: Boolean?,
     @SerializedName("email")
@@ -15,11 +15,11 @@ data class UserEditDTO(
     @SerializedName("first_name")
     val firstName: String?,
     @SerializedName("fullname")
-    val fullname: String?,
+    val fullName: String?,
     @SerializedName("gender")
     val gender: String?,
     @SerializedName("guid")
-    val guid: Int?,
+    val userId: Int?,
     @SerializedName("icon")
     val icon: Avatar?,
     @SerializedName("language")
@@ -27,5 +27,5 @@ data class UserEditDTO(
     @SerializedName("last_name")
     val lastName: String?,
     @SerializedName("username")
-    val username: String?
+    val userName: String?
 )

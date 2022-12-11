@@ -15,11 +15,11 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class SocialRepositoryImpl @Inject constructor(
@@ -52,15 +52,17 @@ class SocialRepositoryImpl @Inject constructor(
         lastName: String,
         email: String,
         currentPassword: String,
-        newPassword: String
-    ): UserDto {
+        newPassword: String,
+        newGender: String,
+    ): UserEditDTO {
         return socialService.editUser(
             currentUserId,
             firstName,
             lastName,
             email,
             currentPassword,
-            newPassword
+            newPassword,
+            newGender,
         ).result
     }
 
@@ -221,6 +223,21 @@ class SocialRepositoryImpl @Inject constructor(
         userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
         return socialService.deleteCoverPhoto(photoId, userId)
+    }
+
+    override suspend fun changeProfileImage(
+        file: File,
+        userId: Int,
+    ): UserProfileDto {
+        return socialService.changeProfileImage(
+            image = MultipartBody.Part
+                .createFormData(
+                    "profile Avatar",
+                    file.name,
+                    file.asRequestBody()
+                )
+            , userId = userId
+        ).result
     }
 
     //endregion
