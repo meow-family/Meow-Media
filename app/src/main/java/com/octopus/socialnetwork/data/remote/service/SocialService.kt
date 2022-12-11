@@ -11,10 +11,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.UnreadMessagesDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.*
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
@@ -180,21 +177,21 @@ interface SocialService {
     @GET("message_recent")
     suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
-    ): BaseResponse<RecentMessagesDto>
+    ): BaseResponse<MessageListDto>
 
     @POST("message_add")
     suspend fun sendMessage(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
         @Query("massage") message: String
-    ): BaseResponse<SendMessageDto>
+    ): BaseResponse<MessageDto>
 
     @POST("message_new")
     suspend fun unreadMessages(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
         @Query("markallread") markAllRead: Int
-    ): BaseResponse<UnreadMessagesDto>
+    ): BaseResponse<MessageListDto>
 
     @POST("message_list")
     suspend fun getMessagesList(

@@ -22,7 +22,6 @@ import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.utils.asHour
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
-import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun MessageScreen(
@@ -68,10 +67,10 @@ fun MessageViewContent(state: MessageMainUiState) {
                 items = state.recentMessages
             ) {
                 MessageItem(
-                    nameOfSender = it.nameOfSender,
+                    nameOfSender = it.senderName,
                     lastMessage = it.message,
                     seen = it.viewed,
-                    time = it.timeOfLastSend.asHour(),
+                    time = it.lastSendTime.asHour(),
                     avatar = it.avatar
                 )
 

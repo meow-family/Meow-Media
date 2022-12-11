@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.usecase.messages
 
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
-import com.octopus.socialnetwork.domain.mapper.messages.asMassagesDetails
+import com.octopus.socialnetwork.domain.mapper.messages.toMessageDetails
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class GetRecentMessagesListUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userId: Int): List<MessageDetails> {
         val recentMessage =
-            socialRepository.getRecentMassagesList(userId).messages?.map { it.asMassagesDetails() }
+            socialRepository.getRecentMassagesList(userId).messages?.map { it.toMessageDetails() }
         return changeData(userId, recentMessage!!)
     }
 

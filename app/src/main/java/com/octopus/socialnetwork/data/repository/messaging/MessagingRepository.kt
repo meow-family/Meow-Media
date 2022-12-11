@@ -1,24 +1,21 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.UnreadMessagesDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.*
 
 interface MessagingRepository {
-    suspend fun getRecentMassagesList(messageReceiver: Int): RecentMessagesDto
+    suspend fun getRecentMassagesList(messageReceiver: Int): MessageListDto
 
     suspend fun sendMessage(
         messageSenderId: Int,
         messageReceiverId: Int,
         message: String,
-    ): SendMessageDto
+    ): MessageDto
 
     suspend fun unreadMessages(
         messageSenderId: Int,
         messageReceiverId: Int,
         markAllRead: Int,
-    ): UnreadMessagesDto
+    ): MessageListDto
 
     suspend fun messageList(messageSenderId: Int, messageReceiverId: Int): MessageListDto
 }
