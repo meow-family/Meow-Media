@@ -17,5 +17,5 @@ interface MessagingRepository {
         markAllRead: Int,
     ): MessageListDto
 
-    suspend fun messageList(messageSenderId: Int, messageReceiverId: Int): MessageListDto
+    suspend fun getMessages(currentUserId: Int, otherUserId: Int): MessageListDto
 }

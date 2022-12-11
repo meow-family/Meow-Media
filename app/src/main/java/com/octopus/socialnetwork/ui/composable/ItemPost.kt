@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
-import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
-import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
+import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 

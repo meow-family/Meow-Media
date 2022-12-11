@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable.interaction
+package com.octopus.socialnetwork.ui.composable.social_elements.interaction
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

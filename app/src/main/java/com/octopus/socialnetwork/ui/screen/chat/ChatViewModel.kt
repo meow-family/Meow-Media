@@ -1,8 +1,9 @@
-package com.octopus.socialnetwork.ui.screen.message_screen
+package com.octopus.socialnetwork.ui.screen.chat
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toRecentMessagesUiStateMapper
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,28 +14,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MessagesViewModel @Inject constructor(
-    private val fetchRecentMessages: GetRecentMessagesListUseCase,
+class ChatViewModel @Inject constructor(
+    private val getMessageListUseCase: GetMessageListUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
 
-    val userId = 23
+    private val otherUserId = 16
 
     init {
-        getMessagesDetails(userId)
+        getMessagesWithUser(otherUserId)
     }
 
-    private fun getMessagesDetails(userId: Int) {
+    private fun getMessagesWithUser(otherUserId: Int) {
 
         try {
             viewModelScope.launch {
 
                 val recentMessages =
-                    fetchRecentMessages(userId).map { it.toRecentMessagesUiStateMapper() }
-
+                    getMessageListUseCase(23,otherUserId).map { it.toRecentMessagesUiStateMapper() }
+                Log.i("TESTING",recentMessages.toString())
                 _state.update {
                     it.copy(
                         isFail = false,
