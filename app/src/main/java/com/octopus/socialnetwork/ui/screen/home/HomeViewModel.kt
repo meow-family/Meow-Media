@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                Log.i("TESTING", "failed due to exception ${e}")
+                Log.i("TESTING", "failed due to exception $e")
                 _homeUiState.update { it.copy(isLoading = false, isError = true) }
             }
         }

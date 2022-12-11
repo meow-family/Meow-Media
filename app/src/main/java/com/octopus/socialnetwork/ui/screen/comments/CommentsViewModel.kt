@@ -1,10 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
+import com.octopus.socialnetwork.domain.usecase.like.UpdateCommentLikeUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val updateCommentLikeUseCase: UpdateCommentLikeUseCase,
     private val addCommentUseCase: AddCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -63,7 +66,7 @@ class CommentsViewModel @Inject constructor(
     }
 
     suspend fun addComment() {
-         viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
                 _state.update {
@@ -80,6 +83,41 @@ class CommentsViewModel @Inject constructor(
                 }
             }
         }.join()
+    }
 
+    fun onClickLike(commentId: Int) {
+        viewModelScope.launch {
+            try {
+                val comment = _state.value.comments
+                comment.find { it.commentOwnerId == commentId }?.let { commentO ->
+                    Log.i("TESTING", "commentId $commentId")
+                    updatePostLikeState(
+                        commentId = commentId,
+                        isLiked = commentO.isLikedByUser.not(),
+                        newLikesCount = updateCommentLikeUseCase(
+                            commentId = commentId,
+                            isLiked = commentO.isLikedByUser
+                        ) ?: 0
+                    )
+                }
+            } catch (e: Exception) {
+                Log.i("TESTING", "failed due to exception $e")
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
+    private fun updatePostLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
+        _state.update { commentUiState ->
+            commentUiState.copy(
+                comments = _state.value.comments.map { comment ->
+                    if (comment.commentOwnerId == commentId) comment.copy(
+                        isLikedByUser = isLiked,
+                        likeCounter = newLikesCount
+                    )
+                    else comment
+                }
+            )
+        }
     }
 }
