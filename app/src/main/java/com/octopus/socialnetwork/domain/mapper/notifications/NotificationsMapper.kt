@@ -2,6 +2,9 @@ package com.octopus.socialnetwork.domain.mapper.notifications
 
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.*
 import com.octopus.socialnetwork.domain.model.notifications.*
+import com.octopus.socialnetwork.ui.util.convertLongToDate
+import com.octopus.socialnetwork.ui.util.extensions.changeTypeToBoolean
+import java.util.*
 
 fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
     return UserNotifications(
@@ -13,7 +16,7 @@ fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
 
 fun NotificationItemsDto.toNotificationItems(): NotificationItems {
     return NotificationItems(
-        notification = notification?.toNotification() ?: Notification(0,"",0,0,0,"",0L,0 ),
+        notification = notification?.toNotification() ?: Notification(0,"",0,0,0,false, Date(),0 ),
         postOwner = postOwner?.toPoster() ?: PostOwner(0,"",""),
         entity = entity ?: false,
         post = post ?: false,
@@ -28,8 +31,8 @@ fun NotificationDto.toNotification(): Notification {
         posterId = posterGuid ?: 0,
         ownerId = ownerGuid ?: 0,
         subjectId = subjectGuid ?: 0,
-        viewed = viewed ?: "",
-        timeCreated = timeCreated ?: 0L,
+        viewed = viewed.changeTypeToBoolean(),
+        timeCreated = convertLongToDate(timeCreated),
         itemId = itemGuid ?: 0,
     )
 }

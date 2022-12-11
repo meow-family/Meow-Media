@@ -30,7 +30,7 @@ class ProfileViewModel  @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getUserDetails(20, 20)
+        getUserDetails(args.userId.toInt(), 20)
     }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int){

@@ -5,6 +5,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
+import com.octopus.socialnetwork.ui.screen.profile.navigateToProfileScreen
 import com.octopus.socialnetwork.ui.util.Constants
 
 val notificationsTypes = Constants.NotificationsTypes
@@ -15,6 +16,8 @@ fun String.setNotificationsTitle() : Int {
         notificationsTypes.COMMENTS_POST -> R.string.add_comments_to_your_post
         notificationsTypes.LIKE_ANNOTATION_COMMENTS_POST -> R.string.liked_your_comment
         notificationsTypes.WALL_FRIENDS_TAG -> R.string.mentioned_you_in_comment
+        notificationsTypes.LIKE_ENTITY_FILE_OSSN_APHOTO -> R.string.liked_your_photo_in_album
+        notificationsTypes.COMMENTS_ENTITY_FILE_OSSN_APHOTO -> R.string.add_comments_to_your_photo_in_album
         else -> R.string.started_following_you
     }
 }
@@ -43,9 +46,8 @@ fun String.setScreenDestinationOnClickNotification(
             )
 
         else ->
-            navController.navigateToPostScreen(
-                notification.notificationDetails.subjectId,
-                notification.notificationDetails.ownerId
+            navController.navigateToProfileScreen(
+                notification.notificationDetails.posterId,
             )
     }
 
@@ -53,3 +55,5 @@ fun String.setScreenDestinationOnClickNotification(
 
 fun setBadgeCountValue(badgeCount: Int):
         String = if (badgeCount in 1..9) badgeCount.toString() else "+9"
+
+fun String?.changeTypeToBoolean(): Boolean = this != null
