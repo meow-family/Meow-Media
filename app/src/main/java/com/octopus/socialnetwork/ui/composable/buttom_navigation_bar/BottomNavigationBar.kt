@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable.navigation
+package com.octopus.socialnetwork.ui.composable.buttom_navigation_bar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*

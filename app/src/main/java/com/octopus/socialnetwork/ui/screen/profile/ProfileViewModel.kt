@@ -1,14 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,15 +22,14 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailS: FetchUserDetailsUseCase,
     private val  fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val  fetchUserPosts: FetchUserPostsUseCase,
-    savedStateHandle: SavedStateHandle,
     ) : ViewModel(){
 
-    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
+
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-        getUserDetails(20, 20)
+        getUserDetails(userId, 11)
     }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int){
