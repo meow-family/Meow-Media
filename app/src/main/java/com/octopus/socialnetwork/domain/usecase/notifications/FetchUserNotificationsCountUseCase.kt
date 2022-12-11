@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchUserNotificationsCountUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
-    suspend operator fun invoke(currentUserId: Int, types: String?) : UserNotificationsCount {
-        return socialRepository.getUserNotificationsCount(currentUserId, types ?: "").toUserNotificationsCount()
+    suspend operator fun invoke(currentUserId: Int) : UserNotificationsCount {
+        return socialRepository.getUserNotificationsCount(currentUserId).toUserNotificationsCount()
     }
 }

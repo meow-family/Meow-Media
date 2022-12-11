@@ -5,15 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OnBoardingViewModel @Inject constructor(
+class OnBoardingViewModel @Inject constructor(): ViewModel() {
 
-): ViewModel() {
-
-    fun onClickLogin() {
-        //
-    }
-
-    fun onClickCreateAccount() {
-        //
-    }
 }

@@ -2,6 +2,10 @@ package com.octopus.socialnetwork.ui.screen.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.*
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
@@ -13,6 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
@@ -23,10 +28,12 @@ class ProfileViewModel @Inject constructor(
     private val checkUserFriendUseCase: CheckUserFriendUseCase
 ) : ViewModel() {
 
+
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
+        getUserDetails(userId, 11)
         getUserDetails(20, 30)
         isRequestSent(30, 20)
     }
@@ -35,8 +42,7 @@ class ProfileViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts =
-                    fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
+                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
                 val profileUiState = fetchUserDetailS(currentUserId).toProfileUiState()
 

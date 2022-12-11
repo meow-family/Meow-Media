@@ -24,31 +24,30 @@ import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
 fun PostAction(
     modifier: Modifier,
     likeCount: String,
+    isLikedByUser: Boolean,
     commentCount: String,
     onLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
 
-
-) {
+    ) {
     Column(
         modifier = Modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-
         Icon(
-            modifier = modifier.clickable { onLike },
+            modifier = modifier.clickable { onLike() },
             painter = painterResource(R.drawable.ic_like),
             contentDescription = stringResource(R.string.like_icon),
-            tint = Color.White
+            tint = if(isLikedByUser) Color.Red else Color.White
         )
         SpaceVertically8dp()
         Text(text = likeCount, color = Color.White)
         SpaceVertically24dp()
         Icon(
-            modifier = modifier.clickable { onComment },
+            modifier = modifier.clickable { onComment() },
             imageVector = Icons.Sharp.Comment,
             contentDescription = stringResource(R.string.comment_icon),
             tint = Color.White
@@ -57,7 +56,7 @@ fun PostAction(
         Text(text = commentCount, color = Color.White)
         SpaceVertically24dp()
         Icon(
-            modifier = modifier.clickable { onShare },
+            modifier = modifier.clickable { onShare() },
             imageVector = Icons.Sharp.Share,
             contentDescription = stringResource(R.string.share_icon),
             tint = Color.White

@@ -1,33 +1,15 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import android.util.Log
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(
     private val signInRepository: AuthenticationRepository,
 ) {
-    suspend operator fun invoke(
-        firstName: String,
-        lastName: String,
-        email: String,
-        reEmail: String,
-        gender: String,
-        birthDate: String,
-        userName: String,
-        password: String,
-    ): LoginResponse {
+    suspend operator fun invoke(params: Params): LoginResponse {
 
-        val response = signInRepository.register(
-            firstName,
-            lastName,
-            email,
-            reEmail,
-            gender,
-            birthDate,
-            userName,
-            password
-        )
+        val response = signInRepository.register(params = params)
+
         return if (response.code == "100") {
             LoginResponse.Success
         } else {
@@ -38,5 +20,16 @@ class RegisterUseCase @Inject constructor(
             )
         }
     }
+
+    data class Params(
+        var firstName: String,
+        var lastName: String,
+        var email: String,
+        var reEmail: String,
+        var gender: String,
+        var birthDate: String,
+        var userName: String,
+        var password: String,
+    )
 
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchPostDetailsUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
-    suspend operator fun invoke(postId: Int, postOwnerId: Int): Post {
-        return socialRepository.viewPost(postId, postOwnerId).toPost()
+    suspend operator fun invoke(postId: Int, currentUserId: Int): Post {
+        return socialRepository.viewPost(postId, currentUserId).toPost()
     }
 }

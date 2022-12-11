@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -37,6 +39,7 @@ import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
@@ -53,16 +56,16 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 fun RegisterScreen(
+    navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val pagerState = rememberPagerState(0)
+    val pagerState = rememberPagerState(state.initPage)
     val coroutineScope = rememberCoroutineScope()
 
     RegisterContent(
         state = state, pagerState = pagerState,
-        register = viewModel::register,
-        tryLogin = viewModel::tryLogin,
+        onClickRegister = viewModel::register,
         coroutineScope = coroutineScope,
         showError = viewModel::showError,
         onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
@@ -75,6 +78,9 @@ fun RegisterScreen(
         onChangeLastName = viewModel::onChangeLastName,
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
+        onClickLogin = {
+            navController.navigateToMain()
+        },
     )
 }
 
@@ -84,8 +90,8 @@ fun RegisterScreen(
 private fun RegisterContent(
     state: RegisterUiState,
     pagerState: PagerState,
-    register: () -> Unit,
-    tryLogin: () -> Unit,
+    onClickRegister: () -> Unit,
+    onClickLogin: () -> Unit,
     coroutineScope: CoroutineScope,
     showError: () -> Unit,
     onSuccessCreateAccount: () -> Unit,
@@ -102,6 +108,7 @@ private fun RegisterContent(
 
     Column(
         modifier = Modifier
+            .background(MaterialTheme.colors.background)
             .padding(spacingMedium)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
@@ -183,23 +190,22 @@ private fun RegisterContent(
 
 
         CustomButton(
-            text = stringResource(if (pagerState.currentPage == 0) R.string.next else R.string.create_account),
-            onClick = {
-                if (state.isValidInputs) {
-                    if (pagerState.currentPage == 0) {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
-                    } else {
-                        register()
+            text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
+        ) {
+            if (state.isValidInputs) {
+                if (pagerState.currentPage == state.initPage) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(2)
                     }
-
                 } else {
-                    showError()
+                    onClickRegister()
                 }
 
+            } else {
+                showError()
             }
-        )
+
+        }
 
     }
 
@@ -209,7 +215,7 @@ private fun RegisterContent(
         TextWithAction(
             text = stringResource(R.string.already_have_an_account),
             textAction = stringResource(R.string.login),
-            onClick = tryLogin
+            onClick = onClickLogin
         )
 
         if (state.failedCreateAccount) {
@@ -256,7 +262,7 @@ private fun RegisterContent(
 fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
-            RegisterScreen()
+
         }
     }
 }

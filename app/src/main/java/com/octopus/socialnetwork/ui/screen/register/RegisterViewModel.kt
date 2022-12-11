@@ -28,14 +28,16 @@ class RegisterViewModel @Inject constructor(
             try {
                 val response =
                     registerUseCase(
-                        firstName = state.value.userInfoForm.firstName.text,
-                        lastName = state.value.userInfoForm.lastName.text,
-                        email = state.value.userInfoForm.email.text,
-                        reEmail = state.value.userInfoForm.reEmail.text,
-                        gender = state.value.userInfoForm.gender.text,
-                        birthDate = state.value.userInfoForm.birthDate.text,
-                        userName = state.value.userInfoForm.userName.text,
-                        password = state.value.userInfoForm.password.text
+                        RegisterUseCase.Params(
+                            firstName = state.value.userInfoForm.firstName.text,
+                            lastName = state.value.userInfoForm.lastName.text,
+                            email = state.value.userInfoForm.email.text,
+                            reEmail = state.value.userInfoForm.reEmail.text,
+                            gender = state.value.userInfoForm.gender.text,
+                            birthDate = state.value.userInfoForm.birthDate.text,
+                            userName = state.value.userInfoForm.userName.text,
+                            password = state.value.userInfoForm.password.text
+                        )
                     )
 
                 when (response) {
