@@ -10,7 +10,7 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
-import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,20 +46,24 @@ class ProfileViewModel @Inject constructor(
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
                 val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).toProfileUiState()
+                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
 
                 _state.update {
                     it.copy(
                         isLoading = false,
                         isError = false,
-                        fullName = profileUiState.fullName,
-                        username = profileUiState.username,
-                        friendsCount = userFriendsCount.toString(),
-                        postCount = userPostsCount.toString(),
-                        profileAvatar = profileUiState.profileAvatar,
-                        profileCover = profileUiState.profileCover,
-                        profilePosts = profilePosts
+                        profilePosts = profilePosts,
+                        userDetails = it.userDetails.copy(
+                            fullName = profileUiState.fullName,
+                            username = profileUiState.username,
+                            profileAvatar = profileUiState.profileAvatar,
+                            profileCover = profileUiState.profileCover,
+                            friendsCount = userFriendsCount.toString(),
+                            postCount = userPostsCount.toString(),
+                        )
                     )
+
+
                 }
             }
         } catch (e: Exception) {

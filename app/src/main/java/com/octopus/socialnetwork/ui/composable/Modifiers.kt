@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,7 +52,7 @@ fun Modifier.underLineBoarder(
     color: Color,
     strokeWidth: Dp
 ) = then(
-    Modifier
+    modifier
         .fillMaxWidth()
         .drawBehind {
 
