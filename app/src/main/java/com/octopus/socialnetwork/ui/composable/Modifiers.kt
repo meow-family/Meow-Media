@@ -17,14 +17,21 @@ import com.octopus.socialnetwork.ui.theme.LightBlack_86
 
 
 @Stable
-fun Modifier.backgroundVerticalGradientWhite() = then(
+fun Modifier.backgroundVerticalGradientWhite(
+    color: Color = Color.White
+) = then(
     Modifier
         .fillMaxWidth()
         .height(250.dp)
         .clip(RectangleShape)
         .zIndex(1f)
-        .background(Brush.verticalGradient(listOf(Color.Transparent, Color.White)))
+        .background(
+            Brush.verticalGradient(
+                listOf(Color.Transparent, color)
+            )
+        )
 )
+
 @Stable
 fun Modifier.backgroundVerticalGradientLightBlack() = then(
     Modifier.background(

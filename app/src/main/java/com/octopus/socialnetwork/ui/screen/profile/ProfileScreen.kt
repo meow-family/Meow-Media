@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,6 +71,9 @@ private fun ProfileContent(
 
 
     LazyVerticalGrid(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.background),
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -81,7 +83,7 @@ private fun ProfileContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.White)
+
             ) {
                 ProfileInformation(
                     backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
