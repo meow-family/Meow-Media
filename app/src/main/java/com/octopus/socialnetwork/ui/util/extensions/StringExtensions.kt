@@ -5,7 +5,6 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-import com.octopus.socialnetwork.ui.screen.profile.navigateToProfileScreen
 import com.octopus.socialnetwork.ui.util.Constants
 
 val notificationsTypes = Constants.NotificationsTypes
@@ -46,8 +45,9 @@ fun String.setScreenDestinationOnClickNotification(
             )
 
         else ->
-            navController.navigateToProfileScreen(
-                notification.notificationDetails.posterId,
+            navController.navigateToPostScreen(
+                notification.notificationDetails.subjectId,
+                notification.notificationDetails.ownerId
             )
     }
 
