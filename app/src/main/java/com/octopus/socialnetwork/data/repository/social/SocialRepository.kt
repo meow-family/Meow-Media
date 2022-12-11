@@ -92,23 +92,11 @@ interface SocialRepository {
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String, ): BaseResponse<List<Photo>>
 
-    suspend fun getPhotoViewProfile(
-        photoId: Int,
-        userId: Int,
-    ): BaseResponse<UserProfileDto>
     suspend fun getPhotoViewProfile(photoId: Int, userId: Int, ) : BaseResponse<UserProfileDto>
 
     suspend fun deletePhotoProfile(photoId: Int, userId: Int, ) : BaseResponse<ProfilePhotoDeletion>
-    suspend fun deletePhotoProfile(
-        photoId: Int,
-        userId: Int,
-    ): BaseResponse<ProfilePhotoDeletion>
 
     suspend fun deleteProfileCover(photoId: Int, userId: Int, ) : BaseResponse<ProfilePhotoDeletion>
-    suspend fun deleteProfileCover(
-        photoId: Int,
-        userId: Int,
-    ): BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 

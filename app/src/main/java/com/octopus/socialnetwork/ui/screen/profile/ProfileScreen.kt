@@ -1,7 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.profile
-
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,8 +26,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.ButtonFollow
+import com.octopus.socialnetwork.ui.composable.Divider
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally16dp
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally4dp
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
+import com.octopus.socialnetwork.ui.composable.SpaceVertically10dp
+import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
 import com.octopus.socialnetwork.ui.composable.profile.ButtonMessage
 import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
@@ -59,6 +69,8 @@ private fun ProfileContent(
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
 ) {
+
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp),
@@ -75,7 +87,7 @@ private fun ProfileContent(
                     backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
                     profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
 
-                )
+                    )
 
                 Column(
                     modifier = Modifier

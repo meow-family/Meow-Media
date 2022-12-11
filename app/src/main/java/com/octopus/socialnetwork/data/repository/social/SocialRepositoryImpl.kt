@@ -73,14 +73,6 @@ class SocialRepositoryImpl @Inject constructor(
         userIdWantedToAdd: Int
     ): CheckUserFriendDto {
         return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
-        return socialService.editUser(
-            currentUserId,
-            firstName,
-            lastName,
-            email,
-            currentPassword,
-            newPassword
-        ).result
     }
 
     //endregion
