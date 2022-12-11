@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -41,3 +44,25 @@ fun Modifier.backgroundVerticalGradientLightBlack() = then(
 fun Modifier.shadowLightBlack() = then(
     Modifier.shadow(16.dp, ambientColor = LightBlack_65))
 
+
+@Stable
+fun Modifier.underLineBoarder(
+    modifier: Modifier = Modifier,
+    color: Color,
+    strokeWidth: Dp
+) = then(
+    Modifier
+        .fillMaxWidth()
+        .drawBehind {
+
+            val strokeWidthPx = strokeWidth.toPx()
+            val y = size.height - strokeWidthPx / 2
+
+            drawLine(
+                color,
+                Offset(0f, y),
+                Offset(size.width, y),
+                strokeWidthPx
+            )
+        }
+)

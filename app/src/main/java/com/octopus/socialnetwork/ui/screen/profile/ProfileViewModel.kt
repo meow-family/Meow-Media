@@ -3,10 +3,12 @@ package com.octopus.socialnetwork.ui.screen.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
+import com.octopus.socialnetwork.domain.usecase.user.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.*
+import com.octopus.socialnetwork.domain.usecase.user.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -104,6 +106,16 @@ class ProfileViewModel @Inject constructor(
                 }
             }
 
+        }
+    }
+
+    fun onChangeTabIndex(index: Int) {
+        _state.update {
+            it.copy(
+                profileContentTab = it.profileContentTab.copy(
+                    selectedTabIndex = index
+                )
+            )
         }
     }
 
