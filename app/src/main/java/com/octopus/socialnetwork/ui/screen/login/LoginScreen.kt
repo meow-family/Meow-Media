@@ -48,7 +48,7 @@ fun LoginScreen(
         login = {
             scope.launch {
                 scope.launch {
-                    viewModel.login()
+                    viewModel.login().join()
                 }.join()
                 if (!state.isError) {
                     navController.navigateToMain()
