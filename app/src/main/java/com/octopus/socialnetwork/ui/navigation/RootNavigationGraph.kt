@@ -5,6 +5,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.octopus.socialnetwork.SocialNetworkApplication
 import com.octopus.socialnetwork.ui.screen.main.mainRoute
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -12,7 +13,7 @@ import com.octopus.socialnetwork.ui.screen.main.mainRoute
 fun RootNavigationGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Graph.AUTH,
+        startDestination = if (SocialNetworkApplication.isFirstTimeLaunch) Graph.AUTH else Graph.MAIN,
         route = Graph.ROOT
     ) {
         authNavigationGraph(navController)
