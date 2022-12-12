@@ -10,7 +10,7 @@ class GetRecentMessagesListUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userId: Int): List<MessageDetails> {
         val recentMessage =
-            socialRepository.getRecentMassagesList(userId).messages?.map { it.toMessageDetails() }
+            socialRepository.getRecentMassagesList(userId).messages?.map { it.toMessageDetails(userId) }
         return changeData(userId, recentMessage!!)
     }
 

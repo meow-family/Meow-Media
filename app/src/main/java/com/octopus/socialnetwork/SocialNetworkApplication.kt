@@ -23,16 +23,12 @@ class SocialNetworkApplication : Application() {
         CoroutineScope(Dispatchers.IO).launch {
             dataStorePreferences.readString(USER_ID_KEY).let { id ->
                 isFirstTimeLaunch = id == null
-                id?.let {
-                    userId = it
-                }
             }
         }
     }
 
     companion object {
         var isFirstTimeLaunch = false
-        var userId = 16
         const val USER_ID_KEY = "user_id"
 
     }

@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.message_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
-import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toRecentMessagesUiStateMapper
+import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +33,7 @@ class MessagesViewModel @Inject constructor(
             viewModelScope.launch {
 
                 val recentMessages =
-                    fetchRecentMessages(userId).map { it.toRecentMessagesUiStateMapper() }
+                    fetchRecentMessages(userId).map { it.toMessageUiState() }
 
                 _state.update {
                     it.copy(

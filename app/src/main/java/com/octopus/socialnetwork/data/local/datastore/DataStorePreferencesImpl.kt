@@ -1,9 +1,12 @@
 package com.octopus.socialnetwork.data.local.datastore
 
 
-import kotlinx.coroutines.flow.Flow
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -25,9 +28,11 @@ class DataStorePreferencesImpl @Inject constructor(
     }
 
     override fun readString(key: String): Int? {
-        return runBlocking {   dataStore.data.map { preference ->
-            preference[intPreferencesKey(key)]
-        }.first()}
+        return runBlocking {
+            dataStore.data.map { preference ->
+                preference[intPreferencesKey(key)]
+            }.first()
+        }
     }
 
     override suspend fun writeString(key: String, value: Int) {

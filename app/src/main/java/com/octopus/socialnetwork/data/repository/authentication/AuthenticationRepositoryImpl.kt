@@ -13,17 +13,16 @@ import javax.inject.Inject
 class AuthenticationRepositoryImpl @Inject constructor(
     private val service: SocialService,
     private val dataStorePreferences: DataStorePreferences,
-) :AuthenticationRepository {
+) : AuthenticationRepository {
 
     override suspend fun login(username: String, password: String): AuthResponse {
         val response = service.login(username, password)
-        if (response.code == REQUEST_SUCCEED){
-            response.result.id?.let { saveUserId(it) }
+        if (response.code == REQUEST_SUCCEED) {
+            response.result.id?.let {
+                dataStorePreferences.writeString(USER_ID_KEY, it)
+            }
         }
         return response.result
-    }
-    private suspend fun saveUserId(userId: Int) {
-        dataStorePreferences.writeString(USER_ID_KEY, userId)
     }
 
 
@@ -38,5 +37,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
             userName = params.userName,
             password = params.password
         )
+    }
+
+    override fun getUserId(): Int? {
+        return dataStorePreferences.readString("user_id")
     }
 }

@@ -1,8 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.chat
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -33,25 +35,18 @@ fun ChatScreenContent(state: MessageMainUiState) {
             .background(MaterialTheme.colors.background)
     ) {
 
-//            if (state.isSentMessage) { // if the sender id is the same as the logged in user id
-//                SentMessage(state.messages.)
-//            } else {
-//                ReceivedMessage(it.message)
-//            }
     }
     LazyColumn(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (state.isSentMessage) {
-            Log.i("TESTING", " in SentMessage  :${ state.isSentMessage }")
-            items(state.messages) { SentMessage(it.message) }
-        } else {
-            Log.i("TESTING", " in  ReceivedMessage  :${ state.isSentMessage }")
-            items(state.messages) { ReceivedMessage(it.message) }
+        items(state.messages) {
+            if (it.isSentByMe) {
+                SentMessage(it.message)
+            } else {
+                ReceivedMessage(message = it.message)
+            }
         }
     }
-
-
 }

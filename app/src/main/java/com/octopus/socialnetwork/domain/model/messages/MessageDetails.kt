@@ -7,4 +7,5 @@ data class MessageDetails(
     val message: String,
     val time: Long,
     val viewed: String,
+    val isSentByMe: Boolean,
 )
