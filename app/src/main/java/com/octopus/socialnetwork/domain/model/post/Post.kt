@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.domain.model.post
 
+import java.util.*
+
 
 data class Post(
     val postId: Int,
@@ -12,5 +14,5 @@ data class Post(
     val totalLikes: Int,
     val totalComments: Int,
     val isLikedByUser: Boolean,
-    val timeCreated: String,
+    val timeCreated: Date,
 )

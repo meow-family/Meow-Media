@@ -1,11 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
     private val fetchUserNotifications: FetchUserNotificationsUseCase,
+    private val fetchNotificationItems: FetchNotificationItemsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -28,8 +30,8 @@ class NotificationsViewModel @Inject constructor(
     }
 
     private fun getNotifications() {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val userNotifications =
                     fetchUserNotifications(16, null, null).map { it.toNotificationsUiState() }
 
@@ -41,14 +43,34 @@ class NotificationsViewModel @Inject constructor(
                     )
                 }
 
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
             }
-        } catch (e: Exception) {
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    isError = true
-                )
+        }
+
+    }
+
+
+    fun markViewedNotification(notification: NotificationItemsUiState) {
+        viewModelScope.launch {
+            try {
+                if (!notification.notificationDetails.viewed)
+                    fetchNotificationItems(notification.notificationDetails.id)
+                getNotifications()
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
             }
         }
     }
+
 }

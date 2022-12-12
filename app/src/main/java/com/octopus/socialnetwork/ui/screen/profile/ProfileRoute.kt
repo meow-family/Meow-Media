@@ -16,4 +16,3 @@ fun NavGraphBuilder.profileRoute(navController: NavController) {
     composable(ROUTE)
     { ProfileScreen(navController) }
 }
-

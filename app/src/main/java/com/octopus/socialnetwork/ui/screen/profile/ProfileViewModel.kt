@@ -22,8 +22,7 @@ class ProfileViewModel  @Inject constructor(
     private val  fetchUserDetailS: FetchUserDetailsUseCase,
     private val  fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val  fetchUserPosts: FetchUserPostsUseCase,
-    ) : ViewModel(){
-
+) : ViewModel(){
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
