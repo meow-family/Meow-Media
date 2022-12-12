@@ -5,15 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -80,6 +81,7 @@ private fun LoginContent(
     signUp: () -> Unit
 
 ) {
+    var showPassword by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -126,11 +128,28 @@ private fun LoginContent(
         )
         SpacerVertical16()
         InputTextField(
-            modifier = Modifier.padding(bottom = spacingLarge),
+            modifier = Modifier.padding(bottom = 24.dp),
             value = state.password,
-            isPassword = true,
+            isPassword = !showPassword,
             onValueChange = onChangePassword,
             icon = Icons.Default.Lock,
+            trailingIcon = {
+                if (showPassword) {
+                    IconButton(onClick = { showPassword = false }) {
+                        Icon(
+                            Icons.Filled.Visibility,
+                            contentDescription = null,
+                        )
+                    }
+                } else {
+                    IconButton(onClick = { showPassword = true }) {
+                        Icon(
+                            Icons.Filled.VisibilityOff,
+                            contentDescription = null,
+                        )
+                    }
+                }
+            },
             placeholder = stringResource(R.string.password),
             action = ImeAction.Done,
         )
