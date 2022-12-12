@@ -24,7 +24,6 @@ import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
-import com.octopus.socialnetwork.ui.theme.darkBackgroundColor
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingHuge
 import com.octopus.socialnetwork.ui.theme.spacingMedium

@@ -1,10 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -28,19 +30,21 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(password = newValue) }
     }
 
-    fun login() {
-        viewModelScope.launch {
+    suspend fun login(): Job {
+        return viewModelScope.launch {
             try {
-                loginUseCase(_state.value.username, _state.value.password)
-
-            }catch (e:Exception){
-               _state.update { it.copy(
-                   isError = true,
-
-               ) }
+                val loginResponse = loginUseCase(_state.value.username, _state.value.password)
+                if (loginResponse?.username.isNullOrEmpty()) {
+                    Log.i("MEOWMEOW",loginResponse.toString())
+                    _state.update { it.copy(isError = true) }
+                } else {
+                    _state.update { it.copy(isError = false) }
+                }
+            } catch (e: Exception) {
+                Log.i("MEOWMEOW","watch out there is exception ${e}")
+//                _state.update { it.copy(isError = true, errorMessage = e.toString()) }
             }
-
         }
     }
-    
+
 }

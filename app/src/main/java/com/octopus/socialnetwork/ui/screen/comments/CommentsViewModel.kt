@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +35,6 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 16,
                     postId = args.postId.toInt(),
                     type = args.type
                 ).map { it.toCommentDetailsUiState() }
@@ -65,7 +65,7 @@ class CommentsViewModel @Inject constructor(
     suspend fun addComment() {
          viewModelScope.launch {
             try {
-                addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
+                addCommentUseCase(324, _state.value.textFieldCommentState.text)
                 _state.update {
                     it.copy(
                         textFieldCommentState = it.textFieldCommentState.copy(text = "")

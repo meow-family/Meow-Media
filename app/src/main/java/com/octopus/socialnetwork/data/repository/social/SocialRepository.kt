@@ -63,8 +63,7 @@ interface SocialRepository {
     //endregion
 
     //region notifications
-    suspend fun getUserNotifications(currentUserId: Int, types: String, offset: Int
-    ): UserNotificationsDTO
+    suspend fun getUserNotifications(currentUserId: Int): UserNotificationsDTO
 
     suspend fun getUserNotificationsCount(currentUserId: Int, ): UserNotificationsCountDto
 

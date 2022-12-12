@@ -21,19 +21,17 @@ class MessagesViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
-    val userId = 23
-
     init {
-        getMessagesDetails(userId)
+        getMessagesDetails()
     }
 
-    private fun getMessagesDetails(userId: Int) {
+    private fun getMessagesDetails() {
 
         try {
             viewModelScope.launch {
 
                 val recentMessages =
-                    fetchRecentMessages(userId).map { it.toMessageUiState() }
+                    fetchRecentMessages().map { it.toMessageUiState() }
 
                 _state.update {
                     it.copy(

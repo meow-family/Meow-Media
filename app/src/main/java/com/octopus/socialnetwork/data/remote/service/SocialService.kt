@@ -132,8 +132,6 @@ interface SocialService {
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") currentUserId: Int,
-        @Query("types") types: String?,
-        @Query("offset") offset: Int?,
     ): BaseResponse<UserNotificationsDTO>
 
     @GET("notifications_count")

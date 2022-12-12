@@ -31,7 +31,7 @@ class NotificationsViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 val userNotifications =
-                    fetchUserNotifications(16, null, null).map { it.toNotificationsUiState() }
+                    fetchUserNotifications().map { it.toNotificationsUiState() }
 
                 _state.update {
                     it.copy(
