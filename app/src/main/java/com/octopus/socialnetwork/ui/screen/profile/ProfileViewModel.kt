@@ -25,7 +25,6 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) : ViewModel() {
 
-
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 

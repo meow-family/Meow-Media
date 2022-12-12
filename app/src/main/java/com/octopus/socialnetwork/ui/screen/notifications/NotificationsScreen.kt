@@ -1,14 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,6 +40,8 @@ fun NotificationsScreen(
             notification.notificationDetails.type
                 .setScreenDestinationOnClickNotification(navController, notification)
 
+
+            viewModel.markViewedNotification(notification)
         },
         onClickBack = { navController.navigateToHomeScreen() }
     )
@@ -65,9 +64,7 @@ private fun NotificationsContent(
         if (state.isLoading) { Loading() }
 
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colors.background),
         ) {
             items(state.notifications) { notification ->
                 ItemNotification(notification, onClickNotification)

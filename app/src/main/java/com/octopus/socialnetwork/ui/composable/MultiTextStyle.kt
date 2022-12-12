@@ -36,11 +36,11 @@ fun MultiTextStyle(
         }
     }
     Text(
-        modifier = Modifier.padding(end = 10.dp),
+        modifier = Modifier.padding(top = 8.dp, end = 8.dp),
         text = addressText,
         color = Color.DarkGray,
         style = MaterialTheme.typography.body2,
-        maxLines = 4,
+        maxLines = 3,
         overflow = TextOverflow.Ellipsis
     )
 }

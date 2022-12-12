@@ -78,7 +78,7 @@ private fun PostContent(
             }
 
         }
-        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage))
+        PostImage(postImage = state.postDetails.postImage)
 
         Card(
             modifier = Modifier

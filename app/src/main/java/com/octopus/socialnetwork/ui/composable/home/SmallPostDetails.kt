@@ -27,7 +27,7 @@ import com.octopus.socialnetwork.ui.composable.SpaceVertically4dp
 import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBlack
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.util.extensions.convertTimeCreatedToDate
+import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable
@@ -62,7 +62,7 @@ fun SmallPostDetails(post: PostUiState) {
             )
             SpaceHorizontally8dp()
             Text(
-                text = post.postDate.toLong().convertTimeCreatedToDate(),
+                text = post.postDate.getHourAndMinutes(),
                 color = Color.White,
                 style = MaterialTheme.typography.overline
             )

@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
@@ -38,7 +37,7 @@ fun ItemPost(
             .clickable { onClickPost(post.postId, post.ownerId) }
     ) {
 
-        PostImage(postImage = rememberAsyncImagePainter(model = post.postImage))
+        PostImage(postImage = post.postImage)
 
 
         Card(
