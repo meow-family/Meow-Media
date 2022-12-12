@@ -1,75 +1,51 @@
 package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import com.octopus.socialnetwork.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 @Composable
-fun SearchViewItem(state: MutableState<TextFieldValue>) {
+fun SearchViewItem(query: String, onTextChange: (String) -> Unit) {
+
 
     TextField(
-
-        value = state.value,
-        onValueChange = { value ->
-            state.value = value
-        },
+        value = query,
+        onValueChange = onTextChange,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .size(width = 0.dp, height = 48.dp),
-        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
-        leadingIcon = {
-            Icon(
-                Icons.Default.Search,
-                contentDescription = "",
-                modifier = Modifier
-                    .size(24.dp),
-                tint = Color.Gray
-            )
+            .height(height = 48.dp),
+        textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+        leadingIcon = { Icon( Icons.Default.Search,
+            contentDescription = stringResource(id = R.string.search), modifier = Modifier.size(24.dp),
+                tint = Color.Gray)
         },
-        trailingIcon = {
-            if (state.value != TextFieldValue("")) {
-                IconButton(
-                    onClick = {
-                        state.value =
-                            TextFieldValue("")
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(15.dp)
-                            .size(24.dp)
-                    )
-                }
-            }
-        },
+        placeholder = { Text(text = stringResource(id = R.string.search), style = MaterialTheme.typography.h6.copy(
+            color = MaterialTheme.colors.onSecondary)) },
         singleLine = true,
         shape = RoundedCornerShape(24.dp),
-
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
+            textColor = MaterialTheme.colors.textThirdColor,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = Color.LightGray,
+            backgroundColor = MaterialTheme.colors.secondaryVariant,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
@@ -77,3 +53,4 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
 
     )
 }
+

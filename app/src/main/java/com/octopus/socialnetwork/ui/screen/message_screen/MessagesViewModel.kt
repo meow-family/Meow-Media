@@ -25,8 +25,11 @@ class MessagesViewModel @Inject constructor(
         getMessagesDetails()
     }
 
-    private fun getMessagesDetails() {
+    fun onTextChange(query: String) {
+        _state.update { it.copy(query = query) }
+    }
 
+    private fun getMessagesDetails() {
         try {
             viewModelScope.launch {
 

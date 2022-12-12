@@ -10,12 +10,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Divider(){
+fun Divider(modifier: Modifier = Modifier) {
     Divider(
         color = Color(color = 0xFFBCBCBC),
         modifier = Modifier
             .fillMaxWidth()
             .height(1.dp)
-            .alpha(1f)
+            .alpha(0.2f)
     )
 }
