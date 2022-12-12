@@ -1,9 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.chat
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,15 +16,16 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val getMessageListUseCase: GetMessageListUseCase,
-    private val fetchUserIdUseCase: FetchUserIdUseCase
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
 
+    private val otherUserId = 16
     init {
-        getMessagesWithUser(fetchUserIdUseCase())
+        getMessagesWithUser(otherUserId)
     }
 
     private fun getMessagesWithUser(otherUserId: Int) {

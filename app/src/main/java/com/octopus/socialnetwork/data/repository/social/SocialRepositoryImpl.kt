@@ -15,7 +15,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -38,7 +38,7 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): CheckUserFriendDto {
+    ): FriendValidatorDTO {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 

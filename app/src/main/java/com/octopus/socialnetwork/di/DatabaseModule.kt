@@ -2,8 +2,9 @@ package com.octopus.socialnetwork.di
 
 import android.content.Context
 import androidx.room.Room
-import com.octopus.socialnetwork.data.local.user.UserDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
+import com.octopus.socialnetwork.data.local.user.UserDao
+import com.octopus.socialnetwork.di.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context,
             SocialDatabase::class.java,
-            "SOCIAL_DATABASE"
+            DATABASE_NAME
         ).build()
     }
 

@@ -35,14 +35,11 @@ class LoginViewModel @Inject constructor(
             try {
                 val loginResponse = loginUseCase(_state.value.username, _state.value.password)
                 if (loginResponse?.username.isNullOrEmpty()) {
-                    Log.i("MEOWMEOW","login response is ${loginResponse}")
                     _state.update { it.copy(isError = true) }
                 } else {
-                    Log.i("MEOWMEOW","login response is ${loginResponse}")
                     _state.update { it.copy(isError = false) }
                 }
             } catch (e: Exception) {
-                Log.i("MEOWMEOW",e.toString())
                 _state.update { it.copy(isError = true, errorMessage = e.toString()) }
             }
         }

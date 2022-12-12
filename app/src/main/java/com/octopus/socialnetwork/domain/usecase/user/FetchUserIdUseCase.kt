@@ -7,6 +7,6 @@ class FetchUserIdUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
 ) {
     operator fun invoke(): Int {
-        return authenticationRepository.getUserId() ?:23
+        return authenticationRepository.getUserId() ?:16
     }
 }

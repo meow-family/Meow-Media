@@ -20,10 +20,10 @@ fun MessageDto.toMessageDetails(userId: Int): MessageDetails {
     )
 }
 
-fun MessageListDto.toMessagesList(): MessagesList {
+fun MessageListDto.toMessagesList(userId: Int): MessagesList {
     return MessagesList(
         messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(0, "", "", ""),
-        messages = messages?.map { it.toMessageDetails(16) } ?: emptyList()
+        messages = messages?.map { it.toMessageDetails(userId) } ?: emptyList()
     )
 }
 

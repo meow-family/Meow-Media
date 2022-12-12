@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -126,7 +126,7 @@ interface SocialService {
     suspend fun checkUserFriend(
         @Query("user_b") receiverUser: Int,
         @Query("user_a") senderUser: Int,
-    ): BaseResponse<CheckUserFriendDto>
+    ): BaseResponse<FriendValidatorDTO>
 
     // Notifications
     @GET("notifications_list_user")
