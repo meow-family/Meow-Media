@@ -3,6 +3,8 @@ package com.octopus.socialnetwork.ui.screen.login
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -30,6 +32,8 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
+import com.octopus.socialnetwork.ui.theme.spacingLarge
+import com.octopus.socialnetwork.ui.theme.spacingMedium
 import kotlinx.coroutines.launch
 
 
@@ -81,13 +85,15 @@ private fun LoginContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding().imePadding()
+            .verticalScroll(rememberScrollState(), reverseScrolling = true)
             .background(MaterialTheme.colors.background),
 
         ) {
         ImageWithShadow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(340.dp)
+                .height(300.dp)
                 .wrapContentSize(Alignment.BottomCenter),
             painter = painterResource(id = R.drawable.login_background)
         )
@@ -120,6 +126,7 @@ private fun LoginContent(
         )
         SpacerVertical16()
         InputTextField(
+            modifier = Modifier.padding(bottom = spacingLarge),
             value = state.password,
             isPassword = true,
             onValueChange = onChangePassword,
