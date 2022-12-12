@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -60,8 +59,9 @@ class NotificationsViewModel @Inject constructor(
     fun markViewedNotification(notification: NotificationItemsUiState) {
         viewModelScope.launch {
             try {
-                if(!notification.notificationDetails.viewed)
+                if (!notification.notificationDetails.viewed)
                     fetchNotificationItems(notification.notificationDetails.id)
+                getNotifications()
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
