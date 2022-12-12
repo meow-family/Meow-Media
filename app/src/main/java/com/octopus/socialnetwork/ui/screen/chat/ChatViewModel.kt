@@ -3,7 +3,10 @@ package com.octopus.socialnetwork.ui.screen.chat
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
+import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
+import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toRecentMessagesUiStateMapper
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +25,10 @@ class ChatViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
-    private val otherUserId = 16
+    //private val otherUserId = 16
 
     init {
-        getMessagesWithUser(otherUserId)
+        getMessagesWithUser(23)
     }
 
     private fun getMessagesWithUser(otherUserId: Int) {
@@ -33,17 +36,41 @@ class ChatViewModel @Inject constructor(
         try {
             viewModelScope.launch {
 
-                val recentMessages =
-                    getMessageListUseCase(23,otherUserId).map { it.toRecentMessagesUiStateMapper() }
-                Log.i("TESTING",recentMessages.toString())
-                _state.update {
-                    it.copy(
-                        isFail = false,
-                        isLoading = false,
-                        messages = recentMessages,
+                val recentMessages = getMessageListUseCase(16, otherUserId)
+                    .map { it.toRecentMessagesUiStateMapper() }
+                Log.i("TESTING", recentMessages.toString())
 
-                        )
+                _state.value.messages.forEach {
+                    if (it.senderId == 16) {
+                        _state.update {
+                            Log.i("TESTING", "me :${ it.messages }")
+
+                            it.copy(
+                                isFail = false, isLoading = false,
+                                messages = recentMessages, isSentMessage = true
+                            )
+                        }
+                    } else {
+                        _state.update {
+                            Log.i("TESTING", " resever :${ it.messages }")
+                            it.copy(
+                                isFail = false, isLoading = false,
+                                messages = recentMessages, isSentMessage = false
+                            )
+                        }
+                    }
                 }
+
+                _state.update {
+                    Log.i("TESTING", "state befor :${ it.messages }")
+                    it.copy(
+                        isFail = false, isLoading = false,
+                        messages = recentMessages
+                    )
+                }
+
+
+
             }
         } catch (e: Exception) {
             _state.update {

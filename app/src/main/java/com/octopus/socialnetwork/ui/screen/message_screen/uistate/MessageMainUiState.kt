@@ -5,4 +5,5 @@ data class MessageMainUiState(
     val isLoading: Boolean = true,
     var unreadMessagesCount: Int = 0,
     val messages: List<MessageUiState> = emptyList(),
+    val isSentMessage: Boolean = true,
 )
