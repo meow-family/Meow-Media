@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavItem
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavigation
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
@@ -51,7 +52,7 @@ fun MainScreen(navController: NavHostController) {
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.profile),
-                        route = MainRoute.Profile,
+                        route = MainRoute.Profile + "/$userId",
                         icon = painterResource(R.drawable.profile),
                     ),
                 ),

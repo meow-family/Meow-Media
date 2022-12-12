@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
@@ -27,24 +28,38 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserPosts: FetchUserPostsUseCase,
     private val addFriendUseCase: AddFriendUseCase,
     private val removeFriendUseCase: RemoveFriendUseCase,
-    private val checkUserFriendUseCase: CheckUserFriendUseCase
+    private val checkUserFriendUseCase: CheckUserFriendUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
+    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-        getUserDetails(userId, 11)
-        getUserDetails(20, 30)
-        isRequestSent(30, 20)
+        checkUserVisitor()
+        getUserDetails(userId, args.userIdVisitor)
+        isRequestSent(userId, args.userIdVisitor)
+    }
+
+    private fun checkUserVisitor() {
+        val isUserVisitor = userId != args.userIdVisitor
+
+        _state.update {
+            it.copy(
+                isUserVisitor = isUserVisitor
+            )
+        }
+
     }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int) {
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
+                val profilePosts =
+                    fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
                 val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
 
@@ -88,7 +103,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onClickFollow() {
+    fun onClickAddFriend() {
         viewModelScope.launch {
             if (!_state.value.isRequestExists) {
                 val result = addFriendUseCase(30, 20)
@@ -124,6 +139,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickMessage() {
+        //
+    }
+
+    fun onClickLogout() {
+        //
+    }
+
+    fun onClickEditeProfile() {
         //
     }
 }

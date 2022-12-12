@@ -54,6 +54,6 @@ val PoppinsTypography = Typography(
     ),
 
     overline = TextStyle(
-        fontSize = fontSizesSmall
+        fontSize = fontSizesSmall,
     ),
 )
