@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
@@ -67,7 +68,7 @@ private fun EditProfileContent(
         val input = mContext.contentResolver.openInputStream(newImage) ?: return@rememberLauncherForActivityResult
         val outputFile = mContext.filesDir.resolve("profilePic.jpg")
         input.copyTo(outputFile.outputStream())
-        val uri = outputFile
+        val uri = outputFile.toUri()
         Log.i("wsh", "viewModel: uri== $uri")
         onChangeImage(
             uri.toString()

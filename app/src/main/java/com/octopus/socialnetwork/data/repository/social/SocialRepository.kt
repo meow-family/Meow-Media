@@ -130,7 +130,7 @@ interface SocialRepository {
     ) : BaseResponse<ProfilePhotoDeletion>
 
     suspend fun changeProfileImage(
-        file: String,
+        filePath: String,
         userId: Int,
     ) : UserProfileDto
 

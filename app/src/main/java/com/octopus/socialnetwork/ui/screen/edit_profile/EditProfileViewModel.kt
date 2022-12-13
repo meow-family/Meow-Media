@@ -85,10 +85,10 @@ class EditProfileViewModel @Inject constructor(
                 Log.d("wsh", "in viewModel-- image === ${_state.value.profileAvatar}")
 
                 changeProfileImageUseCase(
-//                    file = _state.value.profileAvatarToEdit,
-                    file = _state.value.profileAvatar,
+                    filePath = _state.value.profileAvatar,
                     userId = currentUserId,
                 )
+
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
@@ -105,12 +105,10 @@ class EditProfileViewModel @Inject constructor(
         updateUserData(_state.value.userId)
     }
 
-    fun onChangeImage(image: String){
-//        val file = File(image)
+    fun onChangeImage(filePath: String){
         _state.update {
             it.copy(
-//                profileAvatarToEdit = image
-                profileAvatar = image
+                profileAvatar = filePath
             )
         }
     }
