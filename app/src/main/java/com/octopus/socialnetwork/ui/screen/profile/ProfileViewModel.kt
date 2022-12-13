@@ -33,23 +33,27 @@ class ProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     
-    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
+    //private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-        checkUserVisitor()
-        getUserDetails(fetchUserIdUseCase(), args.userIdVisitor)
-        isRequestSent(fetchUserIdUseCase(), args.userIdVisitor)
+//        checkUserVisitor()
+//        getUserDetails(fetchUserIdUseCase(), args.userIdVisitor)
+//        isRequestSent(fetchUserIdUseCase(), args.userIdVisitor)
+//
+      //  checkUserVisitor()
+        getUserDetails(fetchUserIdUseCase(), fetchUserIdUseCase())
+        isRequestSent(fetchUserIdUseCase(), fetchUserIdUseCase())
     }
-
-    private fun checkUserVisitor() {
-        val isUserVisitor = fetchUserIdUseCase() != args.userIdVisitor
-
-        _state.update { it.copy(isUserVisitor = isUserVisitor) }
-
-    }
+//
+//    private fun checkUserVisitor() {
+//        val isUserVisitor = fetchUserIdUseCase() != args.userIdVisitor
+//
+//        _state.update { it.copy(isUserVisitor = isUserVisitor) }
+//
+//    }
 
     private fun getUserDetails(currentUserId: Int, visitedUserId: Int) {
         try {
@@ -57,11 +61,7 @@ class ProfileViewModel @Inject constructor(
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
                 val profilePosts = fetchUserPosts(visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId).count
-                val profileUiState = fetchUserDetailS(16).toUserDetailsUiState()
-
-//                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
-//                val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
-//                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
+                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
 
                 _state.update {
                     it.copy(
