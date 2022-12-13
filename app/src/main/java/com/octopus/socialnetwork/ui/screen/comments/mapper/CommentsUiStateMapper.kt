@@ -13,5 +13,6 @@ fun Comment.toCommentDetailsUiState(): CommentDetailsUiState {
         fullName = fullName,
         userName = username,
         userAvatar = avatar,
+        commentId = commentId,
     )
 }

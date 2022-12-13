@@ -18,7 +18,7 @@ import com.octopus.socialnetwork.ui.theme.Black65
 @Composable
 fun ButtonBack(onBack: ()-> Unit) {
     Button(
-        onClick = { onBack },
+        onClick = { onBack() },
         modifier = Modifier.size(28.dp).padding(8.dp),
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(backgroundColor = Black65),

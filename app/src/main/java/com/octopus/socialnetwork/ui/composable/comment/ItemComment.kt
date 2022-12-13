@@ -77,7 +77,7 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick = onLike,
+        IconButton(onClick = {onLike()},
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)

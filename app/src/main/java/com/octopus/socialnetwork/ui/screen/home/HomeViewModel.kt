@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val updateLikeUseCase: UpdateLikeUseCase,
+    private val likeToggleUseCase: LikeToggleUseCase,
     private val fetchNotificationsCount: FetchUserNotificationsCountUseCase
 ) : ViewModel() {
 
@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getPosts(16)
+        getPosts(23)
     }
 
     private fun getPosts(currentUserId: Int) {
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
                     updatePostLikeState(
                         postId = postId,
                         isLiked = post.isLiked.not(),
-                        newLikesCount = updateLikeUseCase(postId = postId, isLiked = post.isLiked) ?: 0
+                        newLikesCount = likeToggleUseCase(contentId = postId, isLiked = post.isLiked,"post") ?: 0
                     )
                 }
             } catch (e: Exception) {

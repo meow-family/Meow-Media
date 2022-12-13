@@ -8,7 +8,7 @@ data class CommentDetails(
     @SerializedName("comments:post")
     val commentsPost: String?,
     @SerializedName("id")
-    val id: Int?,
+    val commentId: Int?,
     @SerializedName("is_liked_by_user")
     val isLikedByUser: Boolean?,
 //    @SerializedName("last_three_reactions")

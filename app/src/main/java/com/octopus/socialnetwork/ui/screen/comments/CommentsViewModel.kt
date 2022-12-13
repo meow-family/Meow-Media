@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
-import com.octopus.socialnetwork.domain.usecase.like.UpdateCommentLikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
-    private val updateCommentLikeUseCase: UpdateCommentLikeUseCase,
+    private val toggleLikeState: LikeToggleUseCase,
     private val addCommentUseCase: AddCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -37,10 +37,11 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 16,
+                    currentUserId = 23,
                     postId = args.postId.toInt(),
                     type = args.type
                 ).map { it.toCommentDetailsUiState() }
+                Log.i("TESTING",postComments.toString())
                 _state.update {
                     it.copy(
                         comments = postComments
@@ -68,7 +69,7 @@ class CommentsViewModel @Inject constructor(
     suspend fun addComment() {
         viewModelScope.launch {
             try {
-                addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
+                addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text, 23)
                 _state.update {
                     it.copy(
                         textFieldCommentState = it.textFieldCommentState.copy(text = "")
@@ -88,15 +89,16 @@ class CommentsViewModel @Inject constructor(
     fun onClickLike(commentId: Int) {
         viewModelScope.launch {
             try {
-                val comment = _state.value.comments
-                comment.find { it.commentOwnerId == commentId }?.let { commentO ->
+                val clickedComment = _state.value.comments
+                clickedComment.find { it.commentId == commentId }?.let { comment ->
                     Log.i("TESTING", "commentId $commentId")
-                    updatePostLikeState(
+                    toggleLikeState(
                         commentId = commentId,
-                        isLiked = commentO.isLikedByUser.not(),
-                        newLikesCount = updateCommentLikeUseCase(
-                            commentId = commentId,
-                            isLiked = commentO.isLikedByUser
+                        isLiked = comment.isLikedByUser.not(),
+                        newLikesCount = toggleLikeState(
+                            contentId = commentId,
+                            isLiked = comment.isLikedByUser,
+                            contentType = "annotation"
                         ) ?: 0
                     )
                 }
@@ -107,15 +109,15 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    private fun updatePostLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
+    private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
         _state.update { commentUiState ->
             commentUiState.copy(
                 comments = _state.value.comments.map { comment ->
-                    if (comment.commentOwnerId == commentId) comment.copy(
-                        isLikedByUser = isLiked,
-                        likeCounter = newLikesCount
-                    )
-                    else comment
+                    if (comment.commentId == commentId) {
+                        comment.copy(isLikedByUser = isLiked, likeCounter = newLikesCount)
+                    } else {
+                        comment
+                    }
                 }
             )
         }

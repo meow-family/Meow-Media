@@ -71,7 +71,7 @@ private fun CommentsContent(
         ) {
 
             itemsIndexed(state.comments) { index, item ->
-                ItemComment(commentDetails = item, onLike = {onClickLike(item.commentOwnerId)})
+                ItemComment(commentDetails = item, onLike = {onClickLike(item.commentId)})
                 if (index < state.comments.lastIndex)
                     Divider()
             }
