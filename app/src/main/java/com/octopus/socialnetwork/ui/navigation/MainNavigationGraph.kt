@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.octopus.socialnetwork.ui.screen.comments.commentsRoute
 import com.octopus.socialnetwork.ui.screen.group.groupRoute
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
 import com.octopus.socialnetwork.ui.screen.message_screen.messageRoute
@@ -21,13 +20,12 @@ fun MainNavigationGraph(navController: NavHostController, rootNavController: Nav
         groupRoute(rootNavController)
         messageRoute(rootNavController)
         profileRoute(rootNavController)
-        commentsRoute(navController)
     }
 }
 
 object MainRoute {
     const val Home = "home"
     const val Group = "group"
-    const val Chat = "Chat"
+    const val Chat = "chat"
     const val Profile = "profile"
 }
