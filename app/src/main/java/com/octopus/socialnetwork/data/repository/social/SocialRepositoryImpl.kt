@@ -20,7 +20,6 @@ import com.octopus.socialnetwork.data.remote.service.SocialService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -233,7 +232,7 @@ class SocialRepositoryImpl @Inject constructor(
     ): UserProfileDto {
         val imageFile = File(filePath)
         return socialService.changeProfileImage(
-            userId = userId.toString().toRequestBody("text/plain".toMediaType()),
+            userId = userId,
             imageFile = MultipartBody.Part.createFormData(
                 "jpeg",
                 imageFile.name,

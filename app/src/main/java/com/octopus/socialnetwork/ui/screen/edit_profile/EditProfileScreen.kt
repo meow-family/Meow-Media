@@ -58,7 +58,6 @@ private fun EditProfileContent(
     onClickSave: () -> Unit,
     onChangeImage: (image: String) -> Unit,
     ) {
-
     val mContext = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -70,9 +69,9 @@ private fun EditProfileContent(
         input.copyTo(outputFile.outputStream())
         val uri = outputFile.toUri()
         Log.i("wsh", "viewModel: uri== $uri")
-        onChangeImage(
-            uri.toString()
-        )
+            onChangeImage(
+                outputFile.path
+            )
     }
 
     LazyColumn(

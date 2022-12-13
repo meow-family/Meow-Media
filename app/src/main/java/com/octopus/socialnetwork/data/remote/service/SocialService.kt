@@ -26,7 +26,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface SocialService {
@@ -267,8 +266,8 @@ interface SocialService {
     @Multipart
     @POST("photos_profile_add")
     fun changeProfileImage(
-        @Part("guid") userId: RequestBody,
-        @Part() imageFile: MultipartBody.Part
+        @Field("guid") userId: Int,
+        @Part("userphoto") imageFile: MultipartBody.Part
     ): BaseResponse<UserProfileDto>
 //endregion
 
