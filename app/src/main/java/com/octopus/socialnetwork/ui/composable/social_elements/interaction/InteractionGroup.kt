@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable.interaction
+package com.octopus.socialnetwork.ui.composable.social_elements.interaction
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

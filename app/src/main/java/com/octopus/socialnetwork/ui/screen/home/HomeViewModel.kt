@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
     private val updateLikeUseCase: UpdateLikeUseCase,
-    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase
+    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -27,14 +27,14 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getPosts(16)
+        getPosts()
     }
 
-    private fun getPosts(currentUserId: Int) {
+    private fun getPosts() {
         viewModelScope.launch {
             try {
-                val posts = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
-                val currentNotificationsCount = fetchNotificationsCount(currentUserId).notifications
+                val posts = fetchNewsFeedPost().map { it.toPostUiState() }
+                val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update {
                     it.copy(
                         notificationsCount = currentNotificationsCount,

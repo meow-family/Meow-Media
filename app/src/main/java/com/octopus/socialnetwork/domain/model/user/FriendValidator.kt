@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.domain.model.user
 
-data class UserFriendChecker(
+
+data class FriendValidator(
     val isFriend: Boolean,
     val requestExists: Boolean,
     val success: Boolean,

@@ -75,6 +75,8 @@
     <string name="mentioned_you_in_comment">mentioned you in a comment</string>
     <string name="poked_you">has poked you</string>
     <string name="started_following_you">has started following you</string>
+    <string name="liked_your_photo_in_album">liked your photo in album</string>
+    <string name="add_comments_to_your_photo_in_album">has add comments to your photo in album</string>
 
     <string name="arrow_back">arrow back</string>
     <string name="resents">Resents</string>
