@@ -37,7 +37,6 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 23,
                     postId = args.postId.toInt(),
                     type = args.type
                 ).map { it.toCommentDetailsUiState() }
@@ -69,7 +68,7 @@ class CommentsViewModel @Inject constructor(
     suspend fun addComment() {
         viewModelScope.launch {
             try {
-                addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text, 23)
+                addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text)
                 _state.update {
                     it.copy(
                         textFieldCommentState = it.textFieldCommentState.copy(text = "")
