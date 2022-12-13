@@ -3,19 +3,9 @@ package com.octopus.socialnetwork.ui.screen.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.EmailValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
-import com.octopus.socialnetwork.domain.usecase.authentication.NameValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.PasswordValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.RequiredValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.UserNameValidationUseCase
-import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
-import com.octopus.socialnetwork.ui.screen.register.uistate.NameState
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
-import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.RequiredState
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.domain.usecase.authentication.*
+import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -142,7 +132,6 @@ class RegisterViewModel @Inject constructor(
             val state = userNameValidation(newUsername)
             usernameState(newUsername, false, state.message)
         }
-
     }
 
     private fun usernameState(username: String, isValidInputs: Boolean, error: Int? = null) {
@@ -161,13 +150,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeEmail(newEmail: String) {
-        val emailValidation = emailValidation(newEmail)
+        val emailValidation = emailValidation(newEmail).toEmailUiState()
         if (emailValidation == EmailState.VALID) {
             emailState(email = newEmail, isValidInputs = true)
         } else {
             emailState(newEmail, false, emailValidation.message)
         }
-
     }
 
     private fun emailState(email: String, isValidInputs: Boolean, error: Int? = null) {
@@ -187,17 +175,14 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeReEmail(newReEmail: String) {
-
         val email = _state.value.userInfoForm.email.text
-        val reEmailValidation = emailValidation.confirmEmail(email, newReEmail)
+        val reEmailValidation = emailValidation.confirmEmail(email, newReEmail).toEmailUiState()
 
         if (reEmailValidation == EmailState.VALID) {
             reEmailState(newReEmail, true)
         } else {
             reEmailState(newReEmail, false, reEmailValidation.message)
-
         }
-
     }
 
     private fun reEmailState(reEmail: String, isValidInputs: Boolean, error: Int? = null) {

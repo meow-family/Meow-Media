@@ -1,37 +1,34 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
 import androidx.core.util.PatternsCompat
-import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
+import com.octopus.socialnetwork.domain.utils.EmailValidation
 import javax.inject.Inject
 
 class EmailValidationUseCase @Inject constructor() {
-    operator fun invoke(email: String): EmailState {
+    operator fun invoke(email: String): EmailValidation {
         return if (email.isNotBlank()) {
             if (isEmail(email)) {
-                EmailState.VALID
+                EmailValidation.VALID
             } else {
-                EmailState.INVALID
+                EmailValidation.INVALID
             }
 
         } else {
-            EmailState.EMPTY
+            EmailValidation.EMPTY
         }
-
     }
 
-
-    fun confirmEmail(email: String, reEmail: String): EmailState {
+    fun confirmEmail(email: String, reEmail: String): EmailValidation {
         val emailValidation = invoke(email)
-        return if (emailValidation == EmailState.VALID) {
+        return if (emailValidation == EmailValidation.VALID) {
             if (isEmailConform(email, reEmail)) {
-                EmailState.VALID
+                EmailValidation.VALID
             } else {
-                EmailState.NOT_CONFIRM
+                EmailValidation.NOT_CONFIRM
             }
         } else {
             return emailValidation
         }
-
     }
 
     private fun isEmail(email: String): Boolean {
