@@ -1,7 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -22,11 +29,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
-import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
@@ -120,7 +127,7 @@ private fun PostContent(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .align(alignment = Alignment.BottomCenter)
-                .shadowLightBlack()
+                .backgroundTextShadow()
         ) {
             LargPostDetails(
                 profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),

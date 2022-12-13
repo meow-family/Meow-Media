@@ -39,11 +39,26 @@ fun Modifier.backgroundVerticalGradientWhite(
 @Stable
 fun Modifier.backgroundVerticalGradientLightBlack() = then(
     Modifier.background(
-        Brush.verticalGradient(listOf(Color.Transparent, LightBlack_86))))
+        Brush.verticalGradient(listOf(Color.Transparent, LightBlack_86))
+    )
+)
 
 @Stable
 fun Modifier.shadowLightBlack() = then(
-    Modifier.shadow(16.dp, ambientColor = LightBlack_65))
+    Modifier.shadow(16.dp, ambientColor = LightBlack_65)
+)
+
+@Stable
+fun Modifier.backgroundTextShadow() = then(
+    Modifier.background(
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                Color(0xD9000000)
+            ),
+        )
+    )
+)
 
 
 @Stable
