@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
                 val posts = _homeUiState.value.posts
                 posts.find { it.postId == postId }?.let { post ->
                     Log.i("TESTING", "postId $postId")
-                    updatePostLikeState(
+                    toggleLikeState(
                         postId = postId,
                         isLiked = post.isLiked.not(),
                         newLikesCount = toggleLikeUseCase(contentId = postId, contentType = "post", isLiked = post.isLiked) ?: 0
@@ -73,7 +73,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updatePostLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
+    private fun toggleLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
         _homeUiState.update { homeUiState ->
             homeUiState.copy(
                 posts = _homeUiState.value.posts.map { post ->

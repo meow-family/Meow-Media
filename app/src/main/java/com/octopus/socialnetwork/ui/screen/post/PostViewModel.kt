@@ -53,7 +53,7 @@ class PostViewModel @Inject constructor(
             try {
 
                 val post = _state.value.postDetails
-                updatePostLikeState(
+                toggleLikeState(
                     newLikeState = post.isLiked.not(),
                     newLikesCount = likeToggleUseCase(
                         contentId = post.postId,
@@ -67,7 +67,7 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    private fun updatePostLikeState(newLikesCount: Int, newLikeState: Boolean) {
+    private fun toggleLikeState(newLikesCount: Int, newLikeState: Boolean) {
         _state.update { postUiState ->
             postUiState.copy(
                 postDetails = _state.value.postDetails.copy(
