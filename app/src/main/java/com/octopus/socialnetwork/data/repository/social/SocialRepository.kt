@@ -16,7 +16,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
-import java.io.File
 
 interface SocialRepository {
 
@@ -131,7 +130,7 @@ interface SocialRepository {
     ) : BaseResponse<ProfilePhotoDeletion>
 
     suspend fun changeProfileImage(
-        file: File,
+        file: String,
         userId: Int,
     ) : UserProfileDto
 

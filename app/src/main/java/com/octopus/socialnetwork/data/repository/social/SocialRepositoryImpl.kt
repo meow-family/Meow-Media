@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
 import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
@@ -18,8 +20,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 class SocialRepositoryImpl @Inject constructor(
@@ -226,15 +226,15 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changeProfileImage(
-        file: File,
+        file: String,
         userId: Int,
     ): UserProfileDto {
+       val uri = file.toUri().toFile()
         return socialService.changeProfileImage(
             image = MultipartBody.Part
                 .createFormData(
                     "profile Avatar",
-                    file.name,
-                    file.asRequestBody()
+                    uri.name,
                 )
             , userId = userId
         ).result

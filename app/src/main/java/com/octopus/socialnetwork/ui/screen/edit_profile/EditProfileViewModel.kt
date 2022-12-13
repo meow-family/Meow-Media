@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
@@ -81,12 +82,13 @@ class EditProfileViewModel @Inject constructor(
                         isError = false,
                     )
                 }
+                Log.d("wsh", "in viewModel-- image === ${_state.value.profileAvatar}")
 
-//                socialRepository.changeProfileImage(_state.value.profileAvatar, userId = currentUserId)
-//                changeProfileImageUseCase(
-//                  file = _state.value.profileAvatar,
-//                    userId = currentUserId,
-//                )
+                changeProfileImageUseCase(
+//                    file = _state.value.profileAvatarToEdit,
+                    file = _state.value.profileAvatar,
+                    userId = currentUserId,
+                )
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
@@ -103,10 +105,12 @@ class EditProfileViewModel @Inject constructor(
         updateUserData(_state.value.userId)
     }
 
-    fun onChangeImage(file: String){
+    fun onChangeImage(image: String){
+//        val file = File(image)
         _state.update {
             it.copy(
-                profileAvatar = file
+//                profileAvatarToEdit = image
+                profileAvatar = image
             )
         }
     }

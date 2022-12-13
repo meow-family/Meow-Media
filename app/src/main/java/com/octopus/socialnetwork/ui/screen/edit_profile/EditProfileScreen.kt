@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -67,11 +68,10 @@ private fun EditProfileContent(
         val outputFile = mContext.filesDir.resolve("profilePic.jpg")
         input.copyTo(outputFile.outputStream())
         val uri = outputFile
+        Log.i("wsh", "viewModel: uri== $uri")
         onChangeImage(
-//            newImage.toString()
             uri.toString()
         )
-//        input.close()
     }
 
     LazyColumn(
