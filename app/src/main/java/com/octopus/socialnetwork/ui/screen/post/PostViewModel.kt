@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val likeToggleUseCase: LikeToggleUseCase,
+    private val updateLikeUseCase: UpdateLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -36,11 +36,11 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val post =
-                    fetchPostDetails(args.postId.toInt(), 23).toPostUiState()
+                    fetchPostDetails(args.postId.toInt()).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
                 Log.i(
                     "TESTING",
-                    fetchPostDetails(args.postId.toInt(), args.postOwnerId.toInt()).toString()
+                    fetchPostDetails(args.postId.toInt()).toString()
                 )
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -55,10 +55,9 @@ class PostViewModel @Inject constructor(
                 val post = _state.value.postDetails
                 updatePostLikeState(
                     newLikeState = post.isLiked.not(),
-                    newLikesCount = likeToggleUseCase(
-                        contentId = post.postId,
-                        isLiked = post.isLiked,
-                        contentType = "post"
+                    newLikesCount = updateLikeUseCase(
+                        postId = post.postId,
+                        isLiked = post.isLiked
                     ) ?: 0
                 )
             } catch (e: Exception) {

@@ -11,10 +11,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.RecentMessagesDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.SendMessageDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.UnreadMessagesDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.*
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
@@ -24,7 +21,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -129,14 +126,12 @@ interface SocialService {
     suspend fun checkUserFriend(
         @Query("user_b") receiverUser: Int,
         @Query("user_a") senderUser: Int,
-    ): BaseResponse<CheckUserFriendDto>
+    ): BaseResponse<FriendValidatorDTO>
 
     // Notifications
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") currentUserId: Int,
-        @Query("types") types: String?,
-        @Query("offset") offset: Int?,
     ): BaseResponse<UserNotificationsDTO>
 
     @GET("notifications_count")
@@ -180,26 +175,26 @@ interface SocialService {
     @GET("message_recent")
     suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
-    ): BaseResponse<RecentMessagesDto>
+    ): BaseResponse<MessageListDto>
 
     @POST("message_add")
     suspend fun sendMessage(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
         @Query("massage") message: String
-    ): BaseResponse<SendMessageDto>
+    ): BaseResponse<MessageDto>
 
     @POST("message_new")
     suspend fun unreadMessages(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("markallread") markAllRead: String
-    ): BaseResponse<UnreadMessagesDto>
+        @Query("markallread") markAllRead: Int
+    ): BaseResponse<MessageListDto>
 
     @POST("message_list")
     suspend fun getMessagesList(
-        @Query("guid") messageSenderId: Int,
-        @Query("to") messageReceiverId: Int,
+        @Query("guid") currentUserId: Int,
+        @Query("to") otherUserId: Int,
     ): BaseResponse<MessageListDto>
 
 

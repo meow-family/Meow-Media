@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.domain.mapper.posts
 
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.domain.model.post.Post
+import com.octopus.socialnetwork.ui.util.convertLongToDate
 
 fun PostDto.toPost(): Post {
     return Post(
@@ -15,7 +16,7 @@ fun PostDto.toPost(): Post {
         totalLikes = details?.totalLikes ?: 0,
         totalComments = details?.totalComments ?: 0,
         isLikedByUser = details?.isLikedByUser ?: false,
-        timeCreated = details?.timeCreated ?: ""
+        timeCreated = convertLongToDate(details?.timeCreated?.toLong())
     )
 }
 

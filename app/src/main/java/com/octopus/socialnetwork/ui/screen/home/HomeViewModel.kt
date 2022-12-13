@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
@@ -18,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val likeToggleUseCase: LikeToggleUseCase,
-    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase
+    private val updateLikeUseCase: UpdateLikeUseCase,
+    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -27,14 +27,14 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getPosts(23)
+        getPosts()
     }
 
-    private fun getPosts(currentUserId: Int) {
+    private fun getPosts() {
         viewModelScope.launch {
             try {
-                val posts = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
-                val currentNotificationsCount = fetchNotificationsCount(currentUserId).notifications
+                val posts = fetchNewsFeedPost().map { it.toPostUiState() }
+                val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update {
                     it.copy(
                         notificationsCount = currentNotificationsCount,
@@ -63,11 +63,11 @@ class HomeViewModel @Inject constructor(
                     updatePostLikeState(
                         postId = postId,
                         isLiked = post.isLiked.not(),
-                        newLikesCount = likeToggleUseCase(contentId = postId, isLiked = post.isLiked,"post") ?: 0
+                        newLikesCount = updateLikeUseCase(postId = postId, isLiked = post.isLiked) ?: 0
                     )
                 }
             } catch (e: Exception) {
-                Log.i("TESTING", "failed due to exception $e")
+                Log.i("TESTING", "failed due to exception ${e}")
                 _homeUiState.update { it.copy(isLoading = false, isError = true) }
             }
         }

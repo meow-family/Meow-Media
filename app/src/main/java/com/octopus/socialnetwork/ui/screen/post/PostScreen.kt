@@ -22,8 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.interaction.InteractionGroup
-import com.octopus.socialnetwork.ui.composable.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
+import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.shadowLightBlack
@@ -78,7 +78,7 @@ private fun PostContent(
             }
 
         }
-        PostImage(postImage = rememberAsyncImagePainter(model = state.postDetails.postImage))
+        PostImage(postImage = state.postDetails.postImage)
 
         Card(
             modifier = Modifier

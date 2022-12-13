@@ -37,7 +37,7 @@ object NetworkModule {
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient {
+        ): OkHttpClient {
         val builder = OkHttpClient()
             .newBuilder()
             .addInterceptor(authInterceptor)
@@ -46,6 +46,7 @@ object NetworkModule {
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()
     }
+
 
     @Singleton
     @Provides

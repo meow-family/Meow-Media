@@ -18,10 +18,10 @@ import com.octopus.socialnetwork.ui.theme.spacingMedium
 fun CustomButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
-        onClick = onClick,
+        onClick = onClick ,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = spacingMedium)
