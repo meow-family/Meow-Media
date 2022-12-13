@@ -3,7 +3,6 @@ package com.octopus.socialnetwork.ui.screen.profile
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.SocialNetworkApplication.Companion.userId
 import com.octopus.socialnetwork.domain.usecase.user.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
@@ -46,13 +45,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun checkUserVisitor() {
-        val isUserVisitor = userId != args.userIdVisitor
+        val isUserVisitor = fetchUserIdUseCase() != args.userIdVisitor
 
-        _state.update {
-            it.copy(
-                isUserVisitor = isUserVisitor
-            )
-        }
+        _state.update { it.copy(isUserVisitor = isUserVisitor) }
 
     }
 
@@ -60,14 +55,13 @@ class ProfileViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts =
-                    fetchUserPosts(visitedUserId).posts.toProfilePostsUiState()
+                val profilePosts = fetchUserPosts(visitedUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
-                val profilePosts =
-                    fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
-                val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
+                val profileUiState = fetchUserDetailS(16).toUserDetailsUiState()
+
+//                val profilePosts = fetchUserPosts(currentUserId, visitedUserId).posts.toProfilePostsUiState()
+//                val userPostsCount = fetchUserPosts(currentUserId, visitedUserId).count
+//                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
 
                 _state.update {
                     it.copy(

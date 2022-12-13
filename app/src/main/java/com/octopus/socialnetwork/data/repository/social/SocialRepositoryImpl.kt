@@ -64,14 +64,14 @@ class SocialRepositoryImpl @Inject constructor(
         ).result
     }
 
-    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): CheckUserFriendDto {
+    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
         return socialService.addFriend(currentUserId, userIdWantedToAdd).result
     }
 
     override suspend fun removeFriend(
         currentUserId: Int,
         userIdWantedToAdd: Int
-    ): CheckUserFriendDto {
+    ): FriendValidatorDTO {
         return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
     }
 

@@ -66,13 +66,13 @@ interface SocialService {
     suspend fun addFriend(
         @Query("user_a") senderUser: Int,
         @Query("user_b") receiverUser: Int
-    ): BaseResponse<CheckUserFriendDto>
+    ): BaseResponse<FriendValidatorDTO>
 
     @POST("user_remove_friend")
     suspend fun removeFriend(
         @Query("user_a") senderUser: Int,
         @Query("user_b") receiverUser: Int
-    ): BaseResponse<CheckUserFriendDto>
+    ): BaseResponse<FriendValidatorDTO>
 
     ///////////////////////////////////////////////////
     @POST("user_edit")

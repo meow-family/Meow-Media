@@ -34,8 +34,8 @@ interface SocialRepository {
     suspend fun editUser(currentUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String): UserDto
 
-    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): CheckUserFriendDto
-    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): CheckUserFriendDto
+    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
 
     //endregion
 
