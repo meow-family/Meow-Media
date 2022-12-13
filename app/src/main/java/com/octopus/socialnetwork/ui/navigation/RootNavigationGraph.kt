@@ -16,7 +16,7 @@ fun RootNavigationGraph(navController: NavHostController) {
         route = Graph.ROOT
     ) {
         authNavigationGraph(navController)
-        mainRoute()
+        mainRoute(navController)
         detailsNavigationGraph(navController)
     }
 }

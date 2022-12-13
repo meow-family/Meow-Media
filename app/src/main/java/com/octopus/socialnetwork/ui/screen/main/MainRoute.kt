@@ -17,9 +17,12 @@ fun NavController.navigateToMain() {
 
 @ExperimentalMaterialApi
 @OptIn(ExperimentalPagerApi::class)
-fun NavGraphBuilder.mainRoute() {
+fun NavGraphBuilder.mainRoute(navController: NavController) {
 
     composable(ROUTE) {
-        MainScreen(navController = rememberNavController())
+        MainScreen(
+            navController = rememberNavController(),
+            rootNavController = navController
+        )
     }
 }
