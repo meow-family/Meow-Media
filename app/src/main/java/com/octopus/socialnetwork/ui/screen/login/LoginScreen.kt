@@ -14,7 +14,10 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,8 +36,6 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
-import com.octopus.socialnetwork.ui.theme.spacingLarge
-import com.octopus.socialnetwork.ui.theme.spacingMedium
 import kotlinx.coroutines.launch
 
 
@@ -50,25 +51,20 @@ fun LoginScreen(
         state = state,
         onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
-        login = {
-            scope.launch {
-                scope.launch {
-                    viewModel.login().join()
-                }.join()
+        login = { scope.launch {
+                scope.launch { viewModel.login().join() }.join()
                 if (!state.isError) {
                     navController.navigateToMain()
-                    Log.i("MEOWMEOW","$state")
+                    Log.i("MEOWMEOW", "$state")
                 } else {
 
-                    Log.i("MEOWMEOW","meow meow request failed")
+                    Log.i("MEOWMEOW", "meow meow request failed")
                 }
-            }
+            } },
+        signUp = { navController.navigateToRegister() },
+        onClickShowPassword = viewModel::changePasswordVisibility
+    )
 
-
-        }
-    ) {
-        navController.navigateToRegister()
-    }
 }
 
 
@@ -78,16 +74,16 @@ private fun LoginContent(
     onChangeUsernameOrEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
+    onClickShowPassword: () -> Unit,
     signUp: () -> Unit
 
 ) {
-    var showPassword by remember { mutableStateOf(false) }
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding().imePadding()
+            .navigationBarsPadding()
+            .imePadding()
             .verticalScroll(rememberScrollState(), reverseScrolling = true)
             .background(MaterialTheme.colors.background),
 
@@ -130,25 +126,17 @@ private fun LoginContent(
         InputTextField(
             modifier = Modifier.padding(bottom = 24.dp),
             value = state.password,
-            isPassword = !showPassword,
+            isPassword = !state.showPassword,
             onValueChange = onChangePassword,
             icon = Icons.Default.Lock,
             trailingIcon = {
-                if (showPassword) {
-                    IconButton(onClick = { showPassword = false }) {
-                        Icon(
-                            Icons.Filled.Visibility,
-                            contentDescription = null,
-                        )
+                    IconButton(onClick = onClickShowPassword) {
+                        if (state.showPassword) {
+                            Icon(Icons.Filled.Visibility, contentDescription = null)
+                        } else {
+                            Icon(Icons.Filled.VisibilityOff, contentDescription = null)
+                        }
                     }
-                } else {
-                    IconButton(onClick = { showPassword = true }) {
-                        Icon(
-                            Icons.Filled.VisibilityOff,
-                            contentDescription = null,
-                        )
-                    }
-                }
             },
             placeholder = stringResource(R.string.password),
             action = ImeAction.Done,

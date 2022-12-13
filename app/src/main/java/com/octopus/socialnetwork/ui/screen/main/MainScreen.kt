@@ -42,7 +42,7 @@ fun MainScreen(navController: NavHostController) {
                     BottomNavItem(
                         name = stringResource(R.string.search),
                         route = MainRoute.Group,
-                        icon = painterResource(R.drawable.group),
+                        icon = painterResource(R.drawable.search),
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.chat),
