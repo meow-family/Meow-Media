@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
@@ -43,6 +42,10 @@ class LoginViewModel @Inject constructor(
                 _state.update { it.copy(isError = true, errorMessage = e.toString()) }
             }
         }
+    }
+
+    fun changePasswordVisibility(){
+        _state.update { it.copy(showPassword = !it.showPassword) }
     }
 
 }

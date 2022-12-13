@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +28,11 @@ fun ImageWithShadow(painter: Painter, modifier: Modifier){
             contentDescription = stringResource(R.string.background),
             contentScale = ContentScale.Crop,
         )
-        Box(modifier = Modifier
-            .backgroundVerticalGradientWhite()
-            .align(alignment = Alignment.BottomCenter))
+        Box(
+            modifier = Modifier.backgroundVerticalGradientWhite(
+                MaterialTheme.colors.background
+            ).align(alignment = Alignment.BottomCenter)
+        )
+
     }
 }

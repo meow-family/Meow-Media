@@ -3,11 +3,17 @@ package com.octopus.socialnetwork.ui.screen.login
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,25 +51,20 @@ fun LoginScreen(
         state = state,
         onChangeUsernameOrEmail = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
-        login = {
-            scope.launch {
-                scope.launch {
-                    viewModel.login().join()
-                }.join()
+        login = { scope.launch {
+                scope.launch { viewModel.login().join() }.join()
                 if (!state.isError) {
                     navController.navigateToMain()
-                    Log.i("MEOWMEOW","$state")
+                    Log.i("MEOWMEOW", "$state")
                 } else {
 
-                    Log.i("MEOWMEOW","meow meow request failed")
+                    Log.i("MEOWMEOW", "meow meow request failed")
                 }
-            }
+            } },
+        signUp = { navController.navigateToRegister() },
+        onClickShowPassword = viewModel::changePasswordVisibility
+    )
 
-
-        }
-    ) {
-        navController.navigateToRegister()
-    }
 }
 
 
@@ -73,21 +74,24 @@ private fun LoginContent(
     onChangeUsernameOrEmail: (String) -> Unit,
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
+    onClickShowPassword: () -> Unit,
     signUp: () -> Unit
 
 ) {
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
+            .imePadding()
+            .verticalScroll(rememberScrollState(), reverseScrolling = true)
             .background(MaterialTheme.colors.background),
 
         ) {
         ImageWithShadow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(340.dp)
+                .height(300.dp)
                 .wrapContentSize(Alignment.BottomCenter),
             painter = painterResource(id = R.drawable.login_background)
         )
@@ -120,10 +124,20 @@ private fun LoginContent(
         )
         SpacerVertical16()
         InputTextField(
+            modifier = Modifier.padding(bottom = 24.dp),
             value = state.password,
-            isPassword = true,
+            isPassword = !state.showPassword,
             onValueChange = onChangePassword,
             icon = Icons.Default.Lock,
+            trailingIcon = {
+                    IconButton(onClick = onClickShowPassword) {
+                        if (state.showPassword) {
+                            Icon(Icons.Filled.Visibility, contentDescription = null)
+                        } else {
+                            Icon(Icons.Filled.VisibilityOff, contentDescription = null)
+                        }
+                    }
+            },
             placeholder = stringResource(R.string.password),
             action = ImeAction.Done,
         )

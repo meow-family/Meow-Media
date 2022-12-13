@@ -62,6 +62,18 @@ interface SocialService {
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDto>
 
+    @POST("user_add_friend")
+    suspend fun addFriend(
+        @Query("user_a") senderUser: Int,
+        @Query("user_b") receiverUser: Int
+    ): BaseResponse<FriendValidatorDTO>
+
+    @POST("user_remove_friend")
+    suspend fun removeFriend(
+        @Query("user_a") senderUser: Int,
+        @Query("user_b") receiverUser: Int
+    ): BaseResponse<FriendValidatorDTO>
+
     ///////////////////////////////////////////////////
     @POST("user_edit")
     suspend fun editUser(

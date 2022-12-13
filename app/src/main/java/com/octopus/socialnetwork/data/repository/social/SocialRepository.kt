@@ -34,6 +34,9 @@ interface SocialRepository {
     suspend fun editUser(currentUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String): UserDto
 
+    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+
     //endregion
 
     //region post
@@ -81,7 +84,10 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
+    suspend fun getPhoto(
+        photoId: Int,
+        userId: Int,
+    ): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String, ): BaseResponse<List<Photo>>
 
