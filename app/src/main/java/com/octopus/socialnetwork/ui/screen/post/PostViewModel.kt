@@ -77,9 +77,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun onClickComment() {
-        //
-    }
 
     fun onClickShare() {
         //
