@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val updateLikeUseCase: UpdateLikeUseCase,
+    private val likeToggleUseCase: LikeToggleUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -53,10 +53,11 @@ class PostViewModel @Inject constructor(
             try {
 
                 val post = _state.value.postDetails
-                updatePostLikeState(
+                toggleLikeState(
                     newLikeState = post.isLiked.not(),
-                    newLikesCount = updateLikeUseCase(
-                        postId = post.postId,
+                    newLikesCount = likeToggleUseCase(
+                        contentId = post.postId,
+                        contentType = "post",
                         isLiked = post.isLiked
                     ) ?: 0
                 )
@@ -66,7 +67,7 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    private fun updatePostLikeState(newLikesCount: Int, newLikeState: Boolean) {
+    private fun toggleLikeState(newLikesCount: Int, newLikeState: Boolean) {
         _state.update { postUiState ->
             postUiState.copy(
                 postDetails = _state.value.postDetails.copy(
@@ -77,9 +78,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun onClickComment() {
-        //
-    }
 
     fun onClickShare() {
         //
