@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.UpdateLikeUseCase
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
-    private val updateLikeUseCase: UpdateLikeUseCase,
+    private val toggleLikeUseCase: LikeToggleUseCase,
     private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
 ) : ViewModel() {
 
@@ -60,10 +60,10 @@ class HomeViewModel @Inject constructor(
                 val posts = _homeUiState.value.posts
                 posts.find { it.postId == postId }?.let { post ->
                     Log.i("TESTING", "postId $postId")
-                    updatePostLikeState(
+                    toggleLikeState(
                         postId = postId,
                         isLiked = post.isLiked.not(),
-                        newLikesCount = updateLikeUseCase(postId = postId, isLiked = post.isLiked) ?: 0
+                        newLikesCount = toggleLikeUseCase(contentId = postId, contentType = "post", isLiked = post.isLiked) ?: 0
                     )
                 }
             } catch (e: Exception) {
@@ -73,7 +73,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updatePostLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
+    private fun toggleLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
         _homeUiState.update { homeUiState ->
             homeUiState.copy(
                 posts = _homeUiState.value.posts.map { post ->

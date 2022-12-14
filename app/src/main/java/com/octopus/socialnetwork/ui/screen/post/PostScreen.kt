@@ -34,6 +34,8 @@ import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.composable.shadowLightBlack
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
@@ -48,7 +50,7 @@ fun PostScreen(
         state = state,
         onClickBack = { navController.popBackStack() },
         onLike = viewModel::onClickLike,
-        onComment = viewModel::onClickComment,
+        onComment = {navController.navigateToCommentsScreen(postId = state.postDetails.postId, type = "post")},
         onShare = viewModel::onClickShare
     )
 }

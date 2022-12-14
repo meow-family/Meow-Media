@@ -37,7 +37,8 @@ fun CommentsScreen(
         state = state,
         onChangeTypingComment = viewModel::onChangeTypingComment,
         onClickSend = viewModel::addComment,
-        onClickBack = { navController.popBackStack() }
+        onClickBack = { navController.popBackStack() },
+        onClickLike = viewModel::onClickLike
     )
 }
 
@@ -46,7 +47,8 @@ private fun CommentsContent(
      state: CommentsUiState,
      onChangeTypingComment: (String) -> Unit,
      onClickSend: KSuspendFunction0<Unit>,
-     onClickBack: () -> Unit
+     onClickBack: () -> Unit,
+     onClickLike: (Int) -> Unit
 ) {
     val listState = rememberLazyListState()
 
@@ -69,7 +71,7 @@ private fun CommentsContent(
         ) {
 
             itemsIndexed(state.comments) { index, item ->
-                ItemComment(commentDetails = item)
+                ItemComment(commentDetails = item, onLike = {onClickLike(item.commentId)})
                 if (index < state.comments.lastIndex)
                     Divider()
             }
