@@ -5,12 +5,12 @@ import com.octopus.socialnetwork.domain.model.user.UserEdit
 
 fun UserEditDTO.toUserEdit(): UserEdit {
     return UserEdit(
-        userId = userId ?: 0,
+        userId = guid ?: 0,
         firstName = firstName ?: "",
         lastName = lastName ?: "",
-        userName = userName ?: "",
-        fullName = fullName ?: "",
-        birthDate = birthDate ?: "",
+        userName = username ?: "",
+        fullName = fullname ?: "",
+        birthDate = birthdate ?: "",
         email = email ?: "",
     )
 }

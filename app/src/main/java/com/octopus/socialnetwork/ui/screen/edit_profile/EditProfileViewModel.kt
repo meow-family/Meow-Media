@@ -4,10 +4,10 @@ package com.octopus.socialnetwork.ui.screen.edit_profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.SocialNetworkApplication
 import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditProfileUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
     private val  fetchUserDetails: FetchUserDetailsUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
     dataStorePreferences: DataStorePreferences,
@@ -31,7 +31,7 @@ class EditProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-       val userId =  19 //dataStorePreferences.readString(SocialNetworkApplication.USER_ID_KEY)
+       val userId = dataStorePreferences.readString(SocialNetworkApplication.USER_ID_KEY)
         if(userId != null){
             _state.update { it.copy(userId = userId) }
         }
@@ -66,30 +66,13 @@ class EditProfileViewModel @Inject constructor(
     private fun updateUserData(currentUserId: Int) {
         viewModelScope.launch {
             try {
-                updateUserInfoUseCase(
-                    currentUserId = currentUserId,
-                    firstName = _state.value.firstName,
-                    lastName = _state.value.lastName,
-                    email = _state.value.email,
-                    currentPassword = _state.value.currentPassword,
-                    newPassword = _state.value.newPassword,
-                    newGender = _state.value.gender,
-                )
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        isError = false,
-                    )
-                }
-                Log.d("wsh", "in viewModel-- image === ${_state.value.profileAvatar}")
-
                 changeProfileImageUseCase(
-                    filePath = _state.value.profileAvatar,
+                    file = _state.value.profileAvatarToEdit,
                     userId = currentUserId,
                 )
 
             } catch (e: Exception) {
+                Log.e("wsh", e.toString())
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -105,10 +88,10 @@ class EditProfileViewModel @Inject constructor(
         updateUserData(_state.value.userId)
     }
 
-    fun onChangeImage(filePath: String){
+    fun onChangeImage(file: File){
         _state.update {
             it.copy(
-                profileAvatar = filePath
+                profileAvatarToEdit = file
             )
         }
     }

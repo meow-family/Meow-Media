@@ -18,6 +18,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.*
+import java.io.File
 
 interface SocialRepository {
 
@@ -31,7 +33,7 @@ interface SocialRepository {
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
 
     suspend fun editUser(currentUserId: Int, firstName: String, lastName: String,
-        email: String, currentPassword: String, newPassword: String): UserDto
+        email: String, currentPassword: String, newPassword: String, newGender: String): UserEditDTO
 
     suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
     suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
@@ -97,7 +99,7 @@ interface SocialRepository {
     suspend fun deleteProfileCover(photoId: Int, userId: Int, ) : BaseResponse<ProfilePhotoDeletion>
 
     suspend fun changeProfileImage(
-        filePath: String,
+        filePath: File,
         userId: Int,
     ) : UserProfileDto
 

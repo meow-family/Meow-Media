@@ -16,14 +16,11 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
-import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -57,15 +54,17 @@ class SocialRepositoryImpl @Inject constructor(
         lastName: String,
         email: String,
         currentPassword: String,
-        newPassword: String
-    ): UserDto {
+        newPassword: String,
+        newGender: String,
+    ): UserEditDTO {
         return socialService.editUser(
             currentUserId,
             firstName,
             lastName,
             email,
             currentPassword,
-            newPassword
+            newPassword,
+            newGender,
         ).result
     }
 
@@ -237,16 +236,16 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changeProfileImage(
-        filePath: String,
+        filePath: File,
         userId: Int,
     ): UserProfileDto {
-        val imageFile = File(filePath)
+        val file = File(filePath,"")
         return socialService.changeProfileImage(
-            userId = userId,
+            userId = userId.toString().toRequestBody("text/plain".toMediaType()),
             imageFile = MultipartBody.Part.createFormData(
-                "jpeg",
-                imageFile.name,
-                imageFile.asRequestBody("image/*".toMediaType())
+                "userphoto",
+                file.name,
+                file.asRequestBody("image/*".toMediaType())
             )
         ).result
     }
