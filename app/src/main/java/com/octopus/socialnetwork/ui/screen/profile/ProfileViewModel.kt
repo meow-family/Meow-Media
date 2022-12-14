@@ -125,15 +125,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onChangeTabIndex(index: Int) {
-        _state.update {
-            it.copy(
-                profileContentTab = it.profileContentTab.copy(
-                    selectedTabIndex = index
-                )
-            )
-        }
-    }
 
     fun onClickMessage(){
         //
