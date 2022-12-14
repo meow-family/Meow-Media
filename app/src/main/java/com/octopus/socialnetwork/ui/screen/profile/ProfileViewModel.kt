@@ -26,40 +26,44 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val fetchUserFriendsCount: FetchUserFriendsUseCase,
     private val fetchUserPosts: FetchUserPostsUseCase,
-    private val fetchUserIdUseCase: FetchUserIdUseCase,
+    private val userIdVisitor: FetchUserIdUseCase,
     private val addFriendUseCase: AddFriendUseCase,
     private val removeFriendUseCase: RemoveFriendUseCase,
     private val checkUserFriendUseCase: CheckUserFriendUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    
-    //private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
+
+    private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-//        checkUserVisitor()
-//        getUserDetails(fetchUserIdUseCase(), args.userIdVisitor)
-//        isRequestSent(fetchUserIdUseCase(), args.userIdVisitor)
-//
-      //  checkUserVisitor()
-        getUserDetails(fetchUserIdUseCase(), fetchUserIdUseCase())
-        isRequestSent(fetchUserIdUseCase(), fetchUserIdUseCase())
-    }
-//
-//    private fun checkUserVisitor() {
-//        val isUserVisitor = fetchUserIdUseCase() != args.userIdVisitor
-//
-//        _state.update { it.copy(isUserVisitor = isUserVisitor) }
-//
-//    }
+        val currentUserId = getCurrentUserId()
 
-    private fun getUserDetails(currentUserId: Int, visitedUserId: Int) {
+        getUserDetails(currentUserId)
+        isRequestSent(currentUserId, userIdVisitor())
+    }
+
+
+    private fun getCurrentUserId(): Int {
+        val currentUserId = args.userIdVisitor?.toIntOrNull()
+        return if (currentUserId != null) {
+
+            val isNotUserVisitor = userIdVisitor() != currentUserId
+            _state.update { it.copy(isUserVisitor = isNotUserVisitor) }
+            currentUserId
+
+        } else {
+            userIdVisitor()
+        }
+    }
+
+    private fun getUserDetails(currentUserId: Int) {
         try {
             viewModelScope.launch {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts = fetchUserPosts(visitedUserId).posts.toProfilePostsUiState()
+                val profilePosts = fetchUserPosts(currentUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId).count
                 val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
 
