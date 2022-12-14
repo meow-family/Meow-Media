@@ -3,13 +3,13 @@ package com.octopus.socialnetwork.ui.screen.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.EmailValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
-import com.octopus.socialnetwork.domain.usecase.authentication.NameValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.PasswordValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.RequiredValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.UserNameValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.EmailValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.NameValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.RequiredValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
@@ -129,14 +129,7 @@ class RegisterViewModel @Inject constructor(
         }
 
     }
-
-    fun validInputs(valid: Boolean) {
-        _state.update {
-            it.copy(isValidInputs = valid)
-        }
-    }
-
-    fun tryLogin() {}
+    
 
     fun onChangeUserName(newUsername: String) {
         val userNameValidationState = userNameValidation(newUsername).toUserNameUiState()
@@ -288,19 +281,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun setEmail(email: String) {
 
-        _state.update {
-            it.copy(
-                isValidInputs = true,
-                userInfoForm = it.userInfoForm.copy(
-                    email = it.userInfoForm.email.copy(
-                        text = email
-                    )
-                )
-            )
-        }
-    }
 
 
     fun onChangeGender(newGender: String) {

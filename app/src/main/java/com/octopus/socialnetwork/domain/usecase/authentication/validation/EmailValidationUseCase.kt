@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.authentication
+package com.octopus.socialnetwork.domain.usecase.authentication.validation
 
 import androidx.core.util.PatternsCompat
 import com.octopus.socialnetwork.domain.enums.InputFieldValidation
