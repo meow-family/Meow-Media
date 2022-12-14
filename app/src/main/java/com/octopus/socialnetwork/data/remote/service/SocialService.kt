@@ -21,6 +21,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
+import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
@@ -269,6 +270,14 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
+    // search
+    @GET("{custom_end_point}")
+    suspend fun search(
+        @Path("custom_end_point") endPointWantToSearchIn: String,
+        @Query("guid") currentUserId: Int,
+        @Query("type") typeOfSearch: String,
+        @Query("Keyword") query: String,
+    ): BaseResponse<SearchDto>
 //endregion
 
 }
