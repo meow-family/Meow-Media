@@ -25,6 +25,5 @@ data class UserDetailsUiState(
 )
 
 data class ProfileContentTab(
-    val selectedTabIndex: Int = 0,
     val itemTabs: List<Int> = listOf(R.string.resents, R.string.albums)
 )

@@ -20,6 +20,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 @Composable
 fun TabContentProfile(
     state: ProfileContentTab,
+    activeTabState: Int,
     onChangeTabIndex: (index: Int) -> Unit,
 ) {
     TabRow(
@@ -28,14 +29,14 @@ fun TabContentProfile(
                 color = MaterialTheme.colors.dividerColor,
                 strokeWidth = 1.dp
             ),
-        selectedTabIndex = state.selectedTabIndex,
+        selectedTabIndex = activeTabState,
         backgroundColor = Color.Transparent,
         indicator = {
             Box {}
         }
     ) {
         state.itemTabs.forEachIndexed { index, text ->
-            val selected = state.selectedTabIndex == index
+            val selected = activeTabState == index
             Tab(
                 selectedContentColor = MaterialTheme.colors.primary,
                 modifier = if (selected) Modifier
