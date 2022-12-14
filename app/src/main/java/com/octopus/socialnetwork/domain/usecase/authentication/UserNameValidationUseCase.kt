@@ -1,28 +1,27 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 
 class UserNameValidationUseCase @Inject constructor() {
-    operator fun invoke(username: String): UserNameState {
+    operator fun invoke(username: String): InputFieldValidation {
         return if (username.isNotBlank()) {
             if (isShortUserName(username)) {
-                UserNameState.SHORT
+                InputFieldValidation.SHORT
             } else {
                 if (isLongUserName(username)) {
-                    UserNameState.LONG
+                    InputFieldValidation.LONG
                 } else {
                     if (username.matches(USERNAME_REGEX)) {
-                        UserNameState.VALID
+                        InputFieldValidation.VALID
                     } else {
-                        UserNameState.INVALID
+                        InputFieldValidation.INVALID
                     }
                 }
             }
         } else {
-            UserNameState.EMPTY
-
+            InputFieldValidation.EMPTY
         }
     }
 

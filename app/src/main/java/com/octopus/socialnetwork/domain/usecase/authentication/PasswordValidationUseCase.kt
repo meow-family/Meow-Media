@@ -1,28 +1,28 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 class PasswordValidationUseCase @Inject constructor() {
-    operator fun invoke(password: String): PasswordState {
+    operator fun invoke(password: String): InputFieldValidation {
 
         return if (password.isNotBlank()) {
             if (isShortPassword(password)) {
-                PasswordState.SHORT
+                InputFieldValidation.SHORT
             } else {
                 if (isLongPassword(password)) {
-                    PasswordState.LONG
+                    InputFieldValidation.LONG
                 } else {
                     if (isPasswordSymbolClean(password)) {
-                        PasswordState.VALID
+                        InputFieldValidation.VALID
                     } else {
-                        PasswordState.INVALID
+                        InputFieldValidation.INVALID
                     }
                 }
             }
 
         } else {
-            PasswordState.EMPTY
+            InputFieldValidation.EMPTY
         }
     }
 

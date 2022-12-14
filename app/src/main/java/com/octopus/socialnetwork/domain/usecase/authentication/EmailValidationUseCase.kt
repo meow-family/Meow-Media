@@ -1,30 +1,30 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
 import androidx.core.util.PatternsCompat
-import com.octopus.socialnetwork.domain.utils.EmailValidation
+import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 class EmailValidationUseCase @Inject constructor() {
-    operator fun invoke(email: String): EmailValidation {
+    operator fun invoke(email: String): InputFieldValidation {
         return if (email.isNotBlank()) {
             if (isEmail(email)) {
-                EmailValidation.VALID
+                InputFieldValidation.VALID
             } else {
-                EmailValidation.INVALID
+                InputFieldValidation.INVALID
             }
 
         } else {
-            EmailValidation.EMPTY
+            InputFieldValidation.EMPTY
         }
     }
 
-    fun confirmEmail(email: String, reEmail: String): EmailValidation {
+    fun confirmEmail(email: String, reEmail: String): InputFieldValidation {
         val emailValidation = invoke(email)
-        return if (emailValidation == EmailValidation.VALID) {
+        return if (emailValidation == InputFieldValidation.VALID) {
             if (isEmailConform(email, reEmail)) {
-                EmailValidation.VALID
+                InputFieldValidation.VALID
             } else {
-                EmailValidation.NOT_CONFIRM
+                InputFieldValidation.NOT_CONFIRM
             }
         } else {
             return emailValidation

@@ -1,19 +1,19 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import com.octopus.socialnetwork.ui.screen.register.uistate.NameState
+import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 
 class NameValidationUseCase @Inject constructor() {
-    operator fun invoke(name: String): NameState {
+    operator fun invoke(name: String): InputFieldValidation {
         return if (name.isNotBlank()) {
             if (isNameSymbolClean(name)) {
-                NameState.VALID
+                InputFieldValidation.VALID
             } else {
-                NameState.INVALID
+                InputFieldValidation.INVALID
             }
         } else {
-            NameState.EMPTY
+            InputFieldValidation.EMPTY
         }
     }
 

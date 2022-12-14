@@ -3,9 +3,22 @@ package com.octopus.socialnetwork.ui.screen.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.*
+import com.octopus.socialnetwork.domain.usecase.authentication.EmailValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
+import com.octopus.socialnetwork.domain.usecase.authentication.NameValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.PasswordValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.RequiredValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.*
+import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
+import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
+import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -126,11 +139,11 @@ class RegisterViewModel @Inject constructor(
     fun tryLogin() {}
 
     fun onChangeUserName(newUsername: String) {
-        if (userNameValidation(newUsername) == UserNameState.VALID) {
+        val userNameValidationState = userNameValidation(newUsername).toUserNameUiState()
+        if (userNameValidationState == UserNameState.VALID) {
             usernameState(newUsername, true)
         } else {
-            val state = userNameValidation(newUsername)
-            usernameState(newUsername, false, state.message)
+            usernameState(newUsername, false, userNameValidationState.message)
         }
     }
 
@@ -202,11 +215,11 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangePassword(newPassword: String) {
-        val passwordValidation = passwordValidation(newPassword)
+        val passwordValidation = passwordValidation(newPassword).toPasswordUiState()
         if (passwordValidation == PasswordState.VALID) {
             passwordState(newPassword, true)
         } else {
-            passwordState(newPassword, false, passwordValidation.message)
+            passwordState(password = newPassword, false, passwordValidation.message)
         }
     }
 
@@ -227,8 +240,8 @@ class RegisterViewModel @Inject constructor(
 
 
     fun onChangeFirstName(newFirstName: String) {
-        val nameValidation = nameValidation(newFirstName)
-        if (nameValidation == NameState.VALID) {
+        val nameValidation = nameValidation(newFirstName).toInputFieldUiState()
+        if (nameValidation == InputFieldState.VALID) {
             firstNameState(newFirstName, true)
         } else {
             firstNameState(newFirstName, false, nameValidation.message)
@@ -252,8 +265,8 @@ class RegisterViewModel @Inject constructor(
 
 
     fun onChangeLastName(newLastName: String) {
-        val nameValidation = nameValidation(newLastName)
-        if (nameValidation == NameState.VALID) {
+        val nameValidation = nameValidation(newLastName).toInputFieldUiState()
+        if (nameValidation == InputFieldState.VALID) {
             lastNameState(newLastName, true)
         } else {
             lastNameState(newLastName, false, nameValidation.message)
@@ -291,8 +304,8 @@ class RegisterViewModel @Inject constructor(
 
 
     fun onChangeGender(newGender: String) {
-        val genderValidation = requiredValidation(newGender)
-        if (genderValidation == RequiredState.VALID) {
+        val genderValidation = requiredValidation(newGender).toInputFieldUiState()
+        if (genderValidation == InputFieldState.VALID) {
             genderState(newGender, true)
         } else {
             genderState(newGender, false, genderValidation.message)
@@ -315,8 +328,8 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeBirthday(newBirthday: String) {
-        val genderValidation = requiredValidation(newBirthday)
-        if (genderValidation == RequiredState.VALID) {
+        val genderValidation = requiredValidation(newBirthday).toInputFieldUiState()
+        if (genderValidation == InputFieldState.VALID) {
             birthdayState(newBirthday, true)
         } else {
             birthdayState(newBirthday, false, genderValidation.message)

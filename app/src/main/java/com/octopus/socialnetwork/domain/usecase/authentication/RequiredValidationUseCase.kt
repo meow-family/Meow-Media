@@ -1,14 +1,14 @@
 package com.octopus.socialnetwork.domain.usecase.authentication
 
-import com.octopus.socialnetwork.ui.screen.register.uistate.RequiredState
+import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 class RequiredValidationUseCase @Inject constructor() {
-    operator fun invoke(value: String): RequiredState {
+    operator fun invoke(value: String): InputFieldValidation {
         return if (value.isNotBlank()) {
-            RequiredState.VALID
+            InputFieldValidation.VALID
         } else {
-            RequiredState.EMPTY
+            InputFieldValidation.EMPTY
         }
     }
 }
