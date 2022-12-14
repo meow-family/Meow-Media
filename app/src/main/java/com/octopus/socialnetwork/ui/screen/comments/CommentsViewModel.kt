@@ -58,17 +58,14 @@ class CommentsViewModel @Inject constructor(
 
     fun onChangeTypingComment(newValue: String) {
         _state.update {
-            it.copy(
-                textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
-            )
-        }
+            it.copy(comment = newValue) }
     }
 
     suspend fun addComment() {
         viewModelScope.launch {
             try {
-                addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text)
-                _state.update { it.copy(textFieldCommentState = it.textFieldCommentState.copy(text = "")) }
+                addCommentUseCase(args.postId.toInt(), _state.value.comment)
+                _state.update { it.copy(comment = it.comment) }
                 getPostComments()
             } catch (e: Throwable) {
                 _state.update {

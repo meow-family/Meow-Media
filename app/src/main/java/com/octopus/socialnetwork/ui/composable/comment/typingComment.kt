@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TypingComment(
-    state: TextFieldValue,
+    value: String,
     onChangeTypingComment: (String) -> Unit,
     onClickSend: suspend () -> Unit,
     listState: LazyListState,
@@ -55,11 +54,11 @@ fun TypingComment(
                 modifier = Modifier
                     .weight(1f)
                     .padding(12.dp),
-                value = state.text,
+                value = value,
                 maxLines = 10,
                 onValueChange = onChangeTypingComment,
                 decorationBox = { innerTextField ->
-                    if (state.text.isEmpty()) {
+                    if (value.isEmpty()) {
                         Text(
                             text = stringResource(R.string.your_commit),
                             modifier = Modifier.alpha(.5f),
@@ -79,12 +78,12 @@ fun TypingComment(
                         }
                     }
                 },
-                enabled = state.text.isNotBlank()
+                enabled = value.isNotBlank()
             ) {
                 Icon(
                     Icons.Filled.Send,
                     contentDescription = null,
-                    tint = if (state.text.isNotBlank()) Color.Red else Color.Gray
+                    tint = if (value.isNotBlank()) Color.Red else Color.Gray
                 )
             }
 

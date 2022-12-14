@@ -28,6 +28,11 @@ class ChatViewModel @Inject constructor(
         getMessagesWithUser(otherUserId)
     }
 
+    fun onTextChange(newValue: String) {
+        _state.update {
+            it.copy(message = newValue) }
+    }
+
     private fun getMessagesWithUser(otherUserId: Int) {
         try {
             viewModelScope.launch {
