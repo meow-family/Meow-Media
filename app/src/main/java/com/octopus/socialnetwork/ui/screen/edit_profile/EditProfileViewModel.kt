@@ -8,6 +8,7 @@ import com.octopus.socialnetwork.SocialNetworkApplication
 import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditProfileUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
+    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
     private val  fetchUserDetails: FetchUserDetailsUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
     dataStorePreferences: DataStorePreferences,
@@ -66,6 +68,22 @@ class EditProfileViewModel @Inject constructor(
     private fun updateUserData(currentUserId: Int) {
         viewModelScope.launch {
             try {
+                updateUserInfoUseCase(
+                    currentUserId = currentUserId,
+                    firstName = _state.value.firstName,
+                    lastName = _state.value.lastName,
+                    email = _state.value.email,
+                    currentPassword = _state.value.currentPassword,
+                    newPassword = _state.value.newPassword,
+                    newGender = _state.value.gender,
+                )
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = true,
+                        isError = false,
+                    )
+                }
                 changeProfileImageUseCase(
                     file = _state.value.profileAvatarToEdit,
                     userId = currentUserId,
