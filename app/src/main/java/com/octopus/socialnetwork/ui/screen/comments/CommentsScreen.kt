@@ -21,6 +21,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingComment
+import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import kotlin.reflect.KSuspendFunction0
@@ -42,13 +43,13 @@ fun CommentsScreen(
     )
 }
 
- @Composable
+@Composable
 private fun CommentsContent(
-     state: CommentsUiState,
-     onChangeTypingComment: (String) -> Unit,
-     onClickSend: KSuspendFunction0<Unit>,
-     onClickBack: () -> Unit,
-     onClickLike: (Int) -> Unit
+    state: CommentsUiState,
+    onChangeTypingComment: (String) -> Unit,
+    onClickSend: KSuspendFunction0<Unit>,
+    onClickBack: () -> Unit,
+    onClickLike: (Int) -> Unit
 ) {
     val listState = rememberLazyListState()
 
@@ -59,8 +60,8 @@ private fun CommentsContent(
                 color = Color.White,
             ),
         verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-        AppBar(onClickBack,title = stringResource(id = R.string.Comments))
+    ) {
+        AppBar(onClickBack, title = stringResource(id = R.string.Comments))
         LazyColumn(
             Modifier
                 .fillMaxWidth()
@@ -71,7 +72,7 @@ private fun CommentsContent(
         ) {
 
             itemsIndexed(state.comments) { index, item ->
-                ItemComment(commentDetails = item, onLike = {onClickLike(item.commentId)})
+                ItemComment(commentDetails = item, onLike = { onClickLike(item.commentId) })
                 if (index < state.comments.lastIndex)
                     Divider()
             }
@@ -82,12 +83,13 @@ private fun CommentsContent(
             onChangeTypingComment = onChangeTypingComment,
             onClickSend = onClickSend,
             listState = listState,
-            index = state.comments.lastIndex,
+            index = state.comments.lastIndexOrZero(),
         )
 
     }
 
 }
+
 
 @Preview
 @Composable
