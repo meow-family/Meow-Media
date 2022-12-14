@@ -40,7 +40,7 @@ class CommentsViewModel @Inject constructor(
                     postId = args.postId.toInt(),
                     type = args.type
                 ).map { it.toCommentDetailsUiState() }
-                Log.i("TESTING",postComments.toString())
+                Log.i("TESTING", postComments.toString())
                 _state.update {
                     it.copy(
                         comments = postComments
@@ -60,7 +60,6 @@ class CommentsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
-
             )
         }
     }
@@ -69,11 +68,7 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text)
-                _state.update {
-                    it.copy(
-                        textFieldCommentState = it.textFieldCommentState.copy(text = "")
-                    )
-                }
+                _state.update { it.copy(textFieldCommentState = it.textFieldCommentState.copy(text = "")) }
                 getPostComments()
             } catch (e: Throwable) {
                 _state.update {
