@@ -129,7 +129,7 @@ class RegisterViewModel @Inject constructor(
         }
 
     }
-    
+
 
     fun onChangeUserName(newUsername: String) {
         val userNameValidationState = userNameValidation(newUsername).toUserNameUiState()
@@ -161,6 +161,14 @@ class RegisterViewModel @Inject constructor(
             emailState(email = newEmail, isValidInputs = true)
         } else {
             emailState(newEmail, false, emailValidation.message)
+        }
+        onChangeReEmail(_state.value.userInfoForm.reEmail.text)
+
+        val email = _state.value.userInfoForm.email.text
+        val reEmail = _state.value.userInfoForm.reEmail.text
+
+        if (email == reEmail) {
+            reEmailState(reEmail, true)
         }
     }
 

@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.composable.register
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +25,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.theme.Shapes
+import com.octopus.socialnetwork.ui.theme.spacing
+import com.octopus.socialnetwork.ui.theme.spacingLarge
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.spacingSmall
+import com.octopus.socialnetwork.ui.theme.spacingXSmall
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 
@@ -38,8 +42,13 @@ fun DialogCreateAccount(
 ) {
     Card(
         shape = Shapes.large,
-        modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 10.dp),
-        elevation = 8.dp
+        modifier = modifier.padding(
+            spacingXSmall,
+            spacing,
+            spacingXSmall,
+            spacingXSmall
+        ),
+        elevation = spacingSmall
     ) {
         Column {
 
@@ -51,18 +60,18 @@ fun DialogCreateAccount(
                     color = Color.Gray
                 ),
                 modifier = Modifier
-                    .padding(top = 35.dp)
+                    .padding(top = spacingLarge)
                     .height(70.dp)
                     .fillMaxWidth(),
 
                 )
 
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(spacingMedium)) {
                 Text(
                     text = stringResource(R.string.create_account_success),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(top = 5.dp)
+                        .padding(top = spacing)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.body1.copy(
                         color = MaterialTheme.colors.textSecondaryColor
@@ -72,7 +81,11 @@ fun DialogCreateAccount(
                     text = stringResource(R.string.create_account_message),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(top = 10.dp, start = 25.dp, end = 25.dp)
+                        .padding(
+                            top = spacingSmall,
+                            start = spacingLarge,
+                            end = spacingLarge
+                        )
                         .fillMaxWidth(),
                     color = MaterialTheme.colors.textThirdColor
 
@@ -82,8 +95,10 @@ fun DialogCreateAccount(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 16.dp)
-                    .background(MaterialTheme.colors.background),
+                    .padding(
+                        horizontal = spacingSmall,
+                        vertical = spacingMedium
+                    ),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
 
@@ -95,7 +110,6 @@ fun DialogCreateAccount(
                         stringResource(id = R.string.not_now),
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colors.textThirdColor,
-                        modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
                     )
                 }
                 Button(onClick = {
@@ -104,7 +118,6 @@ fun DialogCreateAccount(
                     Text(
                         stringResource(id = R.string.check_email),
                         fontWeight = FontWeight.ExtraBold,
-                        modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
                     )
                 }
             }
