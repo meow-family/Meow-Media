@@ -1,7 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
@@ -14,44 +17,76 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fetchNewsFeedPost: FetchNewsFeedPostUseCase
+    private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
+    private val toggleLikeUseCase: LikeToggleUseCase,
+    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(HomeUiState())
-    val state = _state.asStateFlow()
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState = _homeUiState.asStateFlow()
 
 
     init {
-        getPosts(16)
+        getPosts()
     }
 
-    private fun getPosts(currentUserId: Int) {
+    private fun getPosts() {
         viewModelScope.launch {
             try {
-                val post = fetchNewsFeedPost(currentUserId).map { it.toPostUiState() }
-                _state.update { it.copy(
-                    posts = post,
-                    isLoading = false,
-                    isSuccess = true,
-                    isError = false
-                ) }
+                val posts = fetchNewsFeedPost().map { it.toPostUiState() }
+                val currentNotificationsCount = fetchNotificationsCount().notifications
+                _homeUiState.update {
+                    it.copy(
+                        notificationsCount = currentNotificationsCount,
+                        posts = posts,
+                        isLoading = false,
+                        isError = false
+                    )
+                }
             } catch (e: Exception) {
-                _state.update { it.copy(
-                    isLoading = false,
-                    isSuccess = false,
-                    isError = true
-                ) }
+                _homeUiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
             }
         }
     }
 
-    fun onClickLike() {
-        //
+    fun onClickLike(postId: Int) {
+        viewModelScope.launch {
+            try {
+                val posts = _homeUiState.value.posts
+                posts.find { it.postId == postId }?.let { post ->
+                    Log.i("TESTING", "postId $postId")
+                    toggleLikeState(
+                        postId = postId,
+                        isLiked = post.isLiked.not(),
+                        newLikesCount = toggleLikeUseCase(contentId = postId, contentType = "post", isLiked = post.isLiked) ?: 0
+                    )
+                }
+            } catch (e: Exception) {
+                Log.i("TESTING", "failed due to exception ${e}")
+                _homeUiState.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
     }
 
-    fun onClickComment() {
-        //
+    private fun toggleLikeState(postId: Int, newLikesCount: Int, isLiked: Boolean) {
+        _homeUiState.update { homeUiState ->
+            homeUiState.copy(
+                posts = _homeUiState.value.posts.map { post ->
+                    if (post.postId == postId) post.copy(
+                        isLiked = isLiked,
+                        likeCount = newLikesCount.toString()
+                    )
+                    else post
+                }
+            )
+        }
     }
+
 
     fun onClickShare() {
         //

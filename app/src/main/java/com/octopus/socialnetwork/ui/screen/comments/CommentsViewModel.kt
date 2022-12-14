@@ -1,9 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
+import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val toggleLikeState: LikeToggleUseCase,
     private val addCommentUseCase: AddCommentUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val args: CommentsScreenArgs = CommentsScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(CommentsUiState())
     val state = _state.asStateFlow()
@@ -30,10 +37,10 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val postComments = getPostCommentsUseCase(
-                    currentUserId = 31,
-                    postId = 324,
-                    type = "post"
+                    postId = args.postId.toInt(),
+                    type = args.type
                 ).map { it.toCommentDetailsUiState() }
+                Log.i("TESTING", postComments.toString())
                 _state.update {
                     it.copy(
                         comments = postComments
@@ -53,20 +60,15 @@ class CommentsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 textFieldCommentState = it.textFieldCommentState.copy(text = newValue)
-
             )
         }
     }
 
     suspend fun addComment() {
-         viewModelScope.launch {
+        viewModelScope.launch {
             try {
-                addCommentUseCase(324, _state.value.textFieldCommentState.text, 31)
-                _state.update {
-                    it.copy(
-                        textFieldCommentState = it.textFieldCommentState.copy(text = "")
-                    )
-                }
+                addCommentUseCase(args.postId.toInt(), _state.value.textFieldCommentState.text)
+                _state.update { it.copy(textFieldCommentState = it.textFieldCommentState.copy(text = "")) }
                 getPostComments()
             } catch (e: Throwable) {
                 _state.update {
@@ -76,6 +78,42 @@ class CommentsViewModel @Inject constructor(
                 }
             }
         }.join()
+    }
 
+    fun onClickLike(commentId: Int) {
+        viewModelScope.launch {
+            try {
+                val clickedComment = _state.value.comments
+                clickedComment.find { it.commentId == commentId }?.let { comment ->
+                    Log.i("TESTING", "commentId $commentId")
+                    toggleLikeState(
+                        commentId = commentId,
+                        isLiked = comment.isLikedByUser.not(),
+                        newLikesCount = toggleLikeState(
+                            contentId = commentId,
+                            isLiked = comment.isLikedByUser,
+                            contentType = "annotation"
+                        ) ?: 0
+                    )
+                }
+            } catch (e: Exception) {
+                Log.i("TESTING", "failed due to exception $e")
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
+    private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
+        _state.update { commentUiState ->
+            commentUiState.copy(
+                comments = _state.value.comments.map { comment ->
+                    if (comment.commentId == commentId) {
+                        comment.copy(isLikedByUser = isLiked, likeCounter = newLikesCount)
+                    } else {
+                        comment
+                    }
+                }
+            )
+        }
     }
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchNotificationItemsUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
-    suspend operator fun invoke(currentUserId: Int) : NotificationItems {
-        return socialRepository.markUserNotificationsAsViewed(currentUserId).toNotificationItems()
+    suspend operator fun invoke(notificationId: Int) : NotificationItems {
+        return socialRepository.markUserNotificationsAsViewed(notificationId).toNotificationItems()
     }
 }

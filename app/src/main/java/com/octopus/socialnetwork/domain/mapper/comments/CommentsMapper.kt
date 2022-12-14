@@ -13,5 +13,6 @@ fun CommentDetails.toComment(): Comment {
         fullName = user?.fullName ?: "",
         username =user?.username ?: "",
         avatar = user?.avatar?.small ?: "",
+        commentId = commentId ?:0,
     )
 }

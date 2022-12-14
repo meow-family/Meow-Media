@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.EditProfile
@@ -29,9 +29,10 @@ import com.octopus.socialnetwork.ui.composable.profile.TopBarArrow
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun EditProfileScreen(
+    navController: NavController,
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -44,6 +45,8 @@ fun EditProfileScreen(
         onChangeNewPassword = viewModel::onChangeNewPassword,
         onClickSave = viewModel::onClickSave,
         onChangeImage = viewModel::onChangeImage,
+        onClickBack = { }
+
     )
 }
 
@@ -56,7 +59,8 @@ private fun EditProfileContent(
     onChangeCurrentPassword: (String) -> Unit,
     onChangeNewPassword: (String) -> Unit,
     onClickSave: () -> Unit,
-    onChangeImage: (image: String) -> Unit,
+    onChangeImage: () -> Unit,
+    onClickBack: () -> Unit,
     ) {
     val mContext = LocalContext.current
     val launcher = rememberLauncherForActivityResult(

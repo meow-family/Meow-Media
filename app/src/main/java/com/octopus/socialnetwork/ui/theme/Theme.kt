@@ -43,6 +43,9 @@ val Colors.textSecondaryColor: Color
 val Colors.textThirdColor: Color
     get() = if (isLight) lightTextThirdColor else darkTextThirdColor
 
+val Colors.dividerColor: Color
+    get() = if (isLight) lightDividerColor else darkDividerColor
+
 @Composable
 fun SocialNetworkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

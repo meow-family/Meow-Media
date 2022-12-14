@@ -16,11 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.octopus.socialnetwork.ui.theme.Shapes
-import com.octopus.socialnetwork.ui.theme.heightDefaultButton
-import com.octopus.socialnetwork.ui.theme.spacingSmall
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
-import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.theme.*
 
 @Composable
 fun InputTextField(
@@ -38,7 +34,7 @@ fun InputTextField(
         modifier = modifier
             .height(heightDefaultButton)
             .fillMaxWidth()
-            .padding(horizontal = spacingSmall),
+            .padding(horizontal = spacingMedium),
         shape = Shapes.large,
         value = value,
         readOnly = isReadOnly,

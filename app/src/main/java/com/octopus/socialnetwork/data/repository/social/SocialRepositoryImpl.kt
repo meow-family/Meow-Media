@@ -16,6 +16,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.*
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -38,8 +42,8 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun checkUserFriend(
         currentUserId: Int,
-        userIdWantedToCheck: Int,
-    ): CheckUserFriendDto {
+        userIdWantedToCheck: Int
+    ): FriendValidatorDTO {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 
@@ -53,29 +57,38 @@ class SocialRepositoryImpl @Inject constructor(
         lastName: String,
         email: String,
         currentPassword: String,
-        newPassword: String,
-        newGender: String,
-    ): UserEditDTO {
+        newPassword: String
+    ): UserDto {
         return socialService.editUser(
             currentUserId,
             firstName,
             lastName,
             email,
             currentPassword,
-            newPassword,
-            newGender,
+            newPassword
         ).result
+    }
+
+    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
+        return socialService.addFriend(currentUserId, userIdWantedToAdd).result
+    }
+
+    override suspend fun removeFriend(
+        currentUserId: Int,
+        userIdWantedToAdd: Int
+    ): FriendValidatorDTO {
+        return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
     }
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, postOwnerId: Int): PostDto {
-        return socialService.viewPost(postId, postOwnerId).result
+    override suspend fun viewPost(postId: Int, currentUserId: Int): PostDto {
+        return socialService.viewPost(postId, currentUserId).result
     }
 
     override suspend fun viewUserPosts(
         visitedUserId: Int,
-        currentUserId: Int,
+        currentUserId: Int
     ): BaseResponse<AllPostDto> {
         return socialService.viewUserPosts(
             visitedUserId,
@@ -91,7 +104,7 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         posterOwnerId: Int,
         post: String,
-        type: String,
+        type: String
     ): PostDto {
         return socialService.createPost(currentUserId, posterOwnerId, post, type).result
     }
@@ -106,7 +119,7 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun like(
         currentUserId: Int,
         contentId: Int,
-        typeContent: String,
+        typeContent: String
     ): LikeDto {
         return socialService.like(currentUserId, contentId, typeContent).result
     }
@@ -114,7 +127,7 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun unlike(
         currentUserId: Int,
         contentId: Int,
-        typeContent: String,
+        typeContent: String
     ): LikeDto {
         return socialService.unlike(currentUserId, contentId, typeContent).result
     }
@@ -133,14 +146,14 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun createAlbum(
         title: String,
         currentUserId: Int,
-        privacy: Int,
+        privacy: Int
     ): Int {
         return socialService.createAlbum(title, currentUserId, privacy).result.albumId ?: 0
     }
 
     override suspend fun deleteAlbumPhoto(
         photoId: Int,
-        visitedUserId: Int,
+        visitedUserId: Int
     ): Boolean {
         return socialService.deleteAlbumPhoto(photoId, visitedUserId).result.status ?: false
     }
@@ -149,17 +162,14 @@ class SocialRepositoryImpl @Inject constructor(
     //region notifications
     override suspend fun getUserNotifications(
         currentUserId: Int,
-        types: String?,
-        offset: Int?,
     ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId, types ?: "", offset ?: 1).result
+        return socialService.getUserNotifications(currentUserId).result
     }
 
     override suspend fun getUserNotificationsCount(
         currentUserId: Int,
-        types: String?,
     ): UserNotificationsCountDto {
-        return socialService.getUserNotificationsCount(currentUserId, types ?: "").result
+        return socialService.getUserNotificationsCount(currentUserId).result
     }
 
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
@@ -173,14 +183,14 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun getComments(
         currentUserId: Int,
         postId: Int,
-        type: String,
+        type: String
     ): List<CommentDetails> {
         return socialService.getCommentsList(currentUserId, postId, type).result.comments
     }
 
     override suspend fun editComment(
         commentId: Int,
-        comment: String,
+        comment: String
     ): CommentEditionDto {
         return socialService.editComment(commentId, comment).result
     }
@@ -200,28 +210,28 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun getPhotosListProfileCover(
         userId: Int,
-        type: String,
+        type: String
     ): BaseResponse<List<Photo>> {
         return socialService.getPhotosListProfileCover(userId, type)
     }
 
     override suspend fun getPhotoViewProfile(
         photoId: Int,
-        userId: Int,
+        userId: Int
     ): BaseResponse<UserProfileDto> {
         return socialService.getPhotoViewProfile(photoId, userId)
     }
 
     override suspend fun deletePhotoProfile(
         photoId: Int,
-        userId: Int,
+        userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     override suspend fun deleteProfileCover(
         photoId: Int,
-        userId: Int,
+        userId: Int
     ): BaseResponse<ProfilePhotoDeletion> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }

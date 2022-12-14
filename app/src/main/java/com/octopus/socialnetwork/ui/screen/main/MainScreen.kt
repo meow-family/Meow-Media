@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.navigation.BottomNavItem
-import com.octopus.socialnetwork.ui.composable.navigation.BottomNavigation
-import com.octopus.socialnetwork.ui.composable.navigation.FloatingActionButton
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavItem
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavigation
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
 import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
@@ -25,7 +26,7 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, rootNavController: NavController) {
 
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
@@ -42,7 +43,7 @@ fun MainScreen(navController: NavHostController) {
                     BottomNavItem(
                         name = stringResource(R.string.search),
                         route = MainRoute.Group,
-                        icon = painterResource(R.drawable.group),
+                        icon = painterResource(R.drawable.search),
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.chat),
@@ -67,11 +68,9 @@ fun MainScreen(navController: NavHostController) {
         }
     ) {
 
-        MainNavigationGraph(navController)
+        MainNavigationGraph(navController,rootNavController)
 
     }
-
-
 
 }
 

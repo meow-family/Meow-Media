@@ -9,4 +9,5 @@ data class CommentDetailsUiState(
     val isLikedByUser : Boolean = false,
     val likeCounter: Int = 0,
     val timeCreated: Int = 0,
+    val commentId: Int = 0,
 )
