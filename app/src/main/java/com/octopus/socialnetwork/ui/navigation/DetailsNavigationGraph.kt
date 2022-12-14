@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.ui.screen.comments.commentsRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.editeProfileRouteRoute
 import com.octopus.socialnetwork.ui.screen.notifications.notificationsRoute
 import com.octopus.socialnetwork.ui.screen.post.postRoute
+import com.octopus.socialnetwork.ui.screen.profile.userProfileRoute
 
 
 fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
@@ -18,6 +19,7 @@ fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
         commentsRoute(navController)
         notificationsRoute(navController)
         editeProfileRouteRoute(navController)
+        userProfileRoute(navController)
     }
 }
 
