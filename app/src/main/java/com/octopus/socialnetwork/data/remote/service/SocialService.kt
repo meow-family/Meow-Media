@@ -72,6 +72,13 @@ interface SocialService {
         @Query("current_password") currentPassword: String,
         @Query("new_password") newPassword: String,
     ): BaseResponse<UserDto>
+
+    @POST("user_edit")
+    suspend fun friendRequest(
+        @Query("user_a") currentUserId: Int,
+        @Query("user_b") otherUserId: Int,
+    ): BaseResponse<UserDto>
+
     ///////////////////////////////////////////////////////
 
     @GET("wall_view")

@@ -26,5 +26,7 @@ val fontSizesTitleExtra: TextUnit = 32.sp
 
 val heightInput: Dp = 48.dp
 val heightDefaultButton: Dp = 48.dp
+val heightSmallButton: Dp = 30.dp
+val widthSmallButton: Dp = 77.dp
 val heightBottomAppBar: Dp = 72.dp
 val sizeDefaultIcon: Dp = 24.dp

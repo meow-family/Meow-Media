@@ -64,6 +64,10 @@ class SocialRepositoryImpl @Inject constructor(
         ).result
     }
 
+    override suspend fun friendRequest(currentUserId: Int, otherUserId: Int): UserDto {
+        return socialService.friendRequest(currentUserId, otherUserId).result
+    }
+
     //endregion
     //region post
     override suspend fun viewPost(postId: Int, currentUserId: Int): PostDto {
@@ -149,7 +153,7 @@ class SocialRepositoryImpl @Inject constructor(
         types: String,
         offset: Int
     ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId, types , offset).result
+        return socialService.getUserNotifications(currentUserId, types, offset).result
     }
 
     override suspend fun getUserNotificationsCount(
