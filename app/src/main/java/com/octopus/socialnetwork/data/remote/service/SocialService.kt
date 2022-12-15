@@ -25,6 +25,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDT
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import retrofit2.http.*
 
 interface SocialService {
@@ -85,11 +86,10 @@ interface SocialService {
         @Query("new_password") newPassword: String,
     ): BaseResponse<UserDto>
 
-    @POST("user_edit")
-    suspend fun friendRequest(
-        @Query("user_a") currentUserId: Int,
-        @Query("user_b") otherUserId: Int,
-    ): BaseResponse<UserDto>
+    @GET("user_friend_requests")
+    suspend fun getFriendRequests(
+        @Query("guid") currentUserId: Int,
+    ): BaseResponse<FriendRequestsListDTO>
 
     ///////////////////////////////////////////////////////
 

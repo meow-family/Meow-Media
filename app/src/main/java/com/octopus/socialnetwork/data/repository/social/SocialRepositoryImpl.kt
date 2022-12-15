@@ -19,6 +19,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDT
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import javax.inject.Inject
 
@@ -75,8 +76,8 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun friendRequest(currentUserId: Int, otherUserId: Int): UserDto {
-        return socialService.friendRequest(currentUserId, otherUserId).result
+    override suspend fun getFriendRequests(currentUserId: Int): FriendRequestsListDTO {
+        return socialService.getFriendRequests(currentUserId).result
     }
 
     //endregion

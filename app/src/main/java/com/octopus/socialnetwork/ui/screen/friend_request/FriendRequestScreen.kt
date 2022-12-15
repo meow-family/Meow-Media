@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.screen.friend_request
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,8 +17,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
+import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
-import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
+import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.DividerColor
 import com.octopus.socialnetwork.ui.util.extensions.setScreenDestinationOnClickNotification
@@ -30,20 +32,19 @@ fun FriendRequestScreen(
 
     val state by viewModel.state.collectAsState()
     FriendRequestContent(
-//        state = state,
+        state = state,
         onClickNotification = { notification ->
             notification.notificationDetails.type
                 .setScreenDestinationOnClickNotification(navController, notification)
 
-        },
-        onClickBack = { navController.navigateToHomeScreen() }
-    )
+        }
+    ) { navController.popBackStack() }
 }
 
 
 @Composable
 private fun FriendRequestContent(
-
+    state: FriendRequestUiState,
     onClickNotification: (NotificationItemsUiState) -> Unit,
     onClickBack: () -> Unit
 ) {
@@ -56,20 +57,20 @@ private fun FriendRequestContent(
 
         AppBar(onClickBack, stringResource(R.string.friend_requests))
         Divider(color = DividerColor, thickness = 1.dp)
-//        if (state.isLoading) {
-//            Loading()
-//        }
-
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item {
-                FriendRequestItem()
-
+        if (state.isLoading) {
+            Loading()
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(state.friendRequests) {
+                    FriendRequestItem(it.fullName,it.profileAvatar)
+                }
             }
         }
+
     }
 }
 

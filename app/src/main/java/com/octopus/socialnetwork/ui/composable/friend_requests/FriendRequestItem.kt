@@ -18,15 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.theme.Black
 
-@Preview
+
 @Composable
 fun FriendRequestItem(
-
+    name: String,
+    image: String
 ) {
     Row(
         modifier = Modifier
@@ -37,7 +39,7 @@ fun FriendRequestItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.iron_man),
+            painter = rememberAsyncImagePainter(model = image),
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)
@@ -46,7 +48,7 @@ fun FriendRequestItem(
         )
         Text(
             modifier = Modifier.padding(start = 20.dp),
-            text = "Iron Man",
+            text = name,
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = Black,
