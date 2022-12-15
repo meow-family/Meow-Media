@@ -18,7 +18,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDT
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import javax.inject.Inject
 
@@ -204,5 +203,20 @@ class SocialRepositoryImpl @Inject constructor(
     ): BaseResponse<ProfilePhotoDeletion> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
+
+    override suspend fun search(
+        endPointWantToSearchIn: String,
+        currentUserId: Int,
+        typeOfSearch: String,
+        query: String
+    ): SearchDto {
+        return socialService.search(
+            endPointWantToSearchIn,
+            currentUserId,
+            typeOfSearch,
+            query
+        ).result
+    }
+    //endregion
 
 }

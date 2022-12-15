@@ -1,13 +1,10 @@
-package com.octopus.socialnetwork.ui.composable
+package com.octopus.socialnetwork.ui.composable.search
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -21,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SearchViewItem(state: MutableState<TextFieldValue>) {
+fun SearchField(state: MutableState<TextFieldValue>) {
 
     TextField(
         value = state.value,
@@ -30,7 +27,7 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .size(width = 0.dp, height = 48.dp),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
@@ -39,7 +36,7 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp),
-                tint = Color.Gray
+                tint = MaterialTheme.colors.onPrimary
             )
         },
         trailingIcon = {
@@ -61,7 +58,7 @@ fun SearchViewItem(state: MutableState<TextFieldValue>) {
             }
         },
         singleLine = true,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(16.dp),
 
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
