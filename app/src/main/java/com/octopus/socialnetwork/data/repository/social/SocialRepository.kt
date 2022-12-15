@@ -15,7 +15,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -27,12 +27,15 @@ interface SocialRepository {
 
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
 
-    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): CheckUserFriendDto
+    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
 
     suspend fun editUser(currentUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String): UserDto
+
+    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
 
     //endregion
 
@@ -63,8 +66,7 @@ interface SocialRepository {
     //endregion
 
     //region notifications
-    suspend fun getUserNotifications(currentUserId: Int, types: String, offset: Int
-    ): UserNotificationsDTO
+    suspend fun getUserNotifications(currentUserId: Int): UserNotificationsDTO
 
     suspend fun getUserNotificationsCount(currentUserId: Int, ): UserNotificationsCountDto
 
@@ -82,7 +84,10 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
+    suspend fun getPhoto(
+        photoId: Int,
+        userId: Int,
+    ): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String, ): BaseResponse<List<Photo>>
 

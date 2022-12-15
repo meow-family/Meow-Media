@@ -15,7 +15,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -38,7 +38,7 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun checkUserFriend(
         currentUserId: Int,
         userIdWantedToCheck: Int
-    ): CheckUserFriendDto {
+    ): FriendValidatorDTO {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 
@@ -62,6 +62,17 @@ class SocialRepositoryImpl @Inject constructor(
             currentPassword,
             newPassword
         ).result
+    }
+
+    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
+        return socialService.addFriend(currentUserId, userIdWantedToAdd).result
+    }
+
+    override suspend fun removeFriend(
+        currentUserId: Int,
+        userIdWantedToAdd: Int
+    ): FriendValidatorDTO {
+        return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
     }
 
     //endregion
@@ -146,10 +157,8 @@ class SocialRepositoryImpl @Inject constructor(
     //region notifications
     override suspend fun getUserNotifications(
         currentUserId: Int,
-        types: String,
-        offset: Int
     ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId, types , offset).result
+        return socialService.getUserNotifications(currentUserId).result
     }
 
     override suspend fun getUserNotificationsCount(

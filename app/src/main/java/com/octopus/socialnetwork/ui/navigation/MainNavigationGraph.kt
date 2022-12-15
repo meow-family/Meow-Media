@@ -1,36 +1,31 @@
 package com.octopus.socialnetwork.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.octopus.socialnetwork.ui.screen.comments.commentsRoute
 import com.octopus.socialnetwork.ui.screen.group.groupRoute
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
-import com.octopus.socialnetwork.ui.screen.login.loginRoute
 import com.octopus.socialnetwork.ui.screen.message_screen.messageRoute
-import com.octopus.socialnetwork.ui.screen.notifications.notificationsRoute
-import com.octopus.socialnetwork.ui.screen.profile.profileRoute
+import com.octopus.socialnetwork.ui.screen.profile.myProfileRoute
 
 @Composable
-fun MainNavigationGraph(navController: NavHostController) {
+fun MainNavigationGraph(navController: NavHostController, rootNavController: NavController) {
     NavHost(
         navController = navController,
         startDestination = MainRoute.Home,
         route = Graph.MAIN
     ) {
-        homeRoute(navController)
-        groupRoute(navController)
-        messageRoute(navController)
-        profileRoute(navController)
-        detailsNavigationGraph(navController)
-        notificationsRoute(navController)
-        commentsRoute(navController)
+        homeRoute(rootNavController)
+        groupRoute(rootNavController)
+        messageRoute(rootNavController)
+        myProfileRoute(rootNavController)
     }
 }
 
 object MainRoute {
     const val Home = "home"
     const val Group = "group"
-    const val Chat = "Chat"
+    const val Chat = "chat"
     const val Profile = "profile"
 }

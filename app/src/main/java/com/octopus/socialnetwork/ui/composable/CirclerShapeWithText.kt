@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
-fun CircleShapeWithText(numberOfMessages:Int){
+fun CircleShapeWithText(){
     Box(
         modifier = Modifier
             .size(16.dp)
@@ -22,6 +22,6 @@ fun CircleShapeWithText(numberOfMessages:Int){
             .background(color = Color.Red),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "$numberOfMessages", color = Color.White, fontSize = PoppinsTypography.overline.fontSize )
+        Text(text = " ", color = Color.White, fontSize = PoppinsTypography.overline.fontSize )
     }
 }

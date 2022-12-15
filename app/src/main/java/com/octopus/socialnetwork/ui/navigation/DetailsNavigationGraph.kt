@@ -3,8 +3,11 @@ package com.octopus.socialnetwork.ui.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
-import com.octopus.socialnetwork.ui.screen.notifications.notificationRoute
+import com.octopus.socialnetwork.ui.screen.comments.commentsRoute
+import com.octopus.socialnetwork.ui.screen.edit_profile.editeProfileRouteRoute
+import com.octopus.socialnetwork.ui.screen.notifications.notificationsRoute
 import com.octopus.socialnetwork.ui.screen.post.postRoute
+import com.octopus.socialnetwork.ui.screen.profile.userProfileRoute
 
 
 fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
@@ -12,14 +15,18 @@ fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
         startDestination = DetailsRoute.Post,
         route = Graph.DETAILS
     ) {
-        notificationRoute(navController)
         postRoute(navController)
-
+        commentsRoute(navController)
+        notificationsRoute(navController)
+        editeProfileRouteRoute(navController)
+        userProfileRoute(navController)
     }
 }
 
 
 object DetailsRoute {
     const val Post = "post"
-    const val Notification = "notification"
+    const val Comments = "comments"
+    const val EditeProfile = "edite_profile"
+    const val Notifications = "notifications"
 }

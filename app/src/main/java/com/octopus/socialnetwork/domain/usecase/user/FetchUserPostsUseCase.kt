@@ -7,8 +7,9 @@ import javax.inject.Inject
 
 class FetchUserPostsUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
+    private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
-    suspend operator fun invoke(visitedUserId: Int, currentUserId: Int) : UserPosts {
-        return socialRepository.getUserPosts(visitedUserId, currentUserId).toUserPosts()
+    suspend operator fun invoke(visitedUserId: Int) : UserPosts {
+        return socialRepository.getUserPosts(visitedUserId, fetchUserIdUseCase()).toUserPosts()
     }
 }

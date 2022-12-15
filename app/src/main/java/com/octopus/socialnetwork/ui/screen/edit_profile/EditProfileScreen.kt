@@ -12,21 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.EditProfileInformation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.profile.EditTextField
-import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
 import com.octopus.socialnetwork.ui.composable.profile.TopBarArrow
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun EditProfileScreen(
+    navController: NavController,
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
 
@@ -64,12 +64,11 @@ private fun EditProfileContent(
             .background(color = Color.White)
     ) {
         item {
-            AppBar(onClickBack = onClickBack, title = stringResource(R.string.edit_profile))
-            ProfileInformation(
-                painterResource(id = R.drawable.black),
-                painterResource(id = R.drawable.iron_man),
-                stringResource(R.string.edit_profile)
-            )
+            TopBarArrow(title = stringResource(id = R.string.edit_profile), onClickBack = onClickBack)
+            EditProfileInformation(
+                backImageProfile = painterResource(id = R.drawable.black),
+                profileImage = painterResource(id = R.drawable.iron_man),
+                onEdit ={ })
             EditTextField(
                 title = stringResource(R.string.first_name),
                 keyboardOption = KeyboardOptions(keyboardType = KeyboardType.Text),

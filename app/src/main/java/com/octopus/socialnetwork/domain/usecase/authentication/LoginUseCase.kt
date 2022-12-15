@@ -8,13 +8,25 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val validateUseCase: ValidateUseCase,
     private val authenticationRepository: AuthenticationRepository,
-){
-    suspend operator fun invoke(username: String, password: String): AuthResponse? {
+) {
+    suspend operator fun invoke(username: String, password: String): AuthResponse {
         val isValidInput = validateUseCase(username, password)
         return if (isValidInput) {
-            authenticationRepository.login(username,password)
+            authenticationRepository.login(username, password)
         } else {
-            null
+            AuthResponse(
+                avatar = null,
+                birthDate = null,
+                coverUrl = null,
+                email = null,
+                firstName = null,
+                fullName = null,
+                gender = null,
+                id = null,
+                language = null,
+                lastName = null,
+                username = null
+            )
         }
     }
 }
