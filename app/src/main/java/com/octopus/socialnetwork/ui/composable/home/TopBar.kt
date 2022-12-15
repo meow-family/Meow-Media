@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.composable.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -29,7 +30,7 @@ fun TopBar(
             .fillMaxWidth()
             .height(56.dp)
             .shadowLightBlack()
-            .background(color = Color.White)
+            .background(MaterialTheme.colors.background)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween

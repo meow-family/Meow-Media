@@ -16,6 +16,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavItem
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavigation
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
 import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
@@ -62,7 +63,9 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
             )
 
         },
-        floatingActionButton = {}
+        floatingActionButton = {
+            FloatingActionButton {}
+        }
     ) {
 
         MainNavigationGraph(navController,rootNavController)
