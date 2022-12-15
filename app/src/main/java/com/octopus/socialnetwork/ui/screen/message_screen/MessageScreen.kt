@@ -70,6 +70,7 @@ fun MessageViewContent(state: MessageMainUiState) {
                     nameOfSender = it.senderName,
                     lastMessage = it.message,
                     seen = it.viewed,
+                    countUnreadMessages = state.unreadMessagesCount.toString(),
                     time = it.lastSendTime.asHour(),
                     avatar = it.avatar
                 )

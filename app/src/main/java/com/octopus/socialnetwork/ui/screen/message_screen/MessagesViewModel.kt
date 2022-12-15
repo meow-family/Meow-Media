@@ -1,8 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.message_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.GetUnreadMessagesUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MessagesViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
+    private val getUnreadMessages:GetUnreadMessagesUseCase,
+    private val getUserIdUseCase: FetchUserIdUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
@@ -29,9 +34,24 @@ class MessagesViewModel @Inject constructor(
 
         try {
             viewModelScope.launch {
+                val fromUserId =getUserIdUseCase()
 
                 val recentMessages =
                     fetchRecentMessages().map { it.toMessageUiState() }
+                Log.i("MMMMMM",fromUserId.toString())
+
+                for (toUserID in recentMessages.map { it.senderId }){
+                    Log.i("MMMMMM",toUserID.toString())
+                    Log.i("MMMMMM",fromUserId.toString())
+                    val unreadMessages = getUnreadMessages(fromUserId,toUserID,0).messages.size
+                    _state.update {
+                        it.copy(
+                            unreadMessagesCount = unreadMessages
+                        )
+                    }
+                }
+
+
 
                 _state.update {
                     it.copy(

@@ -8,4 +8,5 @@ data class MessageUiState(
     val viewed: String = "",
     val message: String = "",
     val isSentByMe: Boolean = true,
-    )
+    val countOfUnreadMessages: String = ""
+)

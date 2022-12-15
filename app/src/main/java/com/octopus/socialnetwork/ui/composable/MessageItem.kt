@@ -21,6 +21,7 @@ fun MessageItem(
     avatar: String,
     nameOfSender: String,
     lastMessage: String,
+    countUnreadMessages:String,
     seen: String,
     time: String
 ) {
@@ -50,7 +51,7 @@ fun MessageItem(
                 )
                 SpaceVertically4dp()
                 Text(
-                    text = lastMessage,
+                    text = lastMessage.take(20),
                     modifier = Modifier.align(Alignment.Start),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
@@ -91,7 +92,7 @@ fun MessageItem(
 
                 } else {
 
-                    CircleShapeWithText()
+                    CircleShapeWithText(countUnreadMessages)
                 }
 
             }
