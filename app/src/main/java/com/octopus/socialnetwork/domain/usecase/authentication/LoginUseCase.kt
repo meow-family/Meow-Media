@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.domain.usecase.authentication
 
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import com.octopus.socialnetwork.domain.usecase.authentication.validation_use_case.ValidateUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.ValidateUseCase
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
