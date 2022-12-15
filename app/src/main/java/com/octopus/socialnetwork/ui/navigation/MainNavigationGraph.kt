@@ -26,6 +26,6 @@ fun MainNavigationGraph(navController: NavHostController, rootNavController: Nav
 object MainRoute {
     const val Home = "home"
     const val Group = "group"
-    const val Chat = "chat"
+    const val Messages = "messages"
     const val Profile = "profile"
 }

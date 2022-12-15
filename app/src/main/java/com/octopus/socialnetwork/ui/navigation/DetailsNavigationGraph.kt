@@ -29,4 +29,5 @@ object DetailsRoute {
     const val Comments = "comments"
     const val EditeProfile = "edite_profile"
     const val Notifications = "notifications"
+    const val Chat = "chat"
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,12 +20,12 @@ fun ReceivedMessage(message: String) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.End
+        horizontalAlignment = Alignment.Start
     ) {
         Card(
             modifier = Modifier.background(Color.Transparent),
-            shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 0.dp, bottomLeft = 16.dp),
-            backgroundColor = Color.Blue,
+            shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 16.dp, bottomLeft = 0.dp),
+            backgroundColor = MaterialTheme.colors.onSecondary,
         ) {
             Text(text = message, fontSize = 16.sp, modifier = Modifier.padding(16.dp), color = Color.White)
         }
