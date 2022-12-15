@@ -1,12 +1,18 @@
 package com.octopus.socialnetwork.ui.screen.chat
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -33,19 +39,21 @@ import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiS
 import com.octopus.socialnetwork.ui.theme.Gray900_2
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun ChatScreen(
     navController: NavController,
     viewModel: ChatViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-      ChatScreenContent(
-          state = state,
-          onTextChange = viewModel::onTextChange,
-          onClickBack = { navController.popBackStack() },
+    ChatScreenContent(
+        state = state,
+        onTextChange = viewModel::onTextChange,
+        onClickBack = { navController.popBackStack() },
 
-      )
+        )
 }
+
 @Composable
 fun ChatScreenContent(
     state: MessageMainUiState,
@@ -54,16 +62,16 @@ fun ChatScreenContent(
 ) {
     val listState = rememberLazyListState()
 
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background)
+    Column(
+        modifier = Modifier.fillMaxSize().background(color = Color.White,),
+        verticalArrangement = Arrangement.SpaceEvenly
+
     ) {
 
 
         Row(
             modifier = Modifier
-                .fillMaxWidth().align(alignment = Alignment.TopCenter)
+                .fillMaxWidth()
                 .height(56.dp)
                 .padding(horizontal = 24.dp)
                 .background(color = Color.White),
@@ -71,12 +79,12 @@ fun ChatScreenContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter =  painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
                 contentDescription = stringResource(id = R.string.icon_arrow_back),
                 tint = Gray900_2,
                 modifier = Modifier
                     .size(18.dp)
-                    .clickable { onClickBack()}
+                    .clickable { onClickBack() }
             )
             Spacer(modifier = Modifier.width(8.dp))
             Row(
@@ -105,40 +113,68 @@ fun ChatScreenContent(
                 }
             }
         }
-
-        LazyColumn(
-            Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = listState
-        ) {
-
-//            itemsIndexed(state.comments) { index, item ->
-//            ItemComment(commentDetails = item, onLike = { onClickLike(item.commentId) })
-//            if (index < state.comments.lastIndex)
-//                Divider()
+        
+//        LazyVerticalGrid(columns = GridCells.Fixed(1),
+//            contentPadding = PaddingValues(16.dp),
+//            modifier = Modifier
+//                .weight(1f)
+//                .background(color = Color.White),
+//            verticalArrangement = Arrangement.spacedBy(16.dp),){
+//
+//            items(state.messages) {
+//                if (it.isSentByMe) {
+//                    //  SentMessage(message = it.message, modifier = Modifier.align(Alignment.End).fillMaxWidth())
+//                    Card(
+//                        modifier = Modifier.background(Color.Transparent).align(Alignment.End).wrapContentSize(),
+//                        shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 16.dp, bottomLeft = 0.dp),
+//                        backgroundColor = Color.Gray,
+//                    ) {
+//                        Text(text = it.message, fontSize = 16.sp, modifier = Modifier.padding(16.dp), color = Color.White)
+//                    }
+//                } else {
+//                    //  ReceivedMessage(message = it.message)
+//
+//                    Card(
+//                        modifier = Modifier.background(Color.Transparent),
+//                        shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 0.dp, bottomLeft = 16.dp),
+//                        backgroundColor = Color.Blue,
+//                    ) {
+//                        Text(text = it.message, fontSize = 16.sp, modifier = Modifier.padding(16.dp), color = Color.White)
+//                    }
+//                }
+//            }
 //        }
 
 
+        LazyColumn(
+            Modifier.fillMaxWidth().weight(.8f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            reverseLayout = true,
+            state = listState
+        ) {
+
             items(state.messages) {
                 if (it.isSentByMe) {
-                    SentMessage(it.message)
+                    SentMessage(message = it.message)
                 } else {
-                    ReceivedMessage(message = it.message)
+                   ReceivedMessage(message = it.message)
+
                 }
             }
         }
 
+
+        TypingComment(
+            modifier = Modifier.fillMaxWidth(),
+            value = "state.comment",
+            onChangeTypingComment = onTextChange,
+            onClickSend = {},
+            listState = listState,
+            index = state.messages.lastIndexOrZero(),
+        )
     }
 
-
-    TypingComment(
-    value = "state.comment",
-    onChangeTypingComment = onTextChange,
-    onClickSend = {},
-    listState = listState,
-    index = state.messages.lastIndexOrZero(),
-    )
 
 
 }

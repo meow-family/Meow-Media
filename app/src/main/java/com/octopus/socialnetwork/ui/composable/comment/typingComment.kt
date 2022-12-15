@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TypingComment(
+    modifier: Modifier = Modifier,
     value: String,
     onChangeTypingComment: (String) -> Unit,
     onClickSend: suspend () -> Unit,
@@ -37,7 +38,7 @@ fun TypingComment(
     val coroutineScope = rememberCoroutineScope()
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(12.dp)
             .height(48.dp),
