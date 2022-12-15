@@ -1,8 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
@@ -58,27 +56,13 @@ interface SocialRepository {
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): LikeDto
 
     suspend fun unlike(currentUserId: Int, contentId: Int, typeContent: String): LikeDto
-    //endregion
 
-    //region album
-    suspend fun getAlbumsUser(albumOwnerUserId: Int, viewerUserId: Int): AlbumsDto
-
-    suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDto
-
-    suspend fun createAlbum(title: String, currentUserId: Int, privacy: Int): Int
-
-    suspend fun deleteAlbumPhoto(photoId: Int, visitedUserId: Int): Boolean
-    //endregion
-
-    //region notifications
     suspend fun getUserNotifications(currentUserId: Int): UserNotificationsDTO
 
     suspend fun getUserNotificationsCount(currentUserId: Int): UserNotificationsCountDto
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
-    //endregion
 
-    //region comment
     suspend fun getComments(currentUserId: Int, postId: Int, type: String): List<CommentDetails>
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditionDto
@@ -101,7 +85,5 @@ interface SocialRepository {
     suspend fun deletePhotoProfile(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
 
     suspend fun deleteProfileCover(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
-
-//endregion
 
 }

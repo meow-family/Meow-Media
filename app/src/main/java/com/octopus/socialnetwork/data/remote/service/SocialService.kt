@@ -1,10 +1,6 @@
 package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -162,34 +158,6 @@ interface SocialService {
     suspend fun markUserNotificationsAsViewed(
         @Query("notification_guid") notificationId: Int,
     ): BaseResponse<NotificationItemsDto>
-
-
-    @GET("photos_list_albums")
-    suspend fun getAlbumsUser(
-        @Query("guid") albumOwnerUserId: Int,
-        @Query("uguid") viewerUserId: Int, // TODO: needs confirmation, check before work
-    ): BaseResponse<AlbumsDto>
-
-    @GET("photos_list")
-    suspend fun getAlbumPhotos(
-        @Query("album_guid") albumId: Int,
-    ): BaseResponse<AlbumPhotosDto>
-
-
-    @POST("photos_album_create")
-    suspend fun createAlbum(
-        @Path("title") title: String,
-        @Query("guid") currentUserId: Int,
-        @Field("privacy") privacy: Int,
-    ): BaseResponse<InfoAlbumDto>
-
-
-    @POST("photos_delete")
-    suspend fun deleteAlbumPhoto(
-        @Path("photoid") photoId: Int,
-        @Query("guid") visitedUserId: Int,
-    ): BaseResponse<StateDto>
-
 
     @GET("message_recent")
     suspend fun getMessagesListRecent(

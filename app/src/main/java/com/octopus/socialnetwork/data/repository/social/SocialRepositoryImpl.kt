@@ -1,8 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
+
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
@@ -37,8 +36,7 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkUserFriend(
-        currentUserId: Int,
-        userIdWantedToCheck: Int
+        currentUserId: Int, userIdWantedToCheck: Int
     ): FriendValidatorDTO {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
@@ -96,6 +94,7 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
+
     override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
         return socialService.viewNewsFeed(currentUserId).result.posts
     }
@@ -131,35 +130,7 @@ class SocialRepositoryImpl @Inject constructor(
     ): LikeDto {
         return socialService.unlike(currentUserId, contentId, typeContent).result
     }
-//endregion
 
-
-    //region albums
-    override suspend fun getAlbumsUser(albumOwnerUserId: Int, viewerUserId: Int): AlbumsDto {
-        return socialService.getAlbumsUser(albumOwnerUserId, viewerUserId).result
-    }
-
-    override suspend fun getAlbumPhotos(albumId: Int): AlbumPhotosDto {
-        return socialService.getAlbumPhotos(albumId).result
-    }
-
-    override suspend fun createAlbum(
-        title: String,
-        currentUserId: Int,
-        privacy: Int
-    ): Int {
-        return socialService.createAlbum(title, currentUserId, privacy).result.albumId ?: 0
-    }
-
-    override suspend fun deleteAlbumPhoto(
-        photoId: Int,
-        visitedUserId: Int
-    ): Boolean {
-        return socialService.deleteAlbumPhoto(photoId, visitedUserId).result.status ?: false
-    }
-//endregion
-
-    //region notifications
     override suspend fun getUserNotifications(
         currentUserId: Int,
     ): UserNotificationsDTO {
@@ -176,9 +147,7 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
-//endregion
 
-    //region comment
 
     override suspend fun getComments(
         currentUserId: Int,
@@ -235,7 +204,5 @@ class SocialRepositoryImpl @Inject constructor(
     ): BaseResponse<ProfilePhotoDeletion> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
-
-    //endregion
 
 }
