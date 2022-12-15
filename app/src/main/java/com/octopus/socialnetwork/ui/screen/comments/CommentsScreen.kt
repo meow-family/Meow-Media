@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -56,9 +57,7 @@ private fun CommentsContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                color = Color.White,
-            ),
+            .background(MaterialTheme.colors.background),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         AppBar(onClickBack, title = stringResource(id = R.string.Comments))

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,10 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.LoadingDialog
-import com.octopus.socialnetwork.ui.composable.comment.TypingComment
+import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
@@ -49,7 +48,7 @@ fun ChatScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White,),
+            .background(MaterialTheme.colors.background),
         verticalArrangement = Arrangement.SpaceEvenly
 
     ) {
@@ -58,7 +57,8 @@ fun ChatScreenContent(
 
         LazyColumn(
             Modifier
-                .fillMaxWidth().weight(.1f),
+                .fillMaxWidth()
+                .weight(.1f),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             state = listState
