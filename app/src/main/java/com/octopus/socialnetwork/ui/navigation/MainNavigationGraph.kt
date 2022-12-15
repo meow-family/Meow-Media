@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.octopus.socialnetwork.ui.screen.group.groupRoute
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
 import com.octopus.socialnetwork.ui.screen.message_screen.messageRoute
 import com.octopus.socialnetwork.ui.screen.profile.myProfileRoute
+import com.octopus.socialnetwork.ui.screen.search.searchRoute
 
 @Composable
 fun MainNavigationGraph(navController: NavHostController, rootNavController: NavController) {
@@ -17,7 +17,7 @@ fun MainNavigationGraph(navController: NavHostController, rootNavController: Nav
         route = Graph.MAIN
     ) {
         homeRoute(rootNavController)
-        groupRoute(rootNavController)
+        searchRoute(rootNavController)
         messageRoute(rootNavController)
         myProfileRoute(rootNavController)
     }
@@ -25,7 +25,7 @@ fun MainNavigationGraph(navController: NavHostController, rootNavController: Nav
 
 object MainRoute {
     const val Home = "home"
-    const val Group = "group"
+    const val Search = "search"
     const val Chat = "chat"
     const val Profile = "profile"
 }

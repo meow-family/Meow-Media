@@ -42,7 +42,7 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.search),
-                        route = MainRoute.Group,
+                        route = MainRoute.Search,
                         icon = painterResource(R.drawable.search),
                     ),
                     BottomNavItem(
