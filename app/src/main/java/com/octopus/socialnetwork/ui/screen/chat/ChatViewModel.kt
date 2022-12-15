@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.chat
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,16 +24,29 @@ class ChatViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
-    private val otherUserId = 16
+    private val otherUserId = 23
+
     init {
         getMessagesWithUser(otherUserId)
+    }
+
+    fun onTextChange(newValue: String) {
+        _state.update { it.copy(message = newValue) }
     }
 
     private fun getMessagesWithUser(otherUserId: Int) {
         try {
             viewModelScope.launch {
                 val messages = getMessageListUseCase(otherUserId).map { it.toMessageUiState() }
-                _state.update { it.copy(isFail = false, isLoading = false, messages = messages) }
+
+                messages.find{ it.senderId.equals(otherUserId) }?.let {
+                    _state.update { it.copy(senderName = it.senderName, avatar = it.avatar) }
+                }
+
+                _state.update { it.copy(isFail = false, isLoading = false, messages = messages,
+                    senderName = messages.first().senderName)
+                }
+
             }
         } catch (e: Exception) {
             _state.update { it.copy(isLoading = false, isFail = true) }

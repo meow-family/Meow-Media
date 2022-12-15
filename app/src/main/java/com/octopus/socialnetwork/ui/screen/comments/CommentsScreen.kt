@@ -79,7 +79,7 @@ private fun CommentsContent(
         }
 
         TypingComment(
-            state = state.textFieldCommentState,
+            value = state.comment,
             onChangeTypingComment = onChangeTypingComment,
             onClickSend = onClickSend,
             listState = listState,
