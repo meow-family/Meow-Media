@@ -8,7 +8,7 @@ import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.domain.model.messages.MessagesList
 
 
-fun MessageDto.toMessageDetails(): MessageDetails {
+fun MessageDto.toMessageDetails(userId: Int): MessageDetails {
     return MessageDetails(
         userId = id ?: 0,
         message = message ?: "",
@@ -16,13 +16,14 @@ fun MessageDto.toMessageDetails(): MessageDetails {
         messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(0, " ", " ", " "),
         time = time ?: 0,
         viewed = viewed ?: "",
+        isSentByMe = userId == messageSender?.userId,
     )
 }
 
-fun MessageListDto.toMessagesList(): MessagesList {
+fun MessageListDto.toMessagesList(userId: Int): MessagesList {
     return MessagesList(
         messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(0, "", "", ""),
-        messages = messages?.map { it.toMessageDetails() } ?: emptyList()
+        messages = messages?.map { it.toMessageDetails(userId) } ?: emptyList()
     )
 }
 

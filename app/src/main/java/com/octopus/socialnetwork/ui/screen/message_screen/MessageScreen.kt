@@ -64,7 +64,7 @@ fun MessageViewContent(state: MessageMainUiState) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
-                items = state.recentMessages
+                items = state.messages
             ) {
                 MessageItem(
                     nameOfSender = it.senderName,

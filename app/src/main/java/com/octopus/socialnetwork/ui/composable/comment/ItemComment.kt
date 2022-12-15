@@ -1,11 +1,7 @@
 package com.octopus.socialnetwork.ui.composable.comment
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -31,7 +27,8 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 @Composable
 fun ItemComment(
     commentDetails: CommentDetailsUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLike: () -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -80,13 +77,14 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick = { /*TODO*/ }, modifier = Modifier
-            .width(12.dp)
-            .height(12.dp)
-            .constrainAs(like) {
-                top.linkTo(postText.bottom, 14.dp)
-                start.linkTo(postText.start)
-            }) {
+        IconButton(onClick = {onLike()},
+            modifier = Modifier
+                .width(12.dp)
+                .height(12.dp)
+                .constrainAs(like) {
+                    top.linkTo(postText.bottom, 14.dp)
+                    start.linkTo(postText.start)
+                }) {
             Icon(
                 painter = painterResource(R.drawable.ic_heart),
                 contentDescription = "print",
@@ -102,9 +100,9 @@ fun ItemComment(
                 .alpha(.3f)
                 .constrainAs(likeCounter) {
                     start.linkTo(like.end, 4.dp)
-                    top.linkTo(like.top,4.dp)
+                    top.linkTo(like.top, 4.dp)
                     bottom.linkTo(like.bottom)
-                 })
+                })
 
         Text(text = stringResource(R.string.replay),
             fontSize = 12.sp,

@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.register.uistate
 
+import com.octopus.socialnetwork.R
+
 
 data class UserInfoFormUiState(
     var userName: TextFieldUiState = TextFieldUiState(),
@@ -10,4 +12,10 @@ data class UserInfoFormUiState(
     var lastName: TextFieldUiState = TextFieldUiState(),
     var gender: TextFieldUiState = TextFieldUiState(),
     var birthDate: TextFieldUiState = TextFieldUiState(),
+)
+
+data class TextFieldUiState(
+    var text: String = "",
+    var error: Int? = R.string.is_required,
+    var isValid: Boolean = false
 )

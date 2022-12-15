@@ -9,4 +9,6 @@ interface AuthenticationRepository {
     suspend fun login(username: String, password: String): AuthResponse
 
     suspend fun register(params: RegisterUseCase.Params): BaseResponse<RegisterDto>
+
+    fun getUserId(): Int?
 }

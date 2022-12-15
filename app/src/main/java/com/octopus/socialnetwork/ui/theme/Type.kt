@@ -22,11 +22,19 @@ val PoppinsTypography = Typography(
         fontSize = fontSizesTitleExtra
     ),
 
+    h5 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = fontSizesSecondary
+    ),
     h6 = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = fontSizePrimary
     ),
 
+    subtitle2 = TextStyle(
+        fontWeight = FontWeight.Light,
+        fontSize = fontSizesCaption
+    ),
     body1 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = fontSizesSecondary
@@ -46,6 +54,6 @@ val PoppinsTypography = Typography(
     ),
 
     overline = TextStyle(
-        fontSize = fontSizesSmall
+        fontSize = fontSizesSmall,
     ),
 )

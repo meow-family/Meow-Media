@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -61,6 +61,18 @@ interface SocialService {
         @Query("uguid") visitedUserId: Int,
         @Query("guid") currentUserId: Int,
     ): BaseResponse<UserPostsDto>
+
+    @POST("user_add_friend")
+    suspend fun addFriend(
+        @Query("user_a") senderUser: Int,
+        @Query("user_b") receiverUser: Int
+    ): BaseResponse<FriendValidatorDTO>
+
+    @POST("user_remove_friend")
+    suspend fun removeFriend(
+        @Query("user_a") senderUser: Int,
+        @Query("user_b") receiverUser: Int
+    ): BaseResponse<FriendValidatorDTO>
 
     ///////////////////////////////////////////////////
     @POST("user_edit")
@@ -133,14 +145,12 @@ interface SocialService {
     suspend fun checkUserFriend(
         @Query("user_b") receiverUser: Int,
         @Query("user_a") senderUser: Int,
-    ): BaseResponse<CheckUserFriendDto>
+    ): BaseResponse<FriendValidatorDTO>
 
     // Notifications
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") currentUserId: Int,
-        @Query("types") types: String?,
-        @Query("offset") offset: Int?,
     ): BaseResponse<UserNotificationsDTO>
 
     @GET("notifications_count")
@@ -202,8 +212,8 @@ interface SocialService {
 
     @POST("message_list")
     suspend fun getMessagesList(
-        @Query("guid") messageSenderId: Int,
-        @Query("to") messageReceiverId: Int,
+        @Query("guid") currentUserId: Int,
+        @Query("to") otherUserId: Int,
     ): BaseResponse<MessageListDto>
 
 

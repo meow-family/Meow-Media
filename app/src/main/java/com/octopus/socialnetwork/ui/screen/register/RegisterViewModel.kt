@@ -1,11 +1,15 @@
 package com.octopus.socialnetwork.ui.screen.register
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
 import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
-import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
+import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,8 +19,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val userNameValidation: UserNameValidationUseCase,
+    private val emailValidation: EmailValidationUseCase,
+    private val passwordValidation: PasswordValidationUseCase,
+    private val nameValidation: NameValidationUseCase,
+    private val requiredValidation: RequiredValidationUseCase,
 ) : ViewModel() {
+
     private val _state = MutableStateFlow(RegisterUiState())
     val state = _state.asStateFlow()
 
@@ -44,24 +54,15 @@ class RegisterViewModel @Inject constructor(
                     is LoginResponse.Success -> {
                         onLoading()
                         onSuccess()
-                        _state.update {
-                            it.copy(
-                                isSuccess = ! _state.value.isSuccess,
-                            )
-                        }
-                        Log.v("tester", "Success")
                     }
 
                     is LoginResponse.Failure -> {
                         onLoading()
                         onFailedCreateAccount()
-                        Log.v("tester", "Failure ${response.message}")
                     }
                 }
 
             } catch (e: Exception) {
-
-                Log.v("tester", "Failure ")
                 onLoading()
                 onFailedCreateAccount()
             }
@@ -69,157 +70,211 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun onLoading() {
-        _state.update {
-            it.copy(
-                isLoading = !_state.value.isLoading,
-            )
-        }
+        _state.update { it.copy(isLoading = !_state.value.isLoading,) }
     }
 
     private fun onSuccess() {
-        _state.update {
-            it.copy(
-                isSuccess = !_state.value.isSuccess,
-            )
-        }
+        _state.update { it.copy(isSuccess = !_state.value.isSuccess,) }
     }
 
     fun onFailedCreateAccount() {
-        _state.update {
-            it.copy(
-                failedCreateAccount = !_state.value.failedCreateAccount
-            )
-        }
+        _state.update { it.copy(failedCreateAccount = !_state.value.failedCreateAccount) }
     }
 
     fun onSuccessCreateAccount() {
+        _state.update { it.copy(isSuccess = false) }
+    }
+
+    fun showError(step: Int) {
+        when (step) {
+            1 -> { _state.update { it.copy(displayErrorsFirstStepRegistration = true) }
+            }
+
+            2 -> { _state.update { it.copy(displayErrorsSecondStepRegistration = true) }
+            }
+        }
+
+    }
+
+
+    fun onChangeUserName(newUsername: String) {
+        val userNameValidationState = userNameValidation(newUsername).toUserNameUiState()
+        if (userNameValidationState == UserNameState.VALID) {
+            usernameState(newUsername, true)
+        } else {
+            usernameState(newUsername, false, userNameValidationState.message)
+        }
+    }
+
+    private fun usernameState(username: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
-                isSuccess = false
-            )
-        }
-    }
-
-    fun showError() {
-        _state.update {
-            it.copy(displayErrors = true)
-        }
-    }
-
-    fun validInputs(valid: Boolean) {
-        _state.update {
-            it.copy(isValidInputs = valid)
-        }
-    }
-
-    fun tryLogin() {}
-
-    fun onChangeUserName(newValue: String) {
-        _state.update {
-            it.copy(
-                userInfoForm = it.userInfoForm.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     userName = it.userInfoForm.userName.copy(
-                        text = newValue
-                    )
+                        text = username, error = error, isValid = isValidInputs )
                 )
             )
         }
     }
 
-    fun onChangeLastName(newValue: String) {
+    fun onChangeEmail(newEmail: String) {
+        val emailValidation = emailValidation(newEmail).toEmailUiState()
+        if (emailValidation == EmailState.VALID) {
+            emailState(email = newEmail, isValidInputs = true)
+        } else {
+            emailState(newEmail, false, emailValidation.message)
+        }
+        onChangeReEmail(_state.value.userInfoForm.reEmail.text)
+
+        val email = _state.value.userInfoForm.email.text
+        val reEmail = _state.value.userInfoForm.reEmail.text
+
+        if (email == reEmail) {
+            reEmailState(reEmail, true)
+        }
+    }
+
+    private fun emailState(email: String, isValidInputs: Boolean, error: Int? = null) {
+
         _state.update {
             it.copy(
-                userInfoForm = it.userInfoForm.copy(
-                    lastName = it.userInfoForm.lastName.copy(
-                        text = newValue
-                    )
-
+                isValidInputs = isValidInputs,
+                userInfoForm = it.userInfoForm.copy(email = it.userInfoForm.email.copy(
+                        text = email, error = error, isValid = isValidInputs)
                 )
             )
         }
     }
 
-    fun onChangeFirstName(newValue: String) {
-        _state.update {
-            it.copy(
-                userInfoForm = it.userInfoForm.copy(
+    fun onChangeReEmail(newReEmail: String) {
+        val email = _state.value.userInfoForm.email.text
+        val reEmailValidation = emailValidation.confirmEmail(email, newReEmail).toEmailUiState()
 
-                    firstName = it.userInfoForm.firstName.copy(
-                        text = newValue
-                    )
-
-                )
-            )
+        if (reEmailValidation == EmailState.VALID) {
+            reEmailState(newReEmail, true)
+        } else {
+            reEmailState(newReEmail, false, reEmailValidation.message)
         }
     }
 
-    fun onChangeEmail(newValue: String) {
+    private fun reEmailState(reEmail: String, isValidInputs: Boolean, error: Int? = null) {
 
         _state.update {
             it.copy(
-                isValidInputs = true,
-                userInfoForm = it.userInfoForm.copy(
-                    email = it.userInfoForm.email.copy(
-                        text = newValue
-                    )
-                )
-            )
-        }
-    }
-
-    fun onChangeReEmail(newValue: String) {
-        _state.update {
-            it.copy(
-                userInfoForm = it.userInfoForm.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     reEmail = it.userInfoForm.reEmail.copy(
-                        text = newValue
-                    )
-
+                        text = reEmail, error = error, isValid = isValidInputs)
                 )
             )
         }
     }
 
-    fun onChangePassword(newValue: String) {
+    fun onChangePassword(newPassword: String) {
+        val passwordValidation = passwordValidation(newPassword).toPasswordUiState()
+        if (passwordValidation == PasswordState.VALID) {
+            passwordState(newPassword, true)
+        } else {
+            passwordState(password = newPassword, false, passwordValidation.message)
+        }
+    }
+
+    private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
-                userInfoForm = it.userInfoForm.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     password = it.userInfoForm.password.copy(
-                        text = newValue
-                    )
-
+                        text = password, error = error, isValid = isValidInputs)
                 )
             )
         }
     }
 
-    fun onChangeGender(newValue: String) {
+
+    fun onChangeFirstName(newFirstName: String) {
+        val nameValidation = nameValidation(newFirstName).toInputFieldUiState()
+        if (nameValidation == InputFieldState.VALID) {
+            firstNameState(newFirstName, true)
+        } else {
+            firstNameState(newFirstName, false, nameValidation.message)
+        }
+    }
+
+    private fun firstNameState(firstName: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
-                userInfoForm = it.userInfoForm.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
+                    firstName = it.userInfoForm.firstName.copy(
+                        text = firstName, error = error, isValid = isValidInputs
+                    )
+                )
+            )
+        }
+    }
+
+
+    fun onChangeLastName(newLastName: String) {
+        val nameValidation = nameValidation(newLastName).toInputFieldUiState()
+        if (nameValidation == InputFieldState.VALID) {
+            lastNameState(newLastName, true)
+        } else {
+            lastNameState(newLastName, false, nameValidation.message)
+        }
+    }
+
+    private fun lastNameState(lastName: String, isValidInputs: Boolean, error: Int? = null) {
+        _state.update {
+            it.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
+                    lastName = it.userInfoForm.lastName.copy(
+                        text = lastName, error = error, isValid = isValidInputs
+                    )
+                )
+            )
+        }
+    }
+
+
+
+
+    fun onChangeGender(newGender: String) {
+        val genderValidation = requiredValidation(newGender).toInputFieldUiState()
+        if (genderValidation == InputFieldState.VALID) {
+            genderState(newGender, true)
+        } else {
+            genderState(newGender, false, genderValidation.message)
+        }
+    }
+
+    private fun genderState(gender: String, isValidInputs: Boolean, error: Int? = null) {
+        _state.update {
+            it.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     gender = it.userInfoForm.gender.copy(
-                        text = newValue
-                    )
-
+                        text = gender, error = error, isValid = isValidInputs)
                 )
             )
         }
     }
 
-    fun onChangeBirthday(newValue: String) {
+    fun onChangeBirthday(newBirthday: String) {
+        val genderValidation = requiredValidation(newBirthday).toInputFieldUiState()
+        if (genderValidation == InputFieldState.VALID) {
+            birthdayState(newBirthday, true)
+        } else {
+            birthdayState(newBirthday, false, genderValidation.message)
+        }
+    }
+
+    private fun birthdayState(gender: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
-                userInfoForm = it.userInfoForm.copy(
+                isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     birthDate = it.userInfoForm.birthDate.copy(
-                        text = newValue
-                    )
-
+                        text = gender, error = error, isValid = isValidInputs)
                 )
             )
         }
-
     }
-
 
 
 }

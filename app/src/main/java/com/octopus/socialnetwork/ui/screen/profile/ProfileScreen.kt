@@ -1,37 +1,47 @@
 package com.octopus.socialnetwork.ui.screen.profile
-
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
-import com.octopus.socialnetwork.ui.composable.profile.ButtonFollow
-import com.octopus.socialnetwork.ui.composable.profile.ButtonMessage
-import com.octopus.socialnetwork.ui.composable.profile.ProfileInformation
+import com.octopus.socialnetwork.ui.composable.CircleButton
+import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.ReduceButton
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
+import com.octopus.socialnetwork.ui.composable.SpaceVertically24dp
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
+import com.octopus.socialnetwork.ui.composable.profile.TabContentProfile
+import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
-import com.octopus.socialnetwork.ui.theme.PoppinsTypography
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.spacingSmall
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
@@ -39,126 +49,143 @@ fun ProfileScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
+    val profileContentPagerState = rememberPagerState(0)
+    val coroutineScope = rememberCoroutineScope()
+    val scrollScreenState = rememberScrollState()
     ProfileContent(
         state = state,
-        onClickBack = { navController.popBackStack() },
-        onClickFollow = viewModel::onClickFollow,
+        scrollScreenState = scrollScreenState,
+        profileContentPagerState = profileContentPagerState,
+        coroutineScope = coroutineScope,
+        onClickAddFriend = viewModel::onClickAddFriend,
         onClickMessage = viewModel::onClickMessage,
+        onClickLogout = viewModel::onClickLogout,
+        onClickEditeProfile = viewModel::onClickEditeProfile,
+        onClickBack = { navController.popBackStack() },
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
-        }
-
+        },
     )
 }
 
 @Composable
+@OptIn(ExperimentalPagerApi::class)
 private fun ProfileContent(
     state: ProfileUiState,
+    scrollScreenState: ScrollState,
+    profileContentPagerState: PagerState,
+    coroutineScope: CoroutineScope,
     onClickBack: () -> Unit,
-    onClickFollow: () -> Unit,
+    onClickAddFriend: () -> Unit,
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
+    onClickLogout: () -> Unit,
+    onClickEditeProfile: () -> Unit,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        item(span = { GridItemSpan(3) }) {
+
+    if (state.isLoading) {
+        Loading()
+    } else {
+        BoxWithConstraints {
+            val screenHeight = maxHeight
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.White)
+                    .verticalScroll(scrollScreenState),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ProfileInformation(
-                    backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
-                    profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
-
-                )
-
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(136.dp)
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = state.fullName,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = PoppinsTypography.subtitle1.fontFamily,
-                        fontStyle = PoppinsTypography.subtitle1.fontStyle,
-                        fontSize = PoppinsTypography.subtitle1.fontSize,
-                        color = MaterialTheme.colors.textSecondaryColor,
-                        style = MaterialTheme.typography.h6,
-                    )
-                    Text(
-                        text = state.username,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        fontWeight = FontWeight.Light,
-                        color = MaterialTheme.colors.onSecondary,
-                        fontFamily = PoppinsTypography.caption.fontFamily,
-                        fontStyle = PoppinsTypography.caption.fontStyle,
-                        fontSize = PoppinsTypography.caption.fontSize
+                    UserDetails(state.userDetails)
 
-                    )
-
-                    SpaceVertically10dp()
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally))
-                    {
-
-                        Text(
-                            text = state.friendsCount,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsTypography.caption.fontFamily,
-                            fontStyle = PoppinsTypography.caption.fontStyle,
-                            fontSize = PoppinsTypography.caption.fontSize
-                        )
-                        SpaceHorizontally4dp()
-                        Text(
-                            text = stringResource(R.string.friends),
-                            fontWeight = FontWeight.W400,
-                            fontFamily = PoppinsTypography.caption.fontFamily,
-                            fontStyle = PoppinsTypography.caption.fontStyle,
-                            fontSize = PoppinsTypography.caption.fontSize
-                        )
-                        SpaceHorizontally16dp()
-                        Text(
-                            text = state.postCount,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = PoppinsTypography.caption.fontFamily,
-                            fontStyle = PoppinsTypography.caption.fontStyle,
-                            fontSize = PoppinsTypography.caption.fontSize
-                        )
-                        SpaceHorizontally4dp()
-                        Text(
-                            text = stringResource(R.string.posts),
-                            fontWeight = FontWeight.W400,
-                            fontFamily = PoppinsTypography.caption.fontFamily,
-                            fontStyle = PoppinsTypography.caption.fontStyle,
-                            fontSize = PoppinsTypography.caption.fontSize
-                        )
-
-
-                    }
-                    SpaceVertically8dp()
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        ButtonFollow(onFollow = onClickFollow)
+                    Row {
+                        if (state.isUserVisitor) ReduceButton(
+                            onClick = onClickAddFriend,
+                            isSelected = state.isRequestSent,
+                            idTitleResource = if (state.isRequestSent) R.string.requested else R.string.add_friend,
+                            idIconResource = R.drawable.add_person,
+                        ) else
+                            ReduceButton(
+                                onClick = onClickEditeProfile,
+                                idTitleResource = R.string.edit_profile,
+                                idIconResource = R.drawable.edite_profile,
+                            )
                         SpaceHorizontally8dp()
-                        ButtonMessage(onMessage = onClickMessage)
+                        if (state.isUserVisitor) CircleButton(
+                            onClick = onClickMessage,
+                            idIconResource = R.drawable.massage,
+                            idTitleResource = R.string.send_message
+                        ) else CircleButton(
+                            onClick = onClickLogout,
+                            idIconResource = R.drawable.logout,
+                            idTitleResource = R.string.logout
+                        )
+                    }
+
+                    SpaceVertically24dp()
+                }
+
+                Column(modifier = Modifier.height(screenHeight)) {
+                    TabContentProfile(
+                        state = state.profileContentTab,
+                        activeTabState = profileContentPagerState.currentPage,
+                    ) {
+                        coroutineScope.launch {
+                            profileContentPagerState.animateScrollToPage(it)
+                        }
+                    }
+                    HorizontalPager(
+                        modifier = Modifier,
+                        count = 2,
+                        state = profileContentPagerState,
+                    ) { page ->
+                        when (page) {
+                            0 -> {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(3),
+                                    contentPadding = PaddingValues(spacingMedium),
+                                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
+                                    horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+                                ) {
+
+                                    items(items = state.profilePosts) { ProfilePostUiState ->
+                                        ProfilePostItem(
+                                            post = ProfilePostUiState,
+                                            onClickPost = onClickPost
+                                        )
+                                    }
+
+                                }
+                            }
+
+                            1 -> {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(3),
+                                    contentPadding = PaddingValues(spacingMedium),
+                                    verticalArrangement = Arrangement.spacedBy(spacingSmall),
+                                    horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+                                ) {
+
+                                    items(items = state.profilePosts) { ProfilePostUiState ->
+                                        ProfilePostItem(
+                                            post = ProfilePostUiState,
+                                            onClickPost = onClickPost
+                                        )
+                                    }
+
+                                }
+                            }
+                        }
+
                     }
 
                 }
-                Divider()
             }
         }
 
-        items(items = state.profilePosts) { ProfilePostUiState ->
-            ProfilePostItem(
-                post = ProfilePostUiState,
-                onClickPost = onClickPost
-            )
-        }
     }
 
 }

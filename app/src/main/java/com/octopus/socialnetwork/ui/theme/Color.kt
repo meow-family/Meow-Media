@@ -25,7 +25,7 @@ val lightOnSecondaryColor = Color(0xFF797979)
 val lightSecondaryVariantColor = Color(0xB3D9D9D9)
 
 val lightBackgroundColor = Color(0xFFFFFFFF)
-val lightDividerColor = Color(0xFFF4F4F4)
+val lightDividerColor = Color(0xFFBCBCBC)
 
 val lightTextPrimaryColor = lightPrimaryColor
 val lightTextSecondaryColor = Black

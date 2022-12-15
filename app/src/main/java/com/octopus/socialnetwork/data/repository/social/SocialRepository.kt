@@ -15,7 +15,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.CheckUserFriendDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -27,16 +27,15 @@ interface SocialRepository {
 
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
 
-    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): CheckUserFriendDto
+    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
 
-    suspend fun editUser(
-        currentUserId: Int, firstName: String, lastName: String,
-        email: String, currentPassword: String, newPassword: String
-    ): UserDto
+    suspend fun editUser(currentUserId: Int, firstName: String, lastName: String,
+        email: String, currentPassword: String, newPassword: String): UserDto
 
-    suspend fun friendRequest(currentUserId: Int, otherUserId: Int): UserDto
+    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
 
     //endregion
 
@@ -47,8 +46,7 @@ interface SocialRepository {
 
     suspend fun viewNewsFeed(currentUserId: Int): List<PostDto>
 
-    suspend fun createPost(
-        currentUserId: Int, posterOwnerId: Int, post: String, type: String
+    suspend fun createPost(currentUserId: Int, posterOwnerId: Int, post: String, type: String
     ): PostDto
 
     suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto
@@ -68,11 +66,9 @@ interface SocialRepository {
     //endregion
 
     //region notifications
-    suspend fun getUserNotifications(
-        currentUserId: Int, types: String, offset: Int
-    ): UserNotificationsDTO
+    suspend fun getUserNotifications(currentUserId: Int): UserNotificationsDTO
 
-    suspend fun getUserNotificationsCount(currentUserId: Int): UserNotificationsCountDto
+    suspend fun getUserNotificationsCount(currentUserId: Int, ): UserNotificationsCountDto
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
     //endregion
@@ -80,23 +76,26 @@ interface SocialRepository {
     //region comment
     suspend fun getComments(currentUserId: Int, postId: Int, type: String): List<CommentDetails>
 
-    suspend fun editComment(commentId: Int, comment: String): CommentEditionDto
+    suspend fun editComment(commentId: Int, comment: String, ): CommentEditionDto
 
-    suspend fun deleteComment(commentId: Int, userId: Int): Boolean
+    suspend fun deleteComment(commentId: Int, userId: Int, ): Boolean
 
-    suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails
+    suspend fun addComment(postId : Int, comment: String, userId: Int): CommentDetails
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto
+    suspend fun getPhoto(
+        photoId: Int,
+        userId: Int,
+    ): PhotoDto
 
-    suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<Photo>>
+    suspend fun getPhotosListProfileCover(userId: Int, type: String, ): BaseResponse<List<Photo>>
 
-    suspend fun getPhotoViewProfile(photoId: Int, userId: Int): BaseResponse<UserProfileDto>
+    suspend fun getPhotoViewProfile(photoId: Int, userId: Int, ) : BaseResponse<UserProfileDto>
 
-    suspend fun deletePhotoProfile(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
+    suspend fun deletePhotoProfile(photoId: Int, userId: Int, ) : BaseResponse<ProfilePhotoDeletion>
 
-    suspend fun deleteProfileCover(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
+    suspend fun deleteProfileCover(photoId: Int, userId: Int, ) : BaseResponse<ProfilePhotoDeletion>
 
 //endregion
 
