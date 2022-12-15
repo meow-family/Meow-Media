@@ -18,7 +18,7 @@ data class CommentDetails(
     @SerializedName("subject_guid")
     val subjectId: Int?,
     @SerializedName("time_created")
-    val timeCreated: Int?,
+    val timeCreated: Long?,
     @SerializedName("total_likes")
     val totalLikes: Int?,
     @SerializedName("type")
