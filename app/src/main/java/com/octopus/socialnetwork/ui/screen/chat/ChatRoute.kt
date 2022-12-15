@@ -27,7 +27,7 @@ fun NavGraphBuilder.chatRoute(navController: NavController) {
             navArgument(ChatScreenArgs.USER_ID) { NavType.IntType },
         )
 
-    ) { PostScreen(navController) }
+    ) { ChatScreen(navController) }
 }
 
 class ChatScreenArgs(savedStateHandle: SavedStateHandle) {

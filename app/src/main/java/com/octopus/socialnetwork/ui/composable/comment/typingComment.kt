@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun TypingComment(
+fun TypingField(
     modifier: Modifier = Modifier,
     value: String,
     onChangeTypingComment: (String) -> Unit,

@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.comment.TypingComment
+import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
@@ -31,7 +31,6 @@ fun ChatScreen(
         state = state,
         onTextChange = viewModel::onTextChange,
         onClickBack = { navController.popBackStack() },
-
         )
 }
 
@@ -72,7 +71,7 @@ fun ChatScreenContent(
         }
 
 
-        TypingComment(
+        TypingField(
             modifier = Modifier.fillMaxWidth(),
             value = "Message",
             onChangeTypingComment = onTextChange,

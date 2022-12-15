@@ -47,7 +47,7 @@ fun ChatScreenTopBar(senderName: String, profileImage: String, onClickBack: () -
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                painter = rememberAsyncImagePainter(model = profileImage),
+             painter = rememberAsyncImagePainter(model = profileImage),
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)

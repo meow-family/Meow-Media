@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
-import com.octopus.socialnetwork.ui.composable.comment.TypingComment
+import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
@@ -78,7 +78,7 @@ private fun CommentsContent(
             }
         }
 
-        TypingComment(
+        TypingField(
             value = state.comment,
             onChangeTypingComment = onChangeTypingComment,
             onClickSend = onClickSend,
