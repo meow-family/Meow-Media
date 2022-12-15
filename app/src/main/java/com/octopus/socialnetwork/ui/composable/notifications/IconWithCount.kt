@@ -22,12 +22,12 @@ import com.octopus.socialnetwork.ui.util.extensions.setBadgeCountValue
 
 
 @Composable
-fun NotificationIconWithCount(
-    notificationCount: Int,
+fun IconWithCount(
+    count: Int,
     icon: ImageVector,
     onClick: () -> Unit
 ) {
-    if (notificationCount > 0) {
+    if (count > 0) {
         Box {
             Box(
                 modifier = Modifier
@@ -36,7 +36,7 @@ fun NotificationIconWithCount(
             ) {
                 Text(
                     modifier = Modifier.fillMaxSize(),
-                    text = setBadgeCountValue(notificationCount),
+                    text = setBadgeCountValue(count),
                     textAlign = TextAlign.Center,
                     color = White50,
                     fontWeight = FontWeight.Bold,

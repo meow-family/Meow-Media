@@ -20,6 +20,7 @@ import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
+import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
@@ -34,14 +35,18 @@ fun HomeScreen(
     HomeContent(
         state = state,
         onClickLike = viewModel::onClickLike,
-        onClickComment ={ postId ->
-            navController.navigateToCommentsScreen(postId,"post")},
+        onClickComment = { postId ->
+            navController.navigateToCommentsScreen(postId, "post")
+        },
         onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
         onClickNotifications = {
             navController.navigateToNotificationsScreen()
+        },
+        onClickFriendRequests = {
+            navController.navigateToFriendRequests()
         }
     )
 
@@ -55,7 +60,8 @@ private fun HomeContent(
     onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
-    onClickNotifications: () -> Unit
+    onClickNotifications: () -> Unit,
+    onClickFriendRequests: () -> Unit,
 ) {
 
 
@@ -67,10 +73,16 @@ private fun HomeContent(
 
         ) {
 
-        TopBar(notificationsCount =state.notificationsCount,
-            onClickNotifications = onClickNotifications)
+        TopBar(
+            notificationsCount = state.notificationsCount,
+            onClickNotifications = onClickNotifications,
+            firendRequestsCount = state.friendRequestsCount,
+            onClickFriendRequests = onClickFriendRequests
+        )
 
-        if (state.isLoading) { Loading() }
+        if (state.isLoading) {
+            Loading()
+        }
 
         LazyColumn(
             Modifier.fillMaxSize(),

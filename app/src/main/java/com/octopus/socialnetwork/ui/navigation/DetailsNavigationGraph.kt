@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
 import com.octopus.socialnetwork.ui.screen.comments.commentsRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.editeProfileRouteRoute
+import com.octopus.socialnetwork.ui.screen.friend_request.friendRequestsRoute
 import com.octopus.socialnetwork.ui.screen.notifications.notificationsRoute
 import com.octopus.socialnetwork.ui.screen.post.postRoute
 import com.octopus.socialnetwork.ui.screen.profile.userProfileRoute
@@ -20,6 +21,7 @@ fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
         notificationsRoute(navController)
         editeProfileRouteRoute(navController)
         userProfileRoute(navController)
+        friendRequestsRoute(navController)
     }
 }
 

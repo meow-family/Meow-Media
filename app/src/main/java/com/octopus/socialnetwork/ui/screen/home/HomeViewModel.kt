@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,7 @@ class HomeViewModel @Inject constructor(
     private val fetchNewsFeedPost: FetchNewsFeedPostUseCase,
     private val toggleLikeUseCase: LikeToggleUseCase,
     private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
+    private val fetchFriendRequestsListUseCase: FetchFriendRequestsListUseCase,
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -28,16 +31,18 @@ class HomeViewModel @Inject constructor(
 
     init {
         getPosts()
+        getFriendRequestsCount()
+        getNotificationsCount()
     }
+
+
 
     private fun getPosts() {
         viewModelScope.launch {
             try {
                 val posts = fetchNewsFeedPost().map { it.toPostUiState() }
-                val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update {
                     it.copy(
-                        notificationsCount = currentNotificationsCount,
                         posts = posts,
                         isLoading = false,
                         isError = false
@@ -92,5 +97,27 @@ class HomeViewModel @Inject constructor(
         //
     }
 
+    fun getFriendRequestsCount(){
+        viewModelScope.launch {
+            try {
+                val friendRequestsCount = fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
+                _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
+            } catch (e: Exception) {
+                _homeUiState.update { it.copy(isError = true) }
+            }
+        }
+
+
+    }
+    private fun getNotificationsCount() {
+        viewModelScope.launch {
+            try {
+                val currentNotificationsCount = fetchNotificationsCount().notifications
+                _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }
+            } catch (e:Exception) {
+                _homeUiState.update { it.copy(isError = false) }
+            }
+        }
+    }
 
 }

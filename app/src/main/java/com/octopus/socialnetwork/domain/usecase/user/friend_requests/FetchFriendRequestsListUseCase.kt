@@ -7,7 +7,7 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import javax.inject.Inject
 
 
-class GetFriendRequestsListUseCase @Inject constructor(
+class FetchFriendRequestsListUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 

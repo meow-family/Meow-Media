@@ -20,9 +20,8 @@ import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
-import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
+import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.DividerColor
-import com.octopus.socialnetwork.ui.util.extensions.setScreenDestinationOnClickNotification
 
 @Composable
 fun FriendRequestScreen(
@@ -33,11 +32,9 @@ fun FriendRequestScreen(
     val state by viewModel.state.collectAsState()
     FriendRequestContent(
         state = state,
-        onClickNotification = { notification ->
-            notification.notificationDetails.type
-                .setScreenDestinationOnClickNotification(navController, notification)
-
-        }
+        onClickAccept = viewModel::onClickAccept,
+        onClickDecline = viewModel::onClickDecline,
+        onClickRequest = navController::navigateToUserProfileScreen,
     ) { navController.popBackStack() }
 }
 
@@ -45,8 +42,10 @@ fun FriendRequestScreen(
 @Composable
 private fun FriendRequestContent(
     state: FriendRequestUiState,
-    onClickNotification: (NotificationItemsUiState) -> Unit,
-    onClickBack: () -> Unit
+    onClickAccept: (Int) -> Unit,
+    onClickDecline: (Int) -> Unit,
+    onClickRequest: (Int) -> Unit,
+    onClickBack: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -66,7 +65,12 @@ private fun FriendRequestContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.friendRequests) {
-                    FriendRequestItem(it.fullName,it.profileAvatar)
+                    FriendRequestItem(
+                        state = it,
+                        onClickAccept = onClickAccept,
+                        onClickDecline = onClickDecline,
+                        onClickRequest = onClickRequest
+                    )
                 }
             }
         }

@@ -6,5 +6,6 @@ data class HomeUiState(
     val posts: List<PostUiState> = emptyList(),
     val isLoading: Boolean = true,
     val isError: Boolean = false,
-    val notificationsCount: Int = 0
+    val notificationsCount: Int = 0,
+    val friendRequestsCount: Int = 0,
 )

@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.domain.mapper.user.toUserDetails
 import com.octopus.socialnetwork.domain.model.user.UserDetails
 
 fun FriendRequestsListDTO.toFriendRequestsList(): List<UserDetails> {
-    return this.requests.map {
+    return this.requests?.map {
         it.toUserDetails()
-    }
+    }?: emptyList()
 }

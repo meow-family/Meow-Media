@@ -12,34 +12,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
+import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.Black
 
 
 @Composable
 fun FriendRequestItem(
-    name: String,
-    image: String
+    state: UserDetailsUiState,
+    onClickAccept: (Int) -> Unit,
+    onClickDecline: (Int) -> Unit,
+    onClickRequest: (Int) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .clickable { },
+            .clickable { onClickRequest(state.userId) },
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = image),
+            painter = rememberAsyncImagePainter(model = state.profileAvatar),
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)
@@ -47,11 +49,13 @@ fun FriendRequestItem(
             contentScale = ContentScale.Crop,
         )
         Text(
-            modifier = Modifier.padding(start = 20.dp),
-            text = name,
+            modifier = Modifier.padding(start = 16.dp).width(80.dp),
+            text = state.fullName,
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = Black,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
         Row(
             modifier = Modifier
@@ -61,7 +65,9 @@ fun FriendRequestItem(
 
             FriendRequestButton(
                 text = "Decline",
-                onClick = {},
+                onClick = {
+                    onClickDecline(state.userId)
+                },
                 borderStroke = BorderStroke(0.5.dp, color = MaterialTheme.colors.primary),
                 backgroundColor = MaterialTheme.colors.background,
                 textColor = MaterialTheme.colors.primary
@@ -69,7 +75,7 @@ fun FriendRequestItem(
             SpaceHorizontally8dp()
             FriendRequestButton(
                 text = "Accept",
-                onClick = {},
+                onClick = { onClickAccept(state.userId) },
                 borderStroke = BorderStroke(0.dp, color = MaterialTheme.colors.primary),
                 backgroundColor = MaterialTheme.colors.primary,
                 textColor = MaterialTheme.colors.onPrimary

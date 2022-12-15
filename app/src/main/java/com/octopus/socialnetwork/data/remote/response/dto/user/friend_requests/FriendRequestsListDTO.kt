@@ -6,9 +6,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 
 data class FriendRequestsListDTO(
     @SerializedName("count")
-    val count: Int,
+    val count: Int?,
     @SerializedName("offset")
-    val offset: Int,
+    val offset: Int?,
     @SerializedName("requests")
-    val requests: List<UserDto>
+    val requests: List<UserDto>?
 )
