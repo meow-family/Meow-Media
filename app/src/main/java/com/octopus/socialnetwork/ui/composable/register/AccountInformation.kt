@@ -19,7 +19,7 @@ import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 
 @Composable
-fun FirstStepRegistration(
+fun AccountInformation(
     userInfoForm: UserInfoFormUiState,
     showError: Boolean,
     onChangeUserName: (String) -> Unit,

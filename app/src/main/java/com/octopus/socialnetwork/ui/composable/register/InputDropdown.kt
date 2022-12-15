@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Composable
 @ExperimentalMaterialApi
-fun DropdownMenuApp(
+fun InputDropdown(
     state: TextFieldUiState,
     options: List<String>,
     expanded: Boolean,
@@ -30,8 +30,7 @@ fun DropdownMenuApp(
     onDismissRequest: () -> Unit,
     onValueChange: (String) -> Unit,
     onExpandedChange: (Boolean) -> Unit,
-
-    ) {
+) {
     Column() {
         ExposedDropdownMenuBox(
             expanded = expanded, onExpandedChange = onExpandedChange

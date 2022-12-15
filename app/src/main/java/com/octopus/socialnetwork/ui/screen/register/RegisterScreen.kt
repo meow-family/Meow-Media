@@ -36,8 +36,8 @@ import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
-import com.octopus.socialnetwork.ui.composable.register.FirstStepRegistration
-import com.octopus.socialnetwork.ui.composable.register.SecondStepRegistration
+import com.octopus.socialnetwork.ui.composable.register.AccountInformation
+import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
@@ -142,7 +142,7 @@ private fun RegisterContent(
         ) { page ->
             when (page) {
                 0 -> {
-                    FirstStepRegistration(
+                    AccountInformation(
                         state.userInfoForm,
                         showError = state.displayErrorsFirstStepRegistration,
                         onChangeUserName = onChangeUserName,
@@ -153,7 +153,7 @@ private fun RegisterContent(
                 }
 
                 1 -> {
-                    SecondStepRegistration(
+                    PersonalInformation(
                         state.userInfoForm,
                         showError = state.displayErrorsSecondStepRegistration,
                         onChangeFirstName = onChangeFirstName,

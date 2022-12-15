@@ -26,7 +26,7 @@ import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 @Composable
 @ExperimentalMaterialApi
-fun SecondStepRegistration(
+fun PersonalInformation(
     userInfoForm: UserInfoFormUiState,
     showError: Boolean,
     onChangeFirstName: (String) -> Unit,
@@ -63,7 +63,7 @@ fun SecondStepRegistration(
             showError = showError
         )
         SpacerVertical16()
-        DropdownMenuApp(
+        InputDropdown(
             expanded = expandedDropdownMenu,
             onValueChange = onChangeGender,
             options = gender,
