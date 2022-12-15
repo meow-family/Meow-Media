@@ -89,7 +89,6 @@ interface SocialRepository {
 
     // search
     suspend fun search(
-        endPointWantToSearchIn: String,
         currentUserId: Int,
         typeOfSearch: String,
         query: String

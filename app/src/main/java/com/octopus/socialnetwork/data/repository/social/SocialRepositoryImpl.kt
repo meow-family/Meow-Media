@@ -14,10 +14,12 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
+import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import javax.inject.Inject
 
@@ -205,13 +207,11 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun search(
-        endPointWantToSearchIn: String,
         currentUserId: Int,
         typeOfSearch: String,
         query: String
     ): SearchDto {
         return socialService.search(
-            endPointWantToSearchIn,
             currentUserId,
             typeOfSearch,
             query

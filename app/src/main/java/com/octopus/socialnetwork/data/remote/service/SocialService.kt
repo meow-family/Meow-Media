@@ -246,12 +246,11 @@ interface SocialService {
     ): BaseResponse<ProfilePhotoDeletion>
 
     // search
-    @GET("{custom_end_point}")
+    @GET("custom_end_point")
     suspend fun search(
-        @Path("custom_end_point") endPointWantToSearchIn: String,
         @Query("guid") currentUserId: Int,
         @Query("type") typeOfSearch: String,
-        @Query("Keyword") query: String,
+        @Query("keyword") query: String,
     ): BaseResponse<SearchDto>
 //endregion
 

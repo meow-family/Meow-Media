@@ -8,13 +8,12 @@ import javax.inject.Inject
 class SearchUseCase @Inject constructor(
     private val SocialRepository: SocialRepository,
 ) {
-    suspend fun search(
-        endPointWantToSearchIn: String,
+    suspend operator fun invoke(
         currentUserId: Int,
         typeOfSearch: String,
         query: String
     ): Search {
-        return SocialRepository.search(endPointWantToSearchIn, currentUserId, typeOfSearch, query)
+        return SocialRepository.search(currentUserId, typeOfSearch, query)
             .toSearch()
     }
 }

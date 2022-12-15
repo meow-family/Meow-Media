@@ -27,10 +27,10 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getNotifications() {
-        viewModelScope.launch {
-            try {
+//        viewModelScope.launch {
+//            try {
 //                val searchItem =
-//                    searchUseCase().map { it.toNotificationsUiState() }
+//                    searchUseCase.invoke() { it.toNotificationsUiState() }
 //
 //                _state.update {
 //                    it.copy(
@@ -39,16 +39,16 @@ class SearchViewModel @Inject constructor(
 //                        isError = false,
 //                    )
 //                }
-
-            } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = true
-                    )
-                }
-            }
-        }
+//
+//            } catch (e: Exception) {
+//                _state.update {
+//                    it.copy(
+//                        isLoading = false,
+//                        isError = true
+//                    )
+//                }
+//            }
+//        }
 
     }
 
