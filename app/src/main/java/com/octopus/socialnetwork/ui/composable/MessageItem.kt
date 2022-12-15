@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
@@ -18,7 +19,9 @@ import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
+    onClickMessage: (Int) -> Unit,
     avatar: String,
+    id: Int,
     nameOfSender: String,
     lastMessage: String,
     seen: String,
@@ -27,7 +30,7 @@ fun MessageItem(
     Column(Modifier.fillMaxWidth()) {
         Row(
             Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().clickable { onClickMessage(id) }
                 .wrapContentHeight()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.Center
