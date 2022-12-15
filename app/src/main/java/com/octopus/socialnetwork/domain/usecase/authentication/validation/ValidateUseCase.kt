@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.authentication.validation_use_case
+package com.octopus.socialnetwork.domain.usecase.authentication.validation
 
 import android.util.Log
 import javax.inject.Inject
