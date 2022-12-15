@@ -21,6 +21,7 @@ import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically24dp
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
@@ -40,7 +41,7 @@ fun ProfileScreen(
         onClickAddFriend = viewModel::onClickAddFriend,
         onClickMessage = viewModel::onClickMessage,
         onClickLogout = viewModel::onClickLogout,
-        onClickEditeProfile = viewModel::onClickEditeProfile,
+        onClickEditeProfile = navController::navigateToEditeProfileRoute,
         onClickBack = { navController.popBackStack() },
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
