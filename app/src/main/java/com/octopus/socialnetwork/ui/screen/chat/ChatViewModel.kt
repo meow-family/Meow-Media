@@ -27,20 +27,23 @@ class ChatViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
+
+    private val otherUserId = args.userId.toInt()
+
     init {
-        getMessagesWithUser(args.userId.toInt())
+        getMessagesWithUser()
     }
 
     fun onTextChange(newValue: String) {
         _state.update { it.copy(message = newValue) }
     }
 
-    private fun getMessagesWithUser(otherUserId: Int) {
+    private fun getMessagesWithUser() {
         try {
             viewModelScope.launch {
                 val messages = getMessageListUseCase(otherUserId).map { it.toMessageUiState() }
 
-                messages.find{ it.senderId.equals(otherUserId) }?.let {
+                messages.find{ it.senderId == otherUserId }?.let {
                     _state.update { it.copy(senderName = it.senderName, avatar = it.avatar) }
                 }
 

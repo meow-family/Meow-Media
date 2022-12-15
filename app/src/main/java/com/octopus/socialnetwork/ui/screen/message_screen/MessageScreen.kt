@@ -19,6 +19,8 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.MessageItem
 import com.octopus.socialnetwork.ui.composable.SearchViewItem
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.utils.asHour
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
@@ -29,11 +31,18 @@ fun MessageScreen(
     viewModel: MessagesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    MessageViewContent(state = state)
+    MessageViewContent(
+        state = state,
+        onClickMessage = {navController.navigateToChat(it)},
+    
+    )
 }
 
 @Composable
-fun MessageViewContent(state: MessageMainUiState) {
+fun MessageViewContent(
+    state: MessageMainUiState,
+    onClickMessage: (Int) -> Unit
+) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
@@ -67,11 +76,13 @@ fun MessageViewContent(state: MessageMainUiState) {
                 items = state.messages
             ) {
                 MessageItem(
+                    onClickMessage = onClickMessage,
                     nameOfSender = it.senderName,
                     lastMessage = it.message,
                     seen = it.viewed,
                     time = it.lastSendTime.asHour(),
-                    avatar = it.avatar
+                    avatar = it.avatar,
+                    id = it.senderId
                 )
 
             }
