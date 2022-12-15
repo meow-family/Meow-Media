@@ -30,14 +30,16 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getPosts()
-        getFriendRequestsCount()
-        getNotificationsCount()
+        viewModelScope.launch {
+            getPosts()
+            getFriendRequestsCount()
+            getNotificationsCount()
+        }
     }
 
 
 
-    private fun getPosts() {
+    private suspend fun getPosts() {
         viewModelScope.launch {
             try {
                 val posts = fetchNewsFeedPost().map { it.toPostUiState() }
@@ -97,20 +99,18 @@ class HomeViewModel @Inject constructor(
         //
     }
 
-    private fun getFriendRequestsCount(){
-        viewModelScope.launch {
+    private suspend fun getFriendRequestsCount(){
             try {
                 val friendRequestsCount = fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
                 _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
             } catch (e: Exception) {
                 _homeUiState.update { it.copy(isError = true) }
             }
-        }
+
 
 
     }
-    private fun getNotificationsCount() {
-        viewModelScope.launch {
+    private suspend fun getNotificationsCount() {
             try {
                 val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }
@@ -118,6 +118,4 @@ class HomeViewModel @Inject constructor(
                 _homeUiState.update { it.copy(isError = false) }
             }
         }
-    }
-
 }
