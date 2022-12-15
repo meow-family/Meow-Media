@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.MessageItem
 import com.octopus.socialnetwork.ui.composable.SearchViewItem
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
@@ -90,6 +92,9 @@ fun MessageViewContent(
 
         }
     }
+
+    if (state.isLoading) { Loading() }
+
 
 
 }

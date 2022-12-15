@@ -32,7 +32,7 @@ private val LightColorPalette = lightColors(
     secondaryVariant = lightSecondaryVariantColor,
 
     background = lightBackgroundColor,
-    onBackground = White,
+    onBackground = Black,
 
     error = errorColor,
 )
