@@ -153,4 +153,8 @@ private fun LoginContent(
         )
 
     }
+
+    if (state.isLoading) {
+        LoadingDialog()
+    }
 }
