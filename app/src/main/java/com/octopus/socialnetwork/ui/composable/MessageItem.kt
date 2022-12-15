@@ -22,7 +22,7 @@ fun MessageItem(
     nameOfSender: String,
     lastMessage: String,
     seen: String,
-    time: String
+    time: String,
 ) {
     Column(Modifier.fillMaxWidth()) {
         Row(

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.ui.screen.message_screen.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.post.PostScreenArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,14 +21,14 @@ class ChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
+    private val args: ChatScreenArgs = ChatScreenArgs(savedStateHandle)
+
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
 
-    private val otherUserId = 23
-
     init {
-        getMessagesWithUser(otherUserId)
+        getMessagesWithUser(args.userId.toInt())
     }
 
     fun onTextChange(newValue: String) {
