@@ -90,12 +90,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
         viewModelScope.launch {
-            val isRequestSent =
-                checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
+            val isRequestSent = checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
             _state.update {
-                it.copy(
-                    isRequestExists = isRequestSent
-                )
+                it.copy(isRequestExists = isRequestSent)
             }
         }
     }
@@ -103,7 +100,7 @@ class ProfileViewModel @Inject constructor(
     fun onClickAddFriend() {
         viewModelScope.launch {
             if (!_state.value.isRequestExists) {
-                val result = addFriendUseCase( 16)
+                val result = addFriendUseCase(16)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,

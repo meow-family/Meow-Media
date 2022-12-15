@@ -97,7 +97,7 @@ class HomeViewModel @Inject constructor(
         //
     }
 
-    fun getFriendRequestsCount(){
+    private fun getFriendRequestsCount(){
         viewModelScope.launch {
             try {
                 val friendRequestsCount = fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
