@@ -8,8 +8,6 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 data class SearchDto(
     @SerializedName("users")
     val users: List<UserDto>,
-    @SerializedName("posts")
-    val posts: List<PostDto>,
     @SerializedName("groups")
     val groups: List<GroupDto>,
 )

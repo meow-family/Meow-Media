@@ -9,21 +9,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 
 @Composable
-fun SearchField(state: MutableState<TextFieldValue>) {
+fun SearchField(state: SearchUiState) {
 
     TextField(
-        value = state.value,
+        value = state.query,
         onValueChange = { value ->
-            state.value = value
+            state.query = value
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -40,12 +40,9 @@ fun SearchField(state: MutableState<TextFieldValue>) {
             )
         },
         trailingIcon = {
-            if (state.value != TextFieldValue("")) {
+            if (state.query != TextFieldValue("")) {
                 IconButton(
-                    onClick = {
-                        state.value =
-                            TextFieldValue("")
-                    }
+                    onClick = { state.query = TextFieldValue("") }
                 ) {
                     Icon(
                         Icons.Default.Close,
@@ -70,6 +67,5 @@ fun SearchField(state: MutableState<TextFieldValue>) {
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
         )
-
     )
 }
