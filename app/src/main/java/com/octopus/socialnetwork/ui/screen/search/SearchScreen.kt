@@ -31,7 +31,7 @@ fun SearchScreen(
     val state by viewModel.state.collectAsState()
     SearchContent(
         state = state,
-        onChangeTypingSearch = viewModel::search,
+        onChangeTypingSearch = viewModel::onChangeQuery,
     )
 }
 

@@ -28,17 +28,17 @@ class SearchViewModel @Inject constructor(
                     searchUiState.copy(
                         users = search.users.map { it.toUserDetailsUiState() },
                         isLoading = false,
-                        isError = false
+                        isError = false,
                     )
                 }
             } catch (e: Exception) {
-                _searchUiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = true
-                    )
-                }
+                _searchUiState.update { it.copy(isLoading = false, isError = true) }
             }
         }
+    }
+
+    fun onChangeQuery(newValue: String) {
+        _searchUiState.update { it.copy(query = newValue) }
+        search(query = newValue)
     }
 }
