@@ -5,8 +5,12 @@
         <item name="android:statusBarColor">@color/black</item>
     </style>
 
-    <style name="DatePickerDialogTheme" parent="android:Theme.DeviceDefault.Dialog" >
+    <style name="DatePickerDialogTheme" parent="android:Theme.DeviceDefault.Dialog">
         <item name="android:colorAccent">@color/primaryColor</item>
+    </style>
+
+    <style name="splashTheme" parent="Theme.SocialNetwork">
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
 </resources>
