@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 
 data class SearchUiState(
     val users: List<UserDetailsUiState> = emptyList(),
-    val query: String = "",
+    var query: String = "",
     val isLoading: Boolean = true,
     val isError: Boolean = false,
 )

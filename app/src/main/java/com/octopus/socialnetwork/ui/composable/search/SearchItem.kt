@@ -2,14 +2,7 @@ package com.octopus.socialnetwork.ui.composable.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -20,17 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.Gray700
 import com.octopus.socialnetwork.ui.theme.dividerColor
 
 @Composable
 fun SearchItem(
+    state: UserDetailsUiState,
 ) {
     Column {
         Row(
@@ -43,7 +38,7 @@ fun SearchItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.iron_man),
+                painter = rememberAsyncImagePainter(model = state.profileAvatar),
                 contentDescription = stringResource(R.string.profile_image),
                 modifier = Modifier
                     .clip(CircleShape)
@@ -56,14 +51,14 @@ fun SearchItem(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Iron Man",
+                    text = state.fullName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                 )
 
                 Text(
-                    text = "@stark",
+                    text = state.username,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
                     color = Gray700,
@@ -86,5 +81,4 @@ fun SearchItem(
         }
         Divider(color = MaterialTheme.colors.dividerColor, thickness = 1.dp)
     }
-
 }

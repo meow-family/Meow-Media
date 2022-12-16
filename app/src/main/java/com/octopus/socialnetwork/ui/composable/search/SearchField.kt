@@ -40,9 +40,9 @@ fun SearchField(state: SearchUiState) {
             )
         },
         trailingIcon = {
-            if (state.query != TextFieldValue("")) {
+            if (state.query.isNotEmpty()) {
                 IconButton(
-                    onClick = { state.query = TextFieldValue("") }
+                    onClick = { state.query = TextFieldValue("").toString() },
                 ) {
                     Icon(
                         Icons.Default.Close,

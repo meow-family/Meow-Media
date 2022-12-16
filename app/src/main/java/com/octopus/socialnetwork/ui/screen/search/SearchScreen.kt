@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -48,8 +49,10 @@ private fun SearchContent(
 
         SearchField(state = state)
         LazyColumn {
-            item {
-                SearchItem()
+            items(state.users) { searchItem ->
+                SearchItem(
+                    searchItem
+                )
             }
         }
     }
