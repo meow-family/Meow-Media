@@ -77,6 +77,7 @@ private fun OnBoardingContent(
         Spacer(modifier = Modifier.weight(1f))
 
         CustomButton(
+            modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(R.string.create_account),
             onClick = onClickCreateAccount
         )

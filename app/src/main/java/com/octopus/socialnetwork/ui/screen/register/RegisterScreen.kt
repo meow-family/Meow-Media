@@ -106,11 +106,9 @@ private fun RegisterContent(
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colors.background)
             .padding(spacingMedium)
-            .fillMaxSize()
-            .padding(top = spacingMedium, start = spacingMedium, end = spacingMedium)
-
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
     ) {
