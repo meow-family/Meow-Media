@@ -30,13 +30,15 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsState()
     SearchContent(
-        state,
+        state = state,
+        onChangeTypingSearch = viewModel::search,
     )
 }
 
 @Composable
 private fun SearchContent(
     state: SearchUiState,
+    onChangeTypingSearch: (String) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -47,7 +49,7 @@ private fun SearchContent(
         AppBar(title = stringResource(R.string.search), showBackButton = false)
         Divider(color = MaterialTheme.colors.dividerColor, thickness = 1.dp)
 
-        SearchField(state = state)
+        SearchField(state = state, onChangeTypingSearch = onChangeTypingSearch)
         LazyColumn {
             items(state.users) { searchItem ->
                 SearchItem(
