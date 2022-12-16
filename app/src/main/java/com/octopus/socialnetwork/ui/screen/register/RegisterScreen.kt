@@ -35,9 +35,9 @@ import com.octopus.socialnetwork.ui.composable.CustomSnackBar
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.composable.register.AccountInformationPage
 import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
-import com.octopus.socialnetwork.ui.composable.register.AccountInformation
-import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
+import com.octopus.socialnetwork.ui.composable.register.PersonalInformationPage
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
@@ -45,6 +45,7 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -64,7 +65,7 @@ fun RegisterScreen(
         state = state, pagerState = pagerState,
         onClickRegister = viewModel::register,
         coroutineScope = coroutineScope,
-        showError = viewModel::showError,
+        showErrorValidationInput = viewModel::showErrorValidationInput,
         onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
         onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
@@ -90,7 +91,7 @@ private fun RegisterContent(
     onClickRegister: () -> Unit,
     onClickLogin: () -> Unit,
     coroutineScope: CoroutineScope,
-    showError: (Int) -> Unit,
+    showErrorValidationInput: (InputInformation) -> Unit,
     onSuccessCreateAccount: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
@@ -142,7 +143,7 @@ private fun RegisterContent(
         ) { page ->
             when (page) {
                 0 -> {
-                    AccountInformation(
+                    AccountInformationPage(
                         state.userInfoForm,
                         showError = state.displayErrorsFirstStepRegistration,
                         onChangeUserName = onChangeUserName,
@@ -153,7 +154,7 @@ private fun RegisterContent(
                 }
 
                 1 -> {
-                    PersonalInformation(
+                    PersonalInformationPage(
                         state.userInfoForm,
                         showError = state.displayErrorsSecondStepRegistration,
                         onChangeFirstName = onChangeFirstName,
@@ -169,7 +170,6 @@ private fun RegisterContent(
 
         SpacerVertical32()
 
-
         CustomButton(
             text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
         ) {
@@ -181,14 +181,15 @@ private fun RegisterContent(
                         pagerState.animateScrollToPage(2)
                     }
                 } else {
-                    showError(1)
+                    showErrorValidationInput(InputInformation.Account)
                 }
 
             } else {
+
                 if (userInput.firstName.isValid && userInput.lastName.isValid && userInput.gender.isValid && userInput.birthDate.isValid) {
                     onClickRegister()
                 } else {
-                    showError(2)
+                    showErrorValidationInput(InputInformation.Personal)
                 }
 
             }
