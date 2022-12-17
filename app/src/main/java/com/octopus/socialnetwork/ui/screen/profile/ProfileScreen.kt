@@ -101,7 +101,6 @@ private fun ProfileContent(
                             idTitleResource = R.string.logout
                         )
                     }
-
                     SpaceVertically24dp()
                 }
 

@@ -12,6 +12,7 @@ data class UserInfoFormUiState(
     var lastName: TextFieldUiState = TextFieldUiState(),
     var gender: TextFieldUiState = TextFieldUiState(),
     var birthDate: TextFieldUiState = TextFieldUiState(),
+    var showPassword: Boolean = false,
 )
 
 data class TextFieldUiState(

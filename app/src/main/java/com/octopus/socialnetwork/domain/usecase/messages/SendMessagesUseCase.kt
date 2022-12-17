@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class SendMessagesUseCase @Inject constructor(
     private val socialRepository: MessagingRepository,
-    private val fetchUserIdUseCase: FetchUserIdUseCase
+    private val fetchUserId: FetchUserIdUseCase
 ) {
-    suspend operator fun invoke(from: Int, to: Int, message: String): MessageDetails {
-        return socialRepository.sendMessage(from, to, message).toMessageDetails(fetchUserIdUseCase())
+    suspend operator fun invoke( to: Int, message: String): MessageDetails {
+        return socialRepository.sendMessage(fetchUserId(), to, message).toMessageDetails(fetchUserId())
     }
 }

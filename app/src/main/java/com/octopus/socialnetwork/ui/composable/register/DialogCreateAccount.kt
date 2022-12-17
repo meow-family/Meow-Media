@@ -30,7 +30,7 @@ import com.octopus.socialnetwork.ui.theme.spacingLarge
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 import com.octopus.socialnetwork.ui.theme.spacingXSmall
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 
@@ -74,7 +74,7 @@ fun DialogCreateAccount(
                         .padding(top = spacing)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.body1.copy(
-                        color = MaterialTheme.colors.textSecondaryColor
+                        color = MaterialTheme.colors.textPrimaryColor
                     ),
                 )
                 Text(

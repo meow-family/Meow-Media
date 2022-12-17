@@ -8,7 +8,7 @@ data class PostDetailsDto(
     @SerializedName("guid")
     val postId: Int?,
     @SerializedName("time_created")
-    val timeCreated: String,
+    val timeCreated: Long,
     @SerializedName("time_updated")
     val timeUpdated: String?,
     @SerializedName("owner_guid")

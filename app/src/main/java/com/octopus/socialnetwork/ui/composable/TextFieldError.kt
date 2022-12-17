@@ -15,7 +15,7 @@ fun TextFieldError(textError: String) {
         text = textError,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = spacingLarge, top = 2.dp),
+            .padding(start = spacingLarge, end = spacingLarge, top = 2.dp),
         style = MaterialTheme.typography.caption,
         color = MaterialTheme.colors.error
     )

@@ -17,10 +17,7 @@ class GetRecentMessagesListUseCase @Inject constructor(
         return changeData(userId, recentMessage!!)
     }
 
-    private fun changeData(
-        userId: Int,
-        messages: List<MessageDetails>?
-    ): List<MessageDetails> {
+    private fun changeData(userId: Int, messages: List<MessageDetails>?): List<MessageDetails> {
 
         return messages!!.filter {
             it.messageSender.userId != userId

@@ -31,10 +31,7 @@ fun InputTextField(
     action: ImeAction
 ) {
     OutlinedTextField(
-        modifier = modifier
-            .height(heightDefaultButton)
-            .fillMaxWidth()
-            .padding(horizontal = spacingMedium),
+        modifier = modifier.height(heightDefaultButton).fillMaxWidth().padding(horizontal = spacingMedium),
         shape = Shapes.large,
         value = value,
         readOnly = isReadOnly,
@@ -44,9 +41,9 @@ fun InputTextField(
         keyboardOptions = KeyboardOptions(imeAction = action),
         placeholder = {
             Text(
-                text = placeholder,
-                style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.textSecondaryColor),
-                )
+                text = placeholder, style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.textThirdColor
+            )
         },
         leadingIcon = {
             Icon(
@@ -56,13 +53,14 @@ fun InputTextField(
             )
         },
         trailingIcon = trailingIcon,
+        textStyle = MaterialTheme.typography.h6,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Red,
-            unfocusedBorderColor = Color.Gray,
-            focusedLabelColor = Color.Red,
-            cursorColor = Color.Red,
-            textColor = MaterialTheme.colors.textSecondaryColor
-            ),
-        textStyle = MaterialTheme.typography.h6
+            cursorColor = MaterialTheme.colors.primary,
+            focusedBorderColor = MaterialTheme.colors.textPrimaryColor,
+            unfocusedBorderColor =  Color.Gray,
+            focusedLabelColor = MaterialTheme.colors.primary,
+            errorBorderColor = MaterialTheme.colors.error,
+            textColor = MaterialTheme.colors.textPrimaryColor
+        ),
     )
 }

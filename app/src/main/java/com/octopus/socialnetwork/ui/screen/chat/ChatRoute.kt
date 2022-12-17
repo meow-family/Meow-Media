@@ -6,17 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.navigation.DetailsRoute
-import com.octopus.socialnetwork.ui.navigation.MainRoute
-import com.octopus.socialnetwork.ui.screen.post.PostScreen
 
 private const val ROUTE = DetailsRoute.Chat
 
-
-fun NavController.navigateToChat() {
-    navigate(ROUTE)
-}
 
 fun NavController.navigateToChat(userId: Int){
     navigate("${ROUTE}/$userId")

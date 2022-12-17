@@ -9,7 +9,7 @@ val Black86 = Color(0x4D000000)
 val Black30 = Color(0x4D000000)
 
 val Gray = Color(0xFFBCBCBC)
-val Gray50 = Color(0x80BCBCBC)
+val Gray50 = Color(0xFF5F5F5F)
 
 val White = Color(0xFFFFFFFF)
 val White80 = Color(0xCCFFFFFF)
@@ -25,26 +25,26 @@ val lightOnSecondaryColor = Color(0xFF797979)
 val lightSecondaryVariantColor = Color(0xB3D9D9D9)
 
 val lightBackgroundColor = Color(0xFFFFFFFF)
-val lightDividerColor = Color(0xFFBCBCBC)
+val lightOutLineColor = Color(0x211A22E8)
 
-val lightTextPrimaryColor = lightPrimaryColor
-val lightTextSecondaryColor = Black
+val lightTextSecondaryColor = Black65
+val lightTextPrimaryColor = Black65
 val lightTextThirdColor = Black30
 
 // Dark Mode Theme
 val darkPrimaryColor = Color(0xFFE82627)
 val darkOnPrimaryColor = Color(0xFFFFFFFF)
 val darkPrimaryVariantColor = Color(0xFFD9D9D9)
-
-val darkSecondaryColor = Color(0xFFF6F6F6)
+//Gray50
+val darkSecondaryColor = Color(0xFF2C2C2C)
 val darkOnSecondaryColor = Color(0xFF797979)
-val darkSecondaryVariantColor = Color(0xB3D9D9D9)
+val darkSecondaryVariantColor = Color(0xFF363636)
 
 val darkBackgroundColor = Color(0xFF1F1B1B)
-val darkDividerColor = Color(0xFFF4F4F4)
+val darkOutLineColor = Color(0x97363636)
 
-val darkTextPrimaryColor = darkPrimaryColor
-val darkTextSecondaryColor = White80
+val darkTextSecondaryColor = darkPrimaryColor
+val darkTextPrimaryColor = White80
 val darkTextThirdColor = White80
 
 val Red600 = Color(0xFFE82627)
@@ -60,10 +60,11 @@ val Gray500 = Color(0xFF9B9B9B)
 val Gray400 = Color(0xFFCDCDCD)
 val Gray300 = Color(0xFFD9D9D9)
 val light_outline = Color(0xFFBCBCBC)
-val light_grey = Color(0xFFF6F6F6)
+val light_grey = Color(0xFFE7E7E7)
 val Transparent = Color(0xA5000000)
-val LightBlack_65 = Color(0xA5000000)
+val LightBlack_65 = Color(0x4D202020)
 val LightBlack_86 = Color(0xDC000000)
 val DividerColor = Color(0x211A22E8)
+
 
 

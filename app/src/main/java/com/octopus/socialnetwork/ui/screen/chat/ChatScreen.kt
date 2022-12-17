@@ -16,10 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.TypingMessage
+import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBlack
+import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientWhite
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
 @SuppressLint("SuspiciousIndentation")
@@ -33,7 +38,8 @@ fun ChatScreen(
         state = state,
         onTextChange = viewModel::onTextChange,
         onClickBack = { navController.popBackStack() },
-
+        onClickSend = viewModel::onClickSend,
+        onClickImage ={ userId -> navController.navigateToUserProfileScreen(userId)}
         )
 }
 
@@ -42,8 +48,9 @@ fun ChatScreenContent(
     state: MessageMainUiState,
     onTextChange: (String) -> Unit,
     onClickBack: () -> Unit,
+    onClickSend:()-> Unit,
+    onClickImage: (Int) -> Unit ,
 ) {
-    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -53,7 +60,7 @@ fun ChatScreenContent(
 
     ) {
 
-        ChatScreenTopBar(senderName = state.senderName, profileImage = state.avatar, onClickBack = onClickBack )
+        ChatScreenTopBar(state, onClickBack = onClickBack ,onClickImage = onClickImage )
 
         LazyColumn(
             Modifier
@@ -61,27 +68,23 @@ fun ChatScreenContent(
                 .weight(.1f),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = listState
         ) {
 
-            items(state.messages) {
-                if (it.isSentByMe) {
-                    SentMessage(message = it.message)
+            items(state.messages) { messages ->
+                if (messages.isSentByMe) {
+                    SentMessage(messages )
                 } else {
-                    ReceivedMessage(message = it.message)
-
+                    ReceivedMessage(messages)
                 }
             }
         }
 
 
-        TypingField(
+        TypingMessage(
             modifier = Modifier.fillMaxWidth(),
-            value = "Message",
+            value = state,
             onChangeTypingComment = onTextChange,
-            onClickSend = {},
-            listState = listState,
-            index = state.messages.lastIndexOrZero(),
+            onClickSend = onClickSend,
         )
     }
 

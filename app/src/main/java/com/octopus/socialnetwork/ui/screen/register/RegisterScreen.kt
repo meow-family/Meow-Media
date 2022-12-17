@@ -2,11 +2,7 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -39,11 +35,11 @@ import com.octopus.socialnetwork.ui.composable.register.AccountInformationPage
 import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformationPage
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
-import com.octopus.socialnetwork.ui.screen.main.navigateToMain
+import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import kotlinx.coroutines.CoroutineScope
@@ -76,9 +72,8 @@ fun RegisterScreen(
         onChangeLastName = viewModel::onChangeLastName,
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
-        onClickLogin = {
-            navController.navigateToMain()
-        },
+        onClickLogin = { navController.navigateToLogin() },
+        onClickShowPassword = viewModel::changePasswordVisibility
     )
 }
 
@@ -102,29 +97,28 @@ private fun RegisterContent(
     onChangeLastName: (String) -> Unit,
     onChangeGender: (String) -> Unit,
     onChangeBirthday: (String) -> Unit,
+    onClickShowPassword: () -> Unit,
 ) {
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(spacingMedium)
-            .verticalScroll(rememberScrollState()),
+             .navigationBarsPadding()
+            .imePadding()
+            .verticalScroll(rememberScrollState(), reverseScrolling = true),
         verticalArrangement = Arrangement.Top,
     ) {
 
         Text(
-            stringResource(id = R.string.create_account),
-            style = MaterialTheme.typography.h4.copy(
-                color = MaterialTheme.colors.textSecondaryColor
-            )
+            text = stringResource(id = R.string.create_account),
+            style = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.textPrimaryColor),
+            modifier = Modifier.padding(top = spacingMedium, start = spacingMedium)
         )
 
         Text(
-            stringResource(id = R.string.sig_up_note),
-            style = MaterialTheme.typography.caption.copy(
-                color = MaterialTheme.colors.textThirdColor
-            )
+            text = stringResource(id = R.string.sig_up_note),
+            style = MaterialTheme.typography.caption.copy(color = MaterialTheme.colors.textThirdColor),
+            modifier = Modifier.padding(start = spacingMedium)
         )
 
         StepIndicatorRegistration(pagerState.currentPage)
@@ -134,9 +128,10 @@ private fun RegisterContent(
             painter = painterResource(R.drawable.signup),
             contentDescription = stringResource(R.string.image_register)
         )
+
         HorizontalPager(
-            count = 2,
             state = pagerState,
+            count = 2,
             userScrollEnabled = false,
         ) { page ->
             when (page) {
@@ -148,6 +143,7 @@ private fun RegisterContent(
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
+                        onClickShowPassword = onClickShowPassword,
                     )
                 }
 

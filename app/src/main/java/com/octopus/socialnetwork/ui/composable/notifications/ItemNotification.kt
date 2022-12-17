@@ -21,10 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.MultiTextStyle
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
-import com.octopus.socialnetwork.ui.theme.DividerColor
-import com.octopus.socialnetwork.ui.theme.Gray700
+import com.octopus.socialnetwork.ui.theme.*
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.setNotificationsTitle
 
@@ -36,17 +36,12 @@ fun ItemNotification(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth().height(100.dp)
+            .fillMaxWidth()
+            .height(100.dp)
             .clickable { onClickNotification(notification) }
             .background(
-                color = notification.notificationDetails.viewed.setItemNotificationBackground())
-            .drawBehind {
-                drawLine(
-                    color = DividerColor,
-                    start = Offset(0f, size.height),
-                    end = Offset(size.width, size.height),
-                    strokeWidth = 1.dp.toPx())
-            }
+                color = notification.notificationDetails.viewed.setItemNotificationBackground()
+            )
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -54,7 +49,9 @@ fun ItemNotification(
         Image(
             painter = rememberAsyncImagePainter(model = notification.posterDetails.posterAvatar),
             contentDescription = stringResource(R.string.profile_image),
-            modifier = Modifier.clip(CircleShape).size(44.dp),
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(44.dp),
             contentScale = ContentScale.Crop,
         )
         Column(modifier = Modifier.padding(start = 16.dp),
@@ -70,10 +67,11 @@ fun ItemNotification(
                 text = notification.notificationDetails.timeCreated.getHourAndMinutes(),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
-                color = Gray700,
+                color = MaterialTheme.colors.textThirdColor,
             )
         }
     }
+    Divider()
 }
 
 @Composable

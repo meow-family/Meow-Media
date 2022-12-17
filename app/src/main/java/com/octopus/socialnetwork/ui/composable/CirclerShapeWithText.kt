@@ -22,6 +22,6 @@ fun CircleShapeWithText(){
             .background(color = Color.Red),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = " ", color = Color.White, fontSize = PoppinsTypography.overline.fontSize )
+        Text(text = "3", color = Color.White, fontSize = PoppinsTypography.overline.fontSize )
     }
 }
