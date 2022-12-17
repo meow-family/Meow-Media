@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
@@ -25,14 +26,14 @@ import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 fun ItemPost(
     post: PostUiState,
     onClickPost: (Int, Int) -> Unit,
-    onLike: () -> Unit,
-    onComment: () -> Unit,
+    onLike: (Int) -> Unit,
+    onComment: (Int) -> Unit,
     onShare: () -> Unit
 ) {
 
     Box(
         modifier = Modifier
-            .height(380.dp)
+            .height(450.dp).shadow(4.dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .clickable { onClickPost(post.postId, post.ownerId) }
     ) {
@@ -55,14 +56,14 @@ fun ItemPost(
                     InteractionIcon(
                         icon = if (post.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
                         count = post.likeCount,
-                        onClick = onLike,
+                        onClick = { onLike(post.postId) },
                         tint = if (post.isLiked) Color.Red else Color.White
                     )
                 }, {
                     InteractionIcon(
                         icon = R.drawable.ic_baseline_comment_24,
                         count = post.commentCount,
-                        onClick = onComment,
+                        onClick = { onComment(post.postId) },
                         tint = Color.White
                     )
                 }, {
@@ -86,8 +87,6 @@ fun ItemPost(
 
         ) {
             SmallPostDetails(post = post)
-
-
         }
 
 
