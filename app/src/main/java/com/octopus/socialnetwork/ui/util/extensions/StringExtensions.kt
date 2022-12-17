@@ -62,3 +62,7 @@ fun String?.changeTypeToBoolean(): Boolean = this != null
 fun String.toCleanTextFromHtml(): String {
     return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
 }
+
+fun String.isEmail(): Boolean {
+    return this.contains("@")
+}

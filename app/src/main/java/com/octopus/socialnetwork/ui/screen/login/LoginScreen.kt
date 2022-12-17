@@ -44,6 +44,7 @@ import com.octopus.socialnetwork.ui.composable.ImageWithShadow
 import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
@@ -66,7 +67,8 @@ fun LoginScreen(
         onChangePassword = viewModel::onChangePassword,
         login = viewModel::login,
         signUp = { navController.navigateToRegister() },
-        onClickShowPassword = viewModel::changePasswordVisibility
+        onClickShowPassword = viewModel::changePasswordVisibility,
+        showErrorValidationInput = viewModel::showErrorValidationInput
     )
 
 }
@@ -80,7 +82,8 @@ private fun LoginContent(
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
     onClickShowPassword: () -> Unit,
-    signUp: () -> Unit
+    signUp: () -> Unit,
+    showErrorValidationInput: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -148,10 +151,18 @@ private fun LoginContent(
             }
         }
         Spacer(modifier = Modifier.weight(1f))
+        SpacerVertical32()
         CustomButton(
             modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(R.string.login),
-            onClick = login
+            onClick = {
+                val userInput = state.userInput
+                if (userInput.userNameOrEmail.isValid && userInput.password.isValid) {
+                    login()
+                } else {
+                    showErrorValidationInput()
+                }
+            }
         )
         TextWithAction(
             text = stringResource(R.string.donot_have_account),

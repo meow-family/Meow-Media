@@ -88,7 +88,7 @@
     <string name="username_not_clean">محتوى اسم المستخدم بالأحرف الكبيرة فقط أو بالأحرف الصغيرة.</string>
 
     <string name="password_empty">كلمة المرور مطلوبة يجب ألا تكون فارغة.</string>
-    <string name="password_short">كلمة المرور قصيرة جدًا - يجب ألا تقل عن 6 أحرف</string>
+    <string name="password_short">كلمة المرور قصيرة جدًا - يجب ألا تقل عن 8 أحرف</string>
     <string name="password_long">كلمة المرور طويلة جدًا - بحد أقصى خمسين حرفًا.</string>
     <string name="password_not_clean">يجب أن تكون كلمة المرور من الأحرف الكبيرة والصغيرة ورقم واحد بدون أي رمز.</string>
 

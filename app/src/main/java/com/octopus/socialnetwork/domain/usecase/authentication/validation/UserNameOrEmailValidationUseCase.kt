@@ -9,14 +9,14 @@ class UserNameOrEmailValidationUseCase @Inject constructor(
     private val userNameValidation: UserNameValidationUseCase
 
 ) {
-    operator fun invoke(usernameOrEmail: String): Pair<InputFieldValidation, Boolean> {
+    operator fun invoke(usernameOrEmail: String): InputFieldValidation {
         val isEmail = usernameOrEmail.contains("@")
-        val validation = if (isEmail) {
+        return if (isEmail) {
             emailValidation(usernameOrEmail)
         } else {
             userNameValidation(usernameOrEmail)
         }
-        return Pair(validation, isEmail)
+
     }
 
 

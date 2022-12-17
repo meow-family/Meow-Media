@@ -88,7 +88,7 @@
     <string name="username_not_clean">UserName content just uppercase letter or lowercase letter.</string>
 
     <string name="password_empty">Password is Required should not empty.</string>
-    <string name="password_short">Password is too short - must be at least 6 characters</string>
+    <string name="password_short">Password is too short - must be at least 8 characters</string>
     <string name="password_long">Password is too Long - maximum fifty characters.</string>
     <string name="password_not_clean">Password should be uppercase letter and lowercase and one digit without any symbol.</string>
 

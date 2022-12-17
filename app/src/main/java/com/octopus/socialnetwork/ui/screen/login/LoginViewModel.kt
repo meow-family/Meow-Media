@@ -6,6 +6,13 @@ import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameOrEmailValidationUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
+import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
+import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.util.extensions.isEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,12 +32,38 @@ class LoginViewModel @Inject constructor(
 
 
     fun onChangeUsernameOrEmail(newUsernameOrEmail: String) {
+        val usernameOrEmailState = userNameOrEmailValidation(newUsernameOrEmail)
+        if (newUsernameOrEmail.isEmail()) {
+            val emailState = usernameOrEmailState.toEmailUiState()
+            if (emailState == EmailState.VALID) {
+                usernameOrEmailState(newUsernameOrEmail, true)
+            } else {
+                usernameOrEmailState(newUsernameOrEmail, false, emailState.message)
+            }
+        } else {
+            val usernameState = usernameOrEmailState.toUserNameUiState()
+            if (usernameState == UserNameState.VALID) {
+                usernameOrEmailState(newUsernameOrEmail, true)
+            } else {
+                usernameOrEmailState(newUsernameOrEmail, false, usernameState.message)
+            }
+        }
+
+    }
+
+    private fun usernameOrEmailState(
+        usernameOrEmail: String,
+        isValidInputs: Boolean,
+        error: Int? = null
+    ) {
         _state.update {
             it.copy(
-
+                isValidInputs = isValidInputs,
                 userInput = it.userInput.copy(
                     userNameOrEmail = it.userInput.userNameOrEmail.copy(
-                        text = newUsernameOrEmail
+                        text = usernameOrEmail,
+                        error = error,
+                        isValid = isValidInputs
                     )
                 )
             )
@@ -38,11 +71,21 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onChangePassword(newPassword: String) {
+        val passwordValidation = passwordValidation(newPassword).toPasswordUiState()
+        if (passwordValidation == PasswordState.VALID) {
+            passwordState(newPassword, true)
+        } else {
+            passwordState(password = newPassword, false, passwordValidation.message)
+        }
+    }
+
+    private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
+                isValidInputs = isValidInputs,
                 userInput = it.userInput.copy(
                     password = it.userInput.password.copy(
-                        text = newPassword
+                        text = password, error = error, isValid = isValidInputs
                     )
                 )
             )
@@ -71,6 +114,11 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun showErrorValidationInput() {
+        _state.update { it.copy(isDisplayErrorValidationInputs = true) }
+
     }
 
     fun changePasswordVisibility() {
