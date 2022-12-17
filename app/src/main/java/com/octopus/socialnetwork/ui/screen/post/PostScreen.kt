@@ -27,14 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -132,7 +131,7 @@ private fun PostContent(
                 .backgroundTextShadow()
         ) {
             LargPostDetails(
-                profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),
+                profileImage = customImageLoad(state.postDetails.profileAvatar),
                 userName = state.postDetails.userName,
                 fullName = state.postDetails.fullName,
                 postDescription = state.postDetails.postDescription,

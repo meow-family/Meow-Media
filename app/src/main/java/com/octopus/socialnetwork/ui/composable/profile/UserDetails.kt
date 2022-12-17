@@ -11,12 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.SpaceHorizontally16dp
-import com.octopus.socialnetwork.ui.composable.SpaceHorizontally4dp
-import com.octopus.socialnetwork.ui.composable.SpaceVertically10dp
-import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
@@ -31,8 +27,8 @@ fun UserDetails(
     )
     {
         ProfileInformation(
-            backImageProfile = rememberAsyncImagePainter(model = state.profileCover),
-            profileImage = rememberAsyncImagePainter(model = state.profileAvatar),
+            backImageProfile = customImageLoad(state.profileCover),
+            profileImage = customImageLoad(state.profileAvatar),
         )
 
         Column(
