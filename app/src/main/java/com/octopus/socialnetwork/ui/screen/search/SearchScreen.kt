@@ -22,7 +22,6 @@ import com.octopus.socialnetwork.ui.composable.search.SearchField
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
-import com.octopus.socialnetwork.ui.theme.dividerColor
 
 @Composable
 fun SearchScreen(
