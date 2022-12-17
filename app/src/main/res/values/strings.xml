@@ -107,4 +107,5 @@
     <string name="logout">Logout</string>
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
+    <string name="your_message">your message...</string>
 </resources>

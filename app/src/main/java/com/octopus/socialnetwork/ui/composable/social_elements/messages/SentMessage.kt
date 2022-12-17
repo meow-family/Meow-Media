@@ -12,25 +12,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageUiState
 
 @Composable
 fun SentMessage(
-    message: String,
-
+  state: MessageUiState,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.End
     ) {
         Card(
-            modifier = Modifier.background(Color.Transparent),
+            modifier = Modifier.background(Color.Transparent) ,
             shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 0.dp, bottomLeft = 16.dp),
             backgroundColor = MaterialTheme.colors.primary,
         ) {
-            Text(text = message, fontSize = 16.sp, modifier = Modifier.padding(16.dp), color = Color.White)
+            Text(text = state.message, fontSize = 14.sp, modifier = Modifier.padding(12.dp), color = Color.White)
+
+
         }
+       Text(text = state.lastSendTime, fontSize = 12.sp,   textAlign = TextAlign.End,
+                modifier = Modifier.padding(4.dp), color = Color.Gray,)
+
+
 
     }
 }

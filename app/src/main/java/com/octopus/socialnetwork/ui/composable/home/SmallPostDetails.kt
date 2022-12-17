@@ -55,7 +55,7 @@ fun SmallPostDetails(post: PostUiState) {
             )
             SpaceHorizontally8dp()
             Text(
-                text = post.postDate.getHourAndMinutes(),
+                text = post.postDate,
                 color = Color.White,
                 style = MaterialTheme.typography.overline
             )

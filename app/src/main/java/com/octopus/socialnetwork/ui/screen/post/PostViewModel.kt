@@ -35,8 +35,7 @@ class PostViewModel @Inject constructor(
     private fun getPostDetails() {
         viewModelScope.launch {
             try {
-                val post =
-                    fetchPostDetails(args.postId.toInt()).toPostUiState()
+                val post = fetchPostDetails(args.postId.toInt()).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
                 Log.i(
                     "TESTING",

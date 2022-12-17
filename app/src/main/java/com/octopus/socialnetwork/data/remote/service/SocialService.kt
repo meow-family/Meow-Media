@@ -169,7 +169,7 @@ interface SocialService {
     suspend fun sendMessage(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("massage") message: String
+        @Query("message") message: String
     ): BaseResponse<MessageDto>
 
     @POST("message_new")
