@@ -22,7 +22,7 @@ import com.octopus.socialnetwork.ui.theme.LightBlack_65
 fun InteractionIcon(
     count: String? = null,
     icon: Int = R.drawable.ic_like,
-    onClick: () -> Unit,
+
     tint: Color
 ) {
 
@@ -38,15 +38,13 @@ fun InteractionIcon(
         ) {
             Icon(
                 modifier = Modifier
-                    .size(16.dp)
-                    .clickable { onClick() },
+                    .size(16.dp),
+
                 painter = painterResource(icon),
                 contentDescription = stringResource(R.string.like_icon),
                 tint = tint
             )
-            count?.let {
-                Text(text = count.toString(), color = Color.White, fontSize = 12.sp)
-            }
+            count?.let { Text(text = count.toString(), color = Color.White, fontSize = 12.sp) }
 
 
         }

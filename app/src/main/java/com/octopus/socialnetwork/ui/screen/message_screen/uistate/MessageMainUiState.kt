@@ -8,4 +8,5 @@ data class MessageMainUiState(
     val message: String = "",
     val senderName: String = "",
     val avatar: String = "",
+    val query: String = "",
 )

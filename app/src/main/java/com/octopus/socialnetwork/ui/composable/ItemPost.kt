@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
@@ -32,7 +34,8 @@ fun ItemPost(
 
     Box(
         modifier = Modifier
-            .height(380.dp)
+            .height(450.dp)
+            .shadow(4.dp, RoundedCornerShape(16.dp),)
             .clip(shape = RoundedCornerShape(16.dp))
             .clickable { onClickPost(post.postId, post.ownerId) }
     ) {
@@ -45,32 +48,36 @@ fun ItemPost(
                 .height(210.dp)
                 .align(alignment = Alignment.CenterEnd)
                 .width(48.dp),
-            elevation = 0.dp,
-            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+            elevation = 0.dp, shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
             backgroundColor = Color.Transparent,
         ) {
             InteractionGroup(
-                interactions =
-                listOf({
-                    InteractionIcon(
-                        icon = R.drawable.ic_like,
-                        count = post.likeCount,
-                        onClick = onLike,
-                        tint = if (post.isLiked) Color.Red else Color.White
-                    )
-                }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_baseline_comment_24,
-                        count = post.commentCount,
-                        onClick = onComment,
-                        tint = Color.White
-                    )
-                }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_send,
-                        onClick = onShare, tint = Color.White
-                    )
-                })
+
+                interactions = listOf({
+                    IconButton(onClick = onLike ) {
+                        InteractionIcon(
+                            icon = R.drawable.ic_like, count = post.likeCount,
+                            tint = if (post.isLiked) Color.Red else Color.White
+                        )
+                    }
+                },
+                    {  IconButton(onClick = onComment ) {
+                        InteractionIcon(
+                            icon = R.drawable.ic_baseline_comment_24,
+                            count = post.commentCount, tint = Color.White
+                        )
+                    }
+
+                    },
+                    {
+
+                        IconButton(onClick = onShare ) {
+                            InteractionIcon(
+                            icon = R.drawable.ic_send, tint = Color.White
+                        )
+                        }
+
+                    })
             )
 
         }
@@ -82,13 +89,9 @@ fun ItemPost(
                 .align(alignment = Alignment.BottomCenter),
             elevation = 0.dp,
             shape = AbsoluteRoundedCornerShape(bottomLeft = 16.dp, bottomRight = 16.dp),
-            backgroundColor = Color.Transparent
-
-        ) {
-            SmallPostDetails(post = post)
-
-
-        }
+            backgroundColor = Color.Transparent,
+            content = { SmallPostDetails(post = post) }
+        )
 
 
     }

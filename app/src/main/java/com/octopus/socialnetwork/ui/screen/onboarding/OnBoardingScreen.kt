@@ -22,14 +22,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingHuge
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 
 @Composable
@@ -70,7 +69,7 @@ private fun OnBoardingContent(
 
         Text(
             text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Start,
-            color = MaterialTheme.colors.textSecondaryColor, style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.textPrimaryColor, style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(top = spacingHuge, start = spacingMedium)
         )
 
@@ -80,9 +79,6 @@ private fun OnBoardingContent(
             text = stringResource(R.string.create_account),
             onClick = onClickCreateAccount
         )
-
-        SpacerVertical16()
-
         TextWithAction(
             text = stringResource(R.string.already_have_an_account),
             textAction = stringResource(R.string.login),

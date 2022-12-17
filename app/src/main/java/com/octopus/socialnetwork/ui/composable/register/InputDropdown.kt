@@ -11,12 +11,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.TextFieldError
 import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 
 @Composable
@@ -45,7 +44,6 @@ fun InputDropdown(
                         expanded = expanded
                     )
                 },
-                action = ImeAction.Next,
                 isReadOnly = true,
                 showError = false
             )
@@ -57,7 +55,7 @@ fun InputDropdown(
                     DropdownMenuItem(onClick = { onClick(selectionOption) }) {
                         Text(
                             text = selectionOption,
-                            color = MaterialTheme.colors.textSecondaryColor
+                            color = MaterialTheme.colors.textPrimaryColor
                         )
                     }
                 }

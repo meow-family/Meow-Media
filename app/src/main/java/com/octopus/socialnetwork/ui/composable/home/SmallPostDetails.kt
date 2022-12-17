@@ -34,10 +34,7 @@ import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 fun SmallPostDetails(post: PostUiState) {
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .backgroundVerticalGradientLightBlack()
-            .padding(spacingMedium),
+        modifier = Modifier.fillMaxWidth().backgroundVerticalGradientLightBlack().padding(spacingMedium),
         verticalArrangement = Arrangement.Bottom
     ) {
         Row(
@@ -45,11 +42,8 @@ fun SmallPostDetails(post: PostUiState) {
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = post.profileAvatar),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
+                contentDescription = null, contentScale = ContentScale.Crop,
+                modifier = Modifier.size(24.dp).clip(CircleShape)
             )
             SpaceHorizontally8dp()
             Text(
@@ -57,8 +51,7 @@ fun SmallPostDetails(post: PostUiState) {
                 maxLines = 1,
                 text = post.fullName,
                 color = Color.White,
-                style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.h6, fontWeight = FontWeight.Bold
             )
             SpaceHorizontally8dp()
             Text(

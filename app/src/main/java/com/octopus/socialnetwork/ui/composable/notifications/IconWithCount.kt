@@ -25,7 +25,6 @@ import com.octopus.socialnetwork.ui.util.extensions.setBadgeCountValue
 fun IconWithCount(
     count: Int,
     icon: ImageVector,
-    onClick: () -> Unit
 ) {
     if (count > 0) {
         Box {
@@ -43,10 +42,10 @@ fun IconWithCount(
                     fontSize = 8.sp
                 )
             }
-            NotificationIcon(icon = icon, onClick = onClick)
+            NotificationIcon(icon = icon)
         }
     } else {
-        NotificationIcon(icon = icon, onClick = onClick)
+        NotificationIcon(icon = icon)
     }
 
 }

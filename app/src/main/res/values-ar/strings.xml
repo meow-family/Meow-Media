@@ -26,7 +26,7 @@
 
     <string name="icon_on_boarding">Icon On Boarding</string>
     <string name="on_boarding_text">تواصل مع الأشخاص الذين تحبهم!</string>
-    <string name="octopusyan">Octopusyan</string>
+    <string name="MeowMedia">Meow Media</string>
 
     <string name="friends">الاصدقاء</string>
     <string name="posts">المنشورات</string>
@@ -41,7 +41,7 @@
     <string name="your_commit">تعليقك…</string>
     <string name="profile_image">profile image</string>
     <string name="icon">icon</string>
-    <string name="notification">اشعار</string>
+    <string name="notification">الاشعارات</string>
 
     <string name="image_register">Image register</string>
 
@@ -86,6 +86,7 @@
     <string name="username_short">يجب ألا يقل اسم المستخدم عن ستة أحرف.</string>
     <string name="username_long">يجب أن يكون اسم المستخدم تسعة وعشرين حرفًا كحد أقصى.</string>
     <string name="username_not_clean">محتوى اسم المستخدم بالأحرف الكبيرة فقط أو بالأحرف الصغيرة.</string>
+    <string name="friend_requests">Friend Requests</string>
 
     <string name="password_empty">كلمة المرور مطلوبة يجب ألا تكون فارغة.</string>
     <string name="password_short">كلمة المرور قصيرة جدًا - يجب ألا تقل عن 6 أحرف</string>

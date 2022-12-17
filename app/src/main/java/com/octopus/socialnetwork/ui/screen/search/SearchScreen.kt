@@ -22,7 +22,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.search.SearchField
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
-import com.octopus.socialnetwork.ui.theme.dividerColor
+import com.octopus.socialnetwork.ui.theme.outLine
 
 @Composable
 fun SearchScreen(
@@ -48,7 +48,7 @@ private fun SearchContent(
     ) {
 
         AppBar(title = stringResource(R.string.search), showBackButton = false)
-        Divider(color = MaterialTheme.colors.dividerColor, thickness = 1.dp)
+        Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
 
         SearchField(textState)
         LazyColumn {

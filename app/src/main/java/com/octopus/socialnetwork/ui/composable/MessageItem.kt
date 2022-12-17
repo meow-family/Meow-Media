@@ -8,44 +8,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.domain.model.messages.Avatar
+import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.message_screen.utils.asHour
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
     onClickMessage: (Int) -> Unit,
-    avatar: String,
-    id: Int,
-    nameOfSender: String,
-    lastMessage: String,
-    seen: String,
-    time: String,
+    state: MessageUiState,
 ) {
-    Column(Modifier.fillMaxWidth()) {
         Row(
-            Modifier
-                .fillMaxWidth().clickable { onClickMessage(id) }
-                .wrapContentHeight()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center
+            modifier = Modifier
+                .fillMaxWidth().height(68.dp)
+                .clickable { onClickMessage(state.senderId) }
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ProfileImage(
-                painter = rememberAsyncImagePainter(model = avatar),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
+                painter = rememberAsyncImagePainter(model = state.avatar),
+                modifier = Modifier.size(48.dp).clip(CircleShape)
             )
             SpaceHorizontally8dp()
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+            Column {
                 Text(
-                    text = nameOfSender,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = state.senderName,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsTypography.body2.fontFamily,
                     fontStyle = PoppinsTypography.body2.fontStyle,
@@ -53,8 +43,10 @@ fun MessageItem(
                 )
                 SpaceVertically4dp()
                 Text(
-                    text = lastMessage,
-                    modifier = Modifier.align(Alignment.Start),
+                    text = state.message,
+                    modifier = Modifier.width(230.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
                     fontStyle = PoppinsTypography.overline.fontStyle,
@@ -62,18 +54,15 @@ fun MessageItem(
 
                 )
             }
-            Spacer(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            )
+
+            Spacer(Modifier.weight(1f).fillMaxWidth())
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.align(Alignment.CenterVertically),
             ) {
                 Text(
-                    text = time.toString(),
+                    text = state.lastSendTime.asHour(),
                     modifier = Modifier.align(Alignment.End),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
@@ -82,7 +71,7 @@ fun MessageItem(
 
                 )
                 SpaceVertically4dp()
-                if (seen=="1") {
+                if (state.viewed == "1") {
                     Text(
                         text = "Seen",
                         modifier = Modifier.align(Alignment.End),
@@ -91,17 +80,10 @@ fun MessageItem(
                         fontStyle = PoppinsTypography.overline.fontStyle,
                         fontSize = PoppinsTypography.overline.fontSize
                     )
-
-                } else {
-
-                    CircleShapeWithText()
-                }
+                } else { CircleShapeWithText() }
 
             }
 
         }
-        Divider()
-
-    }
 
 }

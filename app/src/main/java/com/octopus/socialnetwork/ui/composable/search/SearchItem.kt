@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.theme.Gray700
-import com.octopus.socialnetwork.ui.theme.dividerColor
+import com.octopus.socialnetwork.ui.theme.outLine
 
 @Composable
 fun SearchItem(
@@ -84,7 +84,7 @@ fun SearchItem(
                 )
             }
         }
-        Divider(color = MaterialTheme.colors.dividerColor, thickness = 1.dp)
+        Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
     }
 
 }
