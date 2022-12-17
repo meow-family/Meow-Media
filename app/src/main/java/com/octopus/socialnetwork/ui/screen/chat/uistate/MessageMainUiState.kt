@@ -6,5 +6,6 @@ data class MessageMainUiState(
     var unreadMessagesCount: Int = 0,
     val messages: List<MessageUiState> = emptyList(),
     val lastMessage: String = "",
+    val message: String = "",
     val query: String = "",
 )

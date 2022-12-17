@@ -63,7 +63,7 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        SearchViewItem(text = state.query, onValueChange = onChangeText)
+        SearchViewItem(text = state.message, onValueChange = onChangeText)
 
         SpaceVertically24dp()
         LazyColumn(

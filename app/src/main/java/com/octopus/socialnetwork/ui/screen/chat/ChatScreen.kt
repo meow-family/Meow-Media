@@ -54,11 +54,7 @@ fun ChatScreenContent(
     ) {
 
         if (state.messages.isNotEmpty()) {
-            ChatScreenTopBar(
-                state.messages.first(),
-                onClickBack = onClickBack,
-                onClickImage = onClickImage
-            )
+            ChatScreenTopBar(state.messages.first(), onClickBack = onClickBack, onClickImage = onClickImage)
         }
 
         LazyColumn(

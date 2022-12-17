@@ -42,15 +42,13 @@ fun TypingMessage(
     ) {
         Row(Modifier.height(IntrinsicSize.Min)) {
             BasicTextField(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(16.dp),
-                value = value.query,
+                modifier = Modifier.weight(1f).padding(16.dp),
+                value = value.message,
                 maxLines = 10,
                 onValueChange = onChangeTypingComment,
                 textStyle = TextStyle(color = MaterialTheme.colors.textPrimaryColor, fontSize = 14.sp),
                 decorationBox = { innerTextField ->
-                    if (value.query.isEmpty()) {
+                    if (value.message.isEmpty()) {
                         Text(
                             text = stringResource(R.string.your_message),
                             modifier = Modifier.alpha(.5f),
@@ -63,12 +61,12 @@ fun TypingMessage(
 
             IconButton(
                 onClick = onClickSend,
-                enabled = value.query.isNotBlank()
+                enabled = value.message.isNotBlank()
             ) {
                 Icon(
                     Icons.Filled.Send,
                     contentDescription = null,
-                    tint = if (value.query.isNotBlank()) Color.Red else Color.Gray
+                    tint = if (value.message.isNotBlank()) Color.Red else Color.Gray
                 )
             }
 

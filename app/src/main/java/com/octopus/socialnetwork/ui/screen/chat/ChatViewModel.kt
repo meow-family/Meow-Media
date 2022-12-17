@@ -32,23 +32,19 @@ class ChatViewModel @Inject constructor(
     }
 
     fun onTextChange(newValue: String) {
-        _state.update { it.copy(query = newValue) }
+        _state.update { it.copy(message = newValue) }
     }
+
+
 
     private fun getMessagesWithUser(otherUserId: Int) {
         try {
             viewModelScope.launch {
                 val messages = getMessageList(otherUserId).map { it.toMessageUiState() }
 
-                _state.update { it ->
-                    it.copy(
+                _state.update { it -> it.copy(
                         isFail = false, isLoading = false, messages = messages.map {
-                            it.copy(
-                                otherUser = it.otherUser
-                            )
-                        },
-
-                    )
+                            it.copy(otherUser = it.otherUser) },)
                 }
 
             }
@@ -71,8 +67,8 @@ class ChatViewModel @Inject constructor(
     }
 
     fun onClickSend() {
-        sendMessage(_state.value.query)
-        _state.update { it.copy(query = "") }
+        sendMessage(_state.value.message)
+        _state.update { it.copy(message = "") }
     }
 
 
