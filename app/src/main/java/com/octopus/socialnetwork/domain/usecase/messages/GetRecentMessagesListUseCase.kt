@@ -10,17 +10,13 @@ class GetRecentMessagesListUseCase @Inject constructor(
     private val socialRepository: MessagingRepository,
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
-    suspend operator fun invoke(): List<MessageDetails> {
+    suspend operator fun invoke(): List<MessageDetails>? {
         val userId = fetchUserIdUseCase()
-        val recentMessage =
-            socialRepository.getRecentMassagesList(userId).messages?.map { it.toMessageDetails(userId) }
-        return changeData(userId, recentMessage!!)
-    }
 
-    private fun changeData(userId: Int, messages: List<MessageDetails>?): List<MessageDetails> {
-
-        return messages!!.filter {
-            it.messageSender.userId != userId
+        val response = socialRepository.getRecentMassagesList(userId)
+        val messages = response.messages?.map {
+            it.toMessageDetails(userId)
         }
+        return messages
     }
 }

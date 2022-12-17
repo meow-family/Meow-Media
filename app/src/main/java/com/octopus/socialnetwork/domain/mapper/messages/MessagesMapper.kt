@@ -6,15 +6,15 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDt
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
 import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.domain.model.messages.MessagesList
-import com.octopus.socialnetwork.ui.util.convertLongToDate
+import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
+import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
 
 fun MessageDto.toMessageDetails(userId: Int): MessageDetails {
     return MessageDetails(
-        userId = id ?: 0,
-        message = message ?: "",
-        messageSender = messageSender?.toMessageUser() ?: MessageUser(),
-        messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(),
-        time =  convertLongToDate(time ?: 0),
+        message = message?.removeHtmlEncoding() ?: "",
+        otherUser = if (messageSender?.userId == userId) messageReceiver?.toMessageUser()
+            ?: MessageUser() else messageSender?.toMessageUser() ?: MessageUser(),
+        time = time.toFormattedDate(),
         viewed = viewed ?: "",
         isSentByMe = userId == messageSender?.userId,
     )

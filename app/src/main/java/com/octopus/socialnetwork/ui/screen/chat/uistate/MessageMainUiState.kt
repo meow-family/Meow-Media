@@ -1,13 +1,11 @@
-package com.octopus.socialnetwork.ui.screen.message_screen.uistate
+package com.octopus.socialnetwork.ui.screen.chat.uistate
 
 data class MessageMainUiState(
     val isFail: Boolean = false,
     val isLoading: Boolean = true,
     var unreadMessagesCount: Int = 0,
     val messages: List<MessageUiState> = emptyList(),
+    val lastMessage: String = "",
     val message: String = "",
-    val senderName: String = "",
-    val senderId: Int = 0,
-    val avatar: String = "",
     val query: String = "",
 )

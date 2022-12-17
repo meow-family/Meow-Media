@@ -2,8 +2,7 @@ package com.octopus.socialnetwork.domain.mapper.notifications
 
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.*
 import com.octopus.socialnetwork.domain.model.notifications.*
-import com.octopus.socialnetwork.ui.util.convertLongToDate
-import com.octopus.socialnetwork.ui.util.extensions.changeTypeToBoolean
+import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
 import java.util.*
 
 fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
@@ -16,11 +15,20 @@ fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
 
 fun NotificationItemsDto.toNotificationItems(): NotificationItems {
     return NotificationItems(
-        notification = notification?.toNotification() ?: Notification(0,"",0,0,0,false, Date(),0 ),
-        postOwner = postOwner?.toPoster() ?: PostOwner(0,"",""),
+        notification = notification?.toNotification() ?: Notification(
+            0,
+            "",
+            0,
+            0,
+            0,
+            false,
+            Date(),
+            0
+        ),
+        postOwner = postOwner?.toPoster() ?: PostOwner(0, "", ""),
         entity = entity ?: false,
         post = post ?: false,
-        group = group?.toGroup() ?: Group(0,"",false),
+        group = group?.toGroup() ?: Group(0, "", false),
     )
 }
 
@@ -31,8 +39,8 @@ fun NotificationDto.toNotification(): Notification {
         posterId = posterGuid ?: 0,
         ownerId = ownerGuid ?: 0,
         subjectId = subjectGuid ?: 0,
-        viewed = viewed.changeTypeToBoolean(),
-        timeCreated = convertLongToDate(timeCreated),
+        viewed = viewed != null,
+        timeCreated = timeCreated.toFormattedDate(),
         itemId = itemGuid ?: 0,
     )
 }

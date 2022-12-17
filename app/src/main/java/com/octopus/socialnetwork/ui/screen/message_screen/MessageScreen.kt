@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
-import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
@@ -32,10 +32,10 @@ fun MessageScreen(
     val state by viewModel.state.collectAsState()
     MessageViewContent(
         state = state,
-        onClickMessage = {navController.navigateToChat(it)},
+        onClickMessage = { navController.navigateToChat(it) },
         onChangeText = viewModel::onChangeText,
-    
-    )
+
+        )
 }
 
 @Composable
@@ -63,7 +63,7 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        SearchViewItem(text = state.query, onValueChange = onChangeText )
+        SearchViewItem(text = state.message, onValueChange = onChangeText)
 
         SpaceVertically24dp()
         LazyColumn(
@@ -80,8 +80,9 @@ fun MessageViewContent(
         }
     }
 
-    if (state.isLoading) { Loading() }
-
+    if (state.isLoading) {
+        Loading()
+    }
 
 
 }
