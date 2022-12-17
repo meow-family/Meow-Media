@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
@@ -29,13 +29,25 @@ fun ReceivedMessage(
     ) {
         Card(
             modifier = Modifier.background(Color.Transparent),
-            shape = AbsoluteRoundedCornerShape(topLeft = 16.dp, topRight = 16.dp, bottomRight = 16.dp, bottomLeft = 0.dp),
+            shape = AbsoluteRoundedCornerShape(
+                topLeft = 16.dp,
+                topRight = 16.dp,
+                bottomRight = 16.dp,
+                bottomLeft = 0.dp
+            ),
             backgroundColor = MaterialTheme.colors.secondaryVariant,
         ) {
-            Text(text = state.message, fontSize = 14.sp, modifier = Modifier.padding(12.dp), color = MaterialTheme.colors.textPrimaryColor)
+            Text(
+                text = state.message,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(12.dp),
+                color = MaterialTheme.colors.textPrimaryColor
+            )
         }
-        Text(text = state.lastSendTime, fontSize = 12.sp,   textAlign = TextAlign.Start,
-            modifier = Modifier.padding(4.dp), color = Color.Gray,)
+        Text(
+            text = state.lastSendTime, fontSize = 12.sp, textAlign = TextAlign.Start,
+            modifier = Modifier.padding(4.dp), color = Color.Gray,
+        )
 
     }
 
