@@ -7,6 +7,5 @@ data class MessageUiState(
     val avatar: String = "",
     val viewed: String = "",
     val message: String = "",
-    val isSentByMe: Boolean = true,
-    val countOfUnreadMessages: String = ""
+    val isSentByMe: Boolean = true
 )

@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.messages
 
+import android.util.Log
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.mapper.messages.toMessageDetails
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
@@ -21,7 +22,7 @@ class GetRecentMessagesListUseCase @Inject constructor(
         userId: Int,
         messages: List<MessageDetails>?
     ): List<MessageDetails> {
-
+        Log.i("MMMMMMMMM",messages.toString())
         return messages!!.filter {
             it.messageSender.userId != userId
         }

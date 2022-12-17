@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MessagesViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
-    private val getUnreadMessages:GetUnreadMessagesUseCase,
+    private val getUnreadMessages: GetUnreadMessagesUseCase,
     private val getUserIdUseCase: FetchUserIdUseCase
 ) : ViewModel() {
 
@@ -34,23 +34,21 @@ class MessagesViewModel @Inject constructor(
 
         try {
             viewModelScope.launch {
-                val fromUserId =getUserIdUseCase()
+                val fromUserId = getUserIdUseCase()
 
                 val recentMessages =
                     fetchRecentMessages().map { it.toMessageUiState() }
-                Log.i("MMMMMM",fromUserId.toString())
+                Log.i("MMMMMMMMM", recentMessages.toString())
 
-                for (toUserID in recentMessages.map { it.senderId }){
-                    Log.i("MMMMMM",toUserID.toString())
-                    Log.i("MMMMMM",fromUserId.toString())
-                    val unreadMessages = getUnreadMessages(fromUserId,toUserID,0).messages.size
+                for (toUserID in recentMessages.map { it.senderId }) {
+                    Log.i("MMMMMMMMM", toUserID.toString())
+                    Log.i("MMMMMMMMM", fromUserId.toString())
+                    val numberOfUnreadMessage =getUnreadMessages(toUserID).messages.size
                     _state.update {
-                        it.copy(
-                            unreadMessagesCount = unreadMessages
-                        )
+                        it.copy(unreadMessagesCount = numberOfUnreadMessage)
                     }
-                }
 
+                }
 
 
                 _state.update {

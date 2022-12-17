@@ -71,7 +71,7 @@ fun MessageItem(
                 modifier = Modifier.align(Alignment.CenterVertically),
             ) {
                 Text(
-                    text = time.toString(),
+                    text = time,
                     modifier = Modifier.align(Alignment.End),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,

@@ -14,7 +14,6 @@ interface MessagingRepository {
     suspend fun unreadMessages(
         messageSenderId: Int,
         messageReceiverId: Int,
-        markAllRead: Int,
     ): MessageListDto
 
     suspend fun getMessages(currentUserId: Int, otherUserId: Int): MessageListDto

@@ -196,11 +196,10 @@ interface SocialService {
         @Query("massage") message: String
     ): BaseResponse<MessageDto>
 
-    @POST("message_new")
+    @GET("message_new")
     suspend fun unreadMessages(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("markallread") markAllRead: Int
     ): BaseResponse<MessageListDto>
 
     @POST("message_list")
