@@ -62,7 +62,7 @@ fun MessageItem(
                 modifier = Modifier.align(Alignment.CenterVertically),
             ) {
                 Text(
-                    text = state.lastSendTime.asHour(),
+                    text = state.lastSendTime,
                     modifier = Modifier.align(Alignment.End),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,

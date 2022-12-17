@@ -6,15 +6,15 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDt
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
 import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.domain.model.messages.MessagesList
-
+import com.octopus.socialnetwork.ui.util.convertLongToDate
 
 fun MessageDto.toMessageDetails(userId: Int): MessageDetails {
     return MessageDetails(
         userId = id ?: 0,
         message = message ?: "",
-        messageSender = messageSender?.toMessageUser() ?: MessageUser(0, " ", " ", " "),
-        messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(0, " ", " ", " "),
-        time = time ?: 0,
+        messageSender = messageSender?.toMessageUser() ?: MessageUser(),
+        messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(),
+        time =  convertLongToDate(time ?: 0),
         viewed = viewed ?: "",
         isSentByMe = userId == messageSender?.userId,
     )
@@ -22,7 +22,7 @@ fun MessageDto.toMessageDetails(userId: Int): MessageDetails {
 
 fun MessageListDto.toMessagesList(userId: Int): MessagesList {
     return MessagesList(
-        messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(0, "", "", ""),
+        messageReceiver = messageReceiver?.toMessageUser() ?: MessageUser(),
         messages = messages?.map { it.toMessageDetails(userId) } ?: emptyList()
     )
 }
