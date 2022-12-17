@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.post
+ package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -101,7 +101,7 @@ private fun PostContent(
                 interactions =
                 listOf({
                     InteractionIcon(
-                        icon = R.drawable.ic_like_16,
+                        icon = if (state.postDetails.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
                         count = state.postDetails.likeCount,
                         onClick = onLike,
                         tint = if (state.postDetails.isLiked) Color.Red else Color.White

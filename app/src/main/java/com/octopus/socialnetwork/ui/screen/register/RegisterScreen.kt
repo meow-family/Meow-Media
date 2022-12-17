@@ -2,7 +2,13 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,9 +37,9 @@ import com.octopus.socialnetwork.ui.composable.CustomSnackBar
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.composable.register.AccountInformationPage
+import com.octopus.socialnetwork.ui.composable.register.AccountInformation
 import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
-import com.octopus.socialnetwork.ui.composable.register.PersonalInformationPage
+import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
@@ -101,9 +107,10 @@ private fun RegisterContent(
 ) {
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colors.background)
-             .navigationBarsPadding()
+            .navigationBarsPadding()
             .imePadding()
             .verticalScroll(rememberScrollState(), reverseScrolling = true),
         verticalArrangement = Arrangement.Top,
@@ -136,7 +143,7 @@ private fun RegisterContent(
         ) { page ->
             when (page) {
                 0 -> {
-                    AccountInformationPage(
+                    AccountInformation(
                         state.userInfoForm,
                         showError = state.displayErrorsFirstStepRegistration,
                         onChangeUserName = onChangeUserName,
@@ -148,7 +155,7 @@ private fun RegisterContent(
                 }
 
                 1 -> {
-                    PersonalInformationPage(
+                    PersonalInformation(
                         state.userInfoForm,
                         showError = state.displayErrorsSecondStepRegistration,
                         onChangeFirstName = onChangeFirstName,
@@ -165,6 +172,7 @@ private fun RegisterContent(
         SpacerVertical32()
 
         CustomButton(
+            modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
         ) {
             val userInput = state.userInfoForm

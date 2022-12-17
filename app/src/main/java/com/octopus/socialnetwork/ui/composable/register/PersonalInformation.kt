@@ -27,7 +27,7 @@ import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 @Composable
 @ExperimentalMaterialApi
-fun PersonalInformationPage(
+fun PersonalInformation(
     userInfoForm: UserInfoFormUiState,
     showError: Boolean,
     onChangeFirstName: (String) -> Unit,

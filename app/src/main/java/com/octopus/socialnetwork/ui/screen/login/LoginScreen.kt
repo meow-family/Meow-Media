@@ -32,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -123,23 +122,20 @@ private fun LoginContent(
             textAlign = TextAlign.Center
         )
         InputTextFieldValidation(
-            modifier = Modifier.padding(horizontal = spacingMedium),
             state = state.userInput.userNameOrEmail,
             onChangeValue = onChangeUsernameOrEmail,
             placeholder = stringResource(R.string.username_or_email),
             icon = Icons.Default.Email,
-            action = ImeAction.Next,
             showError = state.isDisplayErrorValidationInputs
         )
         SpacerVertical16()
         InputTextFieldValidation(
-            modifier = Modifier.padding(horizontal = spacingMedium),
             state = state.userInput.password,
             isPassword = !state.showPassword,
             onChangeValue = onChangePassword,
             placeholder = stringResource(R.string.password),
             icon = Icons.Default.Lock,
-            action = ImeAction.Done,
+//            action = ImeAction.Done,
             showError = state.isDisplayErrorValidationInputs
         ) {
             IconButton(onClick = onClickShowPassword) {
