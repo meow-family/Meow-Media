@@ -41,7 +41,7 @@ fun InteractionIcon(
                     .size(16.dp)
                     .clickable { onClick() },
                 painter = painterResource(icon),
-                contentDescription = stringResource(R.string.like_icon),
+                contentDescription = stringResource(R.string.like),
                 tint = tint
             )
             count?.let {
