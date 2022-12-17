@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.util.extensions
 
+import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
@@ -57,3 +58,7 @@ fun setBadgeCountValue(badgeCount: Int):
         String = if (badgeCount in 1..9) badgeCount.toString() else "+9"
 
 fun String?.changeTypeToBoolean(): Boolean = this != null
+
+fun String.toCleanTextFromHtml(): String {
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+}

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.fontSizePrimary
-import com.octopus.socialnetwork.ui.theme.lightDividerColor
+import com.octopus.socialnetwork.ui.theme.lightOutLineColor
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
@@ -35,7 +35,7 @@ fun StepIndicatorRegistration(currentPage: Int) {
         )
 
         Divider(
-            modifier = Modifier.width(96.dp), color = lightDividerColor
+            modifier = Modifier.width(96.dp), color = lightOutLineColor
         )
 
         ItemStepIndicatorRegistration("2", currentPage == 1)

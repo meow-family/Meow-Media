@@ -3,13 +3,13 @@ package com.octopus.socialnetwork.ui.screen.profile
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.RemoveFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -90,12 +90,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
         viewModelScope.launch {
-            val isRequestSent =
-                checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
+            val isRequestSent = checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
             _state.update {
-                it.copy(
-                    isRequestExists = isRequestSent
-                )
+                it.copy(isRequestExists = isRequestSent)
             }
         }
     }
@@ -103,7 +100,7 @@ class ProfileViewModel @Inject constructor(
     fun onClickAddFriend() {
         viewModelScope.launch {
             if (!_state.value.isRequestExists) {
-                val result = addFriendUseCase(30, 20)
+                val result = addFriendUseCase(16)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,
@@ -112,7 +109,7 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             } else {
-                removeFriendUseCase(30, 20)
+                removeFriendUseCase(16)
                 _state.update {
                     it.copy(
                         isRequestExists = false,

@@ -30,22 +30,32 @@ class LoginViewModel @Inject constructor(
     }
 
     suspend fun login(): Job {
+        onLoading()
         return viewModelScope.launch {
             try {
                 val loginResponse = loginUseCase(_state.value.username, _state.value.password)
                 if (loginResponse?.username.isNullOrEmpty()) {
-                    _state.update { it.copy(isError = true) }
+                    _state.update { it.copy(isError = true, isLoading = false) }
                 } else {
-                    _state.update { it.copy(isError = false) }
+                    _state.update { it.copy(isError = false, isLoading = false) }
                 }
             } catch (e: Exception) {
-                _state.update { it.copy(isError = true, errorMessage = e.toString()) }
+                _state.update {
+                    it.copy(
+                        isError = true,
+                        errorMessage = e.toString(),
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
-    fun changePasswordVisibility(){
+    fun changePasswordVisibility() {
         _state.update { it.copy(showPassword = !it.showPassword) }
     }
 
+    private fun onLoading() {
+        _state.update { it.copy(isLoading = !_state.value.isLoading) }
+    }
 }

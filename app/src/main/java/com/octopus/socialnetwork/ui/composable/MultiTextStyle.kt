@@ -12,6 +12,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 
 @Composable
@@ -25,9 +26,7 @@ fun MultiTextStyle(
         appendMedium(name)
         appendMedium(separator)
         addStyle(
-            SpanStyle(
-                fontSize = MaterialTheme.typography.body1.fontSize
-            ),
+            SpanStyle(fontSize = MaterialTheme.typography.body1.fontSize),
             start = 0,
             end = "$name$separator".length - 1
         )
@@ -38,7 +37,7 @@ fun MultiTextStyle(
     Text(
         modifier = Modifier.padding(top = 8.dp, end = 8.dp),
         text = addressText,
-        color = Color.DarkGray,
+        color = MaterialTheme.colors.textPrimaryColor,
         style = MaterialTheme.typography.body2,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis
@@ -48,13 +47,4 @@ fun MultiTextStyle(
 
 fun AnnotatedString.Builder.appendMedium(text: String) {
     append(AnnotatedString(text, SpanStyle(fontWeight = FontWeight.Bold)))
-}
-
-fun AnnotatedString.Builder.appendColored(text: String, color: androidx.compose.ui.graphics.Color) {
-    append(
-        AnnotatedString(
-            text,
-            SpanStyle(color = color)
-        )
-    )
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -50,7 +51,6 @@ fun PersonalInformation(
             onChangeValue = onChangeFirstName,
             placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
-            action = ImeAction.Next,
             showError = showError
         )
         SpacerVertical16()
@@ -59,7 +59,6 @@ fun PersonalInformation(
             onChangeValue = onChangeLastName,
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
-            action = ImeAction.Next,
             showError = showError
         )
         SpacerVertical16()
@@ -88,7 +87,7 @@ fun PersonalInformation(
             onChangeValue = onChangeBirthday,
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.CalendarMonth,
-            action = ImeAction.Done,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             isReadOnly = true,
             isEnabled = false,
             showError = showError

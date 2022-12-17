@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Social Network</string>
-    <string name="description">we should put reasonable text here so it looks like a real design, not blah</string>
+    <string name="description">Welcome back! login to rejoin our community</string>
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
     <string name="signup_here">Sign up here</string>
@@ -25,7 +25,7 @@
 
     <string name="icon_on_boarding">Icon On Boarding</string>
     <string name="on_boarding_text">Connect With The People You Love!</string>
-    <string name="octopusyan">Octopusyan</string>
+    <string name="MeowMedia">Meow Media</string>
 
     <string name="friends">Friends</string>
     <string name="posts">Posts</string>
@@ -41,6 +41,7 @@
     <string name="profile_image">profile image</string>
     <string name="icon">icon</string>
     <string name="notification">Notification</string>
+    <string name="friend_requests">Friend Requests</string>
 
     <string name="image_register">Image register</string>
 
@@ -106,4 +107,5 @@
     <string name="logout">Logout</string>
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
+    <string name="your_message">your message...</string>
 </resources>

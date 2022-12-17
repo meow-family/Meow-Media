@@ -30,14 +30,17 @@ class MessagesViewModel @Inject constructor(
         getMessagesDetails()
     }
 
+    fun onChangeText(query: String) {
+        _state.update { it.copy(query = query) }
+    }
+
     private fun getMessagesDetails() {
 
         try {
             viewModelScope.launch {
+                val recentMessages = fetchRecentMessages().map { it.toMessageUiState() }
                 val fromUserId = getUserIdUseCase()
 
-                val recentMessages =
-                    fetchRecentMessages().map { it.toMessageUiState() }
                 Log.i("MMMMMMMMM", recentMessages.toString())
 
                 for (toUserID in recentMessages.map { it.senderId }) {
@@ -52,21 +55,10 @@ class MessagesViewModel @Inject constructor(
 
 
                 _state.update {
-                    it.copy(
-                        isFail = false,
-                        isLoading = false,
-                        messages = recentMessages,
-
-                        )
-                }
+                    it.copy(isFail = false, isLoading = false, messages = recentMessages) }
             }
         } catch (e: Exception) {
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    isFail = true
-                )
-            }
+            _state.update { it.copy(isLoading = false, isFail = true) }
         }
 
     }

@@ -12,6 +12,7 @@ fun UserDetails.toUserDetailsUiState(): UserDetailsUiState {
         username = username,
         profileAvatar = avatar,
         profileCover = coverUrl,
+        userId = id
     )
 }
 

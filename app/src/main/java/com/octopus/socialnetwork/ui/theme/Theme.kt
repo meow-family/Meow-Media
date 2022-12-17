@@ -32,19 +32,23 @@ private val LightColorPalette = lightColors(
     secondaryVariant = lightSecondaryVariantColor,
 
     background = lightBackgroundColor,
-    onBackground = White,
+    onBackground = Black,
 
     error = errorColor,
 )
 
-val Colors.textSecondaryColor: Color
-    get() = if (isLight) lightTextSecondaryColor else darkTextSecondaryColor
+val Colors.textPrimaryColor: Color
+    get() = if (isLight) lightTextPrimaryColor else darkTextPrimaryColor
 
 val Colors.textThirdColor: Color
     get() = if (isLight) lightTextThirdColor else darkTextThirdColor
 
-val Colors.dividerColor: Color
-    get() = if (isLight) lightDividerColor else darkDividerColor
+val Colors.textSecondaryColor: Color
+    get() = if (isLight) lightSecondaryColor else darkSecondaryColor
+
+val Colors.outLine: Color
+    get() = if (isLight) lightOutLineColor else darkOutLineColor
+
 
 @Composable
 fun SocialNetworkTheme(

@@ -1,7 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -17,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
-import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
@@ -59,12 +61,14 @@ private fun NotificationsContent(
             .fillMaxSize().background(color = Color.White),
     ) {
 
-        AppBar(onClickBack, stringResource(R.string.notification))
+        AppBar(onClickBack, title = stringResource(R.string.notification))
         Divider(color = DividerColor, thickness = 1.dp)
         if (state.isLoading) { Loading() }
 
         LazyColumn(
-            modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colors.background),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.background),
         ) {
             items(state.notifications) { notification ->
                 ItemNotification(notification, onClickNotification)

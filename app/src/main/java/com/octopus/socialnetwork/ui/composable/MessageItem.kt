@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
@@ -7,43 +8,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.domain.model.messages.Avatar
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
+import androidx.compose.ui.text.style.TextOverflow
+import com.octopus.socialnetwork.ui.screen.message_screen.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.message_screen.utils.asHour
 
 @Composable
 fun MessageItem(
     avatar: String,
     nameOfSender: String,
     lastMessage: String,
-    countUnreadMessages:String,
+    countUnreadMessages: String,
     seen: String,
-    time: String
+    time: String,
+    onClickMessage: (Int) -> Unit,
+    state: MessageUiState,
 ) {
-    Column(Modifier.fillMaxWidth()) {
         Row(
-            Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center
+            modifier = Modifier
+                .fillMaxWidth().height(68.dp)
+                .clickable { onClickMessage(state.senderId) }
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ProfileImage(
-                painter = rememberAsyncImagePainter(model = avatar),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
+                painter = rememberAsyncImagePainter(model = state.avatar),
+                modifier = Modifier.size(48.dp).clip(CircleShape)
             )
             SpaceHorizontally8dp()
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+            Column {
                 Text(
-                    text = nameOfSender,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = state.senderName,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsTypography.body2.fontFamily,
                     fontStyle = PoppinsTypography.body2.fontStyle,
@@ -51,8 +49,10 @@ fun MessageItem(
                 )
                 SpaceVertically4dp()
                 Text(
-                    text = lastMessage.take(20),
-                    modifier = Modifier.align(Alignment.Start),
+                    text = state.message,
+                    modifier = Modifier.width(230.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
                     fontStyle = PoppinsTypography.overline.fontStyle,
@@ -60,18 +60,15 @@ fun MessageItem(
 
                 )
             }
-            Spacer(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            )
+
+            Spacer(Modifier.weight(1f).fillMaxWidth())
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.align(Alignment.CenterVertically),
             ) {
                 Text(
-                    text = time,
+                    text = state.lastSendTime,
                     modifier = Modifier.align(Alignment.End),
                     fontWeight = FontWeight.Light,
                     fontFamily = PoppinsTypography.overline.fontFamily,
@@ -80,7 +77,7 @@ fun MessageItem(
 
                 )
                 SpaceVertically4dp()
-                if (seen=="1") {
+                if (state.viewed == "1") {
                     Text(
                         text = "Seen",
                         modifier = Modifier.align(Alignment.End),
@@ -96,9 +93,6 @@ fun MessageItem(
                 }
 
             }
-
-        }
-        Divider()
 
     }
 

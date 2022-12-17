@@ -101,24 +101,27 @@ private fun PostContent(
             InteractionGroup(
                 interactions =
                 listOf({
-                    InteractionIcon(
-                        icon = R.drawable.ic_like,
-                        count = state.postDetails.likeCount,
-                        onClick = onLike,
-                        tint = if (state.postDetails.isLiked) Color.Red else Color.White
-                    )
+                    IconButton(onClick = onLike) {
+                        InteractionIcon(
+                            icon = R.drawable.ic_like,
+                            count = state.postDetails.likeCount,
+                            tint = if (state.postDetails.isLiked) Color.Red else Color.White
+                        )
+                    }
+
                 }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_baseline_comment_24,
-                        count = state.postDetails.commentCount,
-                        onClick = onComment,
-                        tint = Color.White
-                    )
+
+                    IconButton(onClick = onComment) {
+                        InteractionIcon(
+                            icon = R.drawable.ic_baseline_comment_24,
+                            count = state.postDetails.commentCount,
+                            tint = Color.White
+                        )
+                    }
                 }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_send,
-                        onClick = onShare, tint = Color.White
-                    )
+                    IconButton(onClick = onShare) {
+                        InteractionIcon(icon = R.drawable.ic_send, tint = Color.White)
+                    }
                 })
             )
 

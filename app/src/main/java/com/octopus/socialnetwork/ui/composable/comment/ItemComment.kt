@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable.comment
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -22,6 +21,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
+import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable
@@ -43,7 +43,10 @@ fun ItemComment(
         Avatar(
             modifier = Modifier
                 .clip(CircleShape)
-                .constrainAs(userImage) {},
+                .constrainAs(userImage) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             painter =
             rememberAsyncImagePainter(model = commentDetails.userAvatar), size = 50
         )
@@ -77,7 +80,7 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick = {onLike()},
+        IconButton(onClick =  onLike,
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)
@@ -104,27 +107,13 @@ fun ItemComment(
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = stringResource(R.string.replay),
+        Text(text = commentDetails.timeCreated.getHourAndMinutes(),
             fontSize = 12.sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .alpha(.3f)
-                .clickable { }
-                .constrainAs(reply) {
+            modifier = Modifier.alpha(.3f).constrainAs(contentTime) {
                     top.linkTo(postText.bottom, 12.dp)
-                    start.linkTo(likeCounter.end, 24.dp)
-                })
-
-        Text(text = commentDetails.timeCreated.toString(),
-            fontSize = 12.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .alpha(.3f)
-                .constrainAs(contentTime) {
-                    top.linkTo(postText.bottom, 12.dp)
-                    start.linkTo(reply.end, 18.dp)
+                    start.linkTo(likeCounter.end, 18.dp)
                 })
 
     }

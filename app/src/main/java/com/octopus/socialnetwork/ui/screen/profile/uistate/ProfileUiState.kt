@@ -16,6 +16,7 @@ data class ProfileUiState(
 )
 
 data class UserDetailsUiState(
+    val userId : Int = 0,
     val fullName: String = "",
     val username: String = "",
     val friendsCount: String = "0",

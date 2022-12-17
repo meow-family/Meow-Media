@@ -1,10 +1,6 @@
 package com.octopus.socialnetwork.data.remote.service
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumPhotosDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.AlbumsDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.InfoAlbumDto
-import com.octopus.socialnetwork.data.remote.response.dto.album.StateDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -21,10 +17,12 @@ import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDele
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
+import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import retrofit2.http.*
 
 interface SocialService {
@@ -84,6 +82,12 @@ interface SocialService {
         @Query("current_password") currentPassword: String,
         @Query("new_password") newPassword: String,
     ): BaseResponse<UserDto>
+
+    @GET("user_friend_requests")
+    suspend fun getFriendRequests(
+        @Query("guid") currentUserId: Int,
+    ): BaseResponse<FriendRequestsListDTO>
+
     ///////////////////////////////////////////////////////
 
     @GET("wall_view")
@@ -156,34 +160,6 @@ interface SocialService {
         @Query("notification_guid") notificationId: Int,
     ): BaseResponse<NotificationItemsDto>
 
-
-    @GET("photos_list_albums")
-    suspend fun getAlbumsUser(
-        @Query("guid") albumOwnerUserId: Int,
-        @Query("uguid") viewerUserId: Int, // TODO: needs confirmation, check before work
-    ): BaseResponse<AlbumsDto>
-
-    @GET("photos_list")
-    suspend fun getAlbumPhotos(
-        @Query("album_guid") albumId: Int,
-    ): BaseResponse<AlbumPhotosDto>
-
-
-    @POST("photos_album_create")
-    suspend fun createAlbum(
-        @Path("title") title: String,
-        @Query("guid") currentUserId: Int,
-        @Field("privacy") privacy: Int,
-    ): BaseResponse<InfoAlbumDto>
-
-
-    @POST("photos_delete")
-    suspend fun deleteAlbumPhoto(
-        @Path("photoid") photoId: Int,
-        @Query("guid") visitedUserId: Int,
-    ): BaseResponse<StateDto>
-
-
     @GET("message_recent")
     suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
@@ -193,7 +169,7 @@ interface SocialService {
     suspend fun sendMessage(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("massage") message: String
+        @Query("message") message: String
     ): BaseResponse<MessageDto>
 
     @GET("message_new")
@@ -268,6 +244,11 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
+    // search
+    @GET("my_custom_end_point")
+    suspend fun search(
+        @Query("guid") currentUserId: Int,
+        @Query("keyword") query: String,
+    ): BaseResponse<SearchDto>
 //endregion
-
 }

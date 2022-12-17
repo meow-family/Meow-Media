@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 
-private const val ROUTE = MainRoute.Chat
+private const val ROUTE = MainRoute.Messages
 
 
 fun NavController.navigateToMessage() {

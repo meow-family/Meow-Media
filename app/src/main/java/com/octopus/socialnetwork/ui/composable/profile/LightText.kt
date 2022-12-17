@@ -4,7 +4,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
 fun LightText(
@@ -15,6 +15,6 @@ fun LightText(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.subtitle2,
-        color = MaterialTheme.colors.textSecondaryColor,
+        color = MaterialTheme.colors.textPrimaryColor,
     )
 }

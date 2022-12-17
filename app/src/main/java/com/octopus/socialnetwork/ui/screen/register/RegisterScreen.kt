@@ -2,11 +2,7 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -43,7 +39,7 @@ import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -75,9 +71,8 @@ fun RegisterScreen(
         onChangeLastName = viewModel::onChangeLastName,
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
-        onClickLogin = {
-            navController.navigateToLogin()
-        },
+        onClickLogin = { navController.navigateToLogin() },
+        onClickShowPassword = viewModel::changePasswordVisibility
     )
 }
 
@@ -101,31 +96,26 @@ private fun RegisterContent(
     onChangeLastName: (String) -> Unit,
     onChangeGender: (String) -> Unit,
     onChangeBirthday: (String) -> Unit,
+    onClickShowPassword: () -> Unit,
 ) {
 
     Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.background)
-            .padding(spacingMedium)
-            .fillMaxSize()
-            .padding(top = spacingMedium, start = spacingMedium, end = spacingMedium)
-
-            .verticalScroll(rememberScrollState()),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding()
+            .imePadding().verticalScroll(rememberScrollState(), reverseScrolling = true)
+            .background(MaterialTheme.colors.background),
         verticalArrangement = Arrangement.Top,
     ) {
 
         Text(
-            stringResource(id = R.string.create_account),
-            style = MaterialTheme.typography.h4.copy(
-                color = MaterialTheme.colors.textSecondaryColor
-            )
+            text = stringResource(id = R.string.create_account),
+            style = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.textPrimaryColor),
+            modifier = Modifier.padding(top = spacingMedium, start = spacingMedium)
         )
 
         Text(
-            stringResource(id = R.string.sig_up_note),
-            style = MaterialTheme.typography.caption.copy(
-                color = MaterialTheme.colors.textThirdColor
-            )
+            text = stringResource(id = R.string.sig_up_note),
+            style = MaterialTheme.typography.caption.copy(color = MaterialTheme.colors.textThirdColor),
+            modifier = Modifier.padding(start = spacingMedium)
         )
 
         StepIndicatorRegistration(pagerState.currentPage)
@@ -136,9 +126,7 @@ private fun RegisterContent(
             contentDescription = stringResource(R.string.image_register)
         )
         HorizontalPager(
-            count = 2,
-            state = pagerState,
-            userScrollEnabled = false,
+            count = 2, state = pagerState, userScrollEnabled = false,
         ) { page ->
             when (page) {
                 0 -> {
@@ -149,6 +137,7 @@ private fun RegisterContent(
                         onChangeEmail = onChangeEmail,
                         onChangeReEmail = onChangeReEmail,
                         onChangePassword = onChangePassword,
+                        onClickShowPassword = onClickShowPassword,
                     )
                 }
 
@@ -192,8 +181,6 @@ private fun RegisterContent(
                 }
 
             }
-
-
         }
 
         Box(
@@ -250,6 +237,5 @@ fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
 
-        }
     }
-}
+}}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Social Network</string>
+    <string name="description">مرحبًا بعودتك! قم بتسجيل الدخول لإعادة الانضمام إلى مجتمعنا</string>
+    <string name="donot_have_account">ليس لديك حساب؟ </string>
+    <string name="background">خلفية</string>
+    <string name="signup_here">سجل هنا</string>
+    <string name="username_or_email">اسم المستخدم أو البريد الالكتروني</string>
+
+    <!-- Sign Up  -->
+    <string name="create_account">إنشاء حساب</string>
+
+    <string name="sig_up_note">يرجى ملء المدخلات أدناه هنا</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="re_email">إعادة البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="last_name">الكنية</string>
+    <string name="gender">الجنس</string>
+    <string name="birthday">عيد الميلاد</string>
+    <string name="next">التالي</string>
+    <string name="revers">عكس</string>
+    <string name="already_have_an_account">هل لديك حساب؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="your_message">رسالتك...</string>
+
+    <string name="icon_on_boarding">Icon On Boarding</string>
+    <string name="on_boarding_text">تواصل مع الأشخاص الذين تحبهم!</string>
+    <string name="MeowMedia">Meow Media</string>
+
+    <string name="friends">الاصدقاء</string>
+    <string name="posts">المنشورات</string>
+    <string name="follow_icon_name">تابع</string>
+    <string name="requested_icon_name">Requested</string>
+    <string name="add_icon_name">add icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="comment_icon">Comment Icon</string>
+    <string name="like_icon">Like Icon</string>
+    <string name="this_is_post_image">this is post image</string>
+    <string name="replay">رد</string>
+    <string name="your_commit">تعليقك…</string>
+    <string name="profile_image">profile image</string>
+    <string name="icon">icon</string>
+    <string name="notification">الاشعارات</string>
+
+    <string name="image_register">Image register</string>
+
+
+    <string name="icon_description"> %1$s Icon </string>
+    <string name="failed_create_account">فشل إنشاء الحساب! اسم المستخدم أو البريد الإلكتروني مستخدم حاليًا. غيّر وحاول مرة أخرى.</string>
+    <string name="ok">نعم</string>
+    <string name="add">اضف</string>
+
+
+    <!-- Profile  -->
+    <string name="save">حفظ</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="current_password">كلمة المرور الحالية</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="search">بحث</string>
+    <string name="chat">دردشة</string>
+    <string name="profile">الملف الشخصي</string>
+
+    <string name="icon_arrow_back"> icon arrow back </string>
+    <string name="MessageScreenUpbar">رسالة</string>
+    <string name="Comments">تعليقات</string>
+
+    <!-- Notification Titles  -->
+    <string name="liked_your_post">اعجب بمنشورك</string>
+    <string name="liked_your_comment">اعجب بتعليقك</string>
+    <string name="add_comments_to_your_post">أضاف تعليقات على منشورك</string>
+    <string name="asked_to_join_group">طلب الانضمام إلى مجموعة</string>
+    <string name="mentioned_you_in_comment">ذكرك في تعليق</string>
+    <string name="poked_you">لكزك</string>
+    <string name="started_following_you">بدأ بمتابعتك</string>
+    <string name="liked_your_photo_in_album">اعجب بصورتك في الألبوم</string>
+    <string name="add_comments_to_your_photo_in_album">أضاف تعليقات إلى صورتك في الألبوم</string>
+
+
+    <string name="email_empty">البريد الإلكتروني مطلوب يجب ألا يكون فارغًا.</string>
+    <string name="email_invalid">الرجاء إدخال بريد إلكتروني صحيح.</string>
+    <string name="email_not_confirm">لم يتم التأكيد مع البريد الإلكتروني.</string>
+
+    <string name="username_empty">اسم المستخدم مطلوب يجب ألا يكون فارغًا.</string>
+    <string name="username_short">يجب ألا يقل اسم المستخدم عن ستة أحرف.</string>
+    <string name="username_long">يجب أن يكون اسم المستخدم تسعة وعشرين حرفًا كحد أقصى.</string>
+    <string name="username_not_clean">محتوى اسم المستخدم بالأحرف الكبيرة فقط أو بالأحرف الصغيرة.</string>
+    <string name="friend_requests">Friend Requests</string>
+
+    <string name="password_empty">كلمة المرور مطلوبة يجب ألا تكون فارغة.</string>
+    <string name="password_short">كلمة المرور قصيرة جدًا - يجب ألا تقل عن 6 أحرف</string>
+    <string name="password_long">كلمة المرور طويلة جدًا - بحد أقصى خمسين حرفًا.</string>
+    <string name="password_not_clean">يجب أن تكون كلمة المرور من الأحرف الكبيرة والصغيرة ورقم واحد بدون أي رمز.</string>
+
+    <string name="is_required">مطلوب</string>
+
+    <string name="create_account_success">نجاح إنشاء الحساب</string>
+    <string name="create_account_message">تحتاج الآن إلى حساب نشط تحقق من بريدك الإلكتروني الآن.</string>
+    <string name="invalid_email">بريد إلكتروني خاطئ</string>
+    <string name="invalid_name">يجب أن يكون الاسم فقط حرف</string>
+    <string name="check_email">تفقد البريد الإلكتروني</string>
+    <string name="not_now">ليس الان</string>
+    <string name="arrow_back">سهم العودة</string>
+    <string name="resents">Resents</string>
+    <string name="albums">ألالبومات</string>
+    <string name="send_message">أرسل رسالة</string>
+    <string name="logout">تسجيل خروج</string>
+    <string name="add_friend">أضف صديق</string>
+    <string name="requested">مطلوب</string>
+</resources>

@@ -55,10 +55,6 @@ fun LoginScreen(
                 scope.launch { viewModel.login().join() }.join()
                 if (!state.isError) {
                     navController.navigateToMain()
-                    Log.i("MEOWMEOW", "$state")
-                } else {
-
-                    Log.i("MEOWMEOW", "meow meow request failed")
                 }
             } },
         signUp = { navController.navigateToRegister() },
@@ -152,5 +148,9 @@ private fun LoginContent(
             onClick = signUp
         )
 
+    }
+
+    if (state.isLoading) {
+        LoadingDialog()
     }
 }

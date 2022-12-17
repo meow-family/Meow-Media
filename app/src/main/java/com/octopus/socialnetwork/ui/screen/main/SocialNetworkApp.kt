@@ -13,6 +13,7 @@ fun SocialNetworkApp() {
     SocialNetworkTheme {
         val navController = rememberNavController()
         RootNavigationGraph(navController)
+
     }
 }
 
