@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
+import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 
 @Composable
@@ -53,7 +53,7 @@ fun ItemPost(
                 interactions =
                 listOf({
                     InteractionIcon(
-                        icon = R.drawable.ic_like,
+                        icon = if (post.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
                         count = post.likeCount,
                         onClick = onLike,
                         tint = if (post.isLiked) Color.Red else Color.White

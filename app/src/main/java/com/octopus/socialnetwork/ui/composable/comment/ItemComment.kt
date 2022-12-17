@@ -95,8 +95,8 @@ fun ItemComment(
                 }) {
             Icon(
                 painterResource(
-                    if (commentDetails.isLikedByUser) R.drawable.ic_heart
-                    else R.drawable.ic_outline_heart
+                    if (commentDetails.isLikedByUser) R.drawable.ic_like_12
+                    else R.drawable.ic_un_like_12
                 ),
                 contentDescription = stringResource(id = R.string.like),
                 tint = if (commentDetails.isLikedByUser) MaterialTheme.colors.primary else Color.Gray

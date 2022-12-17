@@ -34,7 +34,6 @@ import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -102,7 +101,7 @@ private fun PostContent(
                 interactions =
                 listOf({
                     InteractionIcon(
-                        icon = R.drawable.ic_like,
+                        icon = R.drawable.ic_like_16,
                         count = state.postDetails.likeCount,
                         onClick = onLike,
                         tint = if (state.postDetails.isLiked) Color.Red else Color.White
