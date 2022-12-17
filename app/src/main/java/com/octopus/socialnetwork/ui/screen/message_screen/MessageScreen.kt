@@ -73,7 +73,7 @@ fun MessageViewContent(
         ) {
 
             itemsIndexed(state.messages) { index, item ->
-                MessageItem(onClickMessage = onClickMessage, state = item)
+                MessageItem(onClickMessage = onClickMessage, state = item, countUnreadMessages = state.unreadMessagesCount)
                 if (index < state.messages.lastIndex) Divider()
             }
 

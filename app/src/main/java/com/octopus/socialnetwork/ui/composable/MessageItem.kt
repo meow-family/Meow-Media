@@ -18,12 +18,7 @@ import com.octopus.socialnetwork.ui.screen.message_screen.utils.asHour
 
 @Composable
 fun MessageItem(
-    avatar: String,
-    nameOfSender: String,
-    lastMessage: String,
-    countUnreadMessages: String,
-    seen: String,
-    time: String,
+    countUnreadMessages: Int,
     onClickMessage: (Int) -> Unit,
     state: MessageUiState,
 ) {
@@ -88,7 +83,6 @@ fun MessageItem(
                     )
 
                 } else {
-
                     CircleShapeWithText(countUnreadMessages)
                 }
 
