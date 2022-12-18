@@ -169,7 +169,7 @@ interface SocialService {
     suspend fun sendMessage(
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
-        @Query("massage") message: String
+        @Query("message") message: String
     ): BaseResponse<MessageDto>
 
     @POST("message_new")
@@ -246,12 +246,10 @@ interface SocialService {
     ): BaseResponse<ProfilePhotoDeletion>
 
     // search
-    @GET("custom_end_point")
+    @GET("my_custom_end_point")
     suspend fun search(
         @Query("guid") currentUserId: Int,
-        @Query("type") typeOfSearch: String,
         @Query("keyword") query: String,
     ): BaseResponse<SearchDto>
 //endregion
-
 }

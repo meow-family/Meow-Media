@@ -25,7 +25,7 @@ import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
-import com.octopus.socialnetwork.ui.theme.dividerColor
+import com.octopus.socialnetwork.ui.theme.outLine
 
 @Composable
 fun FriendRequestScreen(
@@ -63,7 +63,7 @@ private fun FriendRequestContent(
             title = stringResource(id = R.string.friend_requests)
         )
 
-        Divider(color = MaterialTheme.colors.dividerColor, thickness = 1.dp)
+        Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
         if (state.isLoading) {
             Loading()
         } else {

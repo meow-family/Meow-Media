@@ -90,7 +90,6 @@ interface SocialRepository {
     // search
     suspend fun search(
         currentUserId: Int,
-        typeOfSearch: String,
         query: String
     ): SearchDto
 

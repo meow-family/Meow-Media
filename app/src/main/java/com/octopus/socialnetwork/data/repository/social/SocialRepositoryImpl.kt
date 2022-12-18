@@ -208,12 +208,10 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun search(
         currentUserId: Int,
-        typeOfSearch: String,
         query: String
     ): SearchDto {
         return socialService.search(
             currentUserId,
-            typeOfSearch,
             query
         ).result
     }

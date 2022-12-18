@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
 fun UserDetails(
@@ -38,7 +38,7 @@ fun UserDetails(
             Text(
                 text = state.fullName,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = MaterialTheme.colors.textSecondaryColor,
+                color = MaterialTheme.colors.textPrimaryColor,
                 style = MaterialTheme.typography.h5,
             )
 
@@ -57,7 +57,7 @@ fun UserDetails(
                     style = MaterialTheme.typography.subtitle2.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colors.textSecondaryColor,
+                    color = MaterialTheme.colors.textPrimaryColor,
                 )
                 SpaceHorizontally4dp()
                 LightText(stringResource(R.string.friends))
@@ -67,7 +67,7 @@ fun UserDetails(
                     style = MaterialTheme.typography.subtitle2.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colors.textSecondaryColor,
+                    color = MaterialTheme.colors.textPrimaryColor,
                 )
 
                 SpaceHorizontally4dp()

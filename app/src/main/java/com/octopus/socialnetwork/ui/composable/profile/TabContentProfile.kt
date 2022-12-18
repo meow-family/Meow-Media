@@ -13,9 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileContentTab
-import com.octopus.socialnetwork.ui.theme.dividerColor
+import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.theme.fontSizePrimary
-import com.octopus.socialnetwork.ui.theme.textSecondaryColor
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
 fun TabContentProfile(
@@ -26,7 +26,7 @@ fun TabContentProfile(
     TabRow(
         modifier = Modifier
             .underLineBoarder(
-                color = MaterialTheme.colors.dividerColor,
+                color = MaterialTheme.colors.outLine,
                 strokeWidth = 1.dp
             ),
         selectedTabIndex = activeTabState,
@@ -52,7 +52,7 @@ fun TabContentProfile(
                     Text(
                         text = stringResource(text),
                         color = if (selected) MaterialTheme.colors.primary
-                        else MaterialTheme.colors.textSecondaryColor,
+                        else MaterialTheme.colors.textPrimaryColor,
                         style = MaterialTheme.typography.caption.copy(
                             fontSize = fontSizePrimary,
                             fontWeight = FontWeight.Medium

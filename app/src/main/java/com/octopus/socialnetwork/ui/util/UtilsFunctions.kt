@@ -1,4 +1,3 @@
-package com.octopus.socialnetwork.ui.util
 
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen

@@ -2,14 +2,14 @@ package com.octopus.socialnetwork.domain.mapper.posts
 
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.domain.model.post.Post
-import com.octopus.socialnetwork.ui.util.convertLongToDate
-import com.octopus.socialnetwork.ui.util.extensions.toCleanTextFromHtml
+import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
+import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
 
 fun PostDto.toPost(): Post {
     return Post(
         postId = details?.postId ?: 0,
         ownerId = details?.ownerId ?: 0,
-        description = description?.toCleanTextFromHtml() ?: "",
+        description = description?.removeHtmlEncoding() ?: "",
         image = image ?: "",
         fullName = posted_user?.fullName ?: "",
         username = posted_user?.username ?: "",
@@ -17,7 +17,7 @@ fun PostDto.toPost(): Post {
         totalLikes = details?.totalLikes ?: 0,
         totalComments = details?.totalComments ?: 0,
         isLikedByUser = details?.isLikedByUser ?: false,
-        timeCreated = convertLongToDate(details?.timeCreated?.toLong())
+        timeCreated = details?.timeCreated.toFormattedDate()
     )
 }
 

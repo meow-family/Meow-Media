@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.screen.post.mapper
 
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 fun Post.toPostUiState(): PostUiState {
     return PostUiState(
@@ -14,7 +15,7 @@ fun Post.toPostUiState(): PostUiState {
         postDescription = description,
         likeCount = totalLikes.toString(),
         commentCount = totalComments.toString(),
-        postDate = timeCreated,
+        postDate = timeCreated.getHourAndMinutes(),
         isLiked = isLikedByUser
     )
 }

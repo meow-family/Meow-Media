@@ -178,6 +178,11 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+    fun changePasswordVisibility() {
+        _state.update { it.copy(userInfoForm = it.userInfoForm
+            .copy(showPassword = !it.userInfoForm.showPassword))}
+    }
+
     private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
         _state.update {
             it.copy(
@@ -188,7 +193,6 @@ class RegisterViewModel @Inject constructor(
             )
         }
     }
-
 
     fun onChangeFirstName(newFirstName: String) {
         val nameValidation = nameValidation(newFirstName).toInputFieldUiState()
@@ -233,9 +237,6 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-
-
-
     fun onChangeGender(newGender: String) {
         val genderValidation = requiredValidation(newGender).toInputFieldUiState()
         if (genderValidation == InputFieldState.VALID) {
@@ -275,6 +276,4 @@ class RegisterViewModel @Inject constructor(
             )
         }
     }
-
-
 }

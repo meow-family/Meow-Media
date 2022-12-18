@@ -58,8 +58,7 @@ private fun NotificationsContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start, modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White),
+            .fillMaxSize().background(color = Color.White),
     ) {
 
         AppBar(onClickBack, title = stringResource(R.string.notification))
