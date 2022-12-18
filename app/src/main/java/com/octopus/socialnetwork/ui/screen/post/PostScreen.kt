@@ -81,7 +81,7 @@ private fun PostContent(
                     painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
                     contentDescription = stringResource(id = R.string.icon_arrow_back),
                     tint = White50,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp).padding(start = 4.dp)
                 )
             }
 

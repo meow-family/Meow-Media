@@ -30,17 +30,18 @@ class MessagesViewModel @Inject constructor(
     }
 
     private fun getMessagesDetails() {
-
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val recentMessages =
                     fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
                 _state.update {
                     it.copy(isFail = false, isLoading = false, messages = recentMessages,)
                 }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isFail = true) }
             }
-        } catch (e: Exception) {
-            _state.update { it.copy(isLoading = false, isFail = true) }
         }
+
     }
+
 }
