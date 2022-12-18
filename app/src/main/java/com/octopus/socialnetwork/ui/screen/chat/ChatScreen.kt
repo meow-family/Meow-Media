@@ -5,12 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.luminance
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.Loading
@@ -19,6 +22,7 @@ import com.octopus.socialnetwork.ui.composable.social_elements.messages.Received
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
+import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -44,7 +48,8 @@ fun ChatScreenContent(
     onClickSend: () -> Unit,
     onClickImage: (Int) -> Unit,
 ) {
-
+    val listState = rememberLazyListState()
+   // val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,6 +68,7 @@ fun ChatScreenContent(
                 .weight(.1f),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
+            state = listState
         ) {
 
             items(state.messages) { message ->
@@ -77,8 +83,7 @@ fun ChatScreenContent(
 
 
         TypingMessage(
-            modifier = Modifier.fillMaxWidth(),
-            value = state,
+            state = state,
             onChangeTypingComment = onTextChange,
             onClickSend = onClickSend,
         )
@@ -87,5 +92,10 @@ fun ChatScreenContent(
     if (state.isLoading) {
         Loading()
     }
+
+    LaunchedEffect(key1 = state.isSuccess ){
+        listState.animateScrollToItem(index = state.messages.lastIndexOrZero())
+    }
+
 
 }
