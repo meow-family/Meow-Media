@@ -4,5 +4,6 @@ data class CommentsUiState(
     val comments: List<CommentDetailsUiState> = emptyList(),
     val isLoading: Boolean = true,
     val isError: Boolean = false,
-    var comment: String = ""
+    var comment: String = "",
+    val isSuccess: Boolean = false,
 )
