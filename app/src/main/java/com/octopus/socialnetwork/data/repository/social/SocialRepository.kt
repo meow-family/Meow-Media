@@ -56,7 +56,7 @@ interface SocialRepository {
         post: String,
         type: String,
         photo: File
-    ): PostDto
+    ): PostDto?
 
     suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto
     suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): LikeDto

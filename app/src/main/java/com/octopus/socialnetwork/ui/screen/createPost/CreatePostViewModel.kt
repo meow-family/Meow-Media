@@ -18,7 +18,7 @@ class CreatePostViewModel @Inject constructor(
     fun onClickChangeImage(file: File) {
         viewModelScope.launch {
             Log.d("kkk",file.toString())
-            createPostUseCase("hello",file)
+            createPostUseCase("meow meoow",file)
         }
     }
 }

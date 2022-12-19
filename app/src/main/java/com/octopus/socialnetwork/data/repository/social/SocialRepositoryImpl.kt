@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import android.graphics.BitmapFactory
+import android.util.Log
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 
@@ -22,10 +24,12 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -113,7 +117,8 @@ class SocialRepositoryImpl @Inject constructor(
         type: String,
         photo: File
     ): PostDto {
-        val requestFile: RequestBody = photo.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        Log.i("MEOW",photo.extension + " is the extension!")
+        val requestFile = photo.asRequestBody("image/${photo.extension}".toMediaTypeOrNull())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY) // whatever data you will pass to the the request body

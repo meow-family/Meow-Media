@@ -16,8 +16,8 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 fun SocialNetworkApp() {
     SocialNetworkTheme {
         val navController = rememberNavController()
-        //RootNavigationGraph(navController)
-        CreatePost(navController = navController)
+        RootNavigationGraph(navController)
+        //CreatePost(navController = navController)
     }
 }
 
