@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
@@ -31,6 +33,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.homeUiState.collectAsState()
+    val posts = state.posts.collectAsLazyPagingItems()
+
 
     HomeContent(
         state = state,
@@ -64,6 +68,7 @@ private fun HomeContent(
     onClickFriendRequests: () -> Unit,
 ) {
 
+    val posts = state.posts.collectAsLazyPagingItems()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,15 +95,34 @@ private fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            items(state.posts) {
-                ItemPost(
-                    post = it,
-                    onClickPost = onClickPost,
-                    onLike = onClickLike ,
-                    onComment = onClickComment,
-                    onShare = onClickShare
-                )
+            items(items = posts){
+                it?.let { post ->
+                    ItemPost(
+                        post = post,
+                        onClickPost = onClickPost,
+                        onLike = onClickLike ,
+                        onComment = onClickComment,
+                        onShare = onClickShare
+                    )
+                }
+
             }
         }
+
+
+
+
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+

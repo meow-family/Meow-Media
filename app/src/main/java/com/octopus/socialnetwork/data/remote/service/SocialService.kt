@@ -105,6 +105,7 @@ interface SocialService {
     @GET("wall_list_home")
     suspend fun viewNewsFeed(
         @Query("guid") currentUserId: Int,
+        @Query("offset") page: Int,
     ): BaseResponse<AllPostDto>
 
     // create post without any parameters?

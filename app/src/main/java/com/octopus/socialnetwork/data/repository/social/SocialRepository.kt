@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.pagingsource.PostsDataSource
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
@@ -48,6 +49,9 @@ interface SocialRepository {
     suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDto>
 
     suspend fun viewNewsFeed(currentUserId: Int): List<PostDto>
+
+    fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource
+
 
     suspend fun createPost(
         currentUserId: Int, posterOwnerId: Int, post: String, type: String

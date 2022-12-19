@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.remote.pagingsource.PostsDataSource
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -97,7 +98,11 @@ class SocialRepositoryImpl @Inject constructor(
 
 
     override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
-        return socialService.viewNewsFeed(currentUserId).result.posts
+        return socialService.viewNewsFeed(currentUserId,1).result.posts
+    }
+
+    override fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource {
+       return PostsDataSource(socialService, currentUserId)
     }
 
     override suspend fun createPost(
