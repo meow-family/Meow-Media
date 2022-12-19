@@ -43,8 +43,8 @@ class ChatViewModel @Inject constructor(
                 val messages = getMessageList(otherUserId).map { it.toMessageUiState() }
 
                 _state.update { it -> it.copy(
-                        isFail = false, isLoading = false, messages = messages.map {
-                            it.copy(otherUser = it.otherUser) },)
+                    isFail = false, isLoading = false, isSuccess = true,
+                    messages = messages.map { it.copy(otherUser = it.otherUser) },)
                 }
 
             }
@@ -68,7 +68,7 @@ class ChatViewModel @Inject constructor(
 
     fun onClickSend() {
         sendMessage(_state.value.message)
-        _state.update { it.copy(message = "") }
+        _state.update { it.copy(message = "",isSuccess = true) }
     }
 
 

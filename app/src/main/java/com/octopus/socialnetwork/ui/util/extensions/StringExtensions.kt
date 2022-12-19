@@ -32,3 +32,7 @@ fun Long?.toFormattedDate(pattern: String = "yyyy-MM-dd HH:mm a", locale: String
     val dateFormat = SimpleDateFormat(pattern, Locale(locale))
     return this?.let { dateFormat.parse(dateFormat.format(Date(it * 1000))) } ?: Date()
 }
+
+fun String.isEmail(): Boolean {
+    return this.contains("@")
+}

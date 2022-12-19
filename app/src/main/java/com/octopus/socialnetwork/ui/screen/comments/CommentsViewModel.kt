@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,45 +35,33 @@ class CommentsViewModel @Inject constructor(
     private fun getPostComments() {
         viewModelScope.launch {
             try {
-                val postComments = getPostCommentsUseCase(
-                    postId = args.postId.toInt(),
-                    type = args.type
-                ).map { it.toCommentDetailsUiState() }
-                Log.i("TESTING", postComments.toString())
-                _state.update {
-                    it.copy(
-                        comments = postComments
-                    )
-                }
+                val postComments = getPostCommentsUseCase(postId = args.postId.toInt(),
+                    type = args.type).map { it.toCommentDetailsUiState() }
+                _state.update { it.copy(comments = postComments, isSuccess = true) }
             } catch (e: Throwable) {
-                _state.update {
-                    it.copy(
-                        isError = true,
-                    )
-                }
+                _state.update { it.copy(isError = true,isSuccess = false) }
             }
         }
     }
 
     fun onChangeTypingComment(newValue: String) {
-        _state.update {
-            it.copy(comment = newValue) }
-    }
+        _state.update { it.copy(comment = newValue) } }
 
-    suspend fun addComment() {
+    fun addComment(comment: String) {
         viewModelScope.launch {
             try {
-                addCommentUseCase(args.postId.toInt(), _state.value.comment)
-                _state.update { it.copy(comment = it.comment) }
+                addCommentUseCase(args.postId.toInt(),comment)
+                _state.update { it.copy(comment = it.comment, isSuccess = true) }
                 getPostComments()
             } catch (e: Throwable) {
-                _state.update {
-                    it.copy(
-                        isError = true
-                    )
-                }
+                _state.update { it.copy(isError = true) }
             }
-        }.join()
+        }
+    }
+
+    fun onClickSend(){
+        addComment(_state.value.comment)
+        _state.update { it.copy(comment = "") }
     }
 
     fun onClickLike(commentId: Int) {
@@ -82,7 +69,6 @@ class CommentsViewModel @Inject constructor(
             try {
                 val clickedComment = _state.value.comments
                 clickedComment.find { it.commentId == commentId }?.let { comment ->
-                    Log.i("TESTING", "commentId $commentId")
                     toggleLikeState(
                         commentId = commentId,
                         isLiked = comment.isLikedByUser.not(),
@@ -94,7 +80,6 @@ class CommentsViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                Log.i("TESTING", "failed due to exception $e")
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
