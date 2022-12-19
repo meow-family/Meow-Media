@@ -30,3 +30,6 @@ val heightSmallButton: Dp = 30.dp
 val widthSmallButton: Dp = 77.dp
 val heightBottomAppBar: Dp = 72.dp
 val sizeDefaultIcon: Dp = 24.dp
+
+val IconSize12: Dp = 12.dp
+val IconSize16: Dp = 16.dp

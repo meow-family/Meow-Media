@@ -4,12 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
 import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.EmailValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.NameValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.RequiredValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.*
+import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
+import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
+import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -85,12 +94,14 @@ class RegisterViewModel @Inject constructor(
         _state.update { it.copy(isSuccess = false) }
     }
 
-    fun showError(step: Int) {
-        when (step) {
-            1 -> { _state.update { it.copy(displayErrorsFirstStepRegistration = true) }
+    fun showErrorValidationInput(input: InputInformation) {
+        when (input) {
+            InputInformation.Account -> {
+                _state.update { it.copy(displayErrorsFirstStepRegistration = true) }
             }
 
-            2 -> { _state.update { it.copy(displayErrorsSecondStepRegistration = true) }
+            InputInformation.Personal -> {
+                _state.update { it.copy(displayErrorsSecondStepRegistration = true) }
             }
         }
 
