@@ -1,4 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.profile
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,14 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.navOptions
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.CircleButton
-import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.ReduceButton
-import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
-import com.octopus.socialnetwork.ui.composable.SpaceVertically24dp
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
+import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -36,6 +36,7 @@ fun ProfileScreen(
 
     val state by viewModel.state.collectAsState()
 
+
     ProfileContent(
         state = state,
         onClickAddFriend = viewModel::onClickAddFriend,
@@ -47,6 +48,9 @@ fun ProfileScreen(
             navController.navigateToPostScreen(postId, postOwnerId)
         },
     )
+    if (state.isLogout) {
+        navController.navigate(AuthenticationRoute.OnBoarding)
+    }
 }
 
 @Composable
@@ -117,4 +121,5 @@ private fun ProfileContent(
         }
 
     }
+
 }

@@ -6,6 +6,7 @@ data class ProfileUiState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
     val isUserVisitor: Boolean = false,
+    val isLogout: Boolean =false,
     val userDetails: UserDetailsUiState = UserDetailsUiState(),
     val profilePosts: List<ProfilePostUiState> = emptyList(),
     val isFriend: Boolean = false,
