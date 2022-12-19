@@ -14,13 +14,6 @@ class CreatePostUseCase @Inject constructor(
 ){
     suspend operator fun invoke(description: String, photo: File?) : Post?{
         val currentUserId = fetchUserIdUseCase()
-        Log.i("TEST","photo value is $photo")
-        try {
-            photo?.let { socialRepository.createPost(currentUserId,currentUserId,"meow meow", POSTTYPE,it)?.toPost()
-        }
-    }catch (e:Exception) {
-        Log.i("TEST",e.toString() + " caught it!")
-    }
         return photo?.let { socialRepository.createPost(currentUserId,currentUserId,"meow meow", POSTTYPE,it)?.toPost()?: throw Exception("meow!")}
     }
 

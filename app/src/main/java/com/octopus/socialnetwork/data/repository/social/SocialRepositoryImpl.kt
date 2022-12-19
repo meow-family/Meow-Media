@@ -25,6 +25,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -117,8 +118,9 @@ class SocialRepositoryImpl @Inject constructor(
         type: String,
         photo: File
     ): PostDto {
-        Log.i("MEOW",photo.extension + " is the extension!")
-        val requestFile = photo.asRequestBody("image/${photo.extension}".toMediaTypeOrNull())
+        Log.i("MEOW",photo.extension + " is the extension! ${"image/${photo.extension}".toMediaTypeOrNull()}")
+        val photoExtension = if (photo.extension=="jpg") "jpeg" else photo.extension
+        val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY) // whatever data you will pass to the the request body
@@ -126,6 +128,7 @@ class SocialRepositoryImpl @Inject constructor(
             .addFormDataPart("poster_guid",posterOwnerId.toString())
             .addFormDataPart("type",type)
             .addFormDataPart("post",post)
+            .addFormDataPart("privacy","2")
             .addFormDataPart("ossn_photo",photo.name,requestFile).build()
 
         return socialService.createPost(requestBody).result
