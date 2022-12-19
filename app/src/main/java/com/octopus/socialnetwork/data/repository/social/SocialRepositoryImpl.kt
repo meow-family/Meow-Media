@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -21,6 +22,11 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class SocialRepositoryImpl @Inject constructor(
@@ -104,9 +110,20 @@ class SocialRepositoryImpl @Inject constructor(
         currentUserId: Int,
         posterOwnerId: Int,
         post: String,
-        type: String
+        type: String,
+        photo: File
     ): PostDto {
-        return socialService.createPost(currentUserId, posterOwnerId, post, type).result
+        val requestFile: RequestBody = photo.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+        val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY) // whatever data you will pass to the the request body
+            .addFormDataPart("owner_guid", currentUserId.toString())
+            .addFormDataPart("poster_guid",posterOwnerId.toString())
+            .addFormDataPart("type",type)
+            .addFormDataPart("post",post)
+            .addFormDataPart("ossn_photo",photo.name,requestFile).build()
+
+        return socialService.createPost(requestBody).result
     }
 
     override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto {
@@ -216,5 +233,7 @@ class SocialRepositoryImpl @Inject constructor(
         ).result
     }
     //endregion
+
+
 
 }

@@ -23,7 +23,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
+import java.io.File
 
 interface SocialService {
     @POST("user_authenticate")
@@ -108,13 +111,10 @@ interface SocialService {
     ): BaseResponse<AllPostDto>
 
     // create post without any parameters?
-    @FormUrlEncoded
+
     @POST("wall_add")
     suspend fun createPost(
-        @Field("owner_guid") currentUserId: Int,
-        @Field("poster_guid") posterOwnerId: Int,
-        @Field("post") text: String,
-        @Field("type") type: String,
+         @Body body: RequestBody
     ): BaseResponse<PostDto>
 
     @POST("wall_delete")

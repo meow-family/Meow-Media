@@ -19,6 +19,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
+import java.io.File
 
 interface SocialRepository {
 
@@ -50,7 +51,11 @@ interface SocialRepository {
     suspend fun viewNewsFeed(currentUserId: Int): List<PostDto>
 
     suspend fun createPost(
-        currentUserId: Int, posterOwnerId: Int, post: String, type: String
+        currentUserId: Int,
+        posterOwnerId: Int,
+        post: String,
+        type: String,
+        photo: File
     ): PostDto
 
     suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto
