@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
@@ -19,7 +18,6 @@ import javax.inject.Inject
 class NotificationsViewModel @Inject constructor(
     private val fetchUserNotifications: FetchUserNotificationsUseCase,
     private val fetchNotificationItems: FetchNotificationItemsUseCase,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(NotificationsUiState())
@@ -59,13 +57,14 @@ class NotificationsViewModel @Inject constructor(
     fun markViewedNotification(notification: NotificationItemsUiState) {
         viewModelScope.launch {
             try {
-                if (!notification.notificationDetails.viewed)
-                    fetchNotificationItems(notification.notificationDetails.id)
+                if (!notification.viewed)
+                    fetchNotificationItems(notification.id)
                 getNotifications()
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
                         isLoading = false,
+                        viewed = false,
                         isError = true
                     )
                 }

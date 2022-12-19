@@ -10,7 +10,6 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriend
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
-import com.octopus.socialnetwork.ui.util.extensions.wrapWithTryCatch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,30 +30,27 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
-            getPosts()
-            getFriendRequestsCount()
-            getNotificationsCount()
-        }
+        getPosts()
+        getFriendRequestsCount()
+        getNotificationsCount()
     }
 
 
-    private suspend fun getPosts() {
-        wrapWithTryCatch(
-            tryBody = {
+    private fun getPosts() {
+        viewModelScope.launch {
+            try {
+
                 val posts = fetchNewsFeedPost().map { it.toPostUiState() }
                 _homeUiState.update {
                     it.copy(
-                        posts = posts,
-                        isLoading = false,
-                        isError = false
+                        posts = posts, isLoading = false, isError = false
                     )
                 }
-            }
-        ) {
-            _homeUiState.update { it.copy(isLoading = false, isError = true) }
-        }
 
+            } catch (e: Exception) {
+                _homeUiState.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
     }
 
     fun onClickLike(postId: Int) {
@@ -96,27 +92,30 @@ class HomeViewModel @Inject constructor(
 
 
     fun onClickShare() {
-        //
+        // soon
     }
 
-    private suspend fun getFriendRequestsCount() {
-        try {
-            val friendRequestsCount =
-                fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
-            _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
-        } catch (e: Exception) {
-            _homeUiState.update { it.copy(isError = true) }
-        }
-
-
-    }
-
-    private suspend fun getNotificationsCount() {
-        try {
-            val currentNotificationsCount = fetchNotificationsCount().notifications
-            _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }
-        } catch (e: Exception) {
-            _homeUiState.update { it.copy(isError = false) }
+    private fun getFriendRequestsCount() {
+        viewModelScope.launch {
+            try {
+                val friendRequestsCount =
+                    fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
+                _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
+            } catch (e: Exception) {
+                _homeUiState.update { it.copy(isError = true) }
+            }
         }
     }
+
+    private fun getNotificationsCount() {
+        viewModelScope.launch {
+            try {
+                val currentNotificationsCount = fetchNotificationsCount().notifications
+                _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }
+            } catch (e: Exception) {
+                _homeUiState.update { it.copy(isError = false) }
+            }
+        }
+    }
+
 }
