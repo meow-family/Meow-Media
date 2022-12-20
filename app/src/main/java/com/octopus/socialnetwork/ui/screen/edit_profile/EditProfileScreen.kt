@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +17,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
 import com.octopus.socialnetwork.ui.composable.EditProfileInformation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.composable.profile.EditTextField
 import com.octopus.socialnetwork.ui.composable.profile.TopBarArrow
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
@@ -66,8 +66,8 @@ private fun EditProfileContent(
         item {
             TopBarArrow(title = stringResource(id = R.string.edit_profile), onClickBack = onClickBack)
             EditProfileInformation(
-                backImageProfile = painterResource(id = R.drawable.black),
-                profileImage = painterResource(id = R.drawable.iron_man),
+                backImageProfile = customImageLoad(state.profileAvatar),
+                profileImage = customImageLoad(state.profileCover),
                 onEdit ={ })
             EditTextField(
                 title = stringResource(R.string.first_name),

@@ -21,9 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
@@ -52,8 +52,7 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            painter =
-            rememberAsyncImagePainter(model = commentDetails.userAvatar), size = 50
+            painter = customImageLoad(commentDetails.userAvatar) , size = 50
         )
 
         Text(

@@ -8,11 +8,11 @@ fun ViewModel.wrapWithTryCatch(
     tryBody: suspend () -> Unit,
     catchBody: (e: Exception) -> Unit,
 ) {
-    try {
-        viewModelScope.launch {
+    viewModelScope.launch {
+        try {
             tryBody()
+        } catch (e: Exception) {
+            catchBody(e)
         }
-    } catch (e: Exception) {
-        catchBody(e)
     }
 }

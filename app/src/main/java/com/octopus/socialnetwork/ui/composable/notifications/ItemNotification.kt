@@ -11,18 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.MultiTextStyle
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.*
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
@@ -47,7 +45,7 @@ fun ItemNotification(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = notification.posterDetails.posterAvatar),
+            painter = customImageLoad(notification.posterDetails.posterAvatar),
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)

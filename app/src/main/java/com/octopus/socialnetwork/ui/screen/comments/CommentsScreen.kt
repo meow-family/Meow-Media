@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
-import com.octopus.socialnetwork.ui.composable.TypingMessage
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
@@ -69,15 +69,18 @@ private fun CommentsContent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             state = listState,
             reverseLayout = true,
-
             ) {
 
-            itemsIndexed(state.comments) { index, item ->
-                ItemComment(
-                    commentDetails = item,
-                    onLike = { onClickLike(item.commentId) }
-                )
-                if (index < state.comments.lastIndex) Divider()
+            if(state.comments.isEmpty()){
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+            } else{
+                itemsIndexed(state.comments) { index, item ->
+                    ItemComment(
+                        commentDetails = item,
+                        onLike = { onClickLike(item.commentId) }
+                    )
+                    if (index < state.comments.lastIndex) Divider()
+                }
             }
         }
 

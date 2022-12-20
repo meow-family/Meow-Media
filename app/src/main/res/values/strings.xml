@@ -63,7 +63,7 @@
     <string name="profile">Profile</string>
 
     <string name="icon_arrow_back"> icon arrow back </string>
-    <string name="MessageScreenUpbar">Message</string>
+    <string name="MessageScreenUpbar">Messages</string>
     <string name="Comments">Comments</string>
 
     <!-- Notification Titles  -->
@@ -76,7 +76,7 @@
     <string name="started_following_you">has started following you</string>
     <string name="liked_your_photo_in_album">liked your photo in album</string>
     <string name="add_comments_to_your_photo_in_album">has add comments to your photo in album</string>
-
+    <string name="unknown_notification">unknown notification</string>
 
     <string name="email_empty">Email is Required should not empty.</string>
     <string name="email_invalid">Please Enter valid email.</string>
@@ -107,5 +107,5 @@
     <string name="logout">Logout</string>
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
-    <string name="your_message">your message...</string>
+    <string name="your_message">your message…</string>
 </resources>
