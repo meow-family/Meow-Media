@@ -58,7 +58,6 @@ class HomeViewModel @Inject constructor(
             try {
                 val posts = _homeUiState.value.posts
                 posts.find { it.postId == postId }?.let { post ->
-                    Log.i("TESTING", "postId $postId")
                     toggleLikeState(
                         postId = postId,
                         isLiked = post.isLiked.not(),
