@@ -16,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.luminance
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.TypingMessage
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
@@ -71,12 +70,16 @@ fun ChatScreenContent(
             state = listState
         ) {
 
-            items(state.messages) { message ->
+            if(state.messages.isEmpty()){
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+            } else{
+                items(state.messages) { message ->
 
-                if (message.isSentByMe) {
-                    SentMessage(message)
-                } else {
-                    ReceivedMessage(message)
+                    if (message.isSentByMe) {
+                        SentMessage(message)
+                    } else {
+                        ReceivedMessage(message)
+                    }
                 }
             }
         }

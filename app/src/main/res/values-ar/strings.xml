@@ -40,13 +40,13 @@
     <string name="this_is_post_image">this is post image</string>
     <string name="replay">رد</string>
     <string name="your_commit">تعليقك…</string>
-    <string name="profile_image">profile image</string>
+    <string name="profile_image">صورة الملف الشخصي</string>
     <string name="icon">icon</string>
     <string name="notification">الاشعارات</string>
     <string name="friend_requests">طلبات الصداقة</string>
 
 
-    <string name="image_register">Image register</string>
+    <string name="image_register">صورة التسجيل</string>
 
 
     <string name="icon_description"> %1$s Icon </string>
@@ -66,7 +66,7 @@
     <string name="profile">الملف الشخصي</string>
 
     <string name="icon_arrow_back"> icon arrow back </string>
-    <string name="MessageScreenUpbar">رسالة</string>
+    <string name="MessageScreenUpbar">رسائل</string>
     <string name="Comments">تعليقات</string>
 
     <!-- Notification Titles  -->
@@ -79,7 +79,7 @@
     <string name="started_following_you">بدأ بمتابعتك</string>
     <string name="liked_your_photo_in_album">اعجب بصورتك في الألبوم</string>
     <string name="add_comments_to_your_photo_in_album">أضاف تعليقات إلى صورتك في الألبوم</string>
-
+    <string name="unknown_notification">اشعار غير معروف</string>
 
     <string name="email_empty">البريد الإلكتروني مطلوب يجب ألا يكون فارغًا.</string>
     <string name="email_invalid">الرجاء إدخال بريد إلكتروني صحيح.</string>
