@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
@@ -23,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 import kotlinx.coroutines.launch
 
 
@@ -42,7 +40,7 @@ fun TypingField(
             .fillMaxWidth()
             .padding(12.dp)
             .height(48.dp),
-        backgroundColor = Color.LightGray,
+        backgroundColor = MaterialTheme.colors.textSecondaryColor,
         shape = RoundedCornerShape(57.dp),
         elevation = 0.dp
     ) {
