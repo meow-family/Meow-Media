@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -26,13 +27,14 @@ import com.octopus.socialnetwork.ui.theme.outLine
 @Composable
 fun SearchItem(
     state: UserDetailsUiState,
+    onClickItem: (Int) -> Unit
 ) {
     Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .clickable { }
+                .clickable { onClickItem(state.userId) }
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -55,6 +57,8 @@ fun SearchItem(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
+                    modifier = Modifier.width(200.dp),
+                    overflow = TextOverflow.Ellipsis
                 )
 
                 Text(

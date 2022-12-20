@@ -31,8 +31,8 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     private fun getFriendRequests() {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val friendRequests = fetchFriendRequestsListUseCase()
 
                 _state.update {
@@ -42,10 +42,9 @@ class FriendRequestViewModel @Inject constructor(
                         isError = false,
                     )
                 }
-
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
-        } catch (e: Exception) {
-            _state.update { it.copy(isLoading = false, isError = true) }
         }
     }
 
