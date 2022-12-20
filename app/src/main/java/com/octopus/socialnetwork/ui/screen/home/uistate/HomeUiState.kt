@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 data class HomeUiState(
-   // val posts: List<PostUiState> = emptyList(),
     val posts: Flow<PagingData<PostUiState>> = emptyFlow(),
     val isLoading: Boolean = true,
     val isError: Boolean = false,
+    val isLiked: Boolean = false,
     val notificationsCount: Int = 0,
     val friendRequestsCount: Int = 0,
 )

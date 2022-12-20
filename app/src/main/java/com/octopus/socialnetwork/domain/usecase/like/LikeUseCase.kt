@@ -9,7 +9,7 @@ class LikeUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userId: Int, contentId: Int, contentType: String): Int?{
         val response = socialRepository.like(userId, contentId, contentType)
-        Log.i("TESTING",response.toString())
+        Log.i("TESTING","response.count : ${response.count}")
         return response.count
     }
 }

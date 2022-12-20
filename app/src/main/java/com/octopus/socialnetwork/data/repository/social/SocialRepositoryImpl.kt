@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.octopus.socialnetwork.data.remote.pagingsource.PostsDataSource
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 
@@ -98,11 +100,18 @@ class SocialRepositoryImpl @Inject constructor(
 
 
     override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
-        return socialService.viewNewsFeed(currentUserId,1).result.posts
+        return socialService.viewNewsFeed(currentUserId, 1).result.posts
     }
 
-    override fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource {
-       return PostsDataSource(socialService, currentUserId)
+//    override fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource {
+//        return PostsDataSource(socialService, currentUserId)
+//    }
+
+    override suspend fun viewNewsFeedPager(currentUserId: Int): Pager<Int, PostDto> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+            pagingSourceFactory = { PostsDataSource(socialService, currentUserId) }
+        )
     }
 
     override suspend fun createPost(
@@ -152,7 +161,6 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
-
 
 
     override suspend fun getComments(

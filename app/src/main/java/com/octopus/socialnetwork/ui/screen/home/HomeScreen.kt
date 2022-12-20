@@ -1,12 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,7 +30,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.homeUiState.collectAsState()
-    val posts = state.posts.collectAsLazyPagingItems()
 
 
     HomeContent(
@@ -60,7 +56,7 @@ fun HomeScreen(
 @Composable
 private fun HomeContent(
     state: HomeUiState,
-    onClickLike: (Int) -> Unit,
+    onClickLike: (Int,Boolean) -> Unit,
     onClickComment: (Int) -> Unit,
     onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
@@ -89,6 +85,7 @@ private fun HomeContent(
             Loading()
         }
 
+
         LazyColumn(
             Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
@@ -105,9 +102,11 @@ private fun HomeContent(
                         onShare = onClickShare
                     )
                 }
-
             }
+
+
         }
+
 
 
 
@@ -117,7 +116,21 @@ private fun HomeContent(
 }
 
 
+@Composable
+fun LoadingPaging(){
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight(),
+        contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(42.dp)
+                .padding(8.dp),
+            strokeWidth = 5.dp
+        )
 
+    }
+}
 
 
 
