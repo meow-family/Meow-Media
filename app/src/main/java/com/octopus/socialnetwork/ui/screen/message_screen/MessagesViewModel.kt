@@ -7,7 +7,6 @@ import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
-import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,8 +23,6 @@ class MessagesViewModel @Inject constructor(
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
-    private val _searchUiState = MutableStateFlow(SearchUiState())
-    val searchUiState = _searchUiState.asStateFlow()
 
     init {
         getMessagesDetails()
@@ -46,10 +43,13 @@ class MessagesViewModel @Inject constructor(
 
     }
 
+    fun onClickSearch() {
+        _state.update { it.copy(isSearchVisible = !it.isSearchVisible) }
+    }
 
     fun onChangeText(newValue: String) {
-        _searchUiState.update { it.copy(query = newValue) }
-        search(_searchUiState.value.query)
+        _state.update { it.copy(query = newValue) }
+        search(_state.value.query)
     }
 
     fun search(query: String) {
@@ -57,15 +57,15 @@ class MessagesViewModel @Inject constructor(
             try {
                 val searchResult =
                     searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
-                _searchUiState.update { searchUiState ->
+                _state.update { searchUiState ->
                     searchUiState.copy(
                         users = searchResult,
                         isLoading = false,
-                        isError = false,
+                        isFail = false,
                     )
                 }
             } catch (e: Exception) {
-                _searchUiState.update { it.copy(isLoading = false, isError = true) }
+                _state.update { it.copy(isLoading = false, isFail = true) }
             }
         }
 

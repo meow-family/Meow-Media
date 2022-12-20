@@ -56,7 +56,7 @@ private fun SearchContent(
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
         SpacerVertical16()
 
-        SearchViewItem(state = state, onValueChange = onChangeTypingSearch)
+        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
         LazyColumn {
             if(state.query.isEmpty()) {
                 item { LottieSearch() }

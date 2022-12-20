@@ -15,14 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Composable
-fun SearchViewItem(state: SearchUiState, onValueChange: (String) -> Unit) {
+fun SearchViewItem(query: String, onValueChange: (String) -> Unit) {
     TextField(
-        value = state.query,
+        value = query,
         onValueChange = onValueChange,
         modifier = Modifier.padding(horizontal = 16.dp)
             .fillMaxWidth()
@@ -38,7 +37,7 @@ fun SearchViewItem(state: SearchUiState, onValueChange: (String) -> Unit) {
             )
         },
         trailingIcon = {
-            if (state.query != "") {
+            if (query != "") {
                 IconButton(onClick = { onValueChange("") }) {
                     Icon(
                         Icons.Default.Close,
