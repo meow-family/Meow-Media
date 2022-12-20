@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -20,14 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
+import com.octopus.socialnetwork.ui.theme.Shapes
+import com.octopus.socialnetwork.ui.theme.spacingMedium
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -87,17 +90,17 @@ fun CreatePostContent(
             onClick = onClickAddPost,
             modifier = Modifier
                 .width(120.dp)
-                .padding(16.dp)
+                .padding(spacingMedium)
                 .zIndex(1f)
                 .height(40.dp),
-            shape = RoundedCornerShape(24.dp),
+            shape = Shapes.large,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.primary
             ),
             enabled = state.isValidImage
         ) {
             Text(
-                text = "Post",
+                text = stringResource(id = R.string.post),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
@@ -107,7 +110,7 @@ fun CreatePostContent(
             modifier = Modifier.fillMaxSize(),
             model = state.imageUri,
             contentScale = ContentScale.Crop,
-            contentDescription = null
+            contentDescription = stringResource(id = R.string.image_post)
         )
 
         Box(
@@ -121,7 +124,7 @@ fun CreatePostContent(
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = spacingMedium),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     disabledTextColor = Color.Transparent,
@@ -131,7 +134,12 @@ fun CreatePostContent(
                     disabledIndicatorColor = Color.Transparent
 
                 ),
-                placeholder = { Text(text = "add caption ...", color = Color.White) },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.add_caption),
+                        color = Color.White
+                    )
+                },
                 value = state.captionText,
                 onValueChange = onChangeCaptionText
             )
