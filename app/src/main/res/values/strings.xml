@@ -108,4 +108,10 @@
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
     <string name="your_message">your message…</string>
+
+    <string name="post">Post</string>
+    <string name="add_caption">Add caption …</string>
+    <string name="image_post">Post Image</string>
+    <string name="back">Back</string>
+
 </resources>

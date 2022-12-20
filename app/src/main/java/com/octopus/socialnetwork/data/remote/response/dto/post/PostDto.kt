@@ -8,7 +8,7 @@ data class PostDto(
     @SerializedName("post")
     val details: PostDetailsDto?,
     @SerializedName("friends")
-    val friends: List<UserFriendsDto>,
+    val friends: List<UserFriendsDto>?,
     @SerializedName("text")
     val description: String?,
     @SerializedName("user")
