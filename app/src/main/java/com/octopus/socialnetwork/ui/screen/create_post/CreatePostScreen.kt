@@ -1,10 +1,9 @@
-package com.octopus.socialnetwork.ui.screen.createPost
+package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,8 +34,8 @@ import java.io.InputStream
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreatePost(
+    navController: NavController,
     viewModel: CreatePostViewModel = hiltViewModel(),
-    navController: NavController
 ) {
     var imageUri by remember {
         mutableStateOf<Uri?>(null)

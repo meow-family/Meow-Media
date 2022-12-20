@@ -1,10 +1,9 @@
-package com.octopus.socialnetwork.ui.screen.createPost
+package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.CreatePostUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
