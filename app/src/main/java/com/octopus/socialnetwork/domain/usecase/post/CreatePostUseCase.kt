@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.domain.usecase.post
 
-import android.util.Log
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.post.Post
@@ -14,10 +13,18 @@ class CreatePostUseCase @Inject constructor(
 ){
     suspend operator fun invoke(description: String, photo: File?) : Post?{
         val currentUserId = fetchUserIdUseCase()
-        return photo?.let { socialRepository.createPost(currentUserId,currentUserId,"meow meow", POSTTYPE,it)?.toPost()?: throw Exception("meow!")}
+        return photo?.let {
+            socialRepository.createPost(
+                currentUserId,
+                currentUserId,
+                description,
+                POST_TYPE,
+                it
+            )?.toPost() ?: throw Exception("Adding post failed!")
+        }
     }
 
     companion object{
-        const val POSTTYPE = "user"
+        const val POST_TYPE = "user"
     }
 }
