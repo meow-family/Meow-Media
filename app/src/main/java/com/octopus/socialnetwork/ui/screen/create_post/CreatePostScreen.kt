@@ -9,13 +9,18 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +34,8 @@ import coil.compose.AsyncImage
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
+import com.octopus.socialnetwork.ui.screen.main.navigateToMain
+import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import java.io.File
@@ -56,8 +63,10 @@ fun CreatePostScreen(
 
     CreatePostContent(
         state = state,
+        navController = navController,
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
+        onClickBack = { navController.popBackStack() },
         onClickAddPost = {
             state.imageUri?.let {
                 viewModel.onClickChangeImage(createFileFromContentUri(it, context))
@@ -70,8 +79,10 @@ fun CreatePostScreen(
 @Composable
 fun CreatePostContent(
     state: CreatePostUiState,
+    navController: NavController,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     onClickAddPost: () -> Unit,
+    onClickBack: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
 
@@ -86,26 +97,50 @@ fun CreatePostContent(
             .size(32.dp),
         contentAlignment = Alignment.TopEnd
     ) {
-        Button(
-            onClick = onClickAddPost,
+        Row(
             modifier = Modifier
-                .width(120.dp)
-                .padding(spacingMedium)
+                .fillMaxWidth()
                 .zIndex(1f)
-                .height(40.dp),
-            shape = Shapes.large,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.primary
-            ),
-            enabled = state.isValidImage
+                .padding(spacingMedium),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(
-                text = stringResource(id = R.string.post),
-                textAlign = TextAlign.Center,
+            IconButton(
+                onClick = { onClickBack() },
+                Modifier
+                    .clip(CircleShape)
+                    .background(color = LightBlack_65)
+                    .zIndex(1f)
+                    .size(32.dp)
+
+            ) {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back),
+                    tint = Color.White
+                )
+            }
+            Button(
+                onClick = onClickAddPost,
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
-            )
+                    .width(120.dp)
+                    .zIndex(1f)
+                    .height(40.dp),
+                shape = Shapes.large,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.primary
+                ),
+                enabled = state.isValidImage
+            ) {
+                Text(
+                    text = stringResource(id = R.string.post),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                )
+            }
         }
+
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
             model = state.imageUri,
@@ -150,6 +185,12 @@ fun CreatePostContent(
         singlePhotoPickerLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
         )
+    }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            navController.navigateToMain()
+        }
     }
 
 }
