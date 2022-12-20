@@ -38,11 +38,8 @@ fun NotificationsScreen(
         state = state,
         onClickNotification = { notification ->
             onClickNotification(
-                notification.notificationDetails.type,
-                navController,
-                notification
+                notification.type, navController, notification
             )
-
             viewModel.markViewedNotification(notification)
         },
         onClickBack = { navController.navigateToHomeScreen() }
@@ -58,7 +55,8 @@ private fun NotificationsContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start, modifier = Modifier
-            .fillMaxSize().background(color = Color.White),
+            .fillMaxSize()
+            .background(color = Color.White),
     ) {
 
         AppBar(onClickBack, title = stringResource(R.string.notification))

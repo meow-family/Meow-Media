@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.luminance
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.*
@@ -48,7 +47,6 @@ fun ChatScreenContent(
     onClickImage: (Int) -> Unit,
 ) {
     val listState = rememberLazyListState()
-   // val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,9 +55,7 @@ fun ChatScreenContent(
 
     ) {
 
-        if (state.messages.isNotEmpty()) {
-            ChatScreenTopBar(state.messages.first(), onClickBack = onClickBack, onClickImage = onClickImage)
-        }
+        ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
 
         LazyColumn(
             Modifier

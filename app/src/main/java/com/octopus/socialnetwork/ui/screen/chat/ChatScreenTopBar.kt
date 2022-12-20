@@ -20,13 +20,13 @@ import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ProfileImage
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
 fun ChatScreenTopBar(
-    state: MessageUiState,
+    state: MessageMainUiState,
     onClickBack: () -> Unit,
     onClickImage: (Int) -> Unit
 ) {
@@ -49,17 +49,17 @@ fun ChatScreenTopBar(
             )
         }
         Row(
-            Modifier.fillMaxWidth().clickable(onClick = {onClickImage(state.otherUser.userId)}),
+            Modifier.fillMaxWidth().clickable(onClick = {onClickImage(state.userId)}),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-             painter = rememberAsyncImagePainter(model = state.otherUser.profileAvatar),
+             painter = rememberAsyncImagePainter(model = state.profileAvatar),
                 modifier = Modifier.size(40.dp).clip(CircleShape)
             )
             Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
-                    text = state.otherUser.fullName ,
+                    text = state.fullName ,
                     color = MaterialTheme.colors.textPrimaryColor,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
