@@ -49,16 +49,18 @@ class CreatePostViewModel @Inject constructor(
 
 
     fun onClickChangeImage(file: File) {
-        val imageValid = state.value.imageUri?.let { imageAnalyzer(it) }
+        viewModelScope.launch {
 
-        setLoading(true)
-        if (imageValid == true) {
-            viewModelScope.launch {
+            val imageValid = state.value.imageUri?.let { imageAnalyzer(it) }
+
+            setLoading(true)
+            if (imageValid == true) {
                 val result = createPostUseCase(_state.value.captionText, file)
-                if (result != null) {
+                result?.let {
                     setLoading(false)
                     uploadPostsSuccess()
                 }
+
             }
         }
 

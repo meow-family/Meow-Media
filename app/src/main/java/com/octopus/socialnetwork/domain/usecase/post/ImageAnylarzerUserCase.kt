@@ -7,22 +7,23 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class ImageAnalyzerUserCase @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    operator fun invoke(imageUri: Uri): Boolean? {
+    suspend operator fun invoke(imageUri: Uri): Boolean? {
+
         var imageIndexCat: Boolean? = false
+
         val image = InputImage.fromFilePath(context, imageUri)
         val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
-        labeler.process(image)
-            .addOnSuccessListener { labels ->
-                imageIndexCat = labels.map { it.index == labelIndexCat }.contains(true)
-            }
-            .addOnFailureListener { e ->
-                imageIndexCat = null
-            }
+        labeler.process(image).addOnFailureListener {
+            imageIndexCat = null
+        }.addOnSuccessListener {
+            imageIndexCat = it.map { it.index == labelIndexCat }.first()
+        }.await()
 
         return imageIndexCat
     }
