@@ -34,7 +34,7 @@
     <string name="add_icon_name">add icon</string>
     <string name="share_icon">Share Icon</string>
     <string name="comment_icon">Comment Icon</string>
-    <string name="like_icon">Like Icon</string>
+    <string name="like">Like</string>
     <string name="this_is_post_image">this is post image</string>
     <string name="replay">Reply</string>
     <string name="your_commit">Your comment…</string>
@@ -88,7 +88,7 @@
     <string name="username_not_clean">UserName content just uppercase letter or lowercase letter.</string>
 
     <string name="password_empty">Password is Required should not empty.</string>
-    <string name="password_short">Password is too short - must be at least 6 characters</string>
+    <string name="password_short">Password is too short - must be at least 8 characters</string>
     <string name="password_long">Password is too Long - maximum fifty characters.</string>
     <string name="password_not_clean">Password should be uppercase letter and lowercase and one digit without any symbol.</string>
 

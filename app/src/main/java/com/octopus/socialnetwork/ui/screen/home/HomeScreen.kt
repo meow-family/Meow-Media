@@ -94,8 +94,8 @@ private fun HomeContent(
                 ItemPost(
                     post = it,
                     onClickPost = onClickPost,
-                    onLike = { onClickLike(it.postId) },
-                    onComment = { onClickComment(it.postId) },
+                    onLike = onClickLike ,
+                    onComment = onClickComment,
                     onShare = onClickShare
                 )
             }

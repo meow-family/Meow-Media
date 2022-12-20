@@ -1,9 +1,14 @@
 package com.octopus.socialnetwork.ui.composable.comment
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,7 +35,7 @@ fun ItemComment(
     onLike: () -> Unit
 ) {
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp, 8.dp, 8.dp, 16.dp)
@@ -87,9 +92,12 @@ fun ItemComment(
                     start.linkTo(postText.start)
                 }) {
             Icon(
-                painter = painterResource(R.drawable.ic_heart),
-                contentDescription = "print",
-                tint = if (commentDetails.isLikedByUser) Color.Unspecified else Color.Gray
+                painterResource(
+                    if (commentDetails.isLikedByUser) R.drawable.ic_like_12
+                    else R.drawable.ic_un_like_12
+                ),
+                contentDescription = stringResource(id = R.string.like),
+                tint = if (commentDetails.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
             )
         }
 

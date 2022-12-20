@@ -39,8 +39,8 @@ fun PostAction(
 
         Icon(
             modifier = modifier.clickable { onLike() },
-            painter = painterResource(R.drawable.ic_like),
-            contentDescription = stringResource(R.string.like_icon),
+            painter = painterResource(R.drawable.ic_like_16),
+            contentDescription = stringResource(R.string.like),
             tint = if(isLikedByUser) Color.Red else Color.White
         )
         SpaceVertically8dp()

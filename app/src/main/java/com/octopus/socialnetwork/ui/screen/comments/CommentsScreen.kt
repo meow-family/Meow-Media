@@ -9,6 +9,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,13 +20,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
+import com.octopus.socialnetwork.ui.composable.TypingMessage
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
-import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
-import kotlin.reflect.KSuspendFunction0
+import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
 
 @Composable
@@ -38,7 +39,7 @@ fun CommentsScreen(
     CommentsContent(
         state = state,
         onChangeTypingComment = viewModel::onChangeTypingComment,
-        onClickSend = viewModel::addComment,
+        onClickSend = viewModel::onClickSend,
         onClickBack = { navController.popBackStack() },
         onClickLike = viewModel::onClickLike
     )
@@ -48,7 +49,7 @@ fun CommentsScreen(
 private fun CommentsContent(
     state: CommentsUiState,
     onChangeTypingComment: (String) -> Unit,
-    onClickSend: KSuspendFunction0<Unit>,
+    onClickSend: () -> Unit,
     onClickBack: () -> Unit,
     onClickLike: (Int) -> Unit
 ) {
@@ -67,28 +68,33 @@ private fun CommentsContent(
                 .weight(.8f),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = listState
-        ) {
+            state = listState,
+            reverseLayout = true,
+            ) {
 
             if(state.comments.isEmpty()){
                 item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
             } else{
                 itemsIndexed(state.comments) { index, item ->
-                    ItemComment(commentDetails = item, onLike = { onClickLike(item.commentId) })
-                    if (index < state.comments.lastIndex)
-                        Divider()
+                    ItemComment(
+                        commentDetails = item,
+                        onLike = { onClickLike(item.commentId) }
+                    )
+                    if (index < state.comments.lastIndex) Divider()
                 }
             }
         }
 
         TypingField(
-            value = state.comment,
             onChangeTypingComment = onChangeTypingComment,
             onClickSend = onClickSend,
-            listState = listState,
-            index = state.comments.lastIndexOrZero(),
+            state = state
         )
 
+    }
+
+    LaunchedEffect(key1 = state.isSuccess ){
+        listState.animateScrollToItem(index = state.comments.lastIndexOrZero())
     }
 
 }
