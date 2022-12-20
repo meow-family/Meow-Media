@@ -15,20 +15,20 @@ class ImageAnalyzerUserCase @Inject constructor(
 ) {
     suspend operator fun invoke(imageUri: Uri): Boolean? {
 
-        var imageIndexCat: Boolean? = false
+        var isImageHaveCat: Boolean? = false
 
         val image = InputImage.fromFilePath(context, imageUri)
         val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
         labeler.process(image).addOnFailureListener {
-            imageIndexCat = null
-        }.addOnSuccessListener {
-            imageIndexCat = it.map { it.index == labelIndexCat }.first()
+            isImageHaveCat = null
+        }.addOnSuccessListener { it ->
+            isImageHaveCat = it.map { it.index == CAT_LABEL_INDEX }.first()
         }.await()
 
-        return imageIndexCat
+        return isImageHaveCat
     }
 
     companion object {
-        const val labelIndexCat = 118
+        const val CAT_LABEL_INDEX = 118
     }
 }
