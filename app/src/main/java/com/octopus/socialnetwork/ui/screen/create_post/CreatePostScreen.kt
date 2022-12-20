@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -36,6 +38,7 @@ import coil.compose.AsyncImage
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -45,6 +48,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreatePostScreen(
@@ -70,6 +74,7 @@ fun CreatePostScreen(
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
         onClickAddImage = viewModel::onClickAddImage,
+        onClickWrongImagePost = viewModel::showWrongImagePost,
         onClickBack = { navController.popBackStack() },
         onClickAddPost = {
             state.imageUri?.let {
@@ -88,6 +93,7 @@ fun CreatePostContent(
     onClickAddPost: () -> Unit,
     onClickBack: () -> Unit,
     onClickAddImage: () -> Unit,
+    onClickWrongImagePost: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
 
@@ -198,6 +204,20 @@ fun CreatePostContent(
 
     if (state.isLoading) {
         LoadingDialog()
+    }
+    if (state.showWrongImagePost) {
+        Dialog(onDismissRequest = { }) {
+            CustomDialog(
+                icon = Icons.Default.Image,
+                title = stringResource(R.string.image_post_rejected),
+                description = stringResource(R.string.image_post_rejected_description),
+                actionTitle = stringResource(id = R.string.ok),
+                checkAction = {
+                    onClickWrongImagePost()
+                },
+            )
+        }
+
     }
     LaunchedEffect(state.isAddNewImage) {
         singlePhotoPickerLauncher.launch(

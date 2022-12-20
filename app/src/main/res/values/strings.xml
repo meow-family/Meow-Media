@@ -113,5 +113,6 @@
     <string name="add_caption">Add caption …</string>
     <string name="image_post">Post Image</string>
     <string name="back">Back</string>
-
+    <string name="image_post_rejected">Image post rejected</string>
+    <string name="image_post_rejected_description">Image post not content Cat \" image outside idea app \", Should include Cat.</string>
 </resources>

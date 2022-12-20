@@ -116,4 +116,7 @@
     <string name="image_post">صور المنشور </string>
     <string name="back">رجوع</string>
 
+    <string name="image_post_rejected">تم دفض صوره المنشور</string>
+    <string name="image_post_rejected_description">الصوره يجب ان تتضمن صوره</string>
+
 </resources>

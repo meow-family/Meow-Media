@@ -61,6 +61,9 @@ class CreatePostViewModel @Inject constructor(
                     uploadPostsSuccess()
                 }
 
+            } else {
+                setLoading(false)
+                showWrongImagePost()
             }
         }
 
@@ -70,6 +73,14 @@ class CreatePostViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isSuccess = true
+            )
+        }
+    }
+
+    fun showWrongImagePost() {
+        _state.update {
+            it.copy(
+                showWrongImagePost = !state.value.showWrongImagePost
             )
         }
     }
