@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.CreatePostUseCase
@@ -48,14 +47,29 @@ class CreatePostViewModel @Inject constructor(
 
 
     fun onClickChangeImage(file: File) {
+        setLoading(true)
+        viewModelScope.launch {
+            val result = createPostUseCase(_state.value.captionText, file)
+            if (result != null) {
+                setLoading(false)
+                uploadPostsSuccess()
+            }
+        }
+    }
+
+    private fun uploadPostsSuccess() {
         _state.update {
             it.copy(
                 isSuccess = true
             )
         }
-        viewModelScope.launch {
-            Log.d("kkk", file.toString())
-            createPostUseCase("meow meoow", file)
+    }
+
+    private fun setLoading(state: Boolean) {
+        _state.update {
+            it.copy(
+                isLoading = state
+            )
         }
     }
 }

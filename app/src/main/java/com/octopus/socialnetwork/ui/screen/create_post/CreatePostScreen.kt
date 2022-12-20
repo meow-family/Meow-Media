@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
@@ -195,6 +196,9 @@ fun CreatePostContent(
 
     }
 
+    if (state.isLoading) {
+        LoadingDialog()
+    }
     LaunchedEffect(state.isAddNewImage) {
         singlePhotoPickerLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
