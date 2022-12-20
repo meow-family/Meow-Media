@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -27,52 +27,51 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreatePost(
+fun CreatePostScreen(
     navController: NavController,
     viewModel: CreatePostViewModel = hiltViewModel(),
 ) {
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
+    val state by viewModel.state.collectAsState()
+
+
     val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             uri?.let {
-                imageUri = it
-             }
+                viewModel.setImageUri(it)
+            }
         }
     )
 
-    LaunchedEffect(key1 = true) {
-        singlePhotoPickerLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
-    }
-
     CreatePostContent(
+        state = state,
+        singlePhotoPickerLauncher = singlePhotoPickerLauncher,
+        onChangeCaptionText = viewModel::onChangeCaptionText,
         onClickAddPost = {
-            imageUri?.let {
-                if (it != null)
+            state.imageUri?.let {
                 viewModel.onClickChangeImage(createFileFromContentUri(it, context))
             }
         },
-        imageUri
-    )
+
+        )
 }
 
 @Composable
 fun CreatePostContent(
+    state: CreatePostUiState,
+    singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     onClickAddPost: () -> Unit,
-    imageUri: Uri?
+    onChangeCaptionText: (String) -> Unit,
 ) {
-    val textState = remember { mutableStateOf(TextFieldValue()) }
+
 
     Box(
         modifier = Modifier
@@ -95,6 +94,7 @@ fun CreatePostContent(
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.primary
             ),
+            enabled = state.isValidImage
         ) {
             Text(
                 text = "Post",
@@ -104,7 +104,8 @@ fun CreatePostContent(
             )
         }
         AsyncImage(
-            modifier = Modifier.fillMaxSize(), model = imageUri,
+            modifier = Modifier.fillMaxSize(),
+            model = state.imageUri,
             contentScale = ContentScale.Crop,
             contentDescription = null
         )
@@ -131,10 +132,16 @@ fun CreatePostContent(
 
                 ),
                 placeholder = { Text(text = "add caption ...", color = Color.White) },
-                value = textState.value,
-                onValueChange = { textState.value = it }
+                value = state.captionText,
+                onValueChange = onChangeCaptionText
             )
         }
+    }
+
+    LaunchedEffect(key1 = true) {
+        singlePhotoPickerLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
     }
 
 }

@@ -17,6 +17,6 @@ fun NavController.navigateToCreatePostRoute() {
 @RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.createPostRoute(navController: NavController) {
     composable(ROUTE) {
-        CreatePost(navController)
+        CreatePostScreen(navController)
     }
 }
