@@ -16,7 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +43,7 @@ import com.octopus.socialnetwork.ui.theme.spacingMedium
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreatePostScreen(
@@ -66,6 +68,7 @@ fun CreatePostScreen(
         navController = navController,
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
+        onClickAddImage = viewModel::onClickAddImage,
         onClickBack = { navController.popBackStack() },
         onClickAddPost = {
             state.imageUri?.let {
@@ -83,6 +86,7 @@ fun CreatePostContent(
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     onClickAddPost: () -> Unit,
     onClickBack: () -> Unit,
+    onClickAddImage: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
 
@@ -130,7 +134,7 @@ fun CreatePostContent(
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary
                 ),
-                enabled = state.isValidImage
+                enabled = state.imageUri != null
             ) {
                 Text(
                     text = stringResource(id = R.string.post),
@@ -148,17 +152,25 @@ fun CreatePostContent(
             contentDescription = stringResource(id = R.string.image_post)
         )
 
-        Box(
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .align(alignment = Alignment.BottomCenter)
-                .backgroundTextShadow()
+                .align(alignment = Alignment.BottomCenter),
+            horizontalAlignment = Alignment.End
         ) {
+            FloatingAction(
+                onClick = onClickAddImage,
+                modifier = Modifier.padding(spacingMedium),
+                imageVector = if (state.imageUri == null) Icons.Filled.Add else Icons.Filled.Edit,
+                hiddenBoarder = true,
+            )
 
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .backgroundTextShadow()
                     .padding(horizontal = spacingMedium),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
@@ -179,9 +191,11 @@ fun CreatePostContent(
                 onValueChange = onChangeCaptionText
             )
         }
+
+
     }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(state.isAddNewImage) {
         singlePhotoPickerLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
         )

@@ -38,6 +38,15 @@ class CreatePostViewModel @Inject constructor(
         }
     }
 
+    fun onClickAddImage() {
+        _state.update {
+            it.copy(
+                isAddNewImage = !state.value.isAddNewImage
+            )
+        }
+    }
+
+
     fun onClickChangeImage(file: File) {
         _state.update {
             it.copy(

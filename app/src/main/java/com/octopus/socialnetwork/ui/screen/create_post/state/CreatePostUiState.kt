@@ -8,6 +8,7 @@ data class CreatePostUiState(
     val isValidImage: Boolean = false,
     val displayErrorsWrongImage: Boolean = false,
     val imageUri: Uri? = null,
-    val captionText: String = ""
+    val captionText: String = "",
+    val isAddNewImage: Boolean = true,
 
-)
+    )
