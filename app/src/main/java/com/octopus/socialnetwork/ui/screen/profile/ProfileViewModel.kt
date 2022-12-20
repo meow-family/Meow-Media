@@ -65,7 +65,7 @@ class ProfileViewModel @Inject constructor(
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
                 val profilePosts = fetchUserPosts(currentUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
+                val profileUiState = fetchUserDetailS(currentUserId)
 
                 _state.update {
                     it.copy(
@@ -73,10 +73,8 @@ class ProfileViewModel @Inject constructor(
                         isError = false,
                         profilePosts = profilePosts,
                         userDetails = it.userDetails.copy(
-                            fullName = profileUiState.fullName,
-                            username = profileUiState.username,
-                            profileAvatar = profileUiState.profileAvatar,
-                            profileCover = profileUiState.profileCover,
+//                            fullName = profileUiState.collect(),
+//                            username = profileUiState.username,
                             friendsCount = userFriendsCount.toString(),
                             postCount = userPostsCount.toString(),
                         )

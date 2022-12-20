@@ -1,7 +1,11 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import android.util.Log
+import com.octopus.socialnetwork.data.local.mappers.user.LocalMappersContainer
+import com.octopus.socialnetwork.data.local.mappers.user.UserMapper
+import com.octopus.socialnetwork.data.local.user.UserDao
+import com.octopus.socialnetwork.data.local.user.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
@@ -21,16 +25,44 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.octopus.socialnetwork.data.repository.BaseRepository
+import com.octopus.socialnetwork.domain.mapper.user.toUserDetails
+import com.octopus.socialnetwork.domain.model.user.UserDetails
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import java.util.*
 import javax.inject.Inject
 
 class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
-) : SocialRepository {
+    private val userDao: UserDao,
+    private val dataMappers: LocalMappersContainer,
+    private val userMapper: UserMapper,
+) : BaseRepository(), SocialRepository {
 
     //region user
-    override suspend fun getUserDetails(visitedUserId: Int): UserDto {
-        return socialService.getUserDetails(visitedUserId).result
+//    override suspend fun getUserDetails(visitedUserId: Int): UserDto {
+//        return socialService.getUserDetails(visitedUserId).result
+//    }
+
+//    override suspend fun getUserDetails(visitedUserId: Int): UserDetails {
+////        return socialService.getUserDetails(visitedUserId).result.toUserDetails()
+//        userDao.getAll()
+//        return
+//
+//    }
+
+    override suspend fun getUserDetails(visitedUserId: Int): Flow<UserDetails> {
+        return flow {
+            try {
+                val user = socialService.getUserDetails(visitedUserId).result
+                userMapper.map(user)
+            } catch (throwable: Throwable) {
+                Log.d("bha", throwable.message.toString())
+            }
+        }
     }
+
 
     override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto {
         return socialService.getUserFriends(visitedUserId).result
@@ -149,7 +181,6 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
 
-
     override suspend fun getComments(
         currentUserId: Int,
         postId: Int,
@@ -215,6 +246,9 @@ class SocialRepositoryImpl @Inject constructor(
             query
         ).result
     }
+
+
+
     //endregion
 
 }

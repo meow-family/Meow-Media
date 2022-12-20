@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import com.octopus.socialnetwork.data.local.user.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
@@ -19,11 +20,14 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
+import com.octopus.socialnetwork.domain.model.user.UserDetails
+import kotlinx.coroutines.flow.Flow
 
 interface SocialRepository {
 
     //region user
-    suspend fun getUserDetails(visitedUserId: Int): UserDto
+    suspend fun getUserDetails(visitedUserId: Int): Flow<UserDetails>
+
 
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
 
