@@ -17,8 +17,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
@@ -62,9 +62,9 @@ fun LoginScreen(
     LoginContent(
         state = state,
         navController = navController,
-        onChangeUsernameOrEmail = viewModel::onChangeUsernameOrEmail,
-        onChangePassword = viewModel::onChangePassword,
         login = viewModel::login,
+        onChangeUsername = viewModel::onChangeUsername,
+        onChangePassword = viewModel::onChangePassword,
         signUp = { navController.navigateToRegister() },
         onClickShowPassword = viewModel::changePasswordVisibility,
         showErrorValidationInput = viewModel::showErrorValidationInput
@@ -77,7 +77,7 @@ fun LoginScreen(
 private fun LoginContent(
     state: LoginUiState,
     navController: NavController,
-    onChangeUsernameOrEmail: (String) -> Unit,
+    onChangeUsername: (String) -> Unit,
     onChangePassword: (String) -> Unit,
     login: () -> Unit,
     onClickShowPassword: () -> Unit,
@@ -122,10 +122,10 @@ private fun LoginContent(
             textAlign = TextAlign.Center
         )
         InputTextFieldValidation(
-            state = state.userInput.userNameOrEmail,
-            onChangeValue = onChangeUsernameOrEmail,
-            placeholder = stringResource(R.string.username_or_email),
-            icon = Icons.Default.Email,
+            state = state.userInput.userName,
+            onChangeValue = onChangeUsername,
+            placeholder = stringResource(R.string.username),
+            icon = Icons.Default.Person,
             showError = state.isDisplayErrorValidationInputs
         )
         SpacerVertical16()
@@ -153,7 +153,7 @@ private fun LoginContent(
             text = stringResource(R.string.login),
             onClick = {
                 val userInput = state.userInput
-                if (userInput.userNameOrEmail.isValid && userInput.password.isValid) {
+                if (userInput.userName.isValid && userInput.password.isValid) {
                     login()
                 } else {
                     showErrorValidationInput()

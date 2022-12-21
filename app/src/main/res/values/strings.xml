@@ -4,7 +4,6 @@
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
     <string name="signup_here">Sign up here</string>
-    <string name="username_or_email">Username or email</string>
 
     <!-- Sign Up  -->
     <string name="create_account">Create Account</string>

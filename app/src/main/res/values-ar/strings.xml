@@ -5,7 +5,6 @@
     <string name="donot_have_account">ليس لديك حساب؟ </string>
     <string name="background">خلفية</string>
     <string name="signup_here">سجل هنا</string>
-    <string name="username_or_email">اسم المستخدم أو البريد الالكتروني</string>
 
     <!-- Sign Up  -->
     <string name="create_account">إنشاء حساب</string>

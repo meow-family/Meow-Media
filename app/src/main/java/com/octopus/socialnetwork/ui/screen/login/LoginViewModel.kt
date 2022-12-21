@@ -4,15 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameOrEmailValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
-import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
 import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
-import com.octopus.socialnetwork.ui.util.extensions.isEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val userNameOrEmailValidation: UserNameOrEmailValidationUseCase,
+    private val userNameValidation: UserNameValidationUseCase,
     private val passwordValidation: PasswordValidationUseCase,
 ) : ViewModel() {
 
@@ -31,28 +28,18 @@ class LoginViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
-    fun onChangeUsernameOrEmail(newUsernameOrEmail: String) {
-        val usernameOrEmailState = userNameOrEmailValidation(newUsernameOrEmail)
-        if (newUsernameOrEmail.isEmail()) {
-            val emailState = usernameOrEmailState.toEmailUiState()
-            if (emailState == EmailState.VALID) {
-                usernameOrEmailState(newUsernameOrEmail, true)
-            } else {
-                usernameOrEmailState(newUsernameOrEmail, false, emailState.message)
-            }
+    fun onChangeUsername(newUsername: String) {
+        val usernameState = userNameValidation(newUsername).toUserNameUiState()
+        if (usernameState == UserNameState.VALID) {
+            usernameState(newUsername, true)
         } else {
-            val usernameState = usernameOrEmailState.toUserNameUiState()
-            if (usernameState == UserNameState.VALID) {
-                usernameOrEmailState(newUsernameOrEmail, true)
-            } else {
-                usernameOrEmailState(newUsernameOrEmail, false, usernameState.message)
-            }
+            usernameState(newUsername, false, usernameState.message)
         }
 
     }
 
-    private fun usernameOrEmailState(
-        usernameOrEmail: String,
+    private fun usernameState(
+        username: String,
         isValidInputs: Boolean,
         error: Int? = null
     ) {
@@ -60,8 +47,8 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs,
                 userInput = it.userInput.copy(
-                    userNameOrEmail = it.userInput.userNameOrEmail.copy(
-                        text = usernameOrEmail,
+                    userName = it.userInput.userName.copy(
+                        text = username,
                         error = error,
                         isValid = isValidInputs
                     )
@@ -98,7 +85,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val loginResponse =
-                    loginUseCase(userInput.userNameOrEmail.text, userInput.password.text)
+                    loginUseCase(userInput.userName.text, userInput.password.text)
                 if (loginResponse?.username.isNullOrEmpty()) {
                     _state.update { it.copy(isError = true, isLoading = false) }
                 } else {
