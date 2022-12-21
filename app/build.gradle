@@ -114,5 +114,13 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     implementation "androidx.paging:paging-runtime-ktx:3.2.0-alpha03"
 
+    //ML-kit image labeling
+    implementation 'com.google.mlkit:image-labeling:17.0.7'
+    implementation 'com.google.android.gms:play-services-mlkit-image-labeling:16.0.8'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+
+    //lottie
+    implementation "com.airbnb.android:lottie-compose:5.2.0"
 
 }

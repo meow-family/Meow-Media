@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable
+package com.octopus.socialnetwork.ui.composable.search
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,9 +19,9 @@ import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Composable
-fun SearchViewItem(text:String?, onValueChange: (String) -> Unit) {
+fun SearchViewItem(query: String, onValueChange: (String) -> Unit) {
     TextField(
-        value = text ?: "",
+        value = query,
         onValueChange = onValueChange,
         modifier = Modifier.padding(horizontal = 16.dp)
             .fillMaxWidth()
@@ -37,7 +37,7 @@ fun SearchViewItem(text:String?, onValueChange: (String) -> Unit) {
             )
         },
         trailingIcon = {
-            if (text != "") {
+            if (query != "") {
                 IconButton(onClick = { onValueChange("") }) {
                     Icon(
                         Icons.Default.Close,

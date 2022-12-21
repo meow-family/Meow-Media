@@ -12,18 +12,15 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacing
 import com.octopus.socialnetwork.ui.theme.spacingLarge
@@ -35,10 +32,15 @@ import com.octopus.socialnetwork.ui.theme.textThirdColor
 
 
 @Composable
-fun DialogCreateAccount(
+fun CustomDialog(
     modifier: Modifier = Modifier,
-    checkEmail: () -> Unit,
-    skip: () -> Unit,
+    title: String,
+    description: String,
+    icon: ImageVector,
+    actionTitle: String,
+    checkAction: () -> Unit,
+    cancelTitle: String? = null,
+    onClickCancel: () -> Unit = {},
 ) {
     Card(
         shape = Shapes.large,
@@ -53,7 +55,7 @@ fun DialogCreateAccount(
         Column {
 
             Image(
-                Icons.Default.Email,
+                icon,
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 colorFilter = ColorFilter.tint(
@@ -68,7 +70,7 @@ fun DialogCreateAccount(
 
             Column(modifier = Modifier.padding(spacingMedium)) {
                 Text(
-                    text = stringResource(R.string.create_account_success),
+                    text = title,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = spacing)
@@ -78,7 +80,7 @@ fun DialogCreateAccount(
                     ),
                 )
                 Text(
-                    text = stringResource(R.string.create_account_message),
+                    text = description,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(
@@ -102,21 +104,24 @@ fun DialogCreateAccount(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
 
-                TextButton(onClick = {
-                    skip()
-                }) {
+                if (cancelTitle != null) {
+                    TextButton(onClick = {
+                        onClickCancel()
+                    }) {
 
-                    Text(
-                        stringResource(id = R.string.not_now),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.textThirdColor,
-                    )
+                        Text(
+                            actionTitle,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.textThirdColor,
+                        )
+                    }
                 }
+
                 Button(onClick = {
-                    checkEmail()
+                    checkAction()
                 }) {
                     Text(
-                        stringResource(id = R.string.check_email),
+                        actionTitle,
                         fontWeight = FontWeight.ExtraBold,
                     )
                 }

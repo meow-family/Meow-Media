@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Social Network</string>
+    <string name="app_name">Meow Social</string>
     <string name="description">Welcome back! login to rejoin our community</string>
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
@@ -63,7 +63,7 @@
     <string name="profile">Profile</string>
 
     <string name="icon_arrow_back"> icon arrow back </string>
-    <string name="MessageScreenUpbar">Message</string>
+    <string name="MessageScreenUpbar">Messages</string>
     <string name="Comments">Comments</string>
 
     <!-- Notification Titles  -->
@@ -76,7 +76,7 @@
     <string name="started_following_you">has started following you</string>
     <string name="liked_your_photo_in_album">liked your photo in album</string>
     <string name="add_comments_to_your_photo_in_album">has add comments to your photo in album</string>
-
+    <string name="unknown_notification">unknown notification</string>
 
     <string name="email_empty">Email is Required should not empty.</string>
     <string name="email_invalid">Please Enter valid email.</string>
@@ -107,5 +107,13 @@
     <string name="logout">Logout</string>
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
-    <string name="your_message">your message...</string>
+    <string name="your_message">your message…</string>
+
+    <string name="post">Post</string>
+    <string name="add_caption">Add caption …</string>
+    <string name="image_post">Post Image</string>
+    <string name="back">Back</string>
+    <string name="image_post_rejected">Image post rejected</string>
+    <string name="image_post_rejected_description">Image post not content Cat \" image outside idea app \", Should include Cat.</string>
+
 </resources>

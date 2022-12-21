@@ -19,6 +19,7 @@ import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavig
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
 import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
 import com.octopus.socialnetwork.ui.navigation.MainRoute
+import com.octopus.socialnetwork.ui.screen.create_post.navigateToCreatePostRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
@@ -64,7 +65,9 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
 
         },
         floatingActionButton = {
-            FloatingActionButton {}
+            FloatingActionButton {
+                rootNavController.navigateToCreatePostRoute()
+            }
         }
     ) {
 

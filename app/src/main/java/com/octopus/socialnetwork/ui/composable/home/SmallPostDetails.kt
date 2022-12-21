@@ -21,10 +21,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically4dp
 import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBlack
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
@@ -41,7 +41,7 @@ fun SmallPostDetails(post: PostUiState) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(model = post.profileAvatar),
+                painter = customImageLoad(post.profileAvatar),
                 contentDescription = null, contentScale = ContentScale.Crop,
                 modifier = Modifier.size(24.dp).clip(CircleShape)
             )
