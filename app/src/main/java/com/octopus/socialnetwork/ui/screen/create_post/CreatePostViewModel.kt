@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.CreatePostUseCase
-import com.octopus.socialnetwork.domain.usecase.post.ImageAnalyzerUserCase
+import com.octopus.socialnetwork.domain.usecase.post.DetectCatUseCase
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val createPostUseCase: CreatePostUseCase,
-    private val imageAnalyzer: ImageAnalyzerUserCase
+    private val imageAnalyzer: DetectCatUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CreatePostUiState())
