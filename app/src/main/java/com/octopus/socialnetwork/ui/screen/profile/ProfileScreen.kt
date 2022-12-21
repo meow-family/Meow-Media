@@ -51,7 +51,7 @@ fun ProfileScreen(
 private fun ProfileContent(
     state: ProfileUiState,
     onClickBack: () -> Unit,
-    onClickAddFriend: () -> Unit,
+    onClickAddFriend: (Int) -> Unit,
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
@@ -79,7 +79,7 @@ private fun ProfileContent(
 
                     Row {
                         if (state.isUserVisitor) ReduceButton(
-                            onClick = onClickAddFriend,
+                            onClick = { onClickAddFriend(state.userDetails.userId) },
                             isSelected = state.isRequestSent,
                             idTitleResource = if (state.isRequestSent) R.string.requested else R.string.add_friend,
                             idIconResource = R.drawable.add_person,

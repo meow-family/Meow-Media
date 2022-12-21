@@ -1,9 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
-import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.provider.OpenableColumns
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -20,13 +18,15 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,9 +44,6 @@ import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -58,14 +55,9 @@ fun CreatePostScreen(
     val state by viewModel.state.collectAsState()
 
 
-    val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            uri?.let {
-                viewModel.setImageUri(it)
-            }
-        }
+        onResult = { uri -> uri?.let { viewModel.setImageUri(it) } }
     )
 
     CreatePostContent(
@@ -74,15 +66,10 @@ fun CreatePostScreen(
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
         onClickAddImage = viewModel::onClickAddImage,
-        onClickWrongImagePost = viewModel::showWrongImagePost,
+        onInvalidImageDetection = viewModel::onInvalidImageDetection,
         onClickBack = { navController.popBackStack() },
-        onClickAddPost = {
-            state.imageUri?.let {
-                viewModel.onClickChangeImage(createFileFromContentUri(it, context))
-            }
-        },
-
-        )
+        onClickChangeImage = viewModel::onClickChangeImage,
+    )
 }
 
 @Composable
@@ -90,10 +77,10 @@ fun CreatePostContent(
     state: CreatePostUiState,
     navController: NavController,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    onClickAddPost: () -> Unit,
+    onClickChangeImage: (Uri) -> Unit,
     onClickBack: () -> Unit,
     onClickAddImage: () -> Unit,
-    onClickWrongImagePost: () -> Unit,
+    onInvalidImageDetection: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
 
@@ -132,7 +119,7 @@ fun CreatePostContent(
                 )
             }
             Button(
-                onClick = onClickAddPost,
+                onClick = { state.imageUri?.let { imageUri -> onClickChangeImage(imageUri) } },
                 modifier = Modifier
                     .width(120.dp)
                     .zIndex(1f)
@@ -205,7 +192,7 @@ fun CreatePostContent(
     if (state.isLoading) {
         LoadingDialog()
     }
-    if (state.showWrongImagePost) {
+    if (state.isInvalidImage) {
         Dialog(onDismissRequest = { }) {
             CustomDialog(
                 icon = Icons.Default.Image,
@@ -213,7 +200,7 @@ fun CreatePostContent(
                 description = stringResource(R.string.image_post_rejected_description),
                 actionTitle = stringResource(id = R.string.ok),
                 checkAction = {
-                    onClickWrongImagePost()
+                    onInvalidImageDetection()
                 },
             )
         }
@@ -233,38 +220,4 @@ fun CreatePostContent(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-private fun createFileFromContentUri(fileUri: Uri, context: Context): File {
-    var fileName = ""
-    fileUri.let { returnUri ->
-        context.contentResolver.query(returnUri, null, null, null)
-    }?.use { cursor ->
-        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        cursor.moveToFirst()
-        fileName = cursor.getString(nameIndex)
-    }
-
-    val iStream = context.contentResolver.openInputStream(fileUri)!!
-    val outputDir = context.cacheDir!!
-
-    val outputFile = File(outputDir, fileName)
-    copyStreamToFile(iStream, outputFile)
-    iStream.close()
-    return outputFile
-}
-
-private fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
-    inputStream.use { input ->
-        val outputStream = FileOutputStream(outputFile)
-        outputStream.use { output ->
-            val buffer = ByteArray(4 * 1024)
-            while (true) {
-                val byteCount = input.read(buffer)
-                if (byteCount < 0) break
-                output.write(buffer, 0, byteCount)
-            }
-            output.flush()
-        }
-    }
-}
 

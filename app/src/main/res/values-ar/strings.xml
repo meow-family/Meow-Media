@@ -5,7 +5,6 @@
     <string name="donot_have_account">ليس لديك حساب؟ </string>
     <string name="background">خلفية</string>
     <string name="signup_here">سجل هنا</string>
-    <string name="username_or_email">اسم المستخدم أو البريد الالكتروني</string>
 
     <!-- Sign Up  -->
     <string name="create_account">إنشاء حساب</string>
@@ -86,7 +85,7 @@
     <string name="email_not_confirm">لم يتم التأكيد مع البريد الإلكتروني.</string>
 
     <string name="username_empty">اسم المستخدم مطلوب يجب ألا يكون فارغًا.</string>
-    <string name="username_short">يجب ألا يقل اسم المستخدم عن ستة أحرف.</string>
+    <string name="username_short">يجب ألا يقل اسم المستخدم عن اربع أحرف.</string>
     <string name="username_long">يجب أن يكون اسم المستخدم تسعة وعشرين حرفًا كحد أقصى.</string>
     <string name="username_not_clean">محتوى اسم المستخدم بالأحرف الكبيرة فقط أو بالأحرف الصغيرة.</string>
 

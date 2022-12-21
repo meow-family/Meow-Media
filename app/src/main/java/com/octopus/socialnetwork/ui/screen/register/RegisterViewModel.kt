@@ -109,11 +109,12 @@ class RegisterViewModel @Inject constructor(
 
 
     fun onChangeUserName(newUsername: String) {
-        val userNameValidationState = userNameValidation(newUsername).toUserNameUiState()
+        val username = newUsername.trim()
+        val userNameValidationState = userNameValidation(username).toUserNameUiState()
         if (userNameValidationState == UserNameState.VALID) {
-            usernameState(newUsername, true)
+            usernameState(username, true)
         } else {
-            usernameState(newUsername, false, userNameValidationState.message)
+            usernameState(username, false, userNameValidationState.message)
         }
     }
 
@@ -129,11 +130,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeEmail(newEmail: String) {
-        val emailValidation = emailValidation(newEmail).toEmailUiState()
+        val emailNew = newEmail.trim()
+        val emailValidation = emailValidation(emailNew).toEmailUiState()
         if (emailValidation == EmailState.VALID) {
-            emailState(email = newEmail, isValidInputs = true)
+            emailState(email = emailNew, isValidInputs = true)
         } else {
-            emailState(newEmail, false, emailValidation.message)
+            emailState(emailNew, false, emailValidation.message)
         }
         onChangeReEmail(_state.value.userInfoForm.reEmail.text)
 
@@ -158,13 +160,14 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeReEmail(newReEmail: String) {
+        val reEmail = newReEmail.trim()
         val email = _state.value.userInfoForm.email.text
-        val reEmailValidation = emailValidation.confirmEmail(email, newReEmail).toEmailUiState()
+        val reEmailValidation = emailValidation.confirmEmail(email, reEmail).toEmailUiState()
 
         if (reEmailValidation == EmailState.VALID) {
-            reEmailState(newReEmail, true)
+            reEmailState(reEmail, true)
         } else {
-            reEmailState(newReEmail, false, reEmailValidation.message)
+            reEmailState(reEmail, false, reEmailValidation.message)
         }
     }
 
@@ -181,11 +184,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangePassword(newPassword: String) {
-        val passwordValidation = passwordValidation(newPassword).toPasswordUiState()
+        val password = newPassword.trim()
+        val passwordValidation = passwordValidation(password).toPasswordUiState()
         if (passwordValidation == PasswordState.VALID) {
-            passwordState(newPassword, true)
+            passwordState(password, true)
         } else {
-            passwordState(password = newPassword, false, passwordValidation.message)
+            passwordState(password = password, false, passwordValidation.message)
         }
     }
 
@@ -206,11 +210,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onChangeFirstName(newFirstName: String) {
-        val nameValidation = nameValidation(newFirstName).toInputFieldUiState()
+        val firstName = newFirstName.trim()
+        val nameValidation = nameValidation(firstName).toInputFieldUiState()
         if (nameValidation == InputFieldState.VALID) {
-            firstNameState(newFirstName, true)
+            firstNameState(firstName, true)
         } else {
-            firstNameState(newFirstName, false, nameValidation.message)
+            firstNameState(firstName, false, nameValidation.message)
         }
     }
 
@@ -228,11 +233,12 @@ class RegisterViewModel @Inject constructor(
 
 
     fun onChangeLastName(newLastName: String) {
-        val nameValidation = nameValidation(newLastName).toInputFieldUiState()
+        val lastName = newLastName.trim()
+        val nameValidation = nameValidation(lastName).toInputFieldUiState()
         if (nameValidation == InputFieldState.VALID) {
-            lastNameState(newLastName, true)
+            lastNameState(lastName, true)
         } else {
-            lastNameState(newLastName, false, nameValidation.message)
+            lastNameState(lastName, false, nameValidation.message)
         }
     }
 

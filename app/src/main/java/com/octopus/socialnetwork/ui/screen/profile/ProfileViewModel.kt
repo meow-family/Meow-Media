@@ -1,10 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.CheckUserFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
@@ -79,7 +80,7 @@ class ProfileViewModel @Inject constructor(
                             profileCover = profileUiState.profileCover,
                             friendsCount = userFriendsCount.toString(),
                             postCount = userPostsCount.toString(),
-                            userId = currentUserId
+                            userId = profileUiState.userId
                         )
                     )
                 }
@@ -92,7 +93,8 @@ class ProfileViewModel @Inject constructor(
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
         viewModelScope.launch {
             try {
-                val isRequestSent = checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
+                Log.i("TESTING","view model isRequestSent $visitedUserId")
+                val isRequestSent = checkUserFriendUseCase(visitedUserId).requestExists
                 _state.update {
                     it.copy(isRequestExists = isRequestSent)
                 }
@@ -102,10 +104,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onClickAddFriend() {
+    fun onClickAddFriend(otherUserId: Int) {
         viewModelScope.launch {
             if (!_state.value.isRequestExists) {
-                val result = addFriendUseCase(16)
+                val result = addFriendUseCase(otherUserId)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,
@@ -114,7 +116,7 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             } else {
-                removeFriendUseCase(16)
+                removeFriendUseCase(otherUserId)
                 _state.update {
                     it.copy(
                         isRequestExists = false,
