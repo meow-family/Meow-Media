@@ -30,7 +30,7 @@ class ValidateUseCase @Inject constructor() {
 
 
     companion object {
-        val USERNAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]{7,29}$")
+        val USERNAME_REGEX = Regex("^[A-Za-z][A-Za-z0-9_]{5,29}$")
         val EMAIL_REGEX = Regex("^([a-z0-9_.-]+)@([\\da-z.-]+)\\.([a-z.]{2,6})\$")
         val PASSWORD_REGEX = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
         //PASSWORD REGEX: Minimum eight characters,at least one uppercase letter, one lowercase, one number

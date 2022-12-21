@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val getMessageList: GetMessageListUseCase,
+    private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val sendMessage: SendMessagesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -29,6 +32,7 @@ class ChatViewModel @Inject constructor(
 
     init {
         getMessagesWithUser(args.userId.toInt())
+        getUserInfo(args.userId.toInt())
     }
 
     fun onTextChange(newValue: String) {
@@ -44,7 +48,7 @@ class ChatViewModel @Inject constructor(
 
                 _state.update { it -> it.copy(
                     isFail = false, isLoading = false, isSuccess = true,
-                    messages = messages.map { it.copy(otherUser = it.otherUser) },)
+                    messages = messages)
                 }
 
             }
@@ -53,7 +57,17 @@ class ChatViewModel @Inject constructor(
         }
 
     }
+    private fun getUserInfo(otherUserId: Int){
+        viewModelScope.launch {
+            try {
+                val userInfo = fetchUserDetailS(otherUserId).toUserDetailsUiState()
+                 _state.update { it.copy(fullName = userInfo.fullName, profileAvatar = userInfo.profileAvatar) }
+            }catch(e:Exception){
+                _state.update { it.copy(isFail = true) }
 
+            }
+        }
+    }
     private fun sendMessage(message: String) {
         viewModelScope.launch {
             try {

@@ -29,7 +29,6 @@ import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
-import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 
@@ -39,24 +38,21 @@ fun MessageScreen(
     viewModel: MessagesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    val searchState by viewModel.searchUiState.collectAsState()
     MessageViewContent(
         state = state,
-        searchState = searchState,
         onClickMessage = { navController.navigateToChat(it) },
         onChangeText = viewModel::onChangeText,
+        onClickSearch = viewModel::onClickSearch
     )
 }
 
 @Composable
 fun MessageViewContent(
     state: MessageMainUiState,
-    searchState: SearchUiState,
     onClickMessage: (Int) -> Unit,
     onChangeText: (String) -> Unit,
+    onClickSearch: () -> Unit,
 ) {
-
-    var isSearchVisible by remember { mutableStateOf(false) }
 
     Column(
         Modifier
@@ -72,10 +68,10 @@ fun MessageViewContent(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(onClick = { isSearchVisible = !isSearchVisible }) {
+            IconButton(onClick = onClickSearch) {
                 Icon(
                     painter = painterResource(id =
-                    if (isSearchVisible) R.drawable.ic_baseline_arrow_back_ios_24
+                    if (state.isSearchVisible) R.drawable.ic_baseline_arrow_back_ios_24
                     else R.drawable.search),
                     contentDescription = stringResource(id = R.string.icon_arrow_back),
                     tint = MaterialTheme.colors.onBackground,
@@ -96,7 +92,7 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        if(!isSearchVisible){
+        if(!state.isSearchVisible){
             LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 16.dp),
@@ -114,7 +110,7 @@ fun MessageViewContent(
 
 
         AnimatedVisibility(
-            visible = isSearchVisible,
+            visible = state.isSearchVisible,
             enter = slideIn { it -> IntOffset(it.width, 0) },
             exit = slideOut { it -> IntOffset(- it.width, 0) },
         ) {
@@ -122,13 +118,13 @@ fun MessageViewContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f).background(MaterialTheme.colors.background),
             ) {
-                SearchViewItem(state = searchState, onValueChange = onChangeText)
+                SearchViewItem(query = state.query, onValueChange = onChangeText)
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    if(searchState.query.isEmpty()) {
+                    if(state.query.isEmpty()) {
                         item { LottieSearch() }
                     }
                     else {
-                        items(searchState.users) { searchItem ->
+                        items(state.users) { searchItem ->
                             SearchItem(state = searchItem, onClickItem = onClickMessage) }
                     }
                 }

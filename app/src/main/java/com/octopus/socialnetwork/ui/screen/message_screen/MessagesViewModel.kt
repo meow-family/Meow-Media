@@ -7,8 +7,6 @@ import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
-import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
-import com.octopus.socialnetwork.ui.util.extensions.wrapWithTryCatch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,8 +23,6 @@ class MessagesViewModel @Inject constructor(
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
 
-    private val _searchUiState = MutableStateFlow(SearchUiState())
-    val searchUiState = _searchUiState.asStateFlow()
 
     init {
         getMessagesDetails()
@@ -38,7 +34,7 @@ class MessagesViewModel @Inject constructor(
                 val recentMessages =
                     fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
                 _state.update {
-                    it.copy(isFail = false, isLoading = false, messages = recentMessages,)
+                    it.copy(isFail = false, isLoading = false, messages = recentMessages)
                 }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isFail = true) }
@@ -47,28 +43,32 @@ class MessagesViewModel @Inject constructor(
 
     }
 
+    fun onClickSearch() {
+        _state.update { it.copy(isSearchVisible = !it.isSearchVisible) }
+    }
 
     fun onChangeText(newValue: String) {
-        _searchUiState.update { it.copy(query = newValue) }
-        search(newValue)
+        _state.update { it.copy(query = newValue) }
+        search(_state.value.query)
     }
 
     fun search(query: String) {
-        wrapWithTryCatch(
-            { updateSearchUiState(query = query) },
-            { _searchUiState.update { it.copy(isLoading = false, isError = true) } }
-        )
-    }
-
-    private suspend fun updateSearchUiState(query: String) {
-        val searchResult = searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
-        _searchUiState.update { searchUiState ->
-            searchUiState.copy(
-                users = searchResult,
-                isLoading = false,
-                isError = false,
-            )
+        viewModelScope.launch {
+            try {
+                val searchResult =
+                    searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
+                _state.update { searchUiState ->
+                    searchUiState.copy(
+                        users = searchResult,
+                        isLoading = false,
+                        isFail = false,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isFail = true) }
+            }
         }
+
     }
 
 }

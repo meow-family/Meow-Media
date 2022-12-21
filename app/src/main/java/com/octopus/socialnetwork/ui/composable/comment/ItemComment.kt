@@ -42,7 +42,7 @@ fun ItemComment(
             .padding(16.dp, 8.dp, 8.dp, 16.dp)
     ) {
 
-        val (userImage, fullName, userName, postText, like, likeCounter, reply, contentTime) = createRefs()
+        val (userImage, fullName, userName, postText, like, likeCounter, contentTime) = createRefs()
 
 
         Avatar(

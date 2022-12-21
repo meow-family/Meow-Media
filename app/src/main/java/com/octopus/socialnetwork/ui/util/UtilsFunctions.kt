@@ -19,26 +19,26 @@ fun onClickNotification(
         when(type) {
             notificationsTypes.LIKE_POST ->
                 navController.navigateToPostScreen(
-                    notification.notificationDetails.subjectId,
-                    notification.notificationDetails.ownerId
+                    notification.subjectId,
+                    notification.ownerId
                 )
 
             notificationsTypes.LIKE_ANNOTATION_COMMENTS_POST ->
                 navController.navigateToCommentsScreen(
-                    notification.notificationDetails.subjectId,
-                    notification.notificationDetails.type
+                    notification.subjectId,
+                    notification.type
                 )
 
             notificationsTypes.COMMENTS_POST ->
                 navController.navigateToCommentsScreen(
-                    notification.notificationDetails.subjectId,
-                    notification.notificationDetails.type
+                    notification.subjectId,
+                    notification.type
                 )
 
             else ->
                 navController.navigateToPostScreen(
-                    notification.notificationDetails.subjectId,
-                    notification.notificationDetails.ownerId
+                    notification.subjectId,
+                    notification.ownerId
                 )
         }
     }

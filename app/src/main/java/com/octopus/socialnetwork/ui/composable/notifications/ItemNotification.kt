@@ -38,14 +38,14 @@ fun ItemNotification(
             .height(100.dp)
             .clickable { onClickNotification(notification) }
             .background(
-                color = notification.notificationDetails.viewed.setItemNotificationBackground()
+                color = notification.viewed.setItemNotificationBackground()
             )
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = customImageLoad(notification.posterDetails.posterAvatar),
+            painter = customImageLoad(notification.posterAvatar),
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)
@@ -57,12 +57,12 @@ fun ItemNotification(
             horizontalAlignment = Alignment.Start
         ) {
             MultiTextStyle(
-                name = notification.posterDetails.posterFullName,
-                title =  stringResource(id = notification.notificationDetails.type.setNotificationsTitle()),
+                name = notification.posterFullName,
+                title =  stringResource(id = notification.type.setNotificationsTitle()),
             )
 
             Text(
-                text = notification.notificationDetails.timeCreated.getHourAndMinutes(),
+                text = notification.timeCreated.getHourAndMinutes(),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colors.textThirdColor,
