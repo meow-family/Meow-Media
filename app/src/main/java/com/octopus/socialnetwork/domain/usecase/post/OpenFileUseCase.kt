@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.create_post
+package com.octopus.socialnetwork.domain.usecase.post
 
 import android.content.Context
 import android.net.Uri

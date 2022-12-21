@@ -25,7 +25,7 @@ class ProcessImageUseCase @Inject constructor(
 
             imageLabeler.process(image).addOnSuccessListener { detectedLabels ->
                 Log.i(DetectCatUseCase.ML_KIT_LOG_TAG, "the detected labels $detectedLabels")
-                continuation.resume(detectedLabels)
+                continuation.resume(detectedLabels.filter { it.confidence >= 0.7f })
             }.addOnFailureListener { e ->
                 continuation.resumeWithException(e)
             }
