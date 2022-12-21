@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Social Network</string>
+    <string name="app_name">Meow Social</string>
     <string name="description">Welcome back! login to rejoin our community</string>
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
@@ -108,4 +108,12 @@
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
     <string name="your_message">your message…</string>
+
+    <string name="post">Post</string>
+    <string name="add_caption">Add caption …</string>
+    <string name="image_post">Post Image</string>
+    <string name="back">Back</string>
+    <string name="image_post_rejected">Image post rejected</string>
+    <string name="image_post_rejected_description">Image post not content Cat \" image outside idea app \", Should include Cat.</string>
+
 </resources>
