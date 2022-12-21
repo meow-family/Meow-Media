@@ -29,11 +29,12 @@ class LoginViewModel @Inject constructor(
 
 
     fun onChangeUsername(newUsername: String) {
-        val usernameState = userNameValidation(newUsername).toUserNameUiState()
+        val username = newUsername.trim()
+        val usernameState = userNameValidation(username).toUserNameUiState()
         if (usernameState == UserNameState.VALID) {
-            usernameState(newUsername, true)
+            usernameState(username, true)
         } else {
-            usernameState(newUsername, false, usernameState.message)
+            usernameState(username, false, usernameState.message)
         }
 
     }
@@ -58,11 +59,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onChangePassword(newPassword: String) {
-        val passwordValidation = passwordValidation(newPassword).toPasswordUiState()
+        val password = newPassword.trim()
+        val passwordValidation = passwordValidation(password).toPasswordUiState()
         if (passwordValidation == PasswordState.VALID) {
-            passwordState(newPassword, true)
+            passwordState(password, true)
         } else {
-            passwordState(password = newPassword, false, passwordValidation.message)
+            passwordState(password = password, false, passwordValidation.message)
         }
     }
 

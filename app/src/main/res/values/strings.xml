@@ -82,7 +82,7 @@
     <string name="email_not_confirm">Is not confirm with email.</string>
 
     <string name="username_empty">UserName is Required should not empty.</string>
-    <string name="username_short">UserName should be minimum six characters.</string>
+    <string name="username_short">UserName should be minimum 4 characters.</string>
     <string name="username_long">UserName should be maximum twenty-nine characters.</string>
     <string name="username_not_clean">UserName content just uppercase letter or lowercase letter.</string>
 
