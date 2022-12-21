@@ -1,9 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
-import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.provider.OpenableColumns
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -44,9 +42,6 @@ import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -74,11 +69,11 @@ fun CreatePostScreen(
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
         onClickAddImage = viewModel::onClickAddImage,
-        onClickWrongImagePost = viewModel::showWrongImagePost,
+        onClickWrongImagePost = viewModel::onInvalidImageDetection,
         onClickBack = { navController.popBackStack() },
         onClickAddPost = {
             state.imageUri?.let {
-                viewModel.onClickChangeImage(createFileFromContentUri(it, context))
+                viewModel.onClickChangeImage(it)
             }
         },
 
@@ -205,7 +200,7 @@ fun CreatePostContent(
     if (state.isLoading) {
         LoadingDialog()
     }
-    if (state.showWrongImagePost) {
+    if (state.isInvalidImage) {
         Dialog(onDismissRequest = { }) {
             CustomDialog(
                 icon = Icons.Default.Image,
@@ -233,38 +228,4 @@ fun CreatePostContent(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-private fun createFileFromContentUri(fileUri: Uri, context: Context): File {
-    var fileName = ""
-    fileUri.let { returnUri ->
-        context.contentResolver.query(returnUri, null, null, null)
-    }?.use { cursor ->
-        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        cursor.moveToFirst()
-        fileName = cursor.getString(nameIndex)
-    }
-
-    val iStream = context.contentResolver.openInputStream(fileUri)!!
-    val outputDir = context.cacheDir!!
-
-    val outputFile = File(outputDir, fileName)
-    copyStreamToFile(iStream, outputFile)
-    iStream.close()
-    return outputFile
-}
-
-private fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
-    inputStream.use { input ->
-        val outputStream = FileOutputStream(outputFile)
-        outputStream.use { output ->
-            val buffer = ByteArray(4 * 1024)
-            while (true) {
-                val byteCount = input.read(buffer)
-                if (byteCount < 0) break
-                output.write(buffer, 0, byteCount)
-            }
-            output.flush()
-        }
-    }
-}
 
