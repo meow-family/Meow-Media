@@ -93,7 +93,7 @@ private fun EditProfileContent(
                                 Modifier
                                     .clip(CircleShape)
                                     .background(color = LightBlack_65)
-                                    .size(40.dp)
+                                    .size(32.dp)
                                     .constrainAs(circle) {},
                             ) {}
                             Icon(
@@ -101,9 +101,10 @@ private fun EditProfileContent(
                                 contentDescription = stringResource(id = R.string.back),
                                 tint = Color.White,
                                 modifier = Modifier
+                                    .size(20.dp)
                                     .zIndex(1f)
                                     .constrainAs(arrowBack) {
-                                        start.linkTo(circle.start, 12.dp)
+                                        start.linkTo(circle.start, 8.dp)
                                         top.linkTo(circle.top)
                                         bottom.linkTo(circle.bottom)
                                     }
@@ -115,13 +116,14 @@ private fun EditProfileContent(
                                 .clip(CircleShape)
                                 .background(color = LightBlack_65)
                                 .zIndex(1f)
-                                .size(40.dp)
+                                .size(32.dp)
 
                         ) {
                             Icon(
                                 androidx.compose.material.icons.Icons.Default.Edit,
                                 contentDescription = stringResource(id = R.string.back),
                                 tint = Color.White,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     }
