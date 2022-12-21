@@ -13,11 +13,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.luminance
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.TypingMessage
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
@@ -49,7 +47,6 @@ fun ChatScreenContent(
     onClickImage: (Int) -> Unit,
 ) {
     val listState = rememberLazyListState()
-   // val swipeRefreshState = rememberSwipeRefreshState(state.isRefreshing)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,9 +55,7 @@ fun ChatScreenContent(
 
     ) {
 
-        if (state.messages.isNotEmpty()) {
-            ChatScreenTopBar(state.messages.first(), onClickBack = onClickBack, onClickImage = onClickImage)
-        }
+        ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
 
         LazyColumn(
             Modifier
@@ -71,12 +66,16 @@ fun ChatScreenContent(
             state = listState
         ) {
 
-            items(state.messages) { message ->
+            if(state.messages.isEmpty()){
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+            } else{
+                items(state.messages) { message ->
 
-                if (message.isSentByMe) {
-                    SentMessage(message)
-                } else {
-                    ReceivedMessage(message)
+                    if (message.isSentByMe) {
+                        SentMessage(message)
+                    } else {
+                        ReceivedMessage(message)
+                    }
                 }
             }
         }

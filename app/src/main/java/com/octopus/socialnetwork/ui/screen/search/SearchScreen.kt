@@ -18,8 +18,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
-import com.octopus.socialnetwork.ui.composable.search.SearchField
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
+import com.octopus.socialnetwork.ui.composable.search.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
+import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 
@@ -32,6 +35,7 @@ fun SearchScreen(
     SearchContent(
         state = state,
         onChangeTypingSearch = viewModel::onChangeQuery,
+        onClickItem = { navController.navigateToUserProfileScreen(it) }
     )
 }
 
@@ -39,7 +43,8 @@ fun SearchScreen(
 @Composable
 private fun SearchContent(
     state: SearchUiState,
-    onChangeTypingSearch: (String) -> Unit
+    onChangeTypingSearch: (String) -> Unit,
+    onClickItem: (Int) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -49,13 +54,16 @@ private fun SearchContent(
     ) {
         AppBar(title = stringResource(R.string.search), showBackButton = false)
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
+        SpacerVertical16()
 
-        SearchField(state = state, onChangeTypingSearch = onChangeTypingSearch)
+        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
         LazyColumn {
-            items(state.users) { searchItem ->
-                SearchItem(
-                    searchItem
-                )
+            if(state.query.isEmpty()) {
+                item { LottieSearch() }
+            }
+            else {
+                items(state.users) { searchItem ->
+                    SearchItem(state = searchItem, onClickItem = onClickItem) }
             }
         }
 

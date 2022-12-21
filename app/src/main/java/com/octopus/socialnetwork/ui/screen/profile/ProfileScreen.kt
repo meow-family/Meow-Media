@@ -1,5 +1,8 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,10 +11,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
@@ -35,7 +40,6 @@ fun ProfileScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
-
 
     ProfileContent(
         state = state,
@@ -69,6 +73,7 @@ private fun ProfileContent(
     } else {
 
         LazyVerticalGrid(
+            modifier = Modifier.background(MaterialTheme.colors.background).fillMaxSize(),
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
@@ -105,21 +110,26 @@ private fun ProfileContent(
                             idTitleResource = R.string.logout
                         )
                     }
-                    SpaceVertically24dp()
+                    SpacerVertical16()
+                    Divider()
                 }
 
             }
 
 
-            items(items = state.profilePosts) { ProfilePostUiState ->
-                ProfilePostItem(
-                    post = ProfilePostUiState,
-                    onClickPost = onClickPost
-                )
+            if(state.profilePosts.isEmpty()){
+                item(span = { GridItemSpan(3) }) {
+                    ImageForEmptyList() }
+            } else{
+                items(items = state.profilePosts) { ProfilePostUiState ->
+                    ProfilePostItem(
+                        post = ProfilePostUiState,
+                        onClickPost = onClickPost
+                    )
+                }
             }
 
         }
 
     }
-
 }

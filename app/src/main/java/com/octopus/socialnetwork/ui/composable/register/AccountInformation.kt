@@ -30,7 +30,9 @@ fun AccountInformation(
     onClickShowPassword: () -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(vertical = spacingExtraLarge)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = spacingExtraLarge)
     ) {
 
         InputTextFieldValidation(

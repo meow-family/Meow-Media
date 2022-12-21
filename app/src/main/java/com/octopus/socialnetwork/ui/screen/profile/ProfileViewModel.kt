@@ -62,8 +62,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getUserDetails(currentUserId: Int) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
                 val profilePosts = fetchUserPosts(currentUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(currentUserId).count
@@ -84,17 +84,21 @@ class ProfileViewModel @Inject constructor(
                         )
                     )
                 }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
-        } catch (e: Exception) {
-            _state.update { it.copy(isLoading = false, isError = true) }
         }
     }
 
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
         viewModelScope.launch {
-            val isRequestSent = checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
-            _state.update {
-                it.copy(isRequestExists = isRequestSent)
+            try {
+                val isRequestSent = checkUserFriendUseCase(currentUserId, visitedUserId).requestExists
+                _state.update {
+                    it.copy(isRequestExists = isRequestSent)
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }

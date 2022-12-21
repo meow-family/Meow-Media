@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.post
+ package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,14 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.composable.shadowLightBlack
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -82,7 +81,7 @@ private fun PostContent(
                     painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
                     contentDescription = stringResource(id = R.string.icon_arrow_back),
                     tint = White50,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp).padding(start = 4.dp)
                 )
             }
 
@@ -101,27 +100,24 @@ private fun PostContent(
             InteractionGroup(
                 interactions =
                 listOf({
-                    IconButton(onClick = onLike) {
-                        InteractionIcon(
-                            icon = R.drawable.ic_like,
-                            count = state.postDetails.likeCount,
-                            tint = if (state.postDetails.isLiked) Color.Red else Color.White
-                        )
-                    }
-
+                    InteractionIcon(
+                        icon = if (state.postDetails.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
+                        count = state.postDetails.likeCount,
+                        onClick = onLike,
+                        tint = if (state.postDetails.isLiked) Color.Red else Color.White
+                    )
                 }, {
-
-                    IconButton(onClick = onComment) {
-                        InteractionIcon(
-                            icon = R.drawable.ic_baseline_comment_24,
-                            count = state.postDetails.commentCount,
-                            tint = Color.White
-                        )
-                    }
+                    InteractionIcon(
+                        icon = R.drawable.ic_baseline_comment_24,
+                        count = state.postDetails.commentCount,
+                        onClick = onComment,
+                        tint = Color.White
+                    )
                 }, {
-                    IconButton(onClick = onShare) {
-                        InteractionIcon(icon = R.drawable.ic_send, tint = Color.White)
-                    }
+                    InteractionIcon(
+                        icon = R.drawable.ic_send,
+                        onClick = onShare, tint = Color.White
+                    )
                 })
             )
 
@@ -135,7 +131,7 @@ private fun PostContent(
                 .backgroundTextShadow()
         ) {
             LargPostDetails(
-                profileImage = rememberAsyncImagePainter(model = state.postDetails.profileAvatar),
+                profileImage = customImageLoad(state.postDetails.profileAvatar),
                 userName = state.postDetails.userName,
                 fullName = state.postDetails.fullName,
                 postDescription = state.postDetails.postDescription,

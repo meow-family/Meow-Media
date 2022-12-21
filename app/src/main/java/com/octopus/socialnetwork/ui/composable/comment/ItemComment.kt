@@ -1,9 +1,14 @@
 package com.octopus.socialnetwork.ui.composable.comment
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,9 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
@@ -31,13 +36,13 @@ fun ItemComment(
     onLike: () -> Unit
 ) {
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp, 8.dp, 8.dp, 16.dp)
     ) {
 
-        val (userImage, fullName, userName, postText, like, likeCounter, reply, contentTime) = createRefs()
+        val (userImage, fullName, userName, postText, like, likeCounter, contentTime) = createRefs()
 
 
         Avatar(
@@ -47,8 +52,7 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            painter =
-            rememberAsyncImagePainter(model = commentDetails.userAvatar), size = 50
+            painter = customImageLoad(commentDetails.userAvatar) , size = 50
         )
 
         Text(
@@ -89,9 +93,12 @@ fun ItemComment(
                     start.linkTo(postText.start)
                 }) {
             Icon(
-                painter = painterResource(R.drawable.ic_heart),
-                contentDescription = "print",
-                tint = if (commentDetails.isLikedByUser) Color.Unspecified else Color.Gray
+                painterResource(
+                    if (commentDetails.isLikedByUser) R.drawable.ic_like_12
+                    else R.drawable.ic_un_like_12
+                ),
+                contentDescription = stringResource(id = R.string.like),
+                tint = if (commentDetails.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
             )
         }
 

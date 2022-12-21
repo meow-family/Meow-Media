@@ -2,7 +2,13 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,8 +37,8 @@ import com.octopus.socialnetwork.ui.composable.CustomSnackBar
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
-import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
 import com.octopus.socialnetwork.ui.composable.register.AccountInformation
+import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
@@ -41,6 +47,7 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -60,7 +67,7 @@ fun RegisterScreen(
         state = state, pagerState = pagerState,
         onClickRegister = viewModel::register,
         coroutineScope = coroutineScope,
-        showError = viewModel::showError,
+        showErrorValidationInput = viewModel::showErrorValidationInput,
         onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
         onFailedCreateAccount = viewModel::onFailedCreateAccount,
         onChangeUserName = viewModel::onChangeUserName,
@@ -85,7 +92,7 @@ private fun RegisterContent(
     onClickRegister: () -> Unit,
     onClickLogin: () -> Unit,
     coroutineScope: CoroutineScope,
-    showError: (Int) -> Unit,
+    showErrorValidationInput: (InputInformation) -> Unit,
     onSuccessCreateAccount: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
@@ -100,9 +107,12 @@ private fun RegisterContent(
 ) {
 
     Column(
-        modifier = Modifier.fillMaxSize().navigationBarsPadding()
-            .imePadding().verticalScroll(rememberScrollState(), reverseScrolling = true)
-            .background(MaterialTheme.colors.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)
+            .navigationBarsPadding()
+            .imePadding()
+            .verticalScroll(rememberScrollState(), reverseScrolling = true),
         verticalArrangement = Arrangement.Top,
     ) {
 
@@ -125,8 +135,11 @@ private fun RegisterContent(
             painter = painterResource(R.drawable.signup),
             contentDescription = stringResource(R.string.image_register)
         )
+
         HorizontalPager(
-            count = 2, state = pagerState, userScrollEnabled = false,
+            state = pagerState,
+            count = 2,
+            userScrollEnabled = false,
         ) { page ->
             when (page) {
                 0 -> {
@@ -158,8 +171,8 @@ private fun RegisterContent(
 
         SpacerVertical32()
 
-
         CustomButton(
+            modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(if (pagerState.currentPage == state.initPage) R.string.next else R.string.create_account)
         ) {
             val userInput = state.userInfoForm
@@ -170,17 +183,20 @@ private fun RegisterContent(
                         pagerState.animateScrollToPage(2)
                     }
                 } else {
-                    showError(1)
+                    showErrorValidationInput(InputInformation.Account)
                 }
 
             } else {
+
                 if (userInput.firstName.isValid && userInput.lastName.isValid && userInput.gender.isValid && userInput.birthDate.isValid) {
                     onClickRegister()
                 } else {
-                    showError(2)
+                    showErrorValidationInput(InputInformation.Personal)
                 }
 
             }
+
+
         }
 
         Box(
@@ -237,5 +253,6 @@ fun RegisterScreenPreview() {
     SocialNetworkTheme {
         Surface {
 
+        }
     }
-}}
+}

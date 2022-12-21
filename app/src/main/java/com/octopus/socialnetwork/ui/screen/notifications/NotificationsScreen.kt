@@ -8,9 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +24,7 @@ import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import com.octopus.socialnetwork.ui.theme.DividerColor
-import com.octopus.socialnetwork.ui.util.extensions.setScreenDestinationOnClickNotification
+import com.octopus.socialnetwork.ui.util.onClickNotification
 
 
 @Composable
@@ -39,10 +37,9 @@ fun NotificationsScreen(
     NotificationsContent(
         state = state,
         onClickNotification = { notification ->
-            notification.notificationDetails.type
-                .setScreenDestinationOnClickNotification(navController, notification)
-
-
+            onClickNotification(
+                notification.type, navController, notification
+            )
             viewModel.markViewedNotification(notification)
         },
         onClickBack = { navController.navigateToHomeScreen() }
@@ -58,7 +55,8 @@ private fun NotificationsContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start, modifier = Modifier
-            .fillMaxSize().background(color = Color.White),
+            .fillMaxSize()
+            .background(color = Color.White),
     ) {
 
         AppBar(onClickBack, title = stringResource(R.string.notification))

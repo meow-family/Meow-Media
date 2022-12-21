@@ -11,7 +11,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
@@ -29,7 +28,7 @@ fun MessageItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ProfileImage(
-            painter = rememberAsyncImagePainter(model = state.otherUser.profileAvatar),
+            painter = customImageLoad(imageUrl = state.otherUser.profileAvatar),
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
