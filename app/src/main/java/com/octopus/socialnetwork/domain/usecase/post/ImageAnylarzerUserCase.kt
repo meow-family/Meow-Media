@@ -7,25 +7,30 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class ImageAnalyzerUserCase @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     suspend operator fun invoke(imageUri: Uri): Boolean? {
 
-        var isImageHaveCat: Boolean? = false
+        return suspendCancellableCoroutine { continuation ->
 
-        val image = InputImage.fromFilePath(context, imageUri)
-        val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
-        labeler.process(image).addOnFailureListener {
-            isImageHaveCat = null
-        }.addOnSuccessListener { it ->
-            isImageHaveCat = it.map { it.index == CAT_LABEL_INDEX }.first()
-        }.await()
+            val image = InputImage.fromFilePath(context, imageUri)
+            val labelerImage = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
 
-        return isImageHaveCat
+            labelerImage.process(image).addOnSuccessListener { resultAnalyzer ->
+                val isImageIncludeCat = resultAnalyzer.map { it.index == CAT_LABEL_INDEX }.first()
+                continuation.resume(isImageIncludeCat)
+            }.addOnFailureListener { e ->
+                continuation.resumeWithException(e)
+            }
+
+        }
+
     }
 
     companion object {
