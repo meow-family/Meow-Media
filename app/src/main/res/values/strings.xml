@@ -23,7 +23,9 @@
     <string name="login">Login</string>
 
     <string name="icon_on_boarding">Icon On Boarding</string>
-    <string name="on_boarding_text">Connect With The People You Love!</string>
+    <string name="on_boarding_text">
+        Welcome to the land of cats! Ready to share your cat pictures with the world? This app is for you.
+    </string>
     <string name="MeowMedia">Meow Media</string>
 
     <string name="friends">Friends</string>
@@ -112,7 +114,7 @@
     <string name="add_caption">Add caption …</string>
     <string name="image_post">Post Image</string>
     <string name="back">Back</string>
-    <string name="image_post_rejected">Image post rejected</string>
-    <string name="image_post_rejected_description">Image post not content Cat \" image outside idea app \", Should include Cat.</string>
+    <string name="image_post_rejected">Image Rejected!</string>
+    <string name="image_post_rejected_description">Meow Meow! your image doensn\'t contain a cat! this app is for meows only.</string>
 
 </resources>

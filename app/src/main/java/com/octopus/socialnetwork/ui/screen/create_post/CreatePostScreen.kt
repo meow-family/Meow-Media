@@ -66,9 +66,9 @@ fun CreatePostScreen(
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
         onClickAddImage = viewModel::onClickAddImage,
-        onClickWrongImagePost = viewModel::onInvalidImageDetection,
+        onInvalidImageDetection = viewModel::onInvalidImageDetection,
         onClickBack = { navController.popBackStack() },
-        onClickAddPost = viewModel::onClickChangeImage,
+        onClickChangeImage = viewModel::onClickChangeImage,
     )
 }
 
@@ -77,10 +77,10 @@ fun CreatePostContent(
     state: CreatePostUiState,
     navController: NavController,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    onClickAddPost: (Uri) -> Unit,
+    onClickChangeImage: (Uri) -> Unit,
     onClickBack: () -> Unit,
     onClickAddImage: () -> Unit,
-    onClickWrongImagePost: () -> Unit,
+    onInvalidImageDetection: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
 
@@ -119,7 +119,7 @@ fun CreatePostContent(
                 )
             }
             Button(
-                onClick = { state.imageUri?.let { imageUri -> onClickAddPost(imageUri) } },
+                onClick = { state.imageUri?.let { imageUri -> onClickChangeImage(imageUri) } },
                 modifier = Modifier
                     .width(120.dp)
                     .zIndex(1f)
@@ -200,7 +200,7 @@ fun CreatePostContent(
                 description = stringResource(R.string.image_post_rejected_description),
                 actionTitle = stringResource(id = R.string.ok),
                 checkAction = {
-                    onClickWrongImagePost()
+                    onInvalidImageDetection()
                 },
             )
         }
