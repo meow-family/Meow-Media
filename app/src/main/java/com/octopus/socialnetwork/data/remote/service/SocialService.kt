@@ -247,6 +247,11 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
+    @POST("photos_profile_add")
+    suspend fun addProfilePicture(
+        @Body body: RequestBody
+    ): BaseResponse<UserDto>
+
     // search
     @GET("my_custom_end_point")
     suspend fun search(
