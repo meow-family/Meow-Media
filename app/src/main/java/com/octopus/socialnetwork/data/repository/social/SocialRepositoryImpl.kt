@@ -231,6 +231,18 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
+    override suspend fun addProfilePicture(userID: Int, photo: File): UserDto {
+        val photoExtension = if (photo.extension=="jpg") "jpeg" else photo.extension
+        val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+        val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY)
+            .addFormDataPart("guid", userID.toString())
+            .addFormDataPart("userphoto",photo.name,requestFile).build()
+
+        return socialService.addProfilePicture(requestBody).result
+    }
+
     override suspend fun search(
         currentUserId: Int,
         query: String
