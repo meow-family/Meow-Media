@@ -49,7 +49,7 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun checkUserFriend(
         currentUserId: Int, userIdWantedToCheck: Int
-    ): FriendValidatorDTO {
+    ): FriendValidatorDTO? {
         return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
     }
 

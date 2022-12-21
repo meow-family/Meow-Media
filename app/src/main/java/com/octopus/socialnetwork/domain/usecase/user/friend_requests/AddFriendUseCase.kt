@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.user.friend_requests
 
+import android.util.Log
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.user.toCheckUserFriend
 import com.octopus.socialnetwork.domain.model.user.FriendValidator
@@ -11,9 +12,10 @@ class AddFriendUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(userIdWantedToAdd: Int): FriendValidator {
+        Log.i("TESTING","userIdWantedToAdd usecase $userIdWantedToAdd")
         return socialRepository.addFriend(
-            fetchUserIdUseCase.invoke(),
-            userIdWantedToAdd
+            currentUserId = fetchUserIdUseCase(),
+            userIdWantedToAdd = userIdWantedToAdd
         ).toCheckUserFriend()
     }
 }
