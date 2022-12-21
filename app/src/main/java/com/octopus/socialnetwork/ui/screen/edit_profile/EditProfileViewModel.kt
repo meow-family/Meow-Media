@@ -44,7 +44,7 @@ class EditProfileViewModel @Inject constructor(
                         profileAvatar = userDetails.profileAvatar,
                         profileCover = userDetails.profileCover
                     )
-                }
+                 }
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
@@ -62,7 +62,7 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 updateUserInfoUseCase(
-                    currentUserId = 16,
+                    currentUserId = checkNotNull(args.userId?.toInt()),
                     firstName = _state.value.firstName,
                     lastName = _state.value.lastName,
                     email = _state.value.email,
@@ -112,4 +112,13 @@ class EditProfileViewModel @Inject constructor(
     fun onChangeNewPassword(newValue: String) {
         _state.update { it.copy(newPassword = newValue) }
     }
+
+    fun onChangeCurrentPasswordVisibility() {
+        _state.update { it.copy(showCurrentPassword = !it.showCurrentPassword) }
+    }
+
+    fun onChangeNewPasswordVisibility() {
+        _state.update { it.copy(showNewPassword = !it.showNewPassword) }
+    }
+
 }
