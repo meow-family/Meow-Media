@@ -79,6 +79,7 @@ class ProfileViewModel @Inject constructor(
                             profileCover = profileUiState.profileCover,
                             friendsCount = userFriendsCount.toString(),
                             postCount = userPostsCount.toString(),
+                            userId = currentUserId
                         )
                     )
                 }

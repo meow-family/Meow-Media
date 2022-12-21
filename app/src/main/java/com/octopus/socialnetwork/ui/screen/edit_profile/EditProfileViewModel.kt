@@ -1,9 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
-
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
+import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,15 +14,49 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase,
+    private val fetchUserDetailsUseCase: FetchUserDetailsUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val args: EditProfileScreenArgs = EditProfileScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(EditProfileUiState())
     val state = _state.asStateFlow()
 
+    init {
+        getUserDetails(args.userId?.toIntOrNull() ?: -1)
+    }
+
+    private fun getUserDetails(currentUserId: Int) {
+        viewModelScope.launch {
+            try {
+                val userDetails = fetchUserDetailsUseCase(currentUserId).toEditUserUiState()
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = true,
+                        firstName = userDetails.firstName,
+                        lastName = userDetails.lastName,
+                        email = userDetails.email,
+                        profileAvatar = userDetails.profileAvatar,
+                        profileCover = userDetails.profileCover
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = false,
+                        isError = true,
+                    )
+                }
+            }
+
+        }
+    }
 
     private fun updateUserData() {
         viewModelScope.launch {
@@ -76,6 +112,4 @@ class EditProfileViewModel @Inject constructor(
     fun onChangeNewPassword(newValue: String) {
         _state.update { it.copy(newPassword = newValue) }
     }
-
-
 }
