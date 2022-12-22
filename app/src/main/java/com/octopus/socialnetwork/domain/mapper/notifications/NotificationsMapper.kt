@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.mapper.notifications
 
+import com.octopus.socialnetwork.constants.Constants.INVALID_USER_ID
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.*
 import com.octopus.socialnetwork.domain.model.notifications.*
 import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
@@ -34,10 +35,10 @@ fun NotificationItemsDto.toNotificationItems(): NotificationItems {
 
 fun NotificationDto.toNotification(): Notification {
     return Notification(
-        guid = guid ?: 0,
+        guid = guid ?: INVALID_USER_ID,
         type = type ?: "",
-        posterId = posterGuid ?: 0,
-        ownerId = ownerGuid ?: 0,
+        posterId = posterGuid ?: INVALID_USER_ID,
+        ownerId = ownerGuid ?: INVALID_USER_ID,
         subjectId = subjectGuid ?: 0,
         viewed = viewed != null,
         timeCreated = timeCreated.toFormattedDate(),
@@ -47,7 +48,7 @@ fun NotificationDto.toNotification(): Notification {
 
 fun PostOwnerDto.toPoster(): PostOwner {
     return PostOwner(
-        userId = userId ?: 0,
+        userId = userId ?: INVALID_USER_ID,
         fullName = fullName ?: "",
         icon = icon ?: "",
     )

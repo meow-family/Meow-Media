@@ -18,7 +18,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
-import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
+import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
@@ -36,9 +36,9 @@ fun ProfileScreen(
     ProfileContent(
         state = state,
         onClickAddFriend = viewModel::onClickAddFriend,
-        onClickMessage = viewModel::onClickMessage,
-        onClickLogout = viewModel::onClickLogout,
-        onClickEditeProfile = navController::navigateToEditeProfileRoute,
+        onClickMessage = { /*TODO:viewModel::onClickMessage*/ },
+        onClickLogout = { /*TODO:viewModel::onClickLogout*/ },
+        onClickEditProfile = navController::navigateToEditProfileRoute,
         onClickBack = { navController.popBackStack() },
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
@@ -54,7 +54,7 @@ private fun ProfileContent(
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
-    onClickEditeProfile: () -> Unit,
+    onClickEditProfile: () -> Unit,
 ) {
 
     if (state.isLoading) {
@@ -62,12 +62,23 @@ private fun ProfileContent(
     } else {
 
         LazyVerticalGrid(
-            modifier = Modifier.background(MaterialTheme.colors.background).fillMaxSize(),
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .fillMaxSize(),
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             horizontalArrangement = Arrangement.spacedBy(spacingSmall)
         ) {
+
+            if (state.profilePosts.isEmpty()) {
+                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
+            } else {
+                items(items = state.profilePosts) { ProfilePostUiState ->
+                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
+                }
+            }
+
             item(span = { GridItemSpan(3) }) {
 
                 Column(
@@ -77,27 +88,18 @@ private fun ProfileContent(
                     UserDetails(state.userDetails)
 
                     Row {
-                        if (state.isUserVisitor) ReduceButton(
-                            onClick = { onClickAddFriend(state.userDetails.userId) },
-                            isSelected = state.isRequestSent,
-                            idTitleResource = if (state.isRequestSent) R.string.requested else R.string.add_friend,
-                            idIconResource = R.drawable.add_person,
-                        ) else
-                            ReduceButton(
-                                onClick = onClickEditeProfile,
-                                idTitleResource = R.string.edit_profile,
-                                idIconResource = R.drawable.edite_profile,
+                        if (state.isMyProfile) {
+                            MyProfileLayout(
+                                onClickEditProfile = onClickEditProfile,
+                                onClickLogout = onClickLogout
                             )
-                        SpaceHorizontally8dp()
-                        if (state.isUserVisitor) CircleButton(
-                            onClick = onClickMessage,
-                            idIconResource = R.drawable.massage,
-                            idTitleResource = R.string.send_message
-                        ) else CircleButton(
-                            onClick = onClickLogout,
-                            idIconResource = R.drawable.logout,
-                            idTitleResource = R.string.logout
-                        )
+                        } else {
+                            VisitedProfileLayout(
+                                state = state,
+                                onClickAddFriend = onClickAddFriend,
+                                onClickMessage = onClickMessage
+                            )
+                        }
                     }
                     SpacerVertical16()
                     Divider()
@@ -106,19 +108,46 @@ private fun ProfileContent(
             }
 
 
-            if(state.profilePosts.isEmpty()){
-                item(span = { GridItemSpan(3) }) {
-                    ImageForEmptyList() }
-            } else{
-                items(items = state.profilePosts) { ProfilePostUiState ->
-                    ProfilePostItem(
-                        post = ProfilePostUiState,
-                        onClickPost = onClickPost
-                    )
-                }
-            }
-
         }
 
     }
+}
+
+@Composable
+fun VisitedProfileLayout(
+    state: ProfileUiState,
+    onClickAddFriend: (Int) -> Unit,
+    onClickMessage: () -> Unit,
+) {
+    ReduceButton(
+        onClick = { onClickAddFriend(state.userDetails.userId) },
+        isSelected = state.isRequestExists,
+        idTitleResource = if (state.isRequestExists) R.string.requested else R.string.add_friend,
+        idIconResource = R.drawable.add_person,
+    )
+    SpaceHorizontally8dp()
+
+    CircleButton(
+        onClick = onClickMessage,
+        idIconResource = R.drawable.massage,
+        idTitleResource = R.string.send_message
+    )
+}
+
+@Composable
+fun MyProfileLayout(
+    onClickEditProfile: () -> Unit,
+    onClickLogout: () -> Unit,
+) {
+    ReduceButton(
+        onClick = onClickEditProfile,
+        idTitleResource = R.string.edit_profile,
+        idIconResource = R.drawable.edite_profile,
+    )
+    SpaceHorizontally8dp()
+    CircleButton(
+        onClick = onClickLogout,
+        idIconResource = R.drawable.logout,
+        idTitleResource = R.string.logout
+    )
 }

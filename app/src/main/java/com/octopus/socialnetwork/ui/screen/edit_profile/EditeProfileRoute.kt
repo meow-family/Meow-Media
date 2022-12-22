@@ -8,7 +8,7 @@ import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
 private const val ROUTE = DetailsRoute.EditeProfile
 
-fun NavController.navigateToEditeProfileRoute() {
+fun NavController.navigateToEditProfileRoute() {
     navigate(ROUTE)
 }
 

@@ -37,7 +37,7 @@ fun NavGraphBuilder.userProfileRoute(navController: NavController) {
 
 class ProfileScreenArgs(savedStateHandle: SavedStateHandle) {
 
-    val userIdVisitor: String? = savedStateHandle[USER_ID]
+    val visitedUserId: String? = savedStateHandle[USER_ID]
 
     companion object {
         const val USER_ID = "userId"

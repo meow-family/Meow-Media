@@ -5,12 +5,11 @@ import com.octopus.socialnetwork.R
 data class ProfileUiState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
-    val isUserVisitor: Boolean = false,
+    val isMyProfile: Boolean = false,
     val userDetails: UserDetailsUiState = UserDetailsUiState(),
     val profilePosts: List<ProfilePostUiState> = emptyList(),
     val isFriend: Boolean = false,
     val isRequestExists: Boolean = false,
-    val isRequestSent: Boolean = false,
     val profileContentTab: ProfileContentTab = ProfileContentTab()
 
 )

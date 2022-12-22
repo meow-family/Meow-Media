@@ -19,4 +19,6 @@ object Constants {
             COMMENTS_ENTITY_FILE_OSSN_APHOTO
         )
     }
+
+    const val INVALID_USER = 0
 }
