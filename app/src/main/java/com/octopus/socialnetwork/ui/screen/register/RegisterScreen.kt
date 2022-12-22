@@ -15,6 +15,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,7 +40,7 @@ import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.AccountInformation
-import com.octopus.socialnetwork.ui.composable.register.DialogCreateAccount
+import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
@@ -228,12 +230,17 @@ private fun RegisterContent(
 
     if (state.isSuccess) {
         Dialog(onDismissRequest = { }) {
-            DialogCreateAccount(
-                checkEmail = {
+            CustomDialog(
+                icon = Icons.Default.Email,
+                title = stringResource(R.string.create_account_success),
+                description = stringResource(R.string.create_account_message),
+                actionTitle = stringResource(id = R.string.check_email),
+                cancelTitle = stringResource(id = R.string.not_now),
+                checkAction = {
                     onSuccessCreateAccount()
                     onClickLogin()
                 },
-                skip = {
+                onClickCancel = {
                     onSuccessCreateAccount()
                 }
             )

@@ -14,6 +14,6 @@ data class LoginUiState(
 )
 
 data class UserInputLoginUiState(
-    var userNameOrEmail: TextFieldUiState = TextFieldUiState(),
+    var userName: TextFieldUiState = TextFieldUiState(),
     var password: TextFieldUiState = TextFieldUiState(),
 )

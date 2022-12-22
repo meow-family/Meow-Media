@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Social Network</string>
+    <string name="app_name">Meow Social</string>
     <string name="description">Welcome back! login to rejoin our community</string>
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
     <string name="signup_here">Sign up here</string>
-    <string name="username_or_email">Username or email</string>
 
     <!-- Sign Up  -->
     <string name="create_account">Create Account</string>
@@ -24,7 +23,9 @@
     <string name="login">Login</string>
 
     <string name="icon_on_boarding">Icon On Boarding</string>
-    <string name="on_boarding_text">Connect With The People You Love!</string>
+    <string name="on_boarding_text">
+        Welcome to the land of cats! Ready to share your cat pictures with the world? This app is for you.
+    </string>
     <string name="MeowMedia">Meow Media</string>
 
     <string name="friends">Friends</string>
@@ -83,7 +84,7 @@
     <string name="email_not_confirm">Is not confirm with email.</string>
 
     <string name="username_empty">UserName is Required should not empty.</string>
-    <string name="username_short">UserName should be minimum six characters.</string>
+    <string name="username_short">UserName should be minimum 4 characters.</string>
     <string name="username_long">UserName should be maximum twenty-nine characters.</string>
     <string name="username_not_clean">UserName content just uppercase letter or lowercase letter.</string>
 
@@ -108,5 +109,13 @@
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
     <string name="your_message">your message…</string>
+
+    <string name="post">Post</string>
+    <string name="add_caption">Add caption …</string>
+    <string name="image_post">Post Image</string>
+    <string name="back">Back</string>
+    <string name="image_post_rejected">Image Rejected!</string>
+    <string name="image_post_rejected_description">Meow Meow! your image doensn\'t contain a cat! this app is for meows only.</string>
+
     <string name="no_items">Look like there\'s no meows items here!</string>
 </resources>

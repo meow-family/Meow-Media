@@ -15,19 +15,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 
 @Composable
-fun FloatingActionButton(onClick: () -> Unit) {
+fun FloatingActionButton(
+    modifier: Modifier = Modifier,
+    hiddenBoarder: Boolean = false,
+    imageVector: ImageVector = Icons.Filled.Add,
+    onClick: () -> Unit,
+
+    ) {
     IconButton(onClick = { onClick() }) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .offset(y = 5.dp)
                 .size(65.dp)
                 .clip(CircleShape)
-                .background(color = MaterialTheme.colors.background),
+                .background(
+                    color = if (hiddenBoarder) Color.Transparent else MaterialTheme.colors.background
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -35,7 +45,7 @@ fun FloatingActionButton(onClick: () -> Unit) {
                     .clip(CircleShape)
                     .background(color = MaterialTheme.colors.primary)
                     .padding(14.dp),
-                imageVector = Icons.Filled.Add,
+                imageVector = imageVector,
                 tint = MaterialTheme.colors.onPrimary,
                 contentDescription = stringResource(R.string.add)
             )

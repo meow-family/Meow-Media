@@ -1,7 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.main
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumedWindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
@@ -19,9 +24,11 @@ import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavig
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
 import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
 import com.octopus.socialnetwork.ui.navigation.MainRoute
+import com.octopus.socialnetwork.ui.screen.create_post.navigateToCreatePostRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 @ExperimentalPagerApi
@@ -64,16 +71,23 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
 
         },
         floatingActionButton = {
-            FloatingActionButton {}
+            FloatingActionButton {
+                rootNavController.navigateToCreatePostRoute()
+            }
         }
-    ) {
+    ) { innerPadding ->
 
-        MainNavigationGraph(navController,rootNavController)
+        Box(
+            modifier = Modifier
+                .consumedWindowInsets(innerPadding)
+                .padding(innerPadding)
+                .imePadding()
+        ) {
+            MainNavigationGraph(navController, rootNavController)
+        }
 
     }
-
 }
-
 
 @Preview
 @Composable
