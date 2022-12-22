@@ -1,5 +1,12 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.octopus.socialnetwork.data.local.database.SocialDatabase
+import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
+import com.octopus.socialnetwork.data.remote.pagingsource.PostsDataSource
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.octopus.socialnetwork.BuildConfig
@@ -34,8 +41,11 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
+    private val socialDatabase: SocialDatabase,
+    private val postsRemoteMediator: PostsRemoteMediator,
 ) : SocialRepository {
 
     //region user
@@ -108,7 +118,26 @@ class SocialRepositoryImpl @Inject constructor(
 
 
     override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
-        return socialService.viewNewsFeed(currentUserId).result.posts
+        return socialService.viewNewsFeed(currentUserId, 1).result.posts
+    }
+
+//    override fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource {
+//        return PostsDataSource(socialService, currentUserId)
+//    }
+
+    override suspend fun viewNewsFeedPager(currentUserId: Int): Pager<Int, PostDto> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+            pagingSourceFactory = { PostsDataSource(socialService, currentUserId) }
+        )
+    }
+
+    override fun getNewsFeedPager(): Pager<Int, PostEntity> {
+        return Pager(
+            config = PagingConfig(10),
+            remoteMediator = postsRemoteMediator,
+            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
+        )
     }
 
     override suspend fun createPost(
@@ -203,6 +232,11 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.addComment(postId, comment, userId).result
     }
 
+    override suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int) {
+        Log.d("MALT", "WORKED UNTIL DAO: $id, $isLikedByUser")
+        socialDatabase.postsDao().updatePostLikeStatus(id, isLikedByUser, newLikesCount)
+    }
+
     override suspend fun getPhotosListProfileCover(
         userId: Int,
         type: String
@@ -253,7 +287,5 @@ class SocialRepositoryImpl @Inject constructor(
         ).result
     }
     //endregion
-
-
 
 }
