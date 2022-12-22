@@ -26,7 +26,7 @@ import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 fun ItemPost(
     post: PostUiState,
     onClickPost: (Int, Int) -> Unit,
-    onLike: (Int) -> Unit,
+    onLike: (Int, Int, Boolean) -> Unit,
     onComment: (Int) -> Unit,
     onShare: () -> Unit
 ) {
@@ -56,7 +56,7 @@ fun ItemPost(
                     InteractionIcon(
                         icon = if (post.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
                         count = post.likeCount,
-                        onClick = { onLike(post.postId) },
+                        onClick = { onLike(post.postId, post.likeCount.toInt(), post.isLiked) },
                         tint = if (post.isLiked) Color.Red else Color.White
                     )
                 }, {
