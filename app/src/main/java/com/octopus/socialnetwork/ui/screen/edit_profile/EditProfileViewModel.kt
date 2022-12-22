@@ -1,8 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
+import android.net.Uri
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
@@ -12,12 +18,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase,
     private val fetchUserDetailsUseCase: FetchUserDetailsUseCase,
+    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
+    private val openFileUseCase: OpenFileUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -44,7 +53,7 @@ class EditProfileViewModel @Inject constructor(
                         profileAvatar = userDetails.profileAvatar,
                         profileCover = userDetails.profileCover
                     )
-                 }
+                }
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
@@ -89,6 +98,21 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickChangeImage(uri: Uri) {
+        viewModelScope.launch {
+            try {
+                Log.d("kkk",uri.toString())
+                val updatedUser = changeProfileImageUseCase(profileImage = openFileUseCase(uri))
+                Log.d("kkk",updatedUser.avatar)
+                _state.update { it.copy(profileAvatar = updatedUser.avatar) }
+            } catch (e: Throwable) {
+                Log.d("kkk","error")
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
     fun onClickSave() {
         updateUserData()
     }
@@ -120,5 +144,4 @@ class EditProfileViewModel @Inject constructor(
     fun onChangeNewPasswordVisibility() {
         _state.update { it.copy(showNewPassword = !it.showNewPassword) }
     }
-
 }

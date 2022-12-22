@@ -1,5 +1,13 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
+import android.net.Uri
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,12 +36,24 @@ import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EditProfileScreen(
     navController: NavController,
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+
+//    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.PickVisualMedia(),
+//        onResult = { uri -> uri?.let { viewModel.setImageUri(it) } }
+//    )
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            uri?.let { viewModel.onClickChangeImage(it) }
+        }
+    )
     EditProfileContent(
         state = state,
         onChangeFirstName = viewModel::onChangeFirstName,
@@ -44,6 +65,11 @@ fun EditProfileScreen(
         onClickBack = { },
         onClickShowCurrentPassword = viewModel::onChangeCurrentPasswordVisibility,
         onClickShowNewPassword = viewModel::onChangeNewPasswordVisibility,
+        onChangeProfileImage = {
+            singlePhotoPickerLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+        },
     )
 }
 
@@ -59,7 +85,8 @@ private fun EditProfileContent(
     onClickBack: () -> Unit,
     onClickShowCurrentPassword: () -> Unit,
     onClickShowNewPassword: () -> Unit,
-) {
+    onChangeProfileImage: () -> Unit,
+    ) {
 
     LazyColumn(
         modifier = Modifier
@@ -129,9 +156,9 @@ private fun EditProfileContent(
                     }
 
                     EditProfileInformation(
-                        backImageProfile = customImageLoad(state.profileAvatar),
-                        profileImage = customImageLoad(state.profileCover),
-                        onEdit = { })
+                        backImageProfile = customImageLoad(state.profileCover),
+                        profileImage = customImageLoad(state.profileAvatar),
+                        onEdit = {onChangeProfileImage()} )
                 }
 
                 InputTextField(

@@ -46,7 +46,7 @@ fun EditProfileInformation(
                     .border(1.dp, color = Color.LightGray, shape = CircleShape))
 
             IconButton(
-                onClick = { onEdit },
+                onClick = { onEdit() },
                 modifier = Modifier
                     .size(25.dp)
                     .clip(CircleShape)

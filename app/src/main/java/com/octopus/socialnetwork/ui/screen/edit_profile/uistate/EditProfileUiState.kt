@@ -1,5 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile.uistate
 
+import android.net.Uri
+
 data class EditProfileUiState(
     val firstName: String = "",
     val lastName: String = "",
@@ -13,4 +15,5 @@ data class EditProfileUiState(
     val isError: Boolean = false,
     var showCurrentPassword: Boolean = false,
     var showNewPassword: Boolean = false,
+    val imageUri: Uri? = null,
 )
