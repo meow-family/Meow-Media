@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.util
 
 object Constants {
     const val REGEX_EMAIL_VALIDATION = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$"
+    const val ITEMS_PER_PAGE = 10
 
     object NotificationsTypes {
         const val LIKE_POST = "like:post"
@@ -10,6 +11,7 @@ object Constants {
         const val WALL_FRIENDS_TAG = "wall:friends:tag"
         const val LIKE_ENTITY_FILE_OSSN_APHOTO = "like:entity:file:ossn:aphoto"
         const val COMMENTS_ENTITY_FILE_OSSN_APHOTO = "comments:entity:file:ossn:aphoto"
+
     }
 
     val NOTIFICATIONS_TYPES_List = with(NotificationsTypes){
