@@ -31,7 +31,7 @@ interface SocialRepository {
 
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
 
-    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO
+    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO?
 
     suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
 

@@ -143,9 +143,9 @@ interface SocialService {
 
     @GET("user_is_friend")
     suspend fun checkUserFriend(
-        @Query("user_b") receiverUser: Int,
         @Query("user_a") senderUser: Int,
-    ): BaseResponse<FriendValidatorDTO>
+        @Query("user_b") receiverUser: Int,
+    ): BaseResponse<FriendValidatorDTO?>
 
     // Notifications
     @GET("notifications_list_user")

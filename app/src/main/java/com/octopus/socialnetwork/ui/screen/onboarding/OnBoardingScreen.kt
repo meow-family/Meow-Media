@@ -69,7 +69,7 @@ private fun OnBoardingContent(
 
         Text(
             text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Start,
-            color = MaterialTheme.colors.textPrimaryColor, style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.textPrimaryColor, style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(top = spacingHuge, start = spacingMedium)
         )
 
