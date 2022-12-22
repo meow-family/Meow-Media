@@ -18,4 +18,5 @@ interface MessagingRepository {
     ): MessageListDto
 
     suspend fun getMessages(currentUserId: Int, otherUserId: Int): MessageListDto
+
 }

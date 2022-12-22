@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.di
 
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
+import com.octopus.socialnetwork.data.remote.service.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import dagger.Module
 import dagger.Provides
@@ -47,6 +48,14 @@ object NetworkModule {
         return builder.build()
     }
 
+    @Provides
+    @Singleton
+    fun provideFirebaseCloudMessagingApi(factory: GsonConverterFactory): CloudMessagingService =
+        Retrofit.Builder()
+            .baseUrl(CloudMessagingService.BASE_URL)
+            .addConverterFactory(factory)
+            .build()
+            .create(CloudMessagingService::class.java)
 
     @Singleton
     @Provides
