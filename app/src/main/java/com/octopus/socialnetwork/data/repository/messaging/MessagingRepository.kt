@@ -1,6 +1,8 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
 import com.octopus.socialnetwork.data.remote.response.dto.messages.*
+import com.octopus.socialnetwork.domain.model.messages.MessageNotification
+import kotlinx.coroutines.flow.Flow
 
 interface MessagingRepository {
     suspend fun getRecentMassagesList(messageReceiver: Int): MessageListDto
@@ -18,5 +20,12 @@ interface MessagingRepository {
     ): MessageListDto
 
     suspend fun getMessages(currentUserId: Int, otherUserId: Int): MessageListDto
+
+//    fun onReceiveMessage(): Flow<MessageDto>
+
+    suspend fun postNotification(notification: MessageNotificationDto): Boolean
+
+    fun onReceiveNotification(): Flow<NotificationData>
+
 
 }
