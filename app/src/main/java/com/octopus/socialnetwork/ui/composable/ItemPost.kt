@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,7 @@ import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 fun ItemPost(
     post: PostUiState,
     onClickPost: (Int, Int) -> Unit,
-    onLike: (Int,Boolean) -> Unit,
+    onLike: (Int, Int, Boolean) -> Unit,
     onComment: (Int) -> Unit,
     onShare: () -> Unit
 ) {
@@ -57,9 +56,7 @@ fun ItemPost(
                     InteractionIcon(
                         icon = if (post.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
                         count = post.likeCount,
-                        onClick = { onLike(post.postId,post.isLiked)
-                                  Log.i("TESTING", "onLike IN ITEM: ${post.isLiked}")
-                                  },
+                        onClick = { onLike(post.postId, post.likeCount.toInt(), post.isLiked) },
                         tint = if (post.isLiked) Color.Red else Color.White
                     )
                 }, {

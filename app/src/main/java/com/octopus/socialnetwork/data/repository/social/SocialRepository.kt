@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import androidx.paging.Pager
+import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.remote.pagingsource.PostsDataSource
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -55,6 +56,8 @@ interface SocialRepository {
 //    fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource
     suspend fun viewNewsFeedPager(currentUserId: Int): Pager<Int, PostDto>
 
+    fun getNewsFeedPager(): Pager<Int, PostEntity>
+
 
     suspend fun createPost(
         currentUserId: Int,
@@ -82,6 +85,8 @@ interface SocialRepository {
     suspend fun deleteComment(commentId: Int, userId: Int): Boolean
 
     suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails
+
+    suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int)
     //endregion
 
     //region photo
