@@ -1,10 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -16,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.ItemPost
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
@@ -90,14 +88,18 @@ private fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            items(state.posts) {
-                ItemPost(
-                    post = it,
-                    onClickPost = onClickPost,
-                    onLike = onClickLike ,
-                    onComment = onClickComment,
-                    onShare = onClickShare
-                )
+            if(state.posts.isEmpty()){
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+            } else{
+                items(state.posts) {
+                    ItemPost(
+                        post = it,
+                        onClickPost = onClickPost,
+                        onLike = onClickLike ,
+                        onComment = onClickComment,
+                        onShare = onClickShare
+                    )
+                }
             }
         }
     }

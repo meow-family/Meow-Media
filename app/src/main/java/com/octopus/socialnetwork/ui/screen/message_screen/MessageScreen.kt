@@ -1,8 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.message_screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,6 +45,7 @@ fun MessageScreen(
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MessageViewContent(
     state: MessageMainUiState,
@@ -92,49 +92,53 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        if(!state.isSearchVisible){
-            LazyColumn(
-                Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 16.dp),
-            ) {
-                if(state.messages.isEmpty()){
-                    item { ImageForEmptyList() }
-                } else{
-                    itemsIndexed(state.messages) { index, item ->
-                        MessageItem(onClickMessage = onClickMessage, state = item)
-                        if (index < state.messages.lastIndex) Divider()
+        AnimatedContent(
+            targetState = state.isSearchVisible,
+            transitionSpec = {
+                slideIn(tween(300)){ it -> IntOffset(it.width, 0) } with
+                        slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
+            }
+        ){
+            when(it){
+                true -> {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f).background(MaterialTheme.colors.background),
+                    ) {
+                        SearchViewItem(query = state.query, onValueChange = onChangeText)
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            if(state.query.isEmpty()) {
+                                item { LottieSearch() }
+                            }
+                            else {
+                                items(state.users) { searchItem ->
+                                    SearchItem(state = searchItem, onClickItem = onClickMessage) }
+                            }
+                        }
+                    }
+                }
+                false -> {
+                    LazyColumn(
+                        Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                    ) {
+                        if(state.messages.isEmpty()){
+                            item { ImageForEmptyList() }
+                        } else{
+                            itemsIndexed(state.messages) { index, item ->
+                                MessageItem(onClickMessage = onClickMessage, state = item)
+                                if (index < state.messages.lastIndex) Divider()
+                            }
+                        }
                     }
                 }
             }
-        }
 
-
-        AnimatedVisibility(
-            visible = state.isSearchVisible,
-            enter = slideIn { it -> IntOffset(it.width, 0) },
-            exit = slideOut { it -> IntOffset(- it.width, 0) },
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f).background(MaterialTheme.colors.background),
-            ) {
-                SearchViewItem(query = state.query, onValueChange = onChangeText)
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    if(state.query.isEmpty()) {
-                        item { LottieSearch() }
-                    }
-                    else {
-                        items(state.users) { searchItem ->
-                            SearchItem(state = searchItem, onClickItem = onClickMessage) }
-                    }
-                }
-            }
         }
     }
 
     if (state.isLoading) {
         Loading()
     }
-
 
 }

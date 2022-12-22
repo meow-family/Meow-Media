@@ -99,7 +99,7 @@ private fun ProfileContent(
                             idTitleResource = R.string.logout
                         )
                     }
-                    SpacerVertical16()
+                    SpaceVertically8dp()
                     Divider()
                 }
 
@@ -107,8 +107,7 @@ private fun ProfileContent(
 
 
             if(state.profilePosts.isEmpty()){
-                item(span = { GridItemSpan(3) }) {
-                    ImageForEmptyList() }
+                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
             } else{
                 items(items = state.profilePosts) { ProfilePostUiState ->
                     ProfilePostItem(

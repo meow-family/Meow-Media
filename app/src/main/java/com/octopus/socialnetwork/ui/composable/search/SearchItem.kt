@@ -11,15 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.Gray700
 import com.octopus.socialnetwork.ui.theme.outLine
@@ -40,11 +39,9 @@ fun SearchItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = rememberAsyncImagePainter(model = state.profileAvatar),
+                painter = customImageLoad(imageUrl = state.profileAvatar),
                 contentDescription = stringResource(R.string.profile_image),
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(44.dp),
+                modifier = Modifier.size(44.dp).clip(CircleShape),
                 contentScale = ContentScale.Crop,
             )
             Column(
@@ -56,7 +53,7 @@ fun SearchItem(
                     text = state.fullName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = MaterialTheme.colors.onSecondary,
                     modifier = Modifier.width(200.dp),
                     overflow = TextOverflow.Ellipsis
                 )

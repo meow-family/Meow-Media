@@ -29,9 +29,7 @@ fun MessageItem(
     ) {
         ProfileImage(
             painter = customImageLoad(imageUrl = state.otherUser.profileAvatar),
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
+            modifier = Modifier.size(48.dp).clip(CircleShape)
         )
         SpaceHorizontally8dp()
         Column {

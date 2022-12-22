@@ -110,4 +110,6 @@
     <string name="logout">تسجيل خروج</string>
     <string name="add_friend">أضف صديق</string>
     <string name="requested">مطلوب</string>
+
+    <string name="no_items">يبدو انه لا توجد عناصر meows هنا!</string>
 </resources>

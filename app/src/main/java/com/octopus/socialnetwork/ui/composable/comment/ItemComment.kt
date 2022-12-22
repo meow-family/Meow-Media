@@ -12,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -58,7 +57,7 @@ fun ItemComment(
         Text(
             text = commentDetails.fullName,
             fontSize = 14.sp,
-            color = Color.Black,
+            color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.constrainAs(fullName) {
                 top.linkTo(userImage.top, 4.dp)
@@ -76,7 +75,7 @@ fun ItemComment(
 
         Text(text = commentDetails.comment,
             fontSize = 12.sp,
-            color = Color.Black,
+            color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Normal,
             modifier = Modifier
                 .constrainAs(postText) {
@@ -104,11 +103,9 @@ fun ItemComment(
 
         Text(text = commentDetails.likeCounter.toString(),
             fontSize = 12.sp,
-            color = Color.Black,
+            color = Color.Gray,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .alpha(.3f)
-                .constrainAs(likeCounter) {
+            modifier = Modifier.constrainAs(likeCounter) {
                     start.linkTo(like.end, 4.dp)
                     top.linkTo(like.top, 4.dp)
                     bottom.linkTo(like.bottom)
@@ -116,9 +113,9 @@ fun ItemComment(
 
         Text(text = commentDetails.timeCreated.getHourAndMinutes(),
             fontSize = 12.sp,
-            color = Color.Black,
+            color = Color.Gray,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.alpha(.3f).constrainAs(contentTime) {
+            modifier = Modifier.constrainAs(contentTime) {
                     top.linkTo(postText.bottom, 12.dp)
                     start.linkTo(likeCounter.end, 18.dp)
                 })

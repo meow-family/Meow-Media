@@ -108,4 +108,5 @@
     <string name="add_friend">Add Friend</string>
     <string name="requested">Requested</string>
     <string name="your_message">your message…</string>
+    <string name="no_items">Look like there\'s no meows items here!</string>
 </resources>

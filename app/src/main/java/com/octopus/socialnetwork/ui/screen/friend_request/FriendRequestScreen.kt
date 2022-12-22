@@ -1,11 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.friend_request
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -54,9 +50,7 @@ private fun FriendRequestContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
     ) {
 
         AppBar(
@@ -74,7 +68,7 @@ private fun FriendRequestContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 if(state.friendRequests.isEmpty()){
-                    item { ImageForEmptyList() }
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else{
                     items(state.friendRequests) {
                         FriendRequestItem(
