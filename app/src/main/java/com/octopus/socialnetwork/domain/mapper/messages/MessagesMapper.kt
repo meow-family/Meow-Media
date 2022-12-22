@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.domain.mapper.messages
 
-import com.octopus.socialnetwork.constants.Constants.INVALID_USER_ID
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDto
@@ -31,7 +30,7 @@ fun MessageListDto.toMessagesList(userId: Int): MessagesList {
 
 fun MessageUserDto.toMessageUser(): MessageUser {
     return MessageUser(
-        userId = userId ?: INVALID_USER_ID,
+        userId = userId ?: 0,
         fullName = fullName ?: "",
         userName = username ?: "",
         avatar = avatar?.larger ?: ""

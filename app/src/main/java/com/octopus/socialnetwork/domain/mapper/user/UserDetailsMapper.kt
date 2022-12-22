@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.domain.mapper.user
 
-import com.octopus.socialnetwork.constants.Constants.INVALID_USER_ID
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
@@ -11,7 +10,7 @@ import com.octopus.socialnetwork.domain.model.user.UserPosts
 
 fun UserDto.toUserDetails(): UserDetails {
     return UserDetails(
-        id = id ?: INVALID_USER_ID,
+        id = id ?: 0,
         firstName = firstName ?: "",
         lastName = lastName ?: "",
         fullName = fullName ?: "",

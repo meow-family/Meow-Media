@@ -14,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
+import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -36,7 +38,7 @@ fun ProfileScreen(
     ProfileContent(
         state = state,
         onClickAddFriend = viewModel::onClickAddFriend,
-        onClickMessage = { /*TODO:viewModel::onClickMessage*/ },
+        onClickMessage = navController::navigateToChat,
         onClickLogout = { /*TODO:viewModel::onClickLogout*/ },
         onClickEditProfile = navController::navigateToEditProfileRoute,
         onClickBack = { navController.popBackStack() },
@@ -51,7 +53,7 @@ private fun ProfileContent(
     state: ProfileUiState,
     onClickBack: () -> Unit,
     onClickAddFriend: (Int) -> Unit,
-    onClickMessage: () -> Unit,
+    onClickMessage: (Int) -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
     onClickEditProfile: () -> Unit,
@@ -71,13 +73,7 @@ private fun ProfileContent(
             horizontalArrangement = Arrangement.spacedBy(spacingSmall)
         ) {
 
-            if (state.profilePosts.isEmpty()) {
-                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
-            } else {
-                items(items = state.profilePosts) { ProfilePostUiState ->
-                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
-                }
-            }
+
 
             item(span = { GridItemSpan(3) }) {
 
@@ -107,47 +103,17 @@ private fun ProfileContent(
 
             }
 
-
+            if (state.profilePosts.isEmpty()) {
+                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
+            } else {
+                items(items = state.profilePosts) { ProfilePostUiState ->
+                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
+                }
+            }
         }
 
     }
 }
 
-@Composable
-fun VisitedProfileLayout(
-    state: ProfileUiState,
-    onClickAddFriend: (Int) -> Unit,
-    onClickMessage: () -> Unit,
-) {
-    ReduceButton(
-        onClick = { onClickAddFriend(state.userDetails.userId) },
-        isSelected = state.isRequestExists,
-        idTitleResource = if (state.isRequestExists) R.string.requested else R.string.add_friend,
-        idIconResource = R.drawable.add_person,
-    )
-    SpaceHorizontally8dp()
 
-    CircleButton(
-        onClick = onClickMessage,
-        idIconResource = R.drawable.massage,
-        idTitleResource = R.string.send_message
-    )
-}
 
-@Composable
-fun MyProfileLayout(
-    onClickEditProfile: () -> Unit,
-    onClickLogout: () -> Unit,
-) {
-    ReduceButton(
-        onClick = onClickEditProfile,
-        idTitleResource = R.string.edit_profile,
-        idIconResource = R.drawable.edite_profile,
-    )
-    SpaceHorizontally8dp()
-    CircleButton(
-        onClick = onClickLogout,
-        idIconResource = R.drawable.logout,
-        idTitleResource = R.string.logout
-    )
-}
