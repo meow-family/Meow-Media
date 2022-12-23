@@ -70,6 +70,7 @@ private fun HomeContent(
 ) {
 
     val posts = state.posts.collectAsLazyPagingItems()
+    var isEmptyFlow: Boolean = false
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -96,7 +97,9 @@ private fun HomeContent(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                if (state.posts.isEmpty()) {
+
+                item { isEmptyFlow = state.posts.collectAsLazyPagingItems().itemCount == 0 }
+                if (isEmptyFlow) {
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else {
                     items(items = posts) {

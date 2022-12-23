@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.theme.Shapes
-import com.octopus.socialnetwork.ui.theme.spacing
 import com.octopus.socialnetwork.ui.theme.zero
 
 @Composable
@@ -27,7 +26,7 @@ fun ReduceButton(
     Button(
         onClick = { onClick() },
         modifier = Modifier
-            .height(30.dp)
+            .height(25.dp)
             .wrapContentWidth(),
         shape = Shapes.large,
         contentPadding = PaddingValues(zero),
@@ -38,12 +37,12 @@ fun ReduceButton(
         Image(
             painterResource(idIconResource),
             contentDescription = stringResource(idTitleResource),
-            modifier = Modifier.size(16.dp).padding(start = spacing)
+            modifier = Modifier.size(16.dp).padding(start = 8.dp)
         )
 
         Text(
             stringResource(idTitleResource),
-            Modifier.padding(horizontal = 4.dp),
+            Modifier.padding(start = 4.dp, end = 8.dp),
             style = MaterialTheme.typography.overline,
             color = if (isSelected) MaterialTheme.colors.onSecondary else MaterialTheme.colors.onPrimary,
         )

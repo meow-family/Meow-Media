@@ -51,11 +51,15 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         posts = posts,
                         isLoading = false,
+                        isSuccessful = true,
                         isError = false,
                     )
                 }
                 Log.d("MALT", "LOAD PAGING DATA SUCCESS WITH POSTS: $posts")
             } catch (e: Exception) {
+                _homeUiState.update {
+                    it.copy(isLoading = false, isSuccessful = false, isError = true,)
+                }
                 Log.d("MALT", "LOAD PAGING DATA FAILED DUE TO: $e ~ ${e.message}")
             }
         }
