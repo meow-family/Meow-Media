@@ -1,10 +1,14 @@
 package com.octopus.socialnetwork.ui.util.extensions
 
+import android.content.Context
 import androidx.core.text.HtmlCompat
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.util.Constants
+import com.phucynwa.profanity.filter.AndroidProfanityFilter
+import com.phucynwa.profanity.filter.dictionary.PlainDictionary
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 val notificationsTypes = Constants.NotificationsTypes
 
@@ -22,6 +26,12 @@ fun String.setNotificationsTitle() : Int {
 
 fun setBadgeCountValue(badgeCount: Int):
         String = if (badgeCount in 1..9) badgeCount.toString() else "+9"
+
+fun blockBadWordsInText(text: String, Context: Context): String {
+    val dictionary = PlainDictionary(Context, "bad_words_en_us.txt")
+    val profanityFilter = AndroidProfanityFilter(dictionary = dictionary)
+    return profanityFilter.censor(text)
+}
 
 
 fun String.removeHtmlEncoding(): String {

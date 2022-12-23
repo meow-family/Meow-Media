@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.model.comment
 import java.util.*
 
 data class Comment (
-    val comment: String,
+    var comment: String,
     val commentOwnerId: Int,
     val isLikedByUser: Boolean,
     val timeCreated: Date,

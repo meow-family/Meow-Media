@@ -6,7 +6,7 @@ import java.util.*
 data class Post(
     val postId: Int,
     val ownerId: Int,
-    val description: String,
+    var description: String,
     val image: String,
     val fullName: String,
     val username: String,
