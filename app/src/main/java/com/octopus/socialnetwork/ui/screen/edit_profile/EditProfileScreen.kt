@@ -1,9 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
-import android.net.Uri
 import android.os.Build
-import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +12,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -62,7 +58,7 @@ fun EditProfileScreen(
         onChangeCurrentPassword = viewModel::onChangeCurrentPassword,
         onChangeNewPassword = viewModel::onChangeNewPassword,
         onClickSave = viewModel::onClickSave,
-        onClickBack = { },
+        onClickBack = { navController.popBackStack()},
         onClickShowCurrentPassword = viewModel::onChangeCurrentPasswordVisibility,
         onClickShowNewPassword = viewModel::onChangeNewPasswordVisibility,
         onChangeProfileImage = {
@@ -116,7 +112,7 @@ private fun EditProfileContent(
                         ConstraintLayout() {
                             val (circle, arrowBack) = createRefs()
                             IconButton(
-                                onClick = { onClickBack() },
+                                onClick = onClickBack,
                                 Modifier
                                     .clip(CircleShape)
                                     .background(color = LightBlack_65)
@@ -138,7 +134,7 @@ private fun EditProfileContent(
                             )
                         }
                         IconButton(
-                            onClick = { onClickBack() },
+                            onClick = {},
                             Modifier
                                 .clip(CircleShape)
                                 .background(color = LightBlack_65)
