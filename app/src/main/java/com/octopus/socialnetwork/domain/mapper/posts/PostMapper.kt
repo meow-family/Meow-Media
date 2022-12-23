@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.mapper.posts
 
+import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
@@ -21,3 +22,18 @@ fun PostDto.toPost(): Post {
     )
 }
 
+fun PostEntity.toPost(): Post {
+    return Post(
+        postId = id,
+        ownerId = ownerId,
+        description = description,
+        image = imageUrl,
+        fullName = fullName,
+        username = username,
+        avatar = avatarUrl,
+        totalLikes = totalLikes,
+        totalComments = totalComments,
+        isLikedByUser = isLikedByUser,
+        timeCreated = timeCreated.toFormattedDate(),
+    )
+}

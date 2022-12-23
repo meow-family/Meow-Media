@@ -68,17 +68,17 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val clickedComment = _state.value.comments
-                clickedComment.find { it.commentId == commentId }?.let { comment ->
-                    toggleLikeState(
-                        commentId = commentId,
-                        isLiked = comment.isLikedByUser.not(),
-                        newLikesCount = toggleLikeState(
-                            contentId = commentId,
-                            isLiked = comment.isLikedByUser,
-                            contentType = "annotation"
-                        ) ?: 0
-                    )
-                }
+//                clickedComment.find { it.commentId == commentId }?.let { comment ->
+//                    toggleLikeState(
+//                        commentId = commentId,
+//                        isLiked = comment.isLikedByUser.not(),
+//                        newLikesCount = toggleLikeState(
+//                            contentId = commentId,
+//                            isLiked = comment.isLikedByUser,
+//                            contentType = "annotation"
+//                        ) ?: 0
+//                    )
+//                }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }

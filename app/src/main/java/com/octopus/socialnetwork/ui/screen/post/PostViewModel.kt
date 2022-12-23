@@ -57,7 +57,8 @@ class PostViewModel @Inject constructor(
                     newLikesCount = likeToggleUseCase(
                         contentId = post.postId,
                         contentType = "post",
-                        isLiked = post.isLiked
+                        isLiked = post.isLiked,
+                        totalLikes = post.likeCount.toInt()
                     ) ?: 0
                 )
             } catch (e: Exception) {
