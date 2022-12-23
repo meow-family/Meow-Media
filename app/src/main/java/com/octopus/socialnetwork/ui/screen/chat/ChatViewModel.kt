@@ -1,8 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.chat
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.usecase.messages.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
@@ -12,6 +14,7 @@ import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +24,7 @@ class ChatViewModel @Inject constructor(
     private val getMessageList: GetMessageListUseCase,
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val sendMessage: SendMessagesUseCase,
+    private val messagingRepository: MessagingRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -33,6 +37,12 @@ class ChatViewModel @Inject constructor(
     init {
         getMessagesWithUser(args.userId.toInt())
         getUserInfo(args.userId.toInt())
+        viewModelScope.launch {
+            messagingRepository.onReceiveNotification().collect{
+                Log.i("TESTING","collecting the notification! $it")
+                getMessagesWithUser(it.friendId)
+            }
+        }
     }
 
     fun onTextChange(newValue: String) {
@@ -71,9 +81,9 @@ class ChatViewModel @Inject constructor(
     private fun sendMessage(message: String) {
         viewModelScope.launch {
             try {
-                val messages = sendMessage(args.userId.toInt(), message).map { it.toMessageUiState() }
+                val messages = sendMessage(args.userId.toInt(), message).toMessageUiState()
                 _state.update { it.copy(
-                    messages = messages
+                    message = messages.lastMessage
                 ) }
 //                getMessagesWithUser(args.userId.toInt())
                 _state.update { it.copy(isLoading = false, isFail = false) }

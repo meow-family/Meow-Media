@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.remote.service
 
 import android.util.Log
+import com.google.firebase.messaging.EnhancedIntentService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
@@ -8,9 +9,10 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationK
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class FirebaseCloudMessagingService : FirebaseMessagingService() {
+class FirebaseCloudMessagingService @Inject constructor(): FirebaseMessagingService(){
 
     override fun onMessageReceived(message: RemoteMessage) {
 
@@ -42,6 +44,7 @@ class FirebaseCloudMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.v("TESTING", "onNewToken $token")
+
     }
 
     companion object{

@@ -2,10 +2,7 @@ package com.octopus.socialnetwork.data.local.datastore
 
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -38,6 +35,18 @@ class DataStorePreferencesImpl @Inject constructor(
     override suspend fun writeString(key: String, value: Int) {
         dataStore.edit { MutableStringPref ->
             MutableStringPref[intPreferencesKey(key)] = value
+        }
+    }
+
+    override suspend fun writeFcmToken(key: String, value: String) {
+        dataStore.edit { MutableStringPref ->
+            MutableStringPref[stringPreferencesKey(key)] = value
+        }
+    }
+
+    override fun readFcmToken(key: String): Flow<String?> {
+        return dataStore.data.map { preference ->
+            preference[stringPreferencesKey(key)]
         }
     }
 
