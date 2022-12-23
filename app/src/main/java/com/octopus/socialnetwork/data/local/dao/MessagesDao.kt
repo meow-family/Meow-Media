@@ -1,10 +1,12 @@
 package com.octopus.socialnetwork.data.local.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.octopus.socialnetwork.data.local.entity.MessageEntity
 
+@Dao
 interface MessagesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

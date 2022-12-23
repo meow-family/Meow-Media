@@ -1,6 +1,10 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
-import com.octopus.socialnetwork.data.remote.response.dto.messages.*
+import android.util.Log
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.data.remote.service.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.FirebaseCloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.SocialService
@@ -10,7 +14,6 @@ import javax.inject.Inject
 class MessagingRepositoryImpl @Inject constructor(
     private val service: SocialService,
     private val cloudMessagingService: CloudMessagingService,
-    private val messageFirebaseDataSource: ChatFirebaseDataSource
 ) : MessagingRepository {
 
     override suspend fun getRecentMassagesList(messageReceiver: Int): MessageListDto {
@@ -37,8 +40,11 @@ class MessagingRepositoryImpl @Inject constructor(
         return service.getMessagesList(currentUserId, otherUserId).result
     }
 
+
     override suspend fun postNotification(notification: MessageNotificationDto): Boolean {
-        return cloudMessagingService.postNotification(notification).isSuccessful
+        val isSuccessNotificationPost = cloudMessagingService.postNotification(notification)
+        Log.i("TESTING","is successful notification $isSuccessNotificationPost")
+        return isSuccessNotificationPost.isSuccessful
     }
 
     override fun onReceiveNotification(): Flow<NotificationData> {

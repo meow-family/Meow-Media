@@ -27,6 +27,7 @@ object NetworkModule {
         return retrofit.create(SocialService::class.java)
     }
 
+
     @Provides
     fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

@@ -71,8 +71,11 @@ class ChatViewModel @Inject constructor(
     private fun sendMessage(message: String) {
         viewModelScope.launch {
             try {
-                sendMessage(args.userId.toInt(), message).toMessageUiState()
-                getMessagesWithUser(args.userId.toInt())
+                val messages = sendMessage(args.userId.toInt(), message).map { it.toMessageUiState() }
+                _state.update { it.copy(
+                    messages = messages
+                ) }
+//                getMessagesWithUser(args.userId.toInt())
                 _state.update { it.copy(isLoading = false, isFail = false) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isFail = true) }
