@@ -72,4 +72,9 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
+
+    fun onClickTryAgain() {
+        getNotifications()
+    }
+
 }

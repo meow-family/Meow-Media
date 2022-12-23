@@ -39,7 +39,6 @@ class HomeViewModel @Inject constructor(
     private fun getPosts() {
         viewModelScope.launch {
             try {
-
                 val posts = fetchNewsFeedPost().map { it.toPostUiState() }
                 _homeUiState.update {
                     it.copy(
@@ -117,4 +116,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onClickTryAgain() {
+        getPosts()
+        getFriendRequestsCount()
+        getNotificationsCount()
+    }
 }

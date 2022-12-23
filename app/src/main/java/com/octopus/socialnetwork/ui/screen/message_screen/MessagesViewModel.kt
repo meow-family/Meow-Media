@@ -71,4 +71,7 @@ class MessagesViewModel @Inject constructor(
 
     }
 
+    fun onClickTryAgain() {
+        getMessagesDetails()
+    }
 }

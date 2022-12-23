@@ -76,4 +76,7 @@ class FriendRequestViewModel @Inject constructor(
         }
     }
 
+    fun onClickTryAgain() {
+        getFriendRequests()
+    }
 }

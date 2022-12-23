@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.screen.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -18,9 +19,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
-import com.octopus.socialnetwork.ui.composable.search.LottieSearch
+import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.outLine
@@ -35,7 +39,8 @@ fun SearchScreen(
     SearchContent(
         state = state,
         onChangeTypingSearch = viewModel::onChangeQuery,
-        onClickItem = { navController.navigateToUserProfileScreen(it) }
+        onClickItem = { navController.navigateToUserProfileScreen(it) },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -45,6 +50,7 @@ private fun SearchContent(
     state: SearchUiState,
     onChangeTypingSearch: (String) -> Unit,
     onClickItem: (Int) -> Unit,
+    onClickTryAgain: (String) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -57,14 +63,27 @@ private fun SearchContent(
         SpacerVertical16()
 
         SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
-        LazyColumn {
-            if(state.query.isEmpty()) {
-                item { LottieSearch() }
+
+        if (state.isError ) {
+            LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
+        } else {
+
+            LazyColumn {
+                if(state.query.isEmpty()) {
+                    item { LottieSearch() }
+                } else {
+                    if (state.isLoading) {
+                        item  { LottieLoading() }
+                    } else if(state.users.isEmpty()){
+                        item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                    } else {
+                        items(state.users) { searchItem ->
+                            SearchItem(state = searchItem, onClickItem = onClickItem) }
+                    }
+
+                }
             }
-            else {
-                items(state.users) { searchItem ->
-                    SearchItem(state = searchItem, onClickItem = onClickItem) }
-            }
+
         }
 
     }

@@ -20,6 +20,8 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
@@ -43,7 +45,8 @@ fun NotificationsScreen(
             )
             viewModel.markViewedNotification(notification)
         },
-        onClickBack = { navController.navigateToHomeScreen() }
+        onClickBack = { navController.navigateToHomeScreen() },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -52,7 +55,8 @@ fun NotificationsScreen(
 private fun NotificationsContent(
     state: NotificationsUiState,
     onClickNotification: (NotificationItemsUiState) -> Unit,
-    onClickBack: () -> Unit
+    onClickBack: () -> Unit,
+    onClickTryAgain: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -63,18 +67,25 @@ private fun NotificationsContent(
         Divider(color = DividerColor, thickness = 1.dp)
         if (state.isLoading) { Loading() }
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colors.background),
-        ) {
-            if(state.notifications.isEmpty()){
-                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-            } else{
-                items(state.notifications) { notification ->
-                    ItemNotification(notification, onClickNotification)
+        if (state.isLoading) {
+            LottieLoading()
+        } else if (state.isError ) {
+            LottieError(onClickTryAgain)
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.background),
+            ) {
+                if(state.notifications.isEmpty()){
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 116.dp)) }
+                } else{
+                    items(state.notifications) { notification ->
+                        ItemNotification(notification, onClickNotification)
+                    }
                 }
             }
         }
+
     }
 }

@@ -31,7 +31,10 @@ fun Avatar(modifier: Modifier = Modifier, painter: Painter, size: Int) {
 
 
 @Composable
-fun ImageForEmptyList(modifier: Modifier = Modifier, textId: Int = R.string.no_items) {
+fun ImageForEmptyList(
+    modifier: Modifier = Modifier,
+    textId: Int = R.string.no_items
+) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

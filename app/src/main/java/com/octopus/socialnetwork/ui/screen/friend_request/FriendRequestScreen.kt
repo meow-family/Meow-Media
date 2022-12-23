@@ -18,8 +18,9 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.outLine
@@ -36,6 +37,7 @@ fun FriendRequestScreen(
         onClickAccept = viewModel::onClickAccept,
         onClickDecline = viewModel::onClickDecline,
         onClickRequest = navController::navigateToUserProfileScreen,
+        onClickTryAgain = viewModel::onClickTryAgain
     ) { navController.popBackStack() }
 }
 
@@ -46,6 +48,7 @@ private fun FriendRequestContent(
     onClickAccept: (Int) -> Unit,
     onClickDecline: (Int) -> Unit,
     onClickRequest: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
     onClickBack: () -> Unit,
 ) {
     Column(
@@ -59,8 +62,11 @@ private fun FriendRequestContent(
         )
 
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
+
         if (state.isLoading) {
-            Loading()
+            LottieLoading()
+        } else if (state.isError ) {
+            LottieError(onClickTryAgain)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),

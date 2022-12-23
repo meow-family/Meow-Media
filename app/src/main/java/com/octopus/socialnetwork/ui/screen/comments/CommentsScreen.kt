@@ -23,6 +23,8 @@ import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
@@ -40,7 +42,8 @@ fun CommentsScreen(
         onChangeTypingComment = viewModel::onChangeTypingComment,
         onClickSend = viewModel::onClickSend,
         onClickBack = { navController.popBackStack() },
-        onClickLike = viewModel::onClickLike
+        onClickLike = viewModel::onClickLike,
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -50,45 +53,53 @@ private fun CommentsContent(
     onChangeTypingComment: (String) -> Unit,
     onClickSend: () -> Unit,
     onClickBack: () -> Unit,
-    onClickLike: (Int) -> Unit
+    onClickLike: (Int) -> Unit,
+    onClickTryAgain: () -> Unit
 ) {
     val listState = rememberLazyListState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        AppBar(onClickBack, title = stringResource(id = R.string.Comments))
-        LazyColumn(
-            Modifier
-                .fillMaxWidth()
-                .weight(.8f),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = listState,
-            reverseLayout = true,
+    if (state.isLoading) {
+        LottieLoading()
+    } else if (state.isError ) {
+        LottieError(onClickTryAgain)
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            AppBar(onClickBack, title = stringResource(id = R.string.Comments))
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(.8f),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                state = listState,
+                reverseLayout = true,
             ) {
 
-            if(state.comments.isEmpty()){
-                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-            } else{
-                itemsIndexed(state.comments) { index, item ->
-                    ItemComment(
-                        commentDetails = item,
-                        onLike = { onClickLike(item.commentId) }
-                    )
-                    if (index < state.comments.lastIndex) Divider()
+                if(state.comments.isEmpty()){
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                } else{
+                    itemsIndexed(state.comments) { index, item ->
+                        ItemComment(
+                            commentDetails = item,
+                            onLike = { onClickLike(item.commentId) }
+                        )
+                        if (index < state.comments.lastIndex) Divider()
+                    }
                 }
             }
-        }
 
-        TypingField(
-            onChangeTypingComment = onChangeTypingComment,
-            onClickSend = onClickSend,
-            state = state
-        )
+            TypingField(
+                onChangeTypingComment = onChangeTypingComment,
+                onClickSend = onClickSend,
+                state = state
+            )
+
+        }
 
     }
 

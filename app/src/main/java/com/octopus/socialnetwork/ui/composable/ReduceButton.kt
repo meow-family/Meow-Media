@@ -3,12 +3,7 @@ package com.octopus.socialnetwork.ui.composable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -32,8 +27,8 @@ fun ReduceButton(
     Button(
         onClick = { onClick() },
         modifier = Modifier
-            .height(25.dp)
-            .width(87.dp),
+            .height(30.dp)
+            .wrapContentWidth(),
         shape = Shapes.large,
         contentPadding = PaddingValues(zero),
         colors = ButtonDefaults.buttonColors(
@@ -43,12 +38,12 @@ fun ReduceButton(
         Image(
             painterResource(idIconResource),
             contentDescription = stringResource(idTitleResource),
-            modifier = Modifier.size(14.dp)
+            modifier = Modifier.size(16.dp).padding(start = spacing)
         )
 
         Text(
             stringResource(idTitleResource),
-            Modifier.padding(start = spacing, top = spacing),
+            Modifier.padding(horizontal = 4.dp),
             style = MaterialTheme.typography.overline,
             color = if (isSelected) MaterialTheme.colors.onSecondary else MaterialTheme.colors.onPrimary,
         )

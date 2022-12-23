@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
@@ -43,6 +45,7 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -55,10 +58,13 @@ private fun ProfileContent(
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
     onClickEditeProfile: () -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
 
     if (state.isLoading) {
-        Loading()
+        LottieLoading()
+    } else if (state.isError ) {
+        LottieError(onClickTryAgain)
     } else {
 
         LazyVerticalGrid(

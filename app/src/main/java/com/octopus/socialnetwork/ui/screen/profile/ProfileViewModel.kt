@@ -141,4 +141,11 @@ class ProfileViewModel @Inject constructor(
     fun onClickEditeProfile() {
         //
     }
+
+    fun onClickTryAgain() {
+        val currentUserId = getCurrentUserId()
+
+        getUserDetails(currentUserId)
+        isRequestSent(currentUserId, userIdVisitor())
+    }
 }

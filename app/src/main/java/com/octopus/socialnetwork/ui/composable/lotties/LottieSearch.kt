@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.composable.search
+package com.octopus.socialnetwork.ui.composable.lotties
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,6 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.octopus.socialnetwork.R
 
 
-
 @Composable
 fun LottieSearch() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_search_list))
@@ -26,5 +25,4 @@ fun LottieSearch() {
             LottieAnimation(composition = composition, iterations = Int.MAX_VALUE,)
         }
     }
-
 }

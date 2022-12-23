@@ -23,7 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
-import com.octopus.socialnetwork.ui.composable.search.LottieSearch
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
+import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
@@ -41,7 +43,8 @@ fun MessageScreen(
         state = state,
         onClickMessage = { navController.navigateToChat(it) },
         onChangeText = viewModel::onChangeText,
-        onClickSearch = viewModel::onClickSearch
+        onClickSearch = viewModel::onClickSearch,
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -52,6 +55,7 @@ fun MessageViewContent(
     onClickMessage: (Int) -> Unit,
     onChangeText: (String) -> Unit,
     onClickSearch: () -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
 
     Column(
@@ -92,53 +96,66 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        AnimatedContent(
-            targetState = state.isSearchVisible,
-            transitionSpec = {
-                slideIn(tween(300)){ it -> IntOffset(it.width, 0) } with
-                        slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
-            }
-        ){
-            when(it){
-                true -> {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.weight(1f).background(MaterialTheme.colors.background),
-                    ) {
-                        SearchViewItem(query = state.query, onValueChange = onChangeText)
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            if(state.query.isEmpty()) {
-                                item { LottieSearch() }
+        if (state.isLoading) {
+            LottieLoading()
+        } else if (state.isFail ) {
+            LottieError(onClickTryAgain)
+        } else {
+            AnimatedContent(
+                targetState = state.isSearchVisible,
+                transitionSpec = {
+                    slideIn(tween(300)){ it -> IntOffset(it.width, 0) } with
+                            slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
+                }
+            ){
+                when(it){
+                    true -> {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.weight(1f)
+                                .background(MaterialTheme.colors.background),
+                        ) {
+                            SearchViewItem(query = state.query, onValueChange = onChangeText)
+                            LazyColumn(modifier = Modifier.fillMaxSize()) {
+
+                                if(state.query.isEmpty()) {
+                                    item { LottieSearch() }
+                                } else {
+                                    if(state.users.isEmpty()){
+                                        item { ImageForEmptyList(modifier = Modifier
+                                            .padding(vertical = 100.dp)) }
+                                    } else {
+                                        items(state.users) { searchItem ->
+                                            SearchItem(
+                                                state = searchItem,
+                                                onClickItem = onClickMessage
+                                            )
+                                        }
+                                    }
+                                }
                             }
-                            else {
-                                items(state.users) { searchItem ->
-                                    SearchItem(state = searchItem, onClickItem = onClickMessage) }
+                        }
+                    }
+                    false -> {
+                        LazyColumn(
+                            Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                        ) {
+                            if(state.messages.isEmpty()){
+                                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                            } else{
+                                itemsIndexed(state.messages) { index, item ->
+                                    MessageItem(onClickMessage = onClickMessage, state = item)
+                                    if (index < state.messages.lastIndex) Divider()
+                                }
                             }
                         }
                     }
                 }
-                false -> {
-                    LazyColumn(
-                        Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                    ) {
-                        if(state.messages.isEmpty()){
-                            item { ImageForEmptyList() }
-                        } else{
-                            itemsIndexed(state.messages) { index, item ->
-                                MessageItem(onClickMessage = onClickMessage, state = item)
-                                if (index < state.messages.lastIndex) Divider()
-                            }
-                        }
-                    }
-                }
+
             }
 
         }
-    }
-
-    if (state.isLoading) {
-        Loading()
     }
 
 }

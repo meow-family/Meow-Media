@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
-import com.octopus.socialnetwork.ui.theme.Gray700
+import com.octopus.socialnetwork.ui.theme.light_outline
 import com.octopus.socialnetwork.ui.theme.outLine
 
 @Composable
@@ -62,7 +62,7 @@ fun SearchItem(
                     text = state.username,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Gray700,
+                    color = light_outline,
                 )
             }
 

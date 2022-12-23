@@ -15,13 +15,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.ItemPost
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
+
 
 @Composable
 fun HomeScreen(
@@ -45,7 +47,8 @@ fun HomeScreen(
         },
         onClickFriendRequests = {
             navController.navigateToFriendRequests()
-        }
+        },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 
 }
@@ -60,6 +63,7 @@ private fun HomeContent(
     onClickPost: (Int, Int) -> Unit,
     onClickNotifications: () -> Unit,
     onClickFriendRequests: () -> Unit,
+    onClickTryAgain: () -> Unit
 ) {
 
 
@@ -79,28 +83,30 @@ private fun HomeContent(
         )
 
         if (state.isLoading) {
-            Loading()
-        }
-
-        LazyColumn(
-            Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            if(state.posts.isEmpty()){
-                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-            } else{
-                items(state.posts) {
-                    ItemPost(
-                        post = it,
-                        onClickPost = onClickPost,
-                        onLike = onClickLike ,
-                        onComment = onClickComment,
-                        onShare = onClickShare
-                    )
+            LottieLoading()
+        } else if (state.isError ) {
+            LottieError(onClickTryAgain)
+        } else {
+            LazyColumn(
+                Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                if(state.posts.isEmpty()){
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                } else{
+                    items(state.posts) {
+                        ItemPost(
+                            post = it,
+                            onClickPost = onClickPost,
+                            onLike = onClickLike ,
+                            onComment = onClickComment,
+                            onShare = onClickShare
+                        )
+                    }
                 }
             }
         }
+
     }
 }
