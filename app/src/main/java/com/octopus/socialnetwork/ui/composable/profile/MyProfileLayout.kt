@@ -5,14 +5,16 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CircleButton
 import com.octopus.socialnetwork.ui.composable.ReduceButton
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
+import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 
 @Composable
 fun MyProfileLayout(
-    onClickEditProfile: () -> Unit,
+    state: ProfileUiState,
+    onClickEditProfile: (Int) -> Unit,
     onClickLogout: () -> Unit,
 ) {
     ReduceButton(
-        onClick = onClickEditProfile,
+        onClick = {onClickEditProfile(state.userDetails.userId)},
         idTitleResource = R.string.edit_profile,
         idIconResource = R.drawable.edite_profile,
     )

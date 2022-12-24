@@ -14,15 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.Divider
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
+import com.octopus.socialnetwork.ui.composable.Loading
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
-import com.octopus.socialnetwork.ui.composable.profile.ReduceButtonEditProfile
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
-import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
-import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditProfileRoute
 import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
+import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -42,11 +43,8 @@ fun ProfileScreen(
         state = state,
         onClickAddFriend = viewModel::onClickAddFriend,
         onClickMessage = navController::navigateToChat,
-        onClickLogout = { /*TODO:viewModel::onClickLogout*/ },
-        onClickEditProfile = navController::navigateToEditProfileRoute,
-        onClickMessage = viewModel::onClickMessage,
+        onClickEditProfile = navController::navigateToEditeProfileRoute,
         onClickLogout = viewModel::onClickLogout,
-        onClickEditeProfile = {navController.navigateToEditeProfileRoute(it)},
         onClickBack = { navController.popBackStack() },
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
@@ -65,8 +63,7 @@ private fun ProfileContent(
     onClickMessage: (Int) -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
-    onClickEditProfile: () -> Unit,
-    onClickEditeProfile: (Int) -> Unit,
+    onClickEditProfile: (Int) -> Unit,
 ) {
 
     if (state.isLoading) {
@@ -84,7 +81,6 @@ private fun ProfileContent(
         ) {
 
 
-
             item(span = { GridItemSpan(3) }) {
 
                 Column(
@@ -96,6 +92,7 @@ private fun ProfileContent(
                     Row {
                         if (state.isMyProfile) {
                             MyProfileLayout(
+                                state = state,
                                 onClickEditProfile = onClickEditProfile,
                                 onClickLogout = onClickLogout
                             )
