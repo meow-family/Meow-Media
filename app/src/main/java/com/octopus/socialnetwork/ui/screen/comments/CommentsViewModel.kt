@@ -8,6 +8,7 @@ import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
 import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
+import com.octopus.socialnetwork.ui.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
-    private val toggleLikeState: LikeToggleUseCase,
+    private val likeToggle: LikeToggleUseCase,
     private val addCommentUseCase: AddCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -47,7 +48,7 @@ class CommentsViewModel @Inject constructor(
     fun onChangeTypingComment(newValue: String) {
         _state.update { it.copy(comment = newValue) } }
 
-    fun addComment(comment: String) {
+   private fun addComment(comment: String) {
         viewModelScope.launch {
             try {
                 addCommentUseCase(args.postId.toInt(),comment)
@@ -68,22 +69,25 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val clickedComment = _state.value.comments
-//                clickedComment.find { it.commentId == commentId }?.let { comment ->
-//                    toggleLikeState(
-//                        commentId = commentId,
-//                        isLiked = comment.isLikedByUser.not(),
-//                        newLikesCount = toggleLikeState(
-//                            contentId = commentId,
-//                            isLiked = comment.isLikedByUser,
-//                            contentType = "annotation"
-//                        ) ?: 0
-//                    )
-//                }
+                clickedComment.find { it.commentId == commentId }?.let { comment ->
+                    toggleLikeState(
+                        commentId = commentId,
+                        isLiked = comment.isLikedByUser.not(),
+                        newLikesCount = likeToggle(
+                            contentId = commentId,
+                            isLiked = comment.isLikedByUser,
+                            contentType = Constants.LIKE_TYPE,
+                            totalLikes = comment.likeCounter
+                        ) ?: 0
+                    )
+                }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
+
+
 
     private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
         _state.update { commentUiState ->

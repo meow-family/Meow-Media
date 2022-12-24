@@ -3,6 +3,9 @@ package com.octopus.socialnetwork.ui.screen.profile
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.authentication.LogoutUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
@@ -30,6 +33,7 @@ class ProfileViewModel @Inject constructor(
     private val addFriendUseCase: AddFriendUseCase,
     private val removeFriendUseCase: RemoveFriendUseCase,
     private val checkUserFriendUseCase: CheckUserFriendUseCase,
+    private val logoutUseCase: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -133,7 +137,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickLogout() {
-        //
+        viewModelScope.launch {
+            logoutUseCase()
+            _state.update { it.copy(isLogout = true) }
+        }
     }
 
     fun onClickEditeProfile() {

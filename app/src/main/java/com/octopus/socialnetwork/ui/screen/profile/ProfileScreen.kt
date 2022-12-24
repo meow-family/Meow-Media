@@ -19,7 +19,9 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
+import com.octopus.socialnetwork.ui.composable.profile.ReduceButtonEditProfile
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -40,13 +42,16 @@ fun ProfileScreen(
         onClickAddFriend = viewModel::onClickAddFriend,
         onClickMessage = viewModel::onClickMessage,
         onClickLogout = viewModel::onClickLogout,
-        onClickEditeProfile = navController::navigateToEditeProfileRoute,
+        onClickEditeProfile = {navController.navigateToEditeProfileRoute(it)},
         onClickBack = { navController.popBackStack() },
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
         onClickTryAgain = viewModel::onClickTryAgain
     )
+    if (state.isLogout) {
+        navController.navigate(AuthenticationRoute.OnBoarding)
+    }
 }
 
 @Composable
@@ -59,6 +64,7 @@ private fun ProfileContent(
     onClickLogout: () -> Unit,
     onClickEditeProfile: () -> Unit,
     onClickTryAgain: () -> Unit,
+    onClickEditeProfile: (Int) -> Unit,
 ) {
 
     if (state.isLoading) {
@@ -88,7 +94,8 @@ private fun ProfileContent(
                             idTitleResource = if (state.isRequestSent) R.string.requested else R.string.add_friend,
                             idIconResource = R.drawable.add_person,
                         ) else
-                            ReduceButton(
+                            ReduceButtonEditProfile(
+                                state = state.userDetails,
                                 onClick = onClickEditeProfile,
                                 idTitleResource = R.string.edit_profile,
                                 idIconResource = R.drawable.edite_profile,

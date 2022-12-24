@@ -1,9 +1,18 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
-
+import android.net.Uri
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.user.ChangeCoverImageUseCase
+import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
+import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,21 +21,58 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
+    private val updateUserInfo: UpdateUserInfoUseCase,
+    private val fetchUserDetails: FetchUserDetailsUseCase,
+    private val changeProfileImage: ChangeProfileImageUseCase,
+    private val changeCoverImage: ChangeCoverImageUseCase,
+    private val openFile: OpenFileUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val args: EditProfileScreenArgs = EditProfileScreenArgs(savedStateHandle)
 
     private val _state = MutableStateFlow(EditProfileUiState())
     val state = _state.asStateFlow()
 
+    init {
+        getUserDetails(args.userId?.toIntOrNull() ?: -1)
+    }
+
+    private fun getUserDetails(currentUserId: Int) {
+        viewModelScope.launch {
+            try {
+                val userDetails = fetchUserDetails(currentUserId).toEditUserUiState()
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = true,
+                        firstName = userDetails.firstName,
+                        lastName = userDetails.lastName,
+                        email = userDetails.email,
+                        profileAvatar = userDetails.profileAvatar,
+                        profileCover = userDetails.profileCover
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isSuccess = false,
+                        isError = true,
+                    )
+                }
+            }
+
+        }
+    }
 
     private fun updateUserData() {
         viewModelScope.launch {
             try {
-                updateUserInfoUseCase(
-                    currentUserId = 16,
+                updateUserInfo(
+                    currentUserId = checkNotNull(args.userId?.toInt()),
                     firstName = _state.value.firstName,
                     lastName = _state.value.lastName,
                     email = _state.value.email,
@@ -49,6 +95,29 @@ class EditProfileViewModel @Inject constructor(
                         isError = true,
                     )
                 }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickChangeImage(uri: Uri) {
+        viewModelScope.launch {
+            try {
+                val updatedProfileImage = changeProfileImage(profileImage = openFile(uri))
+                _state.update { it.copy(profileAvatar = updatedProfileImage.avatar) }
+            } catch (e: Throwable) {
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun changeCoverImage(uri: Uri) {
+        viewModelScope.launch {
+            try {
+                val changeCover = changeCoverImage(coverImage = openFile(uri))
+                _state.update { it.copy(profileCover = changeCover.coverUrl) }
+            } catch (e: Throwable) {
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
@@ -77,5 +146,11 @@ class EditProfileViewModel @Inject constructor(
         _state.update { it.copy(newPassword = newValue) }
     }
 
+    fun onChangeCurrentPasswordVisibility() {
+        _state.update { it.copy(showCurrentPassword = !it.showCurrentPassword) }
+    }
 
+    fun onChangeNewPasswordVisibility() {
+        _state.update { it.copy(showNewPassword = !it.showNewPassword) }
+    }
 }

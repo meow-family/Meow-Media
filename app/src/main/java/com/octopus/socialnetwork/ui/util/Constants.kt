@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.util
 object Constants {
     const val REGEX_EMAIL_VALIDATION = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$"
     const val ITEMS_PER_PAGE = 10
+    const val LIKE_TYPE = "annotation"
 
     object NotificationsTypes {
         const val LIKE_POST = "like:post"

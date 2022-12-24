@@ -103,6 +103,10 @@ interface SocialRepository {
 
     suspend fun deleteProfileCover(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
 
+    suspend fun addProfilePicture(userID: Int, photo: File): UserDto
+
+    suspend fun addCoverPicture(userID: Int, photo: File): UserDto
+
     // search
     suspend fun search(
         currentUserId: Int,

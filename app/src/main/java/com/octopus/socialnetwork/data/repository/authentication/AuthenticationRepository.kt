@@ -11,4 +11,6 @@ interface AuthenticationRepository {
     suspend fun register(params: RegisterUseCase.Params): BaseResponse<RegisterDto>
 
     fun getUserId(): Int?
+
+    suspend fun deleteUserId()
 }
