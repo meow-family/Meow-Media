@@ -13,6 +13,7 @@ import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -37,7 +38,7 @@ class ChatViewModel @Inject constructor(
     init {
         getMessagesWithUser(args.userId.toInt())
         getUserInfo(args.userId.toInt())
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             messagingRepository.onReceiveNotification().collect {
                 Log.i("TESTING", "collecting the notification! $it")
                 getMessagesWithUser(it.id)
@@ -52,7 +53,7 @@ class ChatViewModel @Inject constructor(
 
     private fun getMessagesWithUser(otherUserId: Int) {
         try {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 val messages = getMessageList(otherUserId).map { it.toMessageUiState() }
                 _state.update {
                     it.copy(
@@ -70,7 +71,7 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun getUserInfo(otherUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userInfo = fetchUserDetailS(otherUserId).toUserDetailsUiState()
                 _state.update {
@@ -89,7 +90,7 @@ class ChatViewModel @Inject constructor(
 
     private fun sendMessage(message: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
 
                 val updatedMessages =

@@ -10,6 +10,7 @@ import com.octopus.socialnetwork.domain.usecase.post.DetectCatUseCase
 import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -29,7 +30,7 @@ class CreatePostViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickChangeImage(uri: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
 
             setLoading(true)

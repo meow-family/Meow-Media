@@ -11,6 +11,7 @@ import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -84,7 +85,7 @@ class LoginViewModel @Inject constructor(
     fun login() {
         onLoading()
         val userInput = _state.value.userInput
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val loginResponse =
                     loginUseCase(userInput.userName.text, userInput.password.text)

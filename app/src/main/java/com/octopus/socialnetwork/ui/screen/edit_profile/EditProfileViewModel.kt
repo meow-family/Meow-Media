@@ -15,6 +15,7 @@ import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -41,7 +42,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private fun getUserDetails(currentUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userDetails = fetchUserDetails(currentUserId).toEditUserUiState()
                 _state.update {
@@ -69,7 +70,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private fun updateUserData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 updateUserInfo(
                     currentUserId = checkNotNull(args.userId?.toInt()),
@@ -101,7 +102,7 @@ class EditProfileViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickChangeImage(uri: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val updatedProfileImage = changeProfileImage(profileImage = openFile(uri))
                 _state.update { it.copy(profileAvatar = updatedProfileImage.avatar) }
@@ -112,7 +113,7 @@ class EditProfileViewModel @Inject constructor(
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun changeCoverImage(uri: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val changeCover = changeCoverImage(coverImage = openFile(uri))
                 _state.update { it.copy(profileCover = changeCover.coverUrl) }

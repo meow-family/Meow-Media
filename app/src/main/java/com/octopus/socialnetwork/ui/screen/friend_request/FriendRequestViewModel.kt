@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFrien
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,7 +32,7 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     private fun getFriendRequests() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val friendRequests = fetchFriendRequestsListUseCase()
 
@@ -49,7 +50,7 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     fun onClickAccept(clickedUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val isRequestExists = addFriendUseCase.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
@@ -60,7 +61,7 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     fun onClickDecline(clickedUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val isRequestExists = removeFriendUseCase.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)

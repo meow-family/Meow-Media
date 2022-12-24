@@ -16,6 +16,7 @@ import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -63,7 +64,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getUserDetails(currentUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userFriendsCount = fetchUserFriendsCount(currentUserId).total
                 val profilePosts = fetchUserPosts(currentUserId).posts.toProfilePostsUiState()
@@ -93,7 +94,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.i("TESTING","view model isRequestSent $visitedUserId")
                 val isRequestSent = checkUserFriendUseCase(visitedUserId).requestExists
@@ -107,7 +108,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickAddFriend(otherUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (!_state.value.isRequestExists) {
                 val result = addFriendUseCase(otherUserId)
                 _state.update {
@@ -137,7 +138,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickLogout() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             logoutUseCase()
             _state.update { it.copy(isLogout = true) }
         }

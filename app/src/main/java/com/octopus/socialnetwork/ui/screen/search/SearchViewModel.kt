@@ -6,6 +6,7 @@ import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,7 +32,7 @@ class SearchViewModel @Inject constructor(
     }
 
    private fun getUser(query: String) {
-           viewModelScope.launch {
+           viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val search = searchUseCase(query = query)
                     _state.update { searchUiState ->

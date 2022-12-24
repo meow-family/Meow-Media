@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -29,7 +30,7 @@ class MessagesViewModel @Inject constructor(
 
     init {
         getMessagesDetails()
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             messagingRepository.onReceiveNotification().collect{
                 getMessagesDetails()
             }
@@ -37,7 +38,7 @@ class MessagesViewModel @Inject constructor(
     }
 
     private fun getMessagesDetails() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val recentMessages =
                     fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
@@ -61,7 +62,7 @@ class MessagesViewModel @Inject constructor(
     }
 
     fun search(query: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val searchResult =
                     searchUseCase(query = query).users.map { it.toUserDetailsUiState() }

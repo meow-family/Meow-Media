@@ -14,6 +14,7 @@ import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -40,7 +41,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getNewsFeed() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userId = fetchUserId()
                 Log.d("MALT", "USER ID IS: $userId")
@@ -62,7 +63,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 toggleLikeUseCase(postId, totalLikes, isLiked,"post")
                 Log.d("MALT", "POST LIKE STATE CHANGED SUCCESSFULLY: LIKED -> $isLiked | UNLIKED -> $isLiked")
@@ -77,7 +78,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getFriendRequestsCount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val friendRequestsCount = fetchFriendRequestsListUseCase.invoke().map { it.toUserDetailsUiState() }.size
                 _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
@@ -88,7 +89,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getNotificationsCount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }

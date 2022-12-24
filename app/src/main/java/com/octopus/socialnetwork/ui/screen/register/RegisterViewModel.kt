@@ -12,6 +12,7 @@ import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.*
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -34,7 +35,7 @@ class RegisterViewModel @Inject constructor(
     fun register() {
         onLoading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 val response =

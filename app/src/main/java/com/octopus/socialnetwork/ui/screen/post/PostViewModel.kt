@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -33,7 +34,7 @@ class PostViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private fun getPostDetails() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val post = fetchPostDetails(args.postId.toInt()).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
@@ -48,7 +49,7 @@ class PostViewModel @Inject constructor(
     }
 
     fun onClickLike() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
 
                 val post = _state.value.postDetails

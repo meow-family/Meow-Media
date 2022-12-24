@@ -10,6 +10,7 @@ import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiSta
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -34,7 +35,7 @@ class CommentsViewModel @Inject constructor(
     }
 
     private fun getPostComments() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val postComments = getPostCommentsUseCase(postId = args.postId.toInt(),
                     type = args.type).map { it.toCommentDetailsUiState() }
@@ -49,7 +50,7 @@ class CommentsViewModel @Inject constructor(
         _state.update { it.copy(comment = newValue) } }
 
    private fun addComment(comment: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 addCommentUseCase(args.postId.toInt(),comment)
                 _state.update { it.copy(comment = it.comment, isSuccess = true) }
@@ -66,7 +67,7 @@ class CommentsViewModel @Inject constructor(
     }
 
     fun onClickLike(commentId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val clickedComment = _state.value.comments
                 clickedComment.find { it.commentId == commentId }?.let { comment ->

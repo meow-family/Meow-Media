@@ -8,6 +8,7 @@ import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsU
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -28,7 +29,7 @@ class NotificationsViewModel @Inject constructor(
     }
 
     private fun getNotifications() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userNotifications =
                     fetchUserNotifications().map { it.toNotificationsUiState() }
@@ -55,7 +56,7 @@ class NotificationsViewModel @Inject constructor(
 
 
     fun markViewedNotification(notification: NotificationItemsUiState) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 if (!notification.viewed)
                     fetchNotificationItems(notification.id)
