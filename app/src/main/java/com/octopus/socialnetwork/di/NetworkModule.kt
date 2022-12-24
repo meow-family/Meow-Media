@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +31,7 @@ object NetworkModule {
 
     @Provides
     fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.BASIC
     }
 
 
@@ -44,6 +45,7 @@ object NetworkModule {
             .newBuilder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(DelayInterceptor(2000L,TimeUnit.MILLISECONDS))
             .callTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()

@@ -129,4 +129,6 @@ dependencies {
     //Firebase Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging:23.1.1'
 
+    implementation 'com.github.pawel-schmidt:okhttp-delay-interceptor:0.0.1'
+
 }
