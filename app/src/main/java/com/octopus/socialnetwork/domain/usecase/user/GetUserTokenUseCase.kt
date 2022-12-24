@@ -4,7 +4,7 @@ import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepository
 import javax.inject.Inject
 
 
-class GetUserToken @Inject constructor(
+class GetUserTokenUseCase @Inject constructor(
     private val firebase: FirebaseRepository,
 ) {
     suspend operator fun invoke(userId: String): String? {
