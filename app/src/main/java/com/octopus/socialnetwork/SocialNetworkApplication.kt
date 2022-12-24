@@ -31,7 +31,7 @@ class SocialNetworkApplication : Application() {
 
 
             dataStorePreferences.readString(USER_ID_KEY).let { id ->
-                isFirstTimeLaunch = id == null
+                isLoggedOut =  id == NO_SUCH_ID || id == null
             }
         }
         FirebaseMessaging.getInstance().token
@@ -50,8 +50,8 @@ class SocialNetworkApplication : Application() {
     }
 
     companion object {
-        var isFirstTimeLaunch = false
+        var isLoggedOut = false
         const val USER_ID_KEY = "user_id"
-
+        const val NO_SUCH_ID = -1
     }
 }

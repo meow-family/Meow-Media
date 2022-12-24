@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.domain.model.user
 
-
 data class UserEdit(
     val guid: Int,
     val firstName: String,

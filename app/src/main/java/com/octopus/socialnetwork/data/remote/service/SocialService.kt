@@ -248,11 +248,22 @@ interface SocialService {
         @Query("uguid") userId: Int,
     ): BaseResponse<ProfilePhotoDeletion>
 
+    @POST("photos_profile_add")
+    suspend fun addProfilePicture(
+        @Body body: RequestBody,
+    ): BaseResponse<UserDto>
+
+    @POST("photos_cover_add")
+    suspend fun addCoverPicture(
+        @Body body: RequestBody,
+    ): BaseResponse<UserDto>
+
     // search
     @GET("my_custom_end_point")
     suspend fun search(
         @Query("guid") currentUserId: Int,
         @Query("keyword") query: String,
     ): BaseResponse<SearchDto>
+
 //endregion
 }
