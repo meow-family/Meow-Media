@@ -10,8 +10,6 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
@@ -141,10 +139,6 @@ class ProfileViewModel @Inject constructor(
             logoutUseCase()
             _state.update { it.copy(isLogout = true) }
         }
-    }
-
-    fun onClickEditeProfile() {
-        //
     }
 
     fun onClickTryAgain() {

@@ -13,7 +13,6 @@ class RegisterUseCase @Inject constructor(
         return if (response.code == "100") {
             LoginResponse.Success
         } else {
-            val body = response.result
             LoginResponse.Failure(
                 response.message.toString(),
                 response.code.toString()

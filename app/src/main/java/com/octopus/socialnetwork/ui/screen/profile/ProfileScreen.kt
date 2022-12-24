@@ -62,7 +62,6 @@ private fun ProfileContent(
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
-    onClickEditeProfile: () -> Unit,
     onClickTryAgain: () -> Unit,
     onClickEditeProfile: (Int) -> Unit,
 ) {
