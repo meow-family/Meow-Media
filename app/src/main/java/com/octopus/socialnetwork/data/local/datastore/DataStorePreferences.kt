@@ -7,6 +7,6 @@ interface DataStorePreferences {
     suspend fun writeBoolean(key: String, value: Boolean)
     fun readString(key: String): Int?
     suspend fun writeString(key: String, value: Int)
-    suspend fun writeFcmToken(key: String,value:String)
-    fun readFcmToken(key: String): Flow<String?>
+    suspend fun writeFcmToken(key: String, value: String)
+    suspend fun readFcmToken(): String?
 }

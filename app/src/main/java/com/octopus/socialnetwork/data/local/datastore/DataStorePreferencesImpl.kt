@@ -2,7 +2,12 @@ package com.octopus.socialnetwork.data.local.datastore
 
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.octopus.socialnetwork.data.utils.Constants.FCM_TOKEN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -44,10 +49,9 @@ class DataStorePreferencesImpl @Inject constructor(
         }
     }
 
-    override fun readFcmToken(key: String): Flow<String?> {
-        return dataStore.data.map { preference ->
-            preference[stringPreferencesKey(key)]
-        }
+    override suspend fun readFcmToken(): String? {
+        val preferences = dataStore.data.first()
+        return preferences[stringPreferencesKey(FCM_TOKEN)]
     }
 
 }

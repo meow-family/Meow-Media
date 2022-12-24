@@ -12,5 +12,6 @@ interface AuthenticationRepository {
 
     fun getUserId(): Int?
 
+    suspend fun getUserToken(): String?
     suspend fun deleteUserId()
 }

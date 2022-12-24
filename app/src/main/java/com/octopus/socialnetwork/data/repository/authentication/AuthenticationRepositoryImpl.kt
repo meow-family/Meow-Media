@@ -40,6 +40,10 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return dataStorePreferences.readString("user_id")
     }
 
+    override suspend fun getUserToken(): String? {
+        return dataStorePreferences.readFcmToken()
+    }
+
     override suspend fun deleteUserId() {
         dataStorePreferences.writeString("user_id", NO_SUCH_ID)
     }

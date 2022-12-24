@@ -6,5 +6,5 @@ object Constants {
     const val MESSAGE_TABLE = "message_table"
 
     const val USERS_COLLECTION = "users"
-
+    const val FCM_TOKEN = "FCM_TOKEN"
 }
