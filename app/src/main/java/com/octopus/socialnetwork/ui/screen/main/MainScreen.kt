@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavItem
@@ -65,7 +66,9 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
                 ),
                 navController = navController,
                 onItemClick = {
-                    navController.navigate(it.route)
+                    navController.navigate(it.route) {
+                        navOptions { launchSingleTop = true }
+                    }
                 }
             )
 

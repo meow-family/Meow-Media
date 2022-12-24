@@ -14,11 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.ReduceButtonEditProfile
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
+import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
+import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditProfileRoute
 import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
@@ -38,6 +41,9 @@ fun ProfileScreen(
     ProfileContent(
         state = state,
         onClickAddFriend = viewModel::onClickAddFriend,
+        onClickMessage = navController::navigateToChat,
+        onClickLogout = { /*TODO:viewModel::onClickLogout*/ },
+        onClickEditProfile = navController::navigateToEditProfileRoute,
         onClickMessage = viewModel::onClickMessage,
         onClickLogout = viewModel::onClickLogout,
         onClickEditeProfile = {navController.navigateToEditeProfileRoute(it)},
@@ -56,9 +62,10 @@ private fun ProfileContent(
     state: ProfileUiState,
     onClickBack: () -> Unit,
     onClickAddFriend: (Int) -> Unit,
-    onClickMessage: () -> Unit,
+    onClickMessage: (Int) -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
+    onClickEditProfile: () -> Unit,
     onClickEditeProfile: (Int) -> Unit,
 ) {
 
@@ -67,12 +74,17 @@ private fun ProfileContent(
     } else {
 
         LazyVerticalGrid(
-            modifier = Modifier.background(MaterialTheme.colors.background).fillMaxSize(),
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .fillMaxSize(),
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
             horizontalArrangement = Arrangement.spacedBy(spacingSmall)
         ) {
+
+
+
             item(span = { GridItemSpan(3) }) {
 
                 Column(
@@ -82,28 +94,18 @@ private fun ProfileContent(
                     UserDetails(state.userDetails)
 
                     Row {
-                        if (state.isUserVisitor) ReduceButton(
-                            onClick = { onClickAddFriend(state.userDetails.userId) },
-                            isSelected = state.isRequestSent,
-                            idTitleResource = if (state.isRequestSent) R.string.requested else R.string.add_friend,
-                            idIconResource = R.drawable.add_person,
-                        ) else
-                            ReduceButtonEditProfile(
-                                state = state.userDetails,
-                                onClick = onClickEditeProfile,
-                                idTitleResource = R.string.edit_profile,
-                                idIconResource = R.drawable.edite_profile,
+                        if (state.isMyProfile) {
+                            MyProfileLayout(
+                                onClickEditProfile = onClickEditProfile,
+                                onClickLogout = onClickLogout
                             )
-                        SpaceHorizontally8dp()
-                        if (state.isUserVisitor) CircleButton(
-                            onClick = onClickMessage,
-                            idIconResource = R.drawable.massage,
-                            idTitleResource = R.string.send_message
-                        ) else CircleButton(
-                            onClick = onClickLogout,
-                            idIconResource = R.drawable.logout,
-                            idTitleResource = R.string.logout
-                        )
+                        } else {
+                            VisitedProfileLayout(
+                                state = state,
+                                onClickAddFriend = onClickAddFriend,
+                                onClickMessage = onClickMessage
+                            )
+                        }
                     }
                     SpacerVertical16()
                     Divider()
@@ -111,20 +113,17 @@ private fun ProfileContent(
 
             }
 
-
-            if(state.profilePosts.isEmpty()){
-                item(span = { GridItemSpan(3) }) {
-                    ImageForEmptyList() }
-            } else{
+            if (state.profilePosts.isEmpty()) {
+                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
+            } else {
                 items(items = state.profilePosts) { ProfilePostUiState ->
-                    ProfilePostItem(
-                        post = ProfilePostUiState,
-                        onClickPost = onClickPost
-                    )
+                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
                 }
             }
-
         }
 
     }
 }
+
+
+

@@ -1,11 +1,8 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 
 
@@ -37,7 +34,7 @@ fun NavGraphBuilder.userProfileRoute(navController: NavController) {
 
 class ProfileScreenArgs(savedStateHandle: SavedStateHandle) {
 
-    val userIdVisitor: String? = savedStateHandle[USER_ID]
+    val visitedUserId: String? = savedStateHandle[USER_ID]
 
     companion object {
         const val USER_ID = "userId"
