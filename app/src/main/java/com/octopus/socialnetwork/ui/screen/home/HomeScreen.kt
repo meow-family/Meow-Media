@@ -92,7 +92,7 @@ private fun HomeContent(
         } else if (state.isError) {
             LottieError(onClickTryAgain)
         } else if (isEmptyFlow) {
-            ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+            ImageForEmptyList(modifier = Modifier.fillMaxSize().align(alignment = Alignment.CenterHorizontally))
         } else {
             LazyColumn(
                 Modifier.fillMaxSize(),

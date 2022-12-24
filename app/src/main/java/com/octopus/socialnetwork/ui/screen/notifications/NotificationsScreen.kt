@@ -40,9 +40,7 @@ fun NotificationsScreen(
     NotificationsContent(
         state = state,
         onClickNotification = { notification ->
-            onClickNotification(
-                notification.type, navController, notification
-            )
+            onClickNotification(notification.type, navController, notification)
             viewModel.markViewedNotification(notification)
         },
         onClickBack = { navController.navigateToHomeScreen() },

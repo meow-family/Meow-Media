@@ -36,7 +36,7 @@ fun LottieError(
         modifier = modifier.fillMaxSize().background(color = MaterialTheme.colors.background),
     ) {
         LottieAnimation(composition = composition, iterations = Int.MAX_VALUE,
-            modifier = Modifier.size(200.dp))
+            modifier = Modifier.size(170.dp))
 
         Text(
             modifier = Modifier.padding(10.dp)

@@ -1,4 +1,4 @@
- package com.octopus.socialnetwork.ui.screen.post
+package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -40,6 +40,7 @@ import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
+import com.octopus.socialnetwork.ui.util.Constants
 
 @Composable
 fun PostScreen(
@@ -51,7 +52,12 @@ fun PostScreen(
         state = state,
         onClickBack = { navController.popBackStack() },
         onLike = viewModel::onClickLike,
-        onComment = {navController.navigateToCommentsScreen(postId = state.postDetails.postId, type = "post")},
+        onComment = {
+            navController.navigateToCommentsScreen(
+                postId = state.postDetails.postId,
+                type = Constants.COMMENT_TYPE
+            )
+        },
         onShare = viewModel::onClickShare,
         onClickTryAgain = viewModel::onClickTryAgain
     )
@@ -66,35 +72,40 @@ private fun PostContent(
     onShare: () -> Unit,
     onClickTryAgain: () -> Unit
 ) {
-    if (state.isLoading) {
-        LottieLoading()
-    } else if (state.isError ) {
-        LottieError(onClickTryAgain)
-    } else {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp, vertical = 24.dp)
-                    .clip(CircleShape)
-                    .background(color = LightBlack_65)
-                    .zIndex(1f)
-                    .size(32.dp)
-                    .align(alignment = Alignment.TopStart)
-            ) {
-                IconButton(
-                    onClick = onClickBack
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
-                        contentDescription = stringResource(id = R.string.icon_arrow_back),
-                        tint = White50,
-                        modifier = Modifier.size(20.dp).padding(start = 4.dp)
-                    )
-                }
 
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 24.dp)
+                .clip(CircleShape)
+                .background(color = LightBlack_65)
+                .zIndex(1f)
+                .size(32.dp)
+                .align(alignment = Alignment.TopStart)
+        ) {
+            IconButton(
+                onClick = onClickBack
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+                    contentDescription = stringResource(id = R.string.icon_arrow_back),
+                    tint = White50,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(start = 4.dp)
+                )
             }
+
+        }
+
+        if (state.isLoading) {
+            LottieLoading()
+        } else if (state.isError) {
+            LottieError(onClickTryAgain)
+        } else {
             PostImage(postImage = state.postDetails.postImage)
 
             Card(
@@ -146,9 +157,12 @@ private fun PostContent(
                     postDescription = state.postDetails.postDescription,
                 )
             }
+
         }
 
+
     }
+
 
 }
 

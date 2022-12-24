@@ -71,7 +71,7 @@ private fun CommentsContent(
             if (state.isLoading) {
                 LottieLoading()
             } else if (state.comments.isEmpty()) {
-                ImageForEmptyList()
+                ImageForEmptyList(modifier = Modifier.fillMaxWidth().weight(1f))
             }else if (state.isError ){
                 LottieError(onClickTryAgain)
             } else {

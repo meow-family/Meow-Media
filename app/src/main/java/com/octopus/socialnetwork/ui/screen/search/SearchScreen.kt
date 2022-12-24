@@ -74,7 +74,8 @@ private fun SearchContent(
                 } else {
                     if (state.isLoading) {
                         item  { LottieLoading() }
-                    } else if(state.users.isEmpty()){
+                    }
+                    else if(state.users.isEmpty()){
                         item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                     } else {
                         items(state.users) { searchItem ->
