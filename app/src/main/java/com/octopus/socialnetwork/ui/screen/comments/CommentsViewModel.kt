@@ -38,9 +38,9 @@ class CommentsViewModel @Inject constructor(
             try {
                 val postComments = getPostCommentsUseCase(postId = args.postId.toInt(),
                     type = args.type).map { it.toCommentDetailsUiState() }
-                _state.update { it.copy(comments = postComments, isSuccess = true) }
+                _state.update { it.copy(comments = postComments, isLoading = false, isSent = true, isError = false) }
             } catch (e: Throwable) {
-                _state.update { it.copy(isError = true,isSuccess = false) }
+                _state.update { it.copy(isLoading = false, isSent = false, isError = true) }
             }
         }
     }
@@ -52,7 +52,7 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 addCommentUseCase(args.postId.toInt(),comment)
-                _state.update { it.copy(comment = it.comment, isSuccess = true) }
+                _state.update { it.copy(comment = it.comment, isSent = true) }
                 getPostComments()
             } catch (e: Throwable) {
                 _state.update { it.copy(isError = true) }
@@ -101,5 +101,9 @@ class CommentsViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun onClickTryAgain() {
+        getPostComments()
     }
 }

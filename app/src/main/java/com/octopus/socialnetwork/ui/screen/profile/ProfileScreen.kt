@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.ReduceButtonEditProfile
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
@@ -45,6 +47,7 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
     if (state.isLogout) {
         navController.navigate(AuthenticationRoute.OnBoarding)
@@ -59,19 +62,21 @@ private fun ProfileContent(
     onClickMessage: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
+    onClickTryAgain: () -> Unit,
     onClickEditeProfile: (Int) -> Unit,
 ) {
 
     if (state.isLoading) {
-        Loading()
+        LottieLoading()
     } else {
 
         LazyVerticalGrid(
-            modifier = Modifier.background(MaterialTheme.colors.background).fillMaxSize(),
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .fillMaxSize(),
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+            horizontalArrangement = Arrangement.Center
         ) {
             item(span = { GridItemSpan(3) }) {
 
@@ -105,18 +110,18 @@ private fun ProfileContent(
                             idTitleResource = R.string.logout
                         )
                     }
-                    SpacerVertical16()
+                    SpaceVertically8dp()
                     Divider()
                 }
 
             }
 
-
-            if(state.profilePosts.isEmpty()){
-                item(span = { GridItemSpan(3) }) {
-                    ImageForEmptyList() }
+            if (state.isError ) {
+                item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
+            } else if(state.profilePosts.isEmpty()){
+                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
             } else{
-                items(items = state.profilePosts) { ProfilePostUiState ->
+                items( items = state.profilePosts) { ProfilePostUiState ->
                     ProfilePostItem(
                         post = ProfilePostUiState,
                         onClickPost = onClickPost

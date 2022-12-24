@@ -1,11 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.friend_request
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -22,8 +18,9 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.outLine
@@ -40,6 +37,7 @@ fun FriendRequestScreen(
         onClickAccept = viewModel::onClickAccept,
         onClickDecline = viewModel::onClickDecline,
         onClickRequest = navController::navigateToUserProfileScreen,
+        onClickTryAgain = viewModel::onClickTryAgain
     ) { navController.popBackStack() }
 }
 
@@ -50,13 +48,12 @@ private fun FriendRequestContent(
     onClickAccept: (Int) -> Unit,
     onClickDecline: (Int) -> Unit,
     onClickRequest: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
     onClickBack: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
     ) {
 
         AppBar(
@@ -65,8 +62,13 @@ private fun FriendRequestContent(
         )
 
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
+
         if (state.isLoading) {
-            Loading()
+            LottieLoading()
+        } else if (state.isError ) {
+            LottieError(onClickTryAgain)
+        } else if (state.friendRequests.isEmpty()){
+            ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
@@ -74,7 +76,7 @@ private fun FriendRequestContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 if(state.friendRequests.isEmpty()){
-                    item { ImageForEmptyList() }
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else{
                     items(state.friendRequests) {
                         FriendRequestItem(

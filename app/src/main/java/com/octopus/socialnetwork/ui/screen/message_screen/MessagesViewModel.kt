@@ -34,10 +34,10 @@ class MessagesViewModel @Inject constructor(
                 val recentMessages =
                     fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
                 _state.update {
-                    it.copy(isFail = false, isLoading = false, messages = recentMessages)
+                    it.copy(isLoading = false, isSuccess= true, isFail = false, messages = recentMessages)
                 }
             } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isFail = true) }
+                _state.update { it.copy(isLoading = false, isSuccess= false, isFail = true) }
             }
         }
 
@@ -49,26 +49,32 @@ class MessagesViewModel @Inject constructor(
 
     fun onChangeText(newValue: String) {
         _state.update { it.copy(query = newValue) }
-        search(_state.value.query)
+        if (_state.value.query == "") {
+            _state.update { it.copy(users = emptyList()) }
+        }else{
+            search(_state.value.query)
+        }
     }
 
     fun search(query: String) {
         viewModelScope.launch {
             try {
-                val searchResult =
-                    searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
+                val search = searchUseCase(query = query)
                 _state.update { searchUiState ->
                     searchUiState.copy(
-                        users = searchResult,
+                        users = search.users.map { it.toUserDetailsUiState() },
                         isLoading = false,
+                        isSuccess= true,
                         isFail = false,
                     )
                 }
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isFail = true) }
+            }catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isSuccess= false, isFail = true) }
             }
         }
-
     }
 
+    fun onClickTryAgain() {
+        getMessagesDetails()
+    }
 }

@@ -1,20 +1,22 @@
 package com.octopus.socialnetwork.ui.composable
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.octopus.socialnetwork.ui.theme.*
@@ -88,3 +90,11 @@ fun Modifier.underLineBoarder(
             )
         }
 )
+
+
+@Composable
+@Stable
+fun Modifier.mirroringIcon(): Modifier =
+    if (LocalLayoutDirection.current == LayoutDirection.Rtl) {
+        this.scale(scaleX = -1f, scaleY = 1f)
+    } else { this }

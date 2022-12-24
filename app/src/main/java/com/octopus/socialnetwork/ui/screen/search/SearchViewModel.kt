@@ -31,22 +31,24 @@ class SearchViewModel @Inject constructor(
     }
 
    private fun getUser(query: String) {
-           viewModelScope.launch {
-                try {
-                    val search = searchUseCase(query = query)
-                    _state.update { searchUiState ->
-                        searchUiState.copy(
-                            users = search.users.map { it.toUserDetailsUiState() },
-                            isLoading = false,
-                            isError = false,
-                        )
-                    }
-                }catch (e: Exception) {
-                    _state.update { it.copy(isError = false) }
-
-                }
-
+       viewModelScope.launch {
+           try {
+               val search = searchUseCase(query = query)
+               _state.update { searchUiState ->
+                   searchUiState.copy(
+                       users = search.users.map { it.toUserDetailsUiState() },
+                       isLoading = false,
+                       isError = false,
+                   )
+               }
+           }catch (e: Exception) {
+               _state.update { it.copy(isLoading = false, isError = true) }
            }
-    }
+       }
+   }
+
+   fun onClickTryAgain(queryText: String) {
+       getUser(queryText)
+   }
 
 }
