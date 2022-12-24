@@ -16,8 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
@@ -27,7 +28,6 @@ import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
-import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 
@@ -49,6 +49,7 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
     if (state.isLogout) {
         navController.navigate(AuthenticationRoute.OnBoarding)
@@ -64,10 +65,11 @@ private fun ProfileContent(
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
     onClickEditProfile: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
 
     if (state.isLoading) {
-        Loading()
+        LottieLoading()
     } else {
 
         LazyVerticalGrid(
@@ -75,9 +77,8 @@ private fun ProfileContent(
                 .background(MaterialTheme.colors.background)
                 .fillMaxSize(),
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+            horizontalArrangement = Arrangement.Center
         ) {
 
 
@@ -104,17 +105,22 @@ private fun ProfileContent(
                             )
                         }
                     }
-                    SpacerVertical16()
+                    SpaceVertically8dp()
                     Divider()
                 }
 
             }
 
-            if (state.profilePosts.isEmpty()) {
+            if (state.isError) {
+                item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
+            } else if (state.profilePosts.isEmpty()) {
                 item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
             } else {
                 items(items = state.profilePosts) { ProfilePostUiState ->
-                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
+                    ProfilePostItem(
+                        post = ProfilePostUiState,
+                        onClickPost = onClickPost
+                    )
                 }
             }
         }

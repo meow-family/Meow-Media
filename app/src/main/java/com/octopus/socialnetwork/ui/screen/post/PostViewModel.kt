@@ -83,4 +83,8 @@ class PostViewModel @Inject constructor(
     fun onClickShare() {
         //
     }
+
+    fun onClickTryAgain() {
+        getPostDetails()
+    }
 }

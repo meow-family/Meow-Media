@@ -36,6 +36,8 @@ class ChatViewModel @Inject constructor(
 
 
     init {
+
+        _state.update { it.copy(userId = args.userId.toInt()) }
         getMessagesWithUser(args.userId.toInt())
         getUserInfo(args.userId.toInt())
         viewModelScope.launch(Dispatchers.IO) {
@@ -117,5 +119,9 @@ class ChatViewModel @Inject constructor(
         _state.update { it.copy(message = "", isSuccess = true) }
     }
 
+    fun onClickTryAgain() {
+        getMessagesWithUser(args.userId.toInt())
+        getUserInfo(args.userId.toInt())
+    }
 
 }

@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
@@ -34,7 +36,8 @@ fun ChatScreen(
         onTextChange = viewModel::onTextChange,
         onClickBack = { navController.popBackStack() },
         onClickSend = viewModel::onClickSend,
-        onClickImage = { userId -> navController.navigateToUserProfileScreen(userId) }
+        onClickTryAgain = viewModel::onClickTryAgain,
+        onClickImage =  navController::navigateToUserProfileScreen
     )
 }
 
@@ -45,51 +48,55 @@ fun ChatScreenContent(
     onClickBack: () -> Unit,
     onClickSend: () -> Unit,
     onClickImage: (Int) -> Unit,
+    onClickTryAgain: () -> Unit
 ) {
     val listState = rememberLazyListState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
-        verticalArrangement = Arrangement.SpaceEvenly
 
-    ) {
+    if (state.isLoading) {
+        LottieLoading()
+    } else if (state.isFail ) {
+        LottieError(onClickTryAgain)
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background),
+            verticalArrangement = Arrangement.SpaceEvenly
 
-        ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
-
-        LazyColumn(
-            Modifier
-                .fillMaxWidth()
-                .weight(.1f),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            state = listState
         ) {
 
-            if(state.messages.isEmpty()){
-                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-            } else{
-                items(state.messages) { message ->
+            ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
 
-                    if (message.isSentByMe) {
-                        SentMessage(message)
-                    } else {
-                        ReceivedMessage(message)
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(.1f),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                state = listState
+            ) {
+
+                if(state.messages.isEmpty()){
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                } else{
+                    items(state.messages) { message ->
+
+                        if (message.isSentByMe) {
+                            SentMessage(message)
+                        } else {
+                            ReceivedMessage(message)
+                        }
                     }
                 }
             }
+
+            TypingMessage(
+                state = state,
+                onChangeTypingComment = onTextChange,
+                onClickSend = onClickSend,
+            )
         }
 
-
-        TypingMessage(
-            state = state,
-            onChangeTypingComment = onTextChange,
-            onClickSend = onClickSend,
-        )
-    }
-
-    if (state.isLoading) {
-        Loading()
     }
 
     LaunchedEffect(key1 = state.isSuccess ){

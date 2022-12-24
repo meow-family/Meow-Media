@@ -135,7 +135,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onClickEditeProfile() {
-        //
+    fun onClickTryAgain() {
+        updateProfileUiState()
+        getUserDetails(visitedUserId)
+        isRequestSent(visitedUserId)
     }
 }

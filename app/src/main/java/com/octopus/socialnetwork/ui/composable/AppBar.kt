@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.theme.spacingLarge
+import com.octopus.socialnetwork.ui.theme.spacing
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.zero
 
@@ -29,7 +29,7 @@ fun AppBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
-            .padding(horizontal = if (showBackButton) spacingLarge else zero)
+            .padding(horizontal = if (showBackButton) spacing else zero)
             .background(MaterialTheme.colors.background),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,

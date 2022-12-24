@@ -5,5 +5,5 @@ data class CommentsUiState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
     var comment: String = "",
-    val isSuccess: Boolean = false,
+    val isSent: Boolean = false,
 )

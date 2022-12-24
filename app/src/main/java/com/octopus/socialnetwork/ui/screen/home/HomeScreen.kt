@@ -13,16 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.ItemPost
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.home.TopBar
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
+import kotlinx.coroutines.flow.emptyFlow
+
 
 @Composable
 fun HomeScreen(
@@ -38,7 +43,6 @@ fun HomeScreen(
         onClickComment = { postId ->
             navController.navigateToCommentsScreen(postId, "post")
         },
-        onClickShare = viewModel::onClickShare,
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
@@ -47,7 +51,8 @@ fun HomeScreen(
         },
         onClickFriendRequests = {
             navController.navigateToFriendRequests()
-        }
+        },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 
 }
@@ -58,13 +63,14 @@ private fun HomeContent(
     state: HomeUiState,
     onClickLike: (Int, Int, Boolean) -> Unit,
     onClickComment: (Int) -> Unit,
-    onClickShare: () -> Unit,
     onClickPost: (Int, Int) -> Unit,
     onClickNotifications: () -> Unit,
     onClickFriendRequests: () -> Unit,
+    onClickTryAgain: () -> Unit
 ) {
 
     val posts = state.posts.collectAsLazyPagingItems()
+    var isEmptyFlow = posts.itemSnapshotList.isEmpty()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,7 +78,7 @@ private fun HomeContent(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
 
-        ) {
+    ) {
 
         TopBar(
             notificationsCount = state.notificationsCount,
@@ -82,60 +88,49 @@ private fun HomeContent(
         )
 
         if (state.isLoading) {
-            Loading()
-        }
+            LottieLoading()
+        } else if (state.isError) {
+            LottieError(onClickTryAgain)
+        } else if (isEmptyFlow) {
+            ImageForEmptyList(modifier = Modifier.fillMaxSize().align(alignment = Alignment.CenterHorizontally))
+        } else {
+            LazyColumn(
+                Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 
-
-        LazyColumn(
-            Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            items(items = posts){
-                it?.let { post ->
-                    ItemPost(
-                        post = post,
-                        onClickPost = onClickPost,
-                        onLike = onClickLike ,
-                        onComment = onClickComment,
-                        onShare = onClickShare
-                    )
+                items(items = posts) {
+                    it?.let { post ->
+                        ItemPost(
+                            post = post,
+                            onClickPost = onClickPost,
+                            onLike = onClickLike,
+                            onComment = onClickComment,
+                            onShare = {}
+                        )
+                    }
                 }
             }
 
-
         }
-
-
-
-
-
     }
 
 }
 
-
 @Composable
-fun LoadingPaging(){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight(),
-        contentAlignment = Alignment.Center) {
+fun LoadingPaging() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator(
             modifier = Modifier
                 .size(42.dp)
                 .padding(8.dp),
             strokeWidth = 5.dp
         )
-
     }
 }
-
-
-
-
-
-
-
-
