@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,12 +26,14 @@ class MessagesViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(MessageMainUiState())
     val state = _state.asStateFlow()
+    private val query = MutableStateFlow("")
 
 
     init {
         getMessagesDetails()
         viewModelScope.launch(Dispatchers.IO) {
-            messagingRepository.onReceiveNotification().collect{
+            search()
+            messagingRepository.onReceiveNotification().collect {
                 getMessagesDetails()
             }
         }
@@ -58,24 +60,29 @@ class MessagesViewModel @Inject constructor(
 
     fun onChangeText(newValue: String) {
         _state.update { it.copy(query = newValue) }
-        search(_state.value.query)
+        viewModelScope.launch {
+            query.emit(newValue)
+        }
     }
 
-    fun search(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val searchResult =
-                    searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
-                _state.update { searchUiState ->
-                    searchUiState.copy(
-                        users = searchResult,
-                        isLoading = false,
-                        isFail = false,
-                    )
+    private suspend fun search() {
+        query.debounce(1500).collect { query ->
+            if (_state.value.isSearchVisible && query.isNotEmpty()) {
+                try {
+                    val searchResult =
+                        searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
+                    _state.update { searchUiState ->
+                        searchUiState.copy(
+                            users = searchResult,
+                            isLoading = false,
+                            isFail = false,
+                        )
+                    }
+                } catch (e: Exception) {
+                    _state.update { it.copy(isLoading = false, isFail = true) }
                 }
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isFail = true) }
             }
+
         }
 
     }

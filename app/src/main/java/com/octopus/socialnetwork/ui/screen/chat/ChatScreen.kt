@@ -34,7 +34,7 @@ fun ChatScreen(
         onTextChange = viewModel::onTextChange,
         onClickBack = { navController.popBackStack() },
         onClickSend = viewModel::onClickSend,
-        onClickImage = { userId -> navController.navigateToUserProfileScreen(userId) }
+        onClickImage =  navController::navigateToUserProfileScreen
     )
 }
 
