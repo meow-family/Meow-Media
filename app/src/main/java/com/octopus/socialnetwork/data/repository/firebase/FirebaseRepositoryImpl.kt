@@ -22,6 +22,10 @@ class FirebaseRepositoryImpl @Inject constructor(
         firebaseService.updateUserToken(userId, token)
     }
 
+    override suspend fun getUserToken(userId: String): String? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getUser(userId: String): UserFirebase? {
         return firebaseService.getUser(userId)?.toUserFirebase()
     }

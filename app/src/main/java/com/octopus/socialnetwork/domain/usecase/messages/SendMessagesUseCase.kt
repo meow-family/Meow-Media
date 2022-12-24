@@ -23,23 +23,24 @@ class SendMessagesUseCase @Inject constructor(
 
         messagingRepository.sendMessage(fetchUserId(), to, message)
 
-        val token = dataStorePreferences.readFcmToken("FCM_TOKEN")
+        val token = dataStorePreferences.readFcmToken()
         token.flowOn(Dispatchers.IO).map {
             Log.i("TESTING", "datastore token $it")
 
-            cloudMessagingService.postNotification(
-                notification = MessageNotificationDto(
-                    data = NotificationData(
-                        fetchUserId(),
-                        to,
-                        message,
-                        Calendar.getInstance().toString()
-                    ),
-                    to = "duqfo8ysQ7uV6h0RiafnxQ:APA91bFq3paQkuC1JeOUWRKUM7kTNSx2Mwc4L7b0cDwt31iRzc0z1QsCTf9hsKtw1BTUaCYvxRzpawnHsyXiEQCPFRbCD7HQDxmzIs2L6gfDbZ6jVQOEW-X1XUtr9XTVjluU0ijNAtox"
-                )
-            )
+
 
         }
+        cloudMessagingService.postNotification(
+            notification = MessageNotificationDto(
+                data = NotificationData(
+                    fetchUserId(),
+                    to,
+                    message,
+                    Calendar.getInstance().toString()
+                ),
+                to = "duqfo8ysQ7uV6h0RiafnxQ:APA91bFq3paQkuC1JeOUWRKUM7kTNSx2Mwc4L7b0cDwt31iRzc0z1QsCTf9hsKtw1BTUaCYvxRzpawnHsyXiEQCPFRbCD7HQDxmzIs2L6gfDbZ6jVQOEW-X1XUtr9XTVjluU0ijNAtox"
+            )
+        )
 
     }
 

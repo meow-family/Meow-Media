@@ -8,12 +8,12 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val updateUserToken: UpdateUserToken,
-    private val getUserToken: GetUserToken,
+    private val getLocalUserToken: GetLocalUserToken,
 ) {
     suspend operator fun invoke(username: String, password: String): AuthResponse {
         val user = authenticationRepository.login(username, password)
         if (user.id != null) {
-            getUserToken()?.let { updateUserToken(user.id.toString(), it) }
+            getLocalUserToken()?.let { updateUserToken(user.id.toString(), it) }
         }
         return user
     }

@@ -40,7 +40,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return dataStorePreferences.readString("user_id")
     }
 
-    override suspend fun getUserToken(): String? {
+    override suspend fun getLocalUserToken(): String? {
         return dataStorePreferences.readFcmToken()
     }
 

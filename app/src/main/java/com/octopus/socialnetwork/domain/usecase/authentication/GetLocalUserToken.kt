@@ -4,10 +4,10 @@ import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRe
 import javax.inject.Inject
 
 
-class GetUserToken @Inject constructor(
+class GetLocalUserToken @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
 ) {
     suspend operator fun invoke(): String? {
-        return authenticationRepository.getUserToken()
+        return authenticationRepository.getLocalUserToken()
     }
 }

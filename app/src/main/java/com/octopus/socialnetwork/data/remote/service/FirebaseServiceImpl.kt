@@ -27,6 +27,10 @@ class FirebaseServiceImpl @Inject constructor(
             .await()
     }
 
+    override suspend fun getUserToken(userId: String): String? {
+        return fireStore.collection(Constants.USERS_COLLECTION).document(userId).collection("token").get().data["sd"][0]
+    }
+
     override suspend fun getUser(userId: String): UserFirebaseDTO? {
         return fireStore.collection(Constants.USERS_COLLECTION).document(userId).get().await()
             .toObject(UserFirebaseDTO::class.java)
