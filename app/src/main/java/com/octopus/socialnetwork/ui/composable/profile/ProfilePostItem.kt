@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +25,7 @@ fun ProfilePostItem(
 ) {
     Image(
         modifier = Modifier
-            .height(130.dp)
+            .height(130.dp).padding(horizontal = 8.dp)
             .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp) )
             .clip(shape = RoundedCornerShape(8.dp))
             .clickable { onClickPost(post.postId, post.postOwnerId) },

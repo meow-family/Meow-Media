@@ -60,26 +60,29 @@ private fun NotificationsContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
     ) {
 
         AppBar(onClickBack, title = stringResource(R.string.notification))
         Divider(color = DividerColor, thickness = 1.dp)
-        if (state.isLoading) { Loading() }
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError ) {
+        } else if (state.isError) {
             LottieError(onClickTryAgain)
+        } else if (state.notifications.isEmpty()) {
+            ImageForEmptyList()
         } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = MaterialTheme.colors.background),
             ) {
-                if(state.notifications.isEmpty()){
+                if (state.notifications.isEmpty()) {
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 116.dp)) }
-                } else{
+                } else {
                     items(state.notifications) { notification ->
                         ItemNotification(notification, onClickNotification)
                     }

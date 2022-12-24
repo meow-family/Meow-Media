@@ -66,11 +66,12 @@ private fun ProfileContent(
     } else {
 
         LazyVerticalGrid(
-            modifier = Modifier.background(MaterialTheme.colors.background).fillMaxSize(),
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .fillMaxSize(),
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+            horizontalArrangement = Arrangement.Center
         ) {
             item(span = { GridItemSpan(3) }) {
 
@@ -114,7 +115,7 @@ private fun ProfileContent(
             } else if(state.profilePosts.isEmpty()){
                 item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
             } else{
-                items(items = state.profilePosts) { ProfilePostUiState ->
+                items( items = state.profilePosts) { ProfilePostUiState ->
                     ProfilePostItem(
                         post = ProfilePostUiState,
                         onClickPost = onClickPost

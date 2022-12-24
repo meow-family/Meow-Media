@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.comments
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +48,7 @@ fun CommentsScreen(
     )
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 private fun CommentsContent(
     state: CommentsUiState,
@@ -58,11 +60,7 @@ private fun CommentsContent(
 ) {
     val listState = rememberLazyListState()
 
-    if (state.isLoading) {
-        LottieLoading()
-    } else if (state.isError ) {
-        LottieError(onClickTryAgain)
-    } else {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,6 +68,14 @@ private fun CommentsContent(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             AppBar(onClickBack, title = stringResource(id = R.string.Comments))
+            if (state.isLoading) {
+                LottieLoading()
+            } else if (state.comments.isEmpty()) {
+                ImageForEmptyList()
+            }else if (state.isError ){
+                LottieError(onClickTryAgain)
+            } else {
+
             LazyColumn(
                 Modifier
                     .fillMaxWidth()
@@ -80,9 +86,6 @@ private fun CommentsContent(
                 reverseLayout = true,
             ) {
 
-                if(state.comments.isEmpty()){
-                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                } else{
                     itemsIndexed(state.comments) { index, item ->
                         ItemComment(
                             commentDetails = item,
@@ -101,10 +104,11 @@ private fun CommentsContent(
 
         }
 
-    }
 
-    LaunchedEffect(key1 = state.isSuccess ){
-        listState.animateScrollToItem(index = state.comments.lastIndexOrZero())
+
+    LaunchedEffect(key1 = state.isSent ){
+       if (state.isSent)
+           listState.animateScrollToItem(index = state.comments.lastIndexOrZero())
     }
 
 }

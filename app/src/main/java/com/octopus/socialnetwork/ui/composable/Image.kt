@@ -43,7 +43,9 @@ fun ImageForEmptyList(
     ) {
         Image(
             painter = painterResource(id = R.drawable.no_items),
-            contentDescription = null
+            contentDescription = null,
+            modifier = Modifier.size(128.dp)
+
         )
 
         Text(

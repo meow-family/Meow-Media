@@ -1,15 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
@@ -93,7 +92,6 @@ class ProfileViewModel @Inject constructor(
     private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
         viewModelScope.launch {
             try {
-                Log.i("TESTING","view model isRequestSent $visitedUserId")
                 val isRequestSent = checkUserFriendUseCase(visitedUserId).requestExists
                 _state.update {
                     it.copy(isRequestExists = isRequestSent)

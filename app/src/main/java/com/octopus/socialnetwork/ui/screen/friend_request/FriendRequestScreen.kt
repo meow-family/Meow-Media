@@ -67,6 +67,8 @@ private fun FriendRequestContent(
             LottieLoading()
         } else if (state.isError ) {
             LottieError(onClickTryAgain)
+        } else if (state.friendRequests.isEmpty()){
+            ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),

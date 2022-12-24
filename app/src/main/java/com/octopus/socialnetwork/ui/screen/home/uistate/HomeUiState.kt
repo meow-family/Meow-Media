@@ -9,7 +9,6 @@ data class HomeUiState(
     var posts: Flow<PagingData<PostUiState>> = emptyFlow(),
     val isLoading: Boolean = true,
     val isError: Boolean = false,
-    val isSuccessful: Boolean = false,
     val isLiked: Boolean = false,
     val notificationsCount: Int = 0,
     val friendRequestsCount: Int = 0,

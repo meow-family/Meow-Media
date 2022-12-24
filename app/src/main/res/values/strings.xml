@@ -117,7 +117,7 @@
     <string name="image_post_rejected">Image Rejected!</string>
     <string name="image_post_rejected_description">Meow Meow! your image doensn\'t contain a cat! this app is for meows only.</string>
 
-    <string name="no_items">Look like there\'s no meows items here!</string>
+    <string name="no_items">Look like there\'s no meows\n items here!</string>
 
     <string name="try_again">Try again to get meows</string>
 </resources>
