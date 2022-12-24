@@ -68,4 +68,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun onClickTryAgain(queryText: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            search()
+        }
+    }
 }

@@ -49,6 +49,7 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
+        onClickTryAgain = viewModel::onClickTryAgain
     )
     if (state.isLogout) {
         navController.navigate(AuthenticationRoute.OnBoarding)
@@ -64,10 +65,11 @@ private fun ProfileContent(
     onClickPost: (Int, Int) -> Unit,
     onClickLogout: () -> Unit,
     onClickEditProfile: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
 
     if (state.isLoading) {
-        Loading()
+        LottieLoading()
     } else {
 
         LazyVerticalGrid(
@@ -75,9 +77,8 @@ private fun ProfileContent(
                 .background(MaterialTheme.colors.background)
                 .fillMaxSize(),
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(spacingMedium),
             verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.spacedBy(spacingSmall)
+            horizontalArrangement = Arrangement.Center
         ) {
 
 
@@ -104,17 +105,22 @@ private fun ProfileContent(
                             )
                         }
                     }
-                    SpacerVertical16()
+                    SpaceVertically8dp()
                     Divider()
                 }
 
             }
 
-            if (state.profilePosts.isEmpty()) {
+            if (state.isError ) {
+                item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
+            } else if(state.profilePosts.isEmpty()){
                 item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
-            } else {
-                items(items = state.profilePosts) { ProfilePostUiState ->
-                    ProfilePostItem(post = ProfilePostUiState, onClickPost = onClickPost)
+            } else{
+                items( items = state.profilePosts) { ProfilePostUiState ->
+                    ProfilePostItem(
+                        post = ProfilePostUiState,
+                        onClickPost = onClickPost
+                    )
                 }
             }
         }
