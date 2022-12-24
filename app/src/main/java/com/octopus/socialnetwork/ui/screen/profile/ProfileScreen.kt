@@ -16,8 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
+import com.octopus.socialnetwork.ui.composable.lotties.LottieError
+import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
@@ -27,7 +28,6 @@ import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
-import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 
@@ -111,12 +111,12 @@ private fun ProfileContent(
 
             }
 
-            if (state.isError ) {
+            if (state.isError) {
                 item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
-            } else if(state.profilePosts.isEmpty()){
+            } else if (state.profilePosts.isEmpty()) {
                 item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
-            } else{
-                items( items = state.profilePosts) { ProfilePostUiState ->
+            } else {
+                items(items = state.profilePosts) { ProfilePostUiState ->
                     ProfilePostItem(
                         post = ProfilePostUiState,
                         onClickPost = onClickPost
