@@ -24,6 +24,7 @@ android {
             useSupportLibrary true
         }
         buildConfigField "String", "API_KEY", localProperties['ApiKey']
+        buildConfigField "String", "FCM_KEY", localProperties['fcmKey']
         buildConfigField "String", "BASE_URL", localProperties['BaseUrl']
     }
 
@@ -63,6 +64,7 @@ dependencies {
     implementation 'androidx.room:room-paging:2.4.3'
     implementation 'androidx.paging:paging-common-ktx:3.1.1'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.0'
     kapt "androidx.room:room-compiler:2.5.0-rc01"
 
     // Data Store Preferences

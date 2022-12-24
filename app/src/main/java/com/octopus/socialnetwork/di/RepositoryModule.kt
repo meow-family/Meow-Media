@@ -3,6 +3,8 @@ package com.octopus.socialnetwork.di
 import androidx.paging.ExperimentalPagingApi
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
+import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepository
+import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepositoryImpl
 import com.octopus.socialnetwork.data.repository.messaging.ChatFirebaseDataSource
 import com.octopus.socialnetwork.data.repository.messaging.ChatFirebaseDataSourceImp
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
@@ -42,4 +44,9 @@ abstract class RepositoryModule {
     abstract fun bindChatFirebaseDataSource(
         chatDataSource: ChatFirebaseDataSourceImp
     ): ChatFirebaseDataSource
+
+    @Binds
+    abstract fun bindFirebaseRepository(
+        firebaseRepository: FirebaseRepositoryImpl
+    ): FirebaseRepository
 }
