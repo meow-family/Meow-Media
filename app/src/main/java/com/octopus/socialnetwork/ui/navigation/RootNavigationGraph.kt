@@ -13,7 +13,7 @@ import com.octopus.socialnetwork.ui.screen.main.mainRoute
 fun RootNavigationGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = if (SocialNetworkApplication.isFirstTimeLaunch) Graph.AUTH else Graph.MAIN,
+        startDestination = if (SocialNetworkApplication.isLoggedOut) Graph.AUTH else Graph.MAIN,
         route = Graph.ROOT
     ) {
         authNavigationGraph(navController)

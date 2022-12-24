@@ -19,6 +19,7 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.ReduceButtonEditProfile
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
+import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -45,6 +46,9 @@ fun ProfileScreen(
             navController.navigateToPostScreen(postId, postOwnerId)
         },
     )
+    if (state.isLogout) {
+        navController.navigate(AuthenticationRoute.OnBoarding)
+    }
 }
 
 @Composable

@@ -17,9 +17,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun login(username: String, password: String): AuthResponse {
         val response = service.login(username, password)
         if (response.code == REQUEST_SUCCEED) {
-            response.result.id?.let {
-                dataStorePreferences.writeString(USER_ID_KEY, it)
-            }
+            dataStorePreferences.writeString(USER_ID_KEY, response.result.id ?: NO_SUCH_ID)
         }
         return response.result
     }
@@ -42,7 +40,12 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return dataStorePreferences.readString("user_id")
     }
 
+    override suspend fun deleteUserId() {
+        dataStorePreferences.writeString("user_id", NO_SUCH_ID)
+    }
+
     companion object {
         const val REQUEST_SUCCEED = "100"
+        const val NO_SUCH_ID = -1
     }
 }
