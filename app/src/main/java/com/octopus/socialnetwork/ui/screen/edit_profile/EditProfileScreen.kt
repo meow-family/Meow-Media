@@ -162,7 +162,7 @@ private fun EditProfileContent(
                         onEdit = onChangeProfileImage
                     )
                 }
-
+                SpacerVertical32()
                 InputTextField(
                     modifier = Modifier.padding(top = spacingExtraLarge, bottom = spacingMedium),
                     value = state.firstName,
