@@ -7,14 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -26,12 +23,13 @@ import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
+import com.octopus.socialnetwork.ui.composable.search.ShowSearchView
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
-import com.octopus.socialnetwork.ui.theme.spacingMedium
+
 
 @Composable
 fun MessageScreen(
@@ -63,49 +61,28 @@ fun MessageViewContent(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .padding(horizontal = spacingMedium)
-                .background(MaterialTheme.colors.background),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(onClick = onClickSearch) {
-                Icon(
-                    painter = painterResource(id =
-                    if (state.isSearchVisible) R.drawable.ic_baseline_arrow_back_ios_24
-                    else R.drawable.search),
-                    contentDescription = stringResource(id = R.string.icon_arrow_back),
-                    tint = MaterialTheme.colors.onBackground,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
 
-            Text(
-                text = stringResource(R.string.MessageScreenUpbar),
-                modifier = Modifier.padding(16.dp),
-                fontWeight = FontWeight.W700,
-                fontFamily = PoppinsTypography.body1.fontFamily,
-                fontStyle = PoppinsTypography.body1.fontStyle,
-                fontSize = PoppinsTypography.body1.fontSize
-            )
-        }
+        Text(
+            text = stringResource(R.string.MessageScreenUpbar),
+            modifier = Modifier.padding(16.dp),
+            fontWeight = FontWeight.W700,
+            fontFamily = PoppinsTypography.body1.fontFamily,
+            fontStyle = PoppinsTypography.body1.fontStyle,
+            fontSize = PoppinsTypography.body1.fontSize
+        )
 
         Divider()
         SpacerVertical16()
 
-        if (state.isLoading) {
-            LottieLoading()
-        } else if (state.isFail ) {
-            LottieError(onClickTryAgain)
-        } else {
+        if (state.isLoading) { LottieLoading()
+        } else if(state.isFail) { LottieError(onClickTryAgain)
+        } else if(state.isSuccess){
+
             AnimatedContent(
                 targetState = state.isSearchVisible,
                 transitionSpec = {
                     slideIn(tween(300)){ it -> IntOffset(it.width, 0) } with
-                            slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
+                    slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
                 }
             ){
                 when(it){
@@ -115,13 +92,16 @@ fun MessageViewContent(
                             modifier = Modifier.weight(1f)
                                 .background(MaterialTheme.colors.background),
                         ) {
-                            SearchViewItem(query = state.query, onValueChange = onChangeText)
+                            SearchViewItem(query = state.query, onValueChange = onChangeText, onClickSearch = onClickSearch)
+                            SpacerVertical16()
+
                             LazyColumn(modifier = Modifier.fillMaxSize()) {
 
                                 if(state.query.isEmpty()) {
                                     item { LottieSearch() }
                                 } else {
-                                    if(state.users.isEmpty()){
+                                    if (state.isLoading) { item { LottieLoading() }
+                                    } else if(state.users.isEmpty()){
                                         item { ImageForEmptyList(modifier = Modifier
                                             .padding(vertical = 100.dp)) }
                                     } else {
@@ -141,8 +121,10 @@ fun MessageViewContent(
                             Modifier.fillMaxSize(),
                             contentPadding = PaddingValues(horizontal = 16.dp),
                         ) {
+                            item { ShowSearchView(onClickSearch) }
                             if(state.messages.isEmpty()){
-                                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                                item { ImageForEmptyList(modifier = Modifier
+                                    .padding(vertical = 100.dp)) }
                             } else{
                                 itemsIndexed(state.messages) { index, item ->
                                     MessageItem(onClickMessage = onClickMessage, state = item)

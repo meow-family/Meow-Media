@@ -42,7 +42,7 @@ fun ImageForEmptyList(
             .padding(vertical = 64.dp),
     ) {
         Image(
-            painter = painterResource(id = R.drawable.no_item),
+            painter = painterResource(id = R.drawable.no_items),
             contentDescription = null
         )
 

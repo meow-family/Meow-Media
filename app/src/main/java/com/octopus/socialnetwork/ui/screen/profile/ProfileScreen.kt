@@ -63,8 +63,6 @@ private fun ProfileContent(
 
     if (state.isLoading) {
         LottieLoading()
-    } else if (state.isError ) {
-        LottieError(onClickTryAgain)
     } else {
 
         LazyVerticalGrid(
@@ -111,8 +109,9 @@ private fun ProfileContent(
 
             }
 
-
-            if(state.profilePosts.isEmpty()){
+            if (state.isError ) {
+                item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
+            } else if(state.profilePosts.isEmpty()){
                 item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
             } else{
                 items(items = state.profilePosts) { ProfilePostUiState ->

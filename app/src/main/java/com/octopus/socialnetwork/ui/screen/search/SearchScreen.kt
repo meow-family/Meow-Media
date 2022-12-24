@@ -64,7 +64,7 @@ private fun SearchContent(
 
         SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
 
-        if (state.isError ) {
+        if (state.isError) {
             LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
         } else {
 

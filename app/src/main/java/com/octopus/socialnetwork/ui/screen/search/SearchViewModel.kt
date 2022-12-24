@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
                    )
                }
            }catch (e: Exception) {
-               _state.update { it.copy(isError = false) }
+               _state.update { it.copy(isLoading = false, isError = true) }
            }
        }
    }
