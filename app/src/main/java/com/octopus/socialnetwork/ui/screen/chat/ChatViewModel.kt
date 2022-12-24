@@ -41,7 +41,9 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             messagingRepository.onReceiveNotification().collect {
                 Log.i("TESTING", "collecting the notification! $it")
-                getMessagesWithUser(it.id)
+                if (it.id == args.userId.toInt()) {
+                    getMessagesWithUser(it.id)
+                }
             }
         }
     }

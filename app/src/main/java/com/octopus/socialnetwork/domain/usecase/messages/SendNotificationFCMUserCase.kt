@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.messages
 
+import android.util.Log
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.data.remote.service.CloudMessagingService
@@ -14,6 +15,7 @@ class SendNotificationFCMUserCase @Inject constructor(
 ) {
     suspend operator fun invoke(from: Int, to: Int, message: String) {
         val userToken = getUserToken(to.toString())
+        Log.i("TESTING",userToken.toString() + " is the fcm token of user")
         if (userToken != null) {
             cloudMessagingService.postNotification(
                 notification = MessageNotificationDto(
