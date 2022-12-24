@@ -250,7 +250,12 @@ interface SocialService {
 
     @POST("photos_profile_add")
     suspend fun addProfilePicture(
-        @Body body: RequestBody
+        @Body body: RequestBody,
+    ): BaseResponse<UserDto>
+
+    @POST("photos_cover_add")
+    suspend fun addCoverPicture(
+        @Body body: RequestBody,
     ): BaseResponse<UserDto>
 
     // search
@@ -259,5 +264,6 @@ interface SocialService {
         @Query("guid") currentUserId: Int,
         @Query("keyword") query: String,
     ): BaseResponse<SearchDto>
+
 //endregion
 }

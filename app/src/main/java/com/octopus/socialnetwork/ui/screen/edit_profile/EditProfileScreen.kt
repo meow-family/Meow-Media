@@ -45,11 +45,13 @@ fun EditProfileScreen(
 //        onResult = { uri -> uri?.let { viewModel.setImageUri(it) } }
 //    )
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+    onResult = { uri -> uri?.let { viewModel.onClickChangeImage(it) } })
+
+    val changeCoverImage = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            uri?.let { viewModel.onClickChangeImage(it) }
-        }
-    )
+        onResult = { uri -> uri?.let { viewModel.changeCoverImage(it) } }
+        )
     EditProfileContent(
         state = state,
         onChangeFirstName = viewModel::onChangeFirstName,
@@ -61,6 +63,8 @@ fun EditProfileScreen(
         onClickBack = { navController.popBackStack()},
         onClickShowCurrentPassword = viewModel::onChangeCurrentPasswordVisibility,
         onClickShowNewPassword = viewModel::onChangeNewPasswordVisibility,
+        onChangeCoverProfile = {  changeCoverImage.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
         onChangeProfileImage = {
             singlePhotoPickerLauncher.launch(
                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -81,6 +85,7 @@ private fun EditProfileContent(
     onClickBack: () -> Unit,
     onClickShowCurrentPassword: () -> Unit,
     onClickShowNewPassword: () -> Unit,
+    onChangeCoverProfile: () -> Unit,
     onChangeProfileImage: () -> Unit,
     ) {
 
@@ -134,7 +139,7 @@ private fun EditProfileContent(
                             )
                         }
                         IconButton(
-                            onClick = {},
+                            onClick = onChangeCoverProfile,
                             Modifier
                                 .clip(CircleShape)
                                 .background(color = LightBlack_65)
@@ -154,7 +159,8 @@ private fun EditProfileContent(
                     EditProfileInformation(
                         backImageProfile = customImageLoad(state.profileCover),
                         profileImage = customImageLoad(state.profileAvatar),
-                        onEdit = {onChangeProfileImage()} )
+                        onEdit = onChangeProfileImage
+                    )
                 }
 
                 InputTextField(

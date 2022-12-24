@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.user.ChangeCoverImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
@@ -18,15 +19,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
-    private val fetchUserDetailsUseCase: FetchUserDetailsUseCase,
-    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
-    private val openFileUseCase: OpenFileUseCase,
+    private val updateUserInfo: UpdateUserInfoUseCase,
+    private val fetchUserDetails: FetchUserDetailsUseCase,
+    private val changeProfileImage: ChangeProfileImageUseCase,
+    private val changeCoverImage: ChangeCoverImageUseCase,
+    private val openFile: OpenFileUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -42,7 +43,7 @@ class EditProfileViewModel @Inject constructor(
     private fun getUserDetails(currentUserId: Int) {
         viewModelScope.launch {
             try {
-                val userDetails = fetchUserDetailsUseCase(currentUserId).toEditUserUiState()
+                val userDetails = fetchUserDetails(currentUserId).toEditUserUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -70,7 +71,7 @@ class EditProfileViewModel @Inject constructor(
     private fun updateUserData() {
         viewModelScope.launch {
             try {
-                updateUserInfoUseCase(
+                updateUserInfo(
                     currentUserId = checkNotNull(args.userId?.toInt()),
                     firstName = _state.value.firstName,
                     lastName = _state.value.lastName,
@@ -102,12 +103,20 @@ class EditProfileViewModel @Inject constructor(
     fun onClickChangeImage(uri: Uri) {
         viewModelScope.launch {
             try {
-                Log.d("kkk",uri.toString())
-                val updatedUser = changeProfileImageUseCase(profileImage = openFileUseCase(uri))
-                Log.d("kkk",updatedUser.avatar)
-                _state.update { it.copy(profileAvatar = updatedUser.avatar) }
+                val updatedProfileImage = changeProfileImage(profileImage = openFile(uri))
+                _state.update { it.copy(profileAvatar = updatedProfileImage.avatar) }
             } catch (e: Throwable) {
-                Log.d("kkk","error")
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun changeCoverImage(uri: Uri) {
+        viewModelScope.launch {
+            try {
+                val changeCover = changeCoverImage(coverImage = openFile(uri))
+                _state.update { it.copy(profileCover = changeCover.coverUrl) }
+            } catch (e: Throwable) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }

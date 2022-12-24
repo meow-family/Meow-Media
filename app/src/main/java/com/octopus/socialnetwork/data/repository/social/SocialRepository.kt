@@ -105,6 +105,8 @@ interface SocialRepository {
 
     suspend fun addProfilePicture(userID: Int, photo: File): UserDto
 
+    suspend fun addCoverPicture(userID: Int, photo: File): UserDto
+
     // search
     suspend fun search(
         currentUserId: Int,
