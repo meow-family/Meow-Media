@@ -6,6 +6,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationKeys
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class FirebaseCloudMessagingService @Inject constructor(): FirebaseMessagingServ
                 val message = (data[NotificationKeys.MESSAGE_KEY]).toString()
                 val time = (data[NotificationKeys.TIME_KEY]).toString()
 
-                GlobalScope.launch {
+                GlobalScope.launch(Dispatchers.IO) {
                     events.emit(
                         NotificationData(
                             id = id,

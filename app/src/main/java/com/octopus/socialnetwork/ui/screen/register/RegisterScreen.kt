@@ -51,6 +51,7 @@ import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -181,7 +182,7 @@ private fun RegisterContent(
             if (pagerState.currentPage == state.initPage) {
 
                 if (userInput.userName.isValid && userInput.email.isValid && userInput.reEmail.isValid && userInput.password.isValid) {
-                    coroutineScope.launch {
+                    coroutineScope.launch(Dispatchers.IO) {
                         pagerState.animateScrollToPage(2)
                     }
                 } else {
