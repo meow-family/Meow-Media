@@ -34,7 +34,7 @@ class MessagesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             search()
             messagingRepository.onReceiveNotification().collect {
-                getMessagesDetails()
+//                getMessagesDetails()
             }
         }
     }
@@ -45,7 +45,7 @@ class MessagesViewModel @Inject constructor(
                 val recentMessages =
                     fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
                 _state.update {
-                    it.copy(isFail = false, isLoading = false, messages = recentMessages)
+                    it.copy(isFail = false, isLoading = false, messages = recentMessages, isSuccess = true)
                 }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isFail = true) }
@@ -86,7 +86,9 @@ class MessagesViewModel @Inject constructor(
         }
 
     }
+
     fun onClickTryAgain() {
         getMessagesDetails()
     }
+
 }

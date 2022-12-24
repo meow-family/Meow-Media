@@ -3,13 +3,18 @@ package com.octopus.socialnetwork.ui.screen.message_screen
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,13 +24,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.Divider
+import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
+import com.octopus.socialnetwork.ui.composable.MessageItem
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
-import com.octopus.socialnetwork.ui.composable.search.ShowSearchView
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
+import com.octopus.socialnetwork.ui.composable.search.ShowSearchView
 import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
@@ -74,37 +82,49 @@ fun MessageViewContent(
         Divider()
         SpacerVertical16()
 
-        if (state.isLoading) { LottieLoading()
-        } else if(state.isFail) { LottieError(onClickTryAgain)
-        } else if(state.isSuccess){
+        if (state.isLoading) {
+            LottieLoading()
+        } else if (state.isFail) {
+            LottieError(onClickTryAgain)
+        } else if (state.isSuccess) {
 
             AnimatedContent(
                 targetState = state.isSearchVisible,
                 transitionSpec = {
-                    slideIn(tween(300)){ it -> IntOffset(it.width, 0) } with
-                    slideOut(tween(300)){ it -> IntOffset(it.width, 0) }
+                    slideIn(tween(300)) { it -> IntOffset(it.width, 0) } with
+                            slideOut(tween(300)) { it -> IntOffset(it.width, 0) }
                 }
-            ){
-                when(it){
+            ) {
+                when (it) {
                     true -> {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .weight(1f)
                                 .background(MaterialTheme.colors.background),
                         ) {
-                            SearchViewItem(query = state.query, onValueChange = onChangeText, onClickSearch = onClickSearch)
+                            SearchViewItem(
+                                query = state.query,
+                                onValueChange = onChangeText,
+                                onClickSearch = onClickSearch
+                            )
                             SpacerVertical16()
 
                             LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-                                if(state.query.isEmpty()) {
-                                    item { LottieSearch() }
-                                } else {
-                                    if (state.isLoading) { item { LottieLoading() }
-                                    } else if(state.users.isEmpty()){
-                                        item { ImageForEmptyList(modifier = Modifier
-                                            .padding(vertical = 100.dp)) }
-                                    } else {
+                                when {
+                                    state.query.isEmpty() -> {
+                                        item { LottieSearch() }
+                                    }
+                                    state.isLoading -> {
+                                        item { LottieLoading() }
+                                    }
+                                    state.users.isEmpty() -> {
+                                        item {
+                                            ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp))
+                                        }
+                                    }
+                                    else -> {
                                         items(state.users) { searchItem ->
                                             SearchItem(
                                                 state = searchItem,
@@ -122,10 +142,14 @@ fun MessageViewContent(
                             contentPadding = PaddingValues(horizontal = 16.dp),
                         ) {
                             item { ShowSearchView(onClickSearch) }
-                            if(state.messages.isEmpty()){
-                                item { ImageForEmptyList(modifier = Modifier
-                                    .padding(vertical = 100.dp)) }
-                            } else{
+                            if (state.messages.isEmpty()) {
+                                item {
+                                    ImageForEmptyList(
+                                        modifier = Modifier
+                                            .padding(vertical = 100.dp)
+                                    )
+                                }
+                            } else {
                                 itemsIndexed(state.messages) { index, item ->
                                     MessageItem(onClickMessage = onClickMessage, state = item)
                                     if (index < state.messages.lastIndex) Divider()
