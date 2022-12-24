@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.screen.message_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
@@ -10,6 +11,7 @@ import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +20,7 @@ import javax.inject.Inject
 class MessagesViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
     private val searchUseCase: SearchUseCase,
+    private val messagingRepository: MessagingRepository, /*just for test*/
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
@@ -26,6 +29,11 @@ class MessagesViewModel @Inject constructor(
 
     init {
         getMessagesDetails()
+        viewModelScope.launch {
+            messagingRepository.onReceiveNotification().collect{
+                getMessagesDetails()
+            }
+        }
     }
 
     private fun getMessagesDetails() {
