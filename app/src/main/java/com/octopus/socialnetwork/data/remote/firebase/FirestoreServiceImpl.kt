@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.remote.service
+package com.octopus.socialnetwork.data.remote.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
@@ -6,9 +6,9 @@ import com.octopus.socialnetwork.data.utils.Constants
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseServiceImpl @Inject constructor(
+class FirestoreServiceImpl @Inject constructor(
     private val fireStore: FirebaseFirestore
-) : FirebaseService {
+) : FirestoreService {
 
     override suspend fun createUser(user: UserFirebaseDTO) {
         fireStore.collection(Constants.USERS_COLLECTION).document(user.userId.toString())

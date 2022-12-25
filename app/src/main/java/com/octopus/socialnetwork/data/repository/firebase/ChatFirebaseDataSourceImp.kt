@@ -1,8 +1,8 @@
-package com.octopus.socialnetwork.data.repository.messaging
+package com.octopus.socialnetwork.data.repository.firebase
 
 
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
-import com.octopus.socialnetwork.data.remote.service.FirebaseCloudMessagingService
+import com.octopus.socialnetwork.data.remote.firebase.FirebaseCloudMessagingService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

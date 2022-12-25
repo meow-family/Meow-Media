@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.di
 
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
-import com.octopus.socialnetwork.data.remote.service.CloudMessagingService
+import com.octopus.socialnetwork.data.remote.firebase.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module

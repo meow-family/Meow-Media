@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.message_screen
+package com.octopus.socialnetwork.ui.screen.conversations.messages
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

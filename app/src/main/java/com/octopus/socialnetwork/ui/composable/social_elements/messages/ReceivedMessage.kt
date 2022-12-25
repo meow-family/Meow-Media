@@ -15,12 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable
 fun ReceivedMessage(
-    state: MessageUiState,
+    state: ChatUiState,
 ) {
 
     Column(

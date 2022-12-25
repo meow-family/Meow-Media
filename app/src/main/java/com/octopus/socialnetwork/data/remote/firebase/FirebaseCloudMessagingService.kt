@@ -1,7 +1,6 @@
-package com.octopus.socialnetwork.data.remote.service
+package com.octopus.socialnetwork.data.remote.firebase
 
 import android.util.Log
-import com.google.firebase.messaging.EnhancedIntentService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
@@ -17,7 +16,7 @@ class FirebaseCloudMessagingService @Inject constructor(): FirebaseMessagingServ
 
     override fun onMessageReceived(message: RemoteMessage) {
 
-            Log.d("TESTING", "From: ${message.rawData}")
+            Log.d("TESTING", "From: ${message}")
         if (message.data.isNotEmpty()) {
             Log.d("TESTING", "Message data payload: ${message.data}")
         }
@@ -45,7 +44,6 @@ class FirebaseCloudMessagingService @Inject constructor(): FirebaseMessagingServ
 
     override fun onNewToken(token: String) {
         Log.v("TESTING", "onNewToken $token")
-
     }
 
     companion object{

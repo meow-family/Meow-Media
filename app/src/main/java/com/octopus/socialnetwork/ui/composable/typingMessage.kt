@@ -19,7 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
@@ -27,7 +27,7 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 @Composable
 fun TypingMessage(
     modifier: Modifier = Modifier,
-    state: MessageMainUiState,
+    state: ChatMainUiState,
     onChangeTypingComment: (String) -> Unit,
     onClickSend:() -> Unit,
 ) {

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.chat
+package com.octopus.socialnetwork.ui.screen.conversations.chat
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -20,7 +20,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
@@ -43,7 +43,7 @@ fun ChatScreen(
 
 @Composable
 fun ChatScreenContent(
-    state: MessageMainUiState,
+    state: ChatMainUiState,
     onTextChange: (String) -> Unit,
     onClickBack: () -> Unit,
     onClickSend: () -> Unit,
@@ -99,7 +99,7 @@ fun ChatScreenContent(
 
     }
 
-    LaunchedEffect(key1 = state.isSuccess ){
+    LaunchedEffect(key1 = state.isSuccess){
         listState.animateScrollToItem(index = state.messages.lastIndexOrZero())
     }
 

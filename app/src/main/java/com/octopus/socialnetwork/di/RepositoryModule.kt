@@ -5,8 +5,8 @@ import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRe
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
 import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepository
 import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepositoryImpl
-import com.octopus.socialnetwork.data.repository.messaging.ChatFirebaseDataSource
-import com.octopus.socialnetwork.data.repository.messaging.ChatFirebaseDataSourceImp
+import com.octopus.socialnetwork.data.repository.firebase.ChatFirebaseDataSource
+import com.octopus.socialnetwork.data.repository.firebase.ChatFirebaseDataSourceImp
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository

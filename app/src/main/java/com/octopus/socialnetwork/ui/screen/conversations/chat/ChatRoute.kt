@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.chat
+package com.octopus.socialnetwork.ui.screen.conversations.chat
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
@@ -12,10 +12,10 @@ private const val ROUTE = DetailsRoute.Chat
 
 
 fun NavController.navigateToChat(userId: Int){
-    navigate("${ROUTE}/$userId")
+    navigate("$ROUTE/$userId")
 }
 fun NavGraphBuilder.chatRoute(navController: NavController) {
-    composable("${ROUTE}/{${ChatScreenArgs.USER_ID}}",
+    composable("$ROUTE/{${ChatScreenArgs.USER_ID}}",
         arguments = listOf(
             navArgument(ChatScreenArgs.USER_ID) { NavType.IntType },
         )
@@ -24,11 +24,11 @@ fun NavGraphBuilder.chatRoute(navController: NavController) {
 }
 
 class ChatScreenArgs(savedStateHandle: SavedStateHandle) {
-    val userId: String = checkNotNull(savedStateHandle[USER_ID])
+    val friendId: String = checkNotNull(savedStateHandle[USER_ID])
 
 
     companion object {
-        const val USER_ID = "otherUserId"
+        const val USER_ID = "friendId"
     }
 
 }

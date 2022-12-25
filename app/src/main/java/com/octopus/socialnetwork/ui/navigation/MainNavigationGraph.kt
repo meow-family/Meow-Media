@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.octopus.socialnetwork.ui.screen.home.homeRoute
-import com.octopus.socialnetwork.ui.screen.message_screen.messageRoute
+import com.octopus.socialnetwork.ui.screen.conversations.messages.messageRoute
 import com.octopus.socialnetwork.ui.screen.profile.myProfileRoute
 import com.octopus.socialnetwork.ui.screen.search.searchRoute
 

@@ -11,13 +11,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
     onClickMessage: (Int) -> Unit,
-    state: MessageUiState,
+    state: com.octopus.socialnetwork.ui.screen.conversations.messages.uistate.MessageUiState,
 ) {
     Row(
         modifier = Modifier
@@ -74,18 +73,6 @@ fun MessageItem(
 
             )
             SpaceVertically4dp()
-            if (state.viewed == "1") {
-                Text(
-                    text = "Seen",
-                    modifier = Modifier.align(Alignment.End),
-                    fontWeight = FontWeight.Light,
-                    fontFamily = PoppinsTypography.overline.fontFamily,
-                    fontStyle = PoppinsTypography.overline.fontStyle,
-                    fontSize = PoppinsTypography.overline.fontSize
-                )
-            } else {
-                CircleShapeWithText()
-            }
 
         }
 

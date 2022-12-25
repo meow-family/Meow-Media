@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.message_screen
+package com.octopus.socialnetwork.ui.screen.conversations.messages
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -34,8 +34,8 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.composable.search.ShowSearchView
-import com.octopus.socialnetwork.ui.screen.chat.navigateToChat
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.conversations.chat.navigateToChat
+import com.octopus.socialnetwork.ui.screen.conversations.messages.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 

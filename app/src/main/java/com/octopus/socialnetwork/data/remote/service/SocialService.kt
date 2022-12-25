@@ -185,7 +185,7 @@ interface SocialService {
     @POST("message_list")
     suspend fun getMessagesList(
         @Query("guid") currentUserId: Int,
-        @Query("to") otherUserId: Int,
+        @Query("to") friendId: Int,
     ): BaseResponse<MessageListDto>
 
 

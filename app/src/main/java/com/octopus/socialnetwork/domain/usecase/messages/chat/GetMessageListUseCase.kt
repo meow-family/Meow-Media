@@ -10,11 +10,11 @@ class GetMessageListUseCase @Inject constructor(
     private val messagingRepository: MessagingRepository,
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
-    suspend operator fun invoke(otherUserId: Int): List<MessageDetails> {
+    suspend operator fun invoke(friendId: Int): List<MessageDetails> {
         val userId = fetchUserIdUseCase()
         return messagingRepository.getMessages(
             userId,
-            otherUserId
+            friendId
         ).messages?.map { it.toMessageDetails(userId) } ?: emptyList()
     }
 }

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.message_screen.utils
+package com.octopus.socialnetwork.ui.screen.conversations.messages.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

@@ -11,8 +11,6 @@ data class CommentDetails(
     val commentId: Int?,
     @SerializedName("is_liked_by_user")
     val isLikedByUser: Boolean?,
-//    @SerializedName("last_three_reactions")
-//    val lastThreeReactions: ReactionDTO,
     @SerializedName("owner_guid")
     val commentOwnerId: Int?,
     @SerializedName("subject_guid")

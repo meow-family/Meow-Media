@@ -1,12 +1,13 @@
-package com.octopus.socialnetwork.ui.screen.message_screen
+package com.octopus.socialnetwork.ui.screen.conversations.messages
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
-import com.octopus.socialnetwork.ui.screen.chat.mapper.toMessageUiState
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.conversations.chat.mapper.toMessagesUiState
+import com.octopus.socialnetwork.ui.screen.conversations.messages.uistate.MessageMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class MessagesViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
     private val searchUseCase: SearchUseCase,
-    private val messagingRepository: MessagingRepository, /*just for test*/
+    private val receiveMessageUseCase: ReceiveMessageUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MessageMainUiState())
@@ -32,22 +33,32 @@ class MessagesViewModel @Inject constructor(
     init {
         getMessagesDetails()
         viewModelScope.launch(Dispatchers.IO) {
-            search()
-            messagingRepository.onReceiveNotification().collect {
-//                getMessagesDetails()
+            receiveMessageUseCase().collect { message ->
+                Log.i(
+                    "TESTING",
+                    "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
+                )
+                getMessagesDetails()
             }
+
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            search()
         }
     }
 
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages =
-                    fetchRecentMessages()?.map { it.toMessageUiState() } ?: emptyList()
+                val recentMessages = fetchRecentMessages().map { it.toMessagesUiState() }
                 _state.update {
-                    it.copy(isFail = false, isLoading = false, messages = recentMessages, isSuccess = true)
+                    it.copy(
+                        isFail = false, isLoading = false, messages = recentMessages,
+                        isSuccess = true
+                    )
                 }
             } catch (e: Exception) {
+                Log.i("TESTING", "$e was catched! in ${this.javaClass.simpleName}")
                 _state.update { it.copy(isLoading = false, isFail = true) }
             }
         }
