@@ -1,7 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.friend_request
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -12,18 +17,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
+import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
+import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.outLine
+import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
 
 @Composable
 fun FriendRequestScreen(
@@ -53,7 +62,9 @@ private fun FriendRequestContent(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
     ) {
 
         AppBar(
@@ -65,9 +76,9 @@ private fun FriendRequestContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError ) {
+        } else if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (state.friendRequests.isEmpty()){
+        } else if (state.requests.isEmpty()) {
             ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
         } else {
             LazyColumn(
@@ -75,15 +86,16 @@ private fun FriendRequestContent(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                if(state.friendRequests.isEmpty()){
+                if (state.requests.isEmpty()) {
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                } else{
-                    items(state.friendRequests) {
-                        FriendRequestItem(
+                } else {
+                    items(state.requests) {
+                        UserRelationItem(
                             state = it,
+                            friendRequest = true,
                             onClickAccept = onClickAccept,
                             onClickDecline = onClickDecline,
-                            onClickRequest = onClickRequest
+                            onClickItem = onClickRequest
                         )
                     }
                 }
@@ -92,4 +104,35 @@ private fun FriendRequestContent(
 
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun FriendRequestScreenPreview() {
+    SocialNetworkTheme {
+        FriendRequestContent(
+            state = FriendRequestUiState(
+                requests = listOf(
+                    UserDetailsUiState(
+                        userId = 0,
+                        fullName = "Ameer Amjed",
+                        username = "AmeerAmjed",
+                        friendsCount = "0",
+                        profileAvatar = "",
+                        profileCover = "",
+                        relation = UserRelationUiState.ME
+                    ),
+
+                    ),
+                isLoading = false,
+                isError = false,
+            ),
+            onClickAccept = {},
+            onClickDecline = {},
+            onClickRequest = {},
+            onClickTryAgain = {},
+            onClickBack = {}
+        )
+    }
+}
+
 

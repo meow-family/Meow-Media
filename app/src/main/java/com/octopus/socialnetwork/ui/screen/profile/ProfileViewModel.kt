@@ -8,7 +8,7 @@ import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCas
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserFriendsUseCase
@@ -32,7 +32,7 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserId: FetchUserIdUseCase,
     private val addFriendUseCase: AddFriendUseCase,
     private val removeFriendUseCase: RemoveFriendUseCase,
-    private val checkUserFriendUseCase: CheckUserFriendUseCase,
+    private val checkUserIsFriendUseCase: CheckUserIsFriendUseCase,
     private val logoutUseCase: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -100,7 +100,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.i("TESTING", "view model isRequestSent $visitedUserId")
-                val isRequestSent = checkUserFriendUseCase(visitedUserId).requestExists
+                val isRequestSent = checkUserIsFriendUseCase(visitedUserId).requestExists
                 _state.update { it.copy(isRequestExists = isRequestSent) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }

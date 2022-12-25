@@ -4,7 +4,7 @@ import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 
 
 data class FriendRequestUiState(
-    val friendRequests: List<UserDetailsUiState> = emptyList(),
+    val requests: List<UserDetailsUiState> = emptyList(),
     val isLoading: Boolean = true,
     val isError: Boolean = false,
 )

@@ -38,7 +38,7 @@ class FriendRequestViewModel @Inject constructor(
 
                 _state.update {
                     it.copy(
-                        friendRequests = friendRequests.map { it.toUserDetailsUiState() },
+                        requests = friendRequests.map { it.toUserDetailsUiState() },
                         isLoading = false,
                         isError = false,
                     )
@@ -73,7 +73,7 @@ class FriendRequestViewModel @Inject constructor(
 
     private fun removeRequestIfNotExists(isRequestExist: Boolean, userId: Int) {
         _state.update {
-            it.copy(friendRequests = if (!isRequestExist) _state.value.friendRequests.filter { it.userId != userId } else _state.value.friendRequests)
+            it.copy(requests = if (!isRequestExist) _state.value.requests.filter { it.userId != userId } else _state.value.requests)
         }
     }
 
