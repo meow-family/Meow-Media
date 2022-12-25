@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
+import com.octopus.socialnetwork.domain.usecase.user.UserRelationUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserRelationUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase,
+    private val userRelation: UserRelationUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchUiState())
@@ -46,6 +49,11 @@ class SearchViewModel @Inject constructor(
                 if (query.isNotEmpty()) {
                     val search =
                         searchUseCase(query = query).searchResults.map { it.toUserDetailsUiState() }
+                            .map { user ->
+                                user.relation =
+                                    userRelation(user.userId).toUserRelationUiState()
+                                user
+                            }
                     updateSearchUiState(search)
                 }
             } catch (e: Exception) {

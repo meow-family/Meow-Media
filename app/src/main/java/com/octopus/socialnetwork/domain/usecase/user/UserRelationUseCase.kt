@@ -15,7 +15,7 @@ class UserRelationUseCase @Inject constructor(
         if (fetchUserIdUseCase() == userIdWantedToCheck) {
             return UserRelation.ME
         } else if (userState.isFriend) {
-            UserRelation.IS_FRIEND
+            return UserRelation.IS_FRIEND
         } else if (userState.requestExists) {
             return UserRelation.REQUESTED
         }

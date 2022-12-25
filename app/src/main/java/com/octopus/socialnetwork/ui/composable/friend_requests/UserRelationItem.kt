@@ -36,11 +36,12 @@ import com.octopus.socialnetwork.ui.util.fake_data.FakeData
 
 
 @Composable
-fun FriendRequestItem(
+fun UserRelationItem(
     state: UserDetailsUiState,
-    onClickAccept: (Int) -> Unit,
-    onClickDecline: (Int) -> Unit,
-    onClickRequest: (Int) -> Unit,
+    onClickItem: (Int) -> Unit,
+    friendRequest: Boolean = false,
+    onClickAccept: (Int) -> Unit = {},
+    onClickDecline: (Int) -> Unit = {},
     onClickAddFriend: (Int) -> Unit = {},
     onClickRemoveFriend: (Int) -> Unit = {},
 ) {
@@ -49,7 +50,7 @@ fun FriendRequestItem(
             .fillMaxWidth()
             .height(72.dp)
             .background(MaterialTheme.colors.background)
-            .clickable { onClickRequest(state.userId) }
+            .clickable { onClickItem(state.userId) }
             .padding(10.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -74,7 +75,7 @@ fun FriendRequestItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        if (state.relation == UserRelationUiState.REQUESTED) {
+        if (state.relation == UserRelationUiState.REQUESTED || friendRequest) {
             Row(
                 modifier = Modifier
                     .weight(1f, fill = false),
@@ -126,26 +127,26 @@ fun FriendRequestItem(
 
 @Preview("me")
 @Composable
-fun FriendRequestItemPreviewMe() {
+fun UserRelationItemPreviewMe() {
     SocialNetworkTheme {
-        FriendRequestItem(
+        UserRelationItem(
             state = FakeData.meUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
-            onClickRequest = {},
+            onClickItem = {},
         )
     }
 }
 
 @Preview("friend")
 @Composable
-fun FriendRequestItemPreviewFriend() {
+fun UserRelationItemPreviewFriend() {
     SocialNetworkTheme {
-        FriendRequestItem(
+        UserRelationItem(
             state = FakeData.friendUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
-            onClickRequest = {},
+            onClickItem = {},
         )
     }
 }
@@ -153,26 +154,26 @@ fun FriendRequestItemPreviewFriend() {
 
 @Preview("notFriend")
 @Composable
-fun FriendRequestItemPreviewNotFriend() {
+fun UserRelationItemPreviewNotFriend() {
     SocialNetworkTheme {
-        FriendRequestItem(
+        UserRelationItem(
             state = FakeData.notFriendUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
-            onClickRequest = {},
+            onClickItem = {},
         )
     }
 }
 
 @Preview("friend")
 @Composable
-fun FriendRequestItemPreview() {
+fun UserRelationItemPreview() {
     SocialNetworkTheme {
-        FriendRequestItem(
+        UserRelationItem(
             state = FakeData.RequestedUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
-            onClickRequest = {},
+            onClickItem = {},
         )
     }
 }

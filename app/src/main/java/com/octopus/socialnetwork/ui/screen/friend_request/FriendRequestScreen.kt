@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.friend_requests.FriendRequestItem
+import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
@@ -90,11 +90,12 @@ private fun FriendRequestContent(
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else {
                     items(state.requests) {
-                        FriendRequestItem(
+                        UserRelationItem(
                             state = it,
+                            friendRequest = true,
                             onClickAccept = onClickAccept,
                             onClickDecline = onClickDecline,
-                            onClickRequest = onClickRequest
+                            onClickItem = onClickRequest
                         )
                     }
                 }
