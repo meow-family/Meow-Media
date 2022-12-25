@@ -70,8 +70,8 @@ private fun CommentsContent(
             AppBar(onClickBack, title = stringResource(id = R.string.Comments))
             if (state.isLoading) {
                 LottieLoading()
-            } else if (state.comments.isEmpty()) {
-                ImageForEmptyList(modifier = Modifier.fillMaxWidth().weight(1f))
+//            } else if (state.comments.isEmpty()) {
+//                ImageForEmptyList(modifier = Modifier.fillMaxWidth().weight(1f))
             }else if (state.isError ){
                 LottieError(onClickTryAgain)
             } else {

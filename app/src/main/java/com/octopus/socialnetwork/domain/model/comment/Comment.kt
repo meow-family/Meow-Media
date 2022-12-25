@@ -12,4 +12,5 @@ data class Comment (
     val username: String,
     val avatar: String,
     val commentId: Int,
+
 )

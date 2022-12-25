@@ -230,6 +230,7 @@ interface SocialService {
     suspend fun getCommentsList(
         @Query("uguid") myUserId: Int,
         @Query("guid") postId: Int,
+        @Query("offset") page: Int,
         @Query("type") type: String,
     ): BaseResponse<CommentDto>
 

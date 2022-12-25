@@ -8,6 +8,8 @@ import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import android.util.Log
 import com.octopus.socialnetwork.BuildConfig
+import com.octopus.socialnetwork.data.local.entity.CommentEntity
+import com.octopus.socialnetwork.data.paging.CommentsRemoteMediator
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
@@ -44,6 +46,7 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
+    private val commentsRemoteMediator: CommentsRemoteMediator
 ) : SocialRepository {
 
     //region user
@@ -125,6 +128,14 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
+    override fun getCommentListPager(postId: Int): Pager<Int, CommentEntity> {
+        return Pager(
+            config = PagingConfig(10),
+            remoteMediator = commentsRemoteMediator,
+            pagingSourceFactory = { socialDatabase.commentDao().getAllComment(postId) }
+        )
+    }
+
     override suspend fun createPost(
         myUserId: Int,
         posterOwnerId: Int,
@@ -194,7 +205,7 @@ class SocialRepositoryImpl @Inject constructor(
         postId: Int,
         type: String
     ): List<CommentDetails> {
-        return socialService.getCommentsList(myUserId, postId, type).result.comments
+        return socialService.getCommentsList(myUserId, postId, 1,type).result.comments
     }
 
     override suspend fun editComment(
