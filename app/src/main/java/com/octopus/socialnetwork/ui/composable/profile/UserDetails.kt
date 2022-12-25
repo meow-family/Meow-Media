@@ -12,7 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally16dp
+import com.octopus.socialnetwork.ui.composable.SpaceHorizontally4dp
+import com.octopus.socialnetwork.ui.composable.SpaceVertically10dp
+import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
@@ -27,8 +30,8 @@ fun UserDetails(
     )
     {
         ProfileInformation(
-            backImageProfile = customImageLoad(state.profileCover),
-            profileImage = customImageLoad(state.profileAvatar),
+            backgroundProfileImageUrl = state.profileCover,
+            profileImageUrl = state.profileAvatar,
         )
 
         Column(

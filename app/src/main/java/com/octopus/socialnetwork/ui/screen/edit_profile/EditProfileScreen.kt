@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
@@ -154,8 +153,8 @@ private fun EditProfileContent(
                 }
 
                 EditProfileInformation(
-                    backImageProfile = customImageLoad(state.profileCover),
-                    profileImage = customImageLoad(state.profileAvatar),
+                    backImageProfile = state.profileCover,
+                    profileImage = state.profileAvatar,
                     onEdit = onChangeProfileImage
                 )
             }

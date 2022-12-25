@@ -94,13 +94,13 @@ private fun LoginContent(
             .background(MaterialTheme.colors.background),
 
         ) {
-        ImageWithShadow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .wrapContentSize(Alignment.BottomCenter),
-            painter = painterResource(id = R.drawable.login_background)
-        )
+//        ImageWithShadow(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(300.dp)
+//                .wrapContentSize(Alignment.BottomCenter),
+//             = painterResource(id = R.drawable.login_background)
+//        )
 
         Text(
             modifier = Modifier.padding(vertical = 24.dp),
