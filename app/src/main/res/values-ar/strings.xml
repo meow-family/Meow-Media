@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Social Network</string>
+    <string name="app_name">ميو ميديا</string>
     <string name="description">مرحبًا بعودتك! قم بتسجيل الدخول لإعادة الانضمام إلى مجتمعنا</string>
     <string name="donot_have_account">ليس لديك حساب؟ </string>
     <string name="background">خلفية</string>

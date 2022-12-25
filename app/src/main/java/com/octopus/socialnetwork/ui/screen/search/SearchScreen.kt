@@ -56,13 +56,13 @@ private fun SearchContent(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background).padding(horizontal = 16.dp),
     ) {
         AppBar(title = stringResource(R.string.search), showBackButton = false)
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
         SpacerVertical16()
 
-        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch, modifier = Modifier.padding(horizontal = 16.dp))
+        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
 
         if (state.isError) {
             LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
