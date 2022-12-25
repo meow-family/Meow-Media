@@ -101,7 +101,7 @@ private fun LoginContent(
                 .fillMaxWidth()
                 .height(300.dp)
                 .wrapContentSize(Alignment.BottomCenter),
-            painter = painterResource(id = R.drawable.login_background)
+            painter = painterResource(id = R.drawable.login_image)
         )
 
         Text(

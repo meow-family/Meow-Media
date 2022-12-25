@@ -70,8 +70,6 @@ private fun NotificationsContent(
             LottieLoading()
         } else if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (state.notifications.isEmpty()) {
-            ImageForEmptyList()
         } else {
             LazyColumn(
                 modifier = Modifier

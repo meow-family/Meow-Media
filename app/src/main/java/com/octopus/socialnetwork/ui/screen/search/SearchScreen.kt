@@ -21,14 +21,14 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
-import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
-import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
+import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
+import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
-import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import com.octopus.socialnetwork.ui.theme.outLine
+import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 
 @Composable
 fun SearchScreen(

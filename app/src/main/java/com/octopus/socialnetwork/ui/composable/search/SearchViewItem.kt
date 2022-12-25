@@ -22,21 +22,19 @@ import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 fun SearchViewItem(
     query: String,
     onValueChange: (String) -> Unit,
-    onClickSearch: () -> Unit = {}
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = query,
         onValueChange = onValueChange,
-        modifier = Modifier.padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .height(height = 48.dp),
+        modifier = modifier.fillMaxWidth().height(height = 48.dp),
         textStyle = TextStyle(color =  MaterialTheme.colors.textPrimaryColor,
             fontSize = 14.sp),
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp).clickable { onClickSearch() },
+                modifier = Modifier.size(24.dp),
                 tint = Color.Gray
             )
         },

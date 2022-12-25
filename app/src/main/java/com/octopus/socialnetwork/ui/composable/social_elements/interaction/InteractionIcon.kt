@@ -29,7 +29,8 @@ fun InteractionIcon(
     count: String? = null,
     icon: Int = R.drawable.ic_like_16,
     onClick: () -> Unit,
-    tint: Color
+    tint: Color,
+    modifier: Modifier = Modifier
 ) {
 
     Box(
@@ -47,7 +48,7 @@ fun InteractionIcon(
         ) {
             IconButton(
                 onClick = { onClick() },
-                modifier = Modifier
+                modifier = modifier
                     .size(IconSize16)
             ) {
                 Icon(
