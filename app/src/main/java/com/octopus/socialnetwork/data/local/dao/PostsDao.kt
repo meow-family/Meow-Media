@@ -12,7 +12,7 @@ interface PostsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPosts(posts: List<PostEntity>)
 
-    @Query("SELECT * FROM posts_table")
+    @Query("SELECT * FROM posts_table ORDER BY id DESC ")
     fun getAllPosts(): PagingSource<Int, PostEntity>
 
     @Query("DELETE FROM posts_table")

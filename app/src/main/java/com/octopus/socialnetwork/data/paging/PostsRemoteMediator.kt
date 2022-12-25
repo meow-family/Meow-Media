@@ -89,7 +89,7 @@ class PostsRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PostEntity>): RemoteKeyEntity? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { postEntity ->
+        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { postEntity ->
             Log.i("PAGING",remoteKesDao.getRemoteKeyById(postEntity.id).toString() +  " reomote key")
             remoteKesDao.getRemoteKeyById(postEntity.id) }
     }
