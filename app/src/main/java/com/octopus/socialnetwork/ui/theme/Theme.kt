@@ -37,14 +37,14 @@ private val LightColorPalette = lightColors(
     error = errorColor,
 )
 
+
 val Colors.textPrimaryColor: Color
     get() = if (isLight) lightTextPrimaryColor else darkTextPrimaryColor
 
-val Colors.textThirdColor: Color
-    get() = if (isLight) lightTextThirdColor else darkTextThirdColor
-
 val Colors.textSecondaryColor: Color
     get() = if (isLight) lightSecondaryColor else darkSecondaryColor
+val Colors.textThirdColor: Color
+    get() = if (isLight) lightTextThirdColor else darkTextThirdColor
 
 val Colors.outLine: Color
     get() = if (isLight) lightOutLineColor else darkOutLineColor

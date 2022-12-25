@@ -122,4 +122,9 @@
     <string name="no_items">يبدو انه لا توجد عناصر meows هنا!</string>
 
     <string name="try_again">حاول مرة اخرى للحصول على meows</string>
+
+    <string name="decline">Decline</string>
+    <string name="Accept">Accept</string>
+    <string name="remove_friend">Remove Friend</string>
+
 </resources>
