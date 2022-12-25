@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -14,10 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
-import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
@@ -33,13 +35,19 @@ fun ItemPost(
 
     Box(
         modifier = Modifier
-            .height(450.dp).shadow(4.dp)
+            .height(450.dp)
+            .shadow(4.dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .clickable { onClickPost(post.postId, post.ownerId) }
     ) {
 
-        PostImage(postImage = post.postImage)
-
+//        PostImage(postImage = post.postImage)
+        ImageNetwork(
+            modifier = Modifier.fillMaxSize(),
+            imageUrl = post.postImage,
+            contentScale = ContentScale.Crop,
+            contentDescription = stringResource(R.string.this_is_post_image)
+        )
 
         Card(
             modifier = Modifier
