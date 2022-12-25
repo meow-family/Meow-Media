@@ -1,7 +1,14 @@
 package com.octopus.socialnetwork.ui.screen.messaging.chat
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -16,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ProfileImage
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
@@ -49,12 +55,16 @@ fun ChatScreenTopBar(
             )
         }
         Row(
-            Modifier.fillMaxWidth().clickable(onClick = {onClickImage(state.userId)}),
+            Modifier
+                .fillMaxWidth()
+                .clickable(onClick = { onClickImage(state.userId) }),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-             painter = rememberAsyncImagePainter(model = state.profileAvatar),
-                modifier = Modifier.size(40.dp).clip(CircleShape)
+                imageUrl = state.profileAvatar,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
             )
             Spacer(modifier = Modifier.width(8.dp))
 

@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
@@ -151,7 +150,7 @@ private fun PostContent(
                     .backgroundTextShadow()
             ) {
                 LargPostDetails(
-                    profileImage = customImageLoad(state.postDetails.profileAvatar),
+                    profileImage = state.postDetails.profileAvatar,
                     userName = state.postDetails.userName,
                     fullName = state.postDetails.fullName,
                     postDescription = state.postDetails.postDescription,

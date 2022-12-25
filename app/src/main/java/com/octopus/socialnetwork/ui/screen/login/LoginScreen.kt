@@ -96,13 +96,14 @@ private fun LoginContent(
             .background(MaterialTheme.colors.background),
 
         ) {
-        ImageWithShadow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .wrapContentSize(Alignment.BottomCenter),
-            painter = painterResource(id = R.drawable.login_image)
-        )
+//        ImageWithShadow(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(300.dp)
+//                .wrapContentSize(Alignment.BottomCenter),
+//             = painterResource(id = R.drawable.login_background)
+//        )
+
 
         Text(
             modifier = Modifier.padding(vertical = 24.dp),
@@ -135,7 +136,6 @@ private fun LoginContent(
             state = state.userInput.password,
             isPassword = !state.showPassword,
             onChangeValue = onChangePassword,
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
             placeholder = stringResource(R.string.password),
             icon = Icons.Default.Lock,
 //            action = ImeAction.Done,
