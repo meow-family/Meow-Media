@@ -1,9 +1,14 @@
 package com.octopus.socialnetwork.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.google.firebase.firestore.FirebaseFirestore
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.service.SocialService
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
 import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
@@ -31,12 +36,12 @@ object NetworkModule {
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
-        ): OkHttpClient {
+    ): OkHttpClient {
         val builder = OkHttpClient()
             .newBuilder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(DelayInterceptor(2000L,TimeUnit.MILLISECONDS))
+            .addInterceptor(DelayInterceptor(2000L, TimeUnit.MILLISECONDS))
             .callTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()
@@ -51,7 +56,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFirebaseCloudMessagingService(retrofit: Retrofit): CloudMessagingService =
-            retrofit.create(CloudMessagingService::class.java)
+        retrofit.create(CloudMessagingService::class.java)
 
     @Provides
     @Singleton
@@ -72,5 +77,17 @@ object NetworkModule {
             .build()
     }
 
+
+    @Singleton
+    @Provides
+    fun bindAuthenticationRepository(
+        dataStore: DataStore<Preferences>,
+        apiService: SocialService,
+        firebaseFirestore: FirebaseFirestore
+    ): AuthenticationRepository = AuthenticationRepositoryImpl(
+        dataStore = dataStore,
+        service = apiService,
+        fireStore = firebaseFirestore
+    )
 
 }

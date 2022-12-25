@@ -1,32 +1,38 @@
 package com.octopus.socialnetwork.data.repository.authentication
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.firebase.firestore.FirebaseFirestore
 import com.octopus.socialnetwork.SocialNetworkApplication.Companion.USER_ID_KEY
-import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
 import com.octopus.socialnetwork.data.remote.service.service.SocialService
 import com.octopus.socialnetwork.data.utils.Constants
-import kotlinx.coroutines.flow.Flow
+import com.octopus.socialnetwork.data.utils.Constants.FCM_TOKEN
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val service: SocialService,
-    private val dataStorePreferences: DataStorePreferences,
+    private val dataStore: DataStore<Preferences>,
     private val fireStore: FirebaseFirestore,
 ) : AuthenticationRepository {
 
     override suspend fun login(username: String, password: String): AuthResponse {
         val response = service.login(username, password)
         if (response.code == REQUEST_SUCCEED) {
-            dataStorePreferences.writeInt(USER_ID_KEY, response.result.id ?: 0)
+            dataStore.edit { MutableStringPref ->
+                MutableStringPref[intPreferencesKey(USER_ID_KEY)] = response.result.id ?: 0
+            }
         }
         return response.result
     }
-
 
     override suspend fun register(
         firstName: String,
@@ -51,15 +57,25 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserId(): Int? {
-        return dataStorePreferences.readInt("user_id")
+        val preferences = dataStore.data.first()
+        return preferences[intPreferencesKey("user_id")]
     }
 
     override suspend fun getLocalFcmToken(): String? {
-        return dataStorePreferences.readString("FCM_TOKEN")
+        val preferences = dataStore.data.first()
+        return preferences[stringPreferencesKey("FCM_TOKEN")]
+    }
+
+    override suspend fun writeFcmToken(token: String) {
+        dataStore.edit { MutableStringPref ->
+            MutableStringPref[stringPreferencesKey(FCM_TOKEN)] = token
+        }
     }
 
     override suspend fun deleteUserId() {
-        dataStorePreferences.writeInt("user_id", NO_SUCH_ID)
+        dataStore.edit { MutableStringPref ->
+            MutableStringPref[intPreferencesKey("user_id")] = NO_SUCH_ID
+        }
     }
 
     override suspend fun createUser(user: UserFirebaseDTO) {

@@ -3,7 +3,7 @@ package com.octopus.socialnetwork
 import android.app.Application
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
-import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,19 +14,17 @@ import javax.inject.Inject
 class SocialNetworkApplication : Application() {
 
     @Inject
-    lateinit var dataStorePreferences: DataStorePreferences
+    lateinit var authenticationRepository: AuthenticationRepository
 
     override fun onCreate() {
         super.onCreate()
         checkFirstTimeLaunch()
-
-
     }
 
     private fun checkFirstTimeLaunch() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            dataStorePreferences.readInt(USER_ID_KEY).let { id ->
+            authenticationRepository.getUserId().let { id ->
                 isLoggedOut = id == NO_SUCH_ID || id == null
             }
 
@@ -36,7 +34,7 @@ class SocialNetworkApplication : Application() {
                 if (it.isSuccessful) {
                     Log.i("TESTING", it.result.toString())
                     CoroutineScope(Dispatchers.IO).launch {
-                        dataStorePreferences.writeString("FCM_TOKEN", it.result.toString())
+                        authenticationRepository.writeFcmToken(it.result.toString())
                     }
                 }
             }.addOnFailureListener {

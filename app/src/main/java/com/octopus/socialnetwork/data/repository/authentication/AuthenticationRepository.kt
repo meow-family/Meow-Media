@@ -21,11 +21,11 @@ interface AuthenticationRepository {
         password: String
     ): BaseResponse<RegisterDto>
 
+    suspend fun deleteUserId()
     suspend fun getUserId(): Int?
 
     suspend fun getLocalFcmToken(): String?
-
-    suspend fun deleteUserId()
+    suspend fun writeFcmToken(token:String)
 
     suspend fun createUser(user: UserFirebaseDTO)
     suspend fun updateUser(user: UserFirebaseDTO)
