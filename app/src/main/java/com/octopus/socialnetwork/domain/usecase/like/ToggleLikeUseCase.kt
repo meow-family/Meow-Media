@@ -12,7 +12,7 @@ class ToggleLikeUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
     suspend operator fun invoke(contentId: Int, totalLikes: Int, isLiked: Boolean, contentType: String): Int? {
-        val userId = fetchUserIdUseCase().last()
+        val userId = fetchUserIdUseCase()
         return if (isLiked) {
             // LIKED -> UNLIKE
             socialRepository.updatePostLikeStatusLocally(contentId, false, totalLikes.minus(1))

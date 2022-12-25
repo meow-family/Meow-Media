@@ -14,7 +14,7 @@ class FetchFriendRequestsListUseCase @Inject constructor(
 
     ) {
     suspend operator fun invoke(): List<UserDetails> {
-        return socialRepository.getFriendRequests(fetchUserIdUseCase.invoke().last()).toFriendRequestsList()
+        return socialRepository.getFriendRequests(fetchUserIdUseCase.invoke()).toFriendRequestsList()
     }
 }
 

@@ -45,17 +45,16 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            fetchUserId().collect { myUserId ->
-                val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
-                _state.update { profile ->
+            val myUserId = fetchUserId()
+            val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
+            _state.update { profile ->
 
-                    profile.copy(
-                        isMyProfile = myUserId == visitedUserId,
-                        userDetails = profile.userDetails.copy(
-                            userId = args.visitedUserId?.toIntOrNull() ?: myUserId,
-                        )
+                profile.copy(
+                    isMyProfile = myUserId == visitedUserId,
+                    userDetails = profile.userDetails.copy(
+                        userId = args.visitedUserId?.toIntOrNull() ?: myUserId,
                     )
-                }
+                )
             }
         }
 

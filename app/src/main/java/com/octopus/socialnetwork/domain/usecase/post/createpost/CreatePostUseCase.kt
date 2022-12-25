@@ -13,7 +13,7 @@ class CreatePostUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ){
     suspend operator fun invoke(description: String, photo: File?) : Post?{
-        val myUserId = fetchUserIdUseCase().last()
+        val myUserId = fetchUserIdUseCase()
         return photo?.let {
             socialRepository.createPost(
                 myUserId,

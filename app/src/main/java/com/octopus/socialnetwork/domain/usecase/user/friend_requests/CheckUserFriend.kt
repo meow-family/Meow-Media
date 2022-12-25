@@ -14,7 +14,7 @@ class CheckUserIsFriendUseCase @Inject constructor(
     suspend operator fun invoke(userIdWantedToCheck: Int): FriendValidator {
 
         return socialRepository.checkUserFriend(
-            fetchUserIdUseCase().last(),
+            fetchUserIdUseCase(),
             userIdWantedToCheck
         )?.toCheckUserFriend() ?: throw Throwable("friend request response is null")
     }

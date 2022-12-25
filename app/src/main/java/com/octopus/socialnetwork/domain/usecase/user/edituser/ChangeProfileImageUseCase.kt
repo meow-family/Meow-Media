@@ -13,7 +13,7 @@ class ChangeProfileImageUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke(profileImage: File): UserDetails {
-        val myUserId = fetchUserIdUseCase().last()
+        val myUserId = fetchUserIdUseCase()
         return socialRepository.addProfilePicture(myUserId, profileImage).toUserDetails()
     }
 }

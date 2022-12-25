@@ -12,6 +12,6 @@ class AddCommentUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(postId : Int, comment: String,) : Comment{
-        return socialRepository.addComment(postId,comment,fetchUserIdUseCase().last()).toComment()
+        return socialRepository.addComment(postId,comment,fetchUserIdUseCase()).toComment()
     }
 }

@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.usecase.messages.fcm
 
 import android.util.Log
-import com.octopus.socialnetwork.data.remote.firebase.CloudMessagingService
+import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.domain.usecase.authentication.firebase.GetUserTokenUseCase

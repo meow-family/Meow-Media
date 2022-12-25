@@ -17,7 +17,7 @@ class FetchUserNotificationsUseCase @Inject constructor(
 
     ): List<NotificationItems> {
         val notification =
-            socialRepository.getUserNotifications(fetchUserIdUseCase().last())
+            socialRepository.getUserNotifications(fetchUserIdUseCase())
                 .toUserNotifications()
         return filterNotification(notification)
 

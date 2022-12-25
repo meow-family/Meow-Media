@@ -12,7 +12,7 @@ class GetMessageListUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(friendId: Int): List<MessageDetails> {
-        val userId = fetchUserIdUseCase().last()
+        val userId = fetchUserIdUseCase()
         return messagingRepository.getMessages(
             userId,
             friendId

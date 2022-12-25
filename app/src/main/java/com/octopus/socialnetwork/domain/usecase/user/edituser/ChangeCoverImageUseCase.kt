@@ -13,7 +13,7 @@ class ChangeCoverImageUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke(coverImage: File): UserDetails {
-        val myUserId = fetchUserIdUseCase().last()
+        val myUserId = fetchUserIdUseCase()
         return socialRepository.addCoverPicture(myUserId, coverImage).toUserDetails()
     }
 }

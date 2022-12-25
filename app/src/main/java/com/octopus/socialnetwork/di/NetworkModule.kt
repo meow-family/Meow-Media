@@ -2,8 +2,8 @@ package com.octopus.socialnetwork.di
 
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
-import com.octopus.socialnetwork.data.remote.firebase.CloudMessagingService
-import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
+import com.octopus.socialnetwork.data.remote.service.service.SocialService
 import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
@@ -19,15 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    @Singleton
-    @Provides
-    fun provideSocialNetworkService(
-        retrofit: Retrofit,
-    ): SocialService {
-        return retrofit.create(SocialService::class.java)
-    }
-
 
     @Provides
     fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
@@ -51,20 +42,22 @@ object NetworkModule {
         return builder.build()
     }
 
-    @Provides
-    @Singleton
-    fun provideFirebaseCloudMessagingApi(factory: GsonConverterFactory): CloudMessagingService =
-        Retrofit.Builder()
-            .baseUrl(CloudMessagingService.BASE_URL)
-            .addConverterFactory(factory)
-            .build()
-            .create(CloudMessagingService::class.java)
-
     @Singleton
     @Provides
     fun provideGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create()
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseCloudMessagingService(retrofit: Retrofit): CloudMessagingService =
+            retrofit.create(CloudMessagingService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSocialService(retrofit: Retrofit): SocialService =
+        retrofit.create(SocialService::class.java)
+
 
     @Singleton
     @Provides
@@ -78,5 +71,6 @@ object NetworkModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
+
 
 }

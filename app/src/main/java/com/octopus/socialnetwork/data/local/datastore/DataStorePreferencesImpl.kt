@@ -5,9 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class DataStorePreferencesImpl @Inject constructor(
@@ -25,11 +23,9 @@ class DataStorePreferencesImpl @Inject constructor(
         }
     }
 
-    override fun readInt(key: String): Flow<Int?> {
-        return flow {
-            val preferences = dataStore.data.first()
-            emit(preferences[intPreferencesKey(key)])
-        }
+    override suspend fun readInt(key: String): Int? {
+        val preferences = dataStore.data.first()
+        return preferences[intPreferencesKey(key)]
     }
 
     override suspend fun writeInt(key: String, value: Int) {

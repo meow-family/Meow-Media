@@ -4,9 +4,9 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
-import com.octopus.socialnetwork.data.remote.firebase.CloudMessagingService
-import com.octopus.socialnetwork.data.remote.firebase.FirebaseCloudMessagingService
-import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
+import com.octopus.socialnetwork.data.remote.service.fcm.FirebaseCloudMessagingService
+import com.octopus.socialnetwork.data.remote.service.service.SocialService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

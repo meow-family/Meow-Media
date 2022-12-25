@@ -3,6 +3,8 @@ package com.octopus.socialnetwork.data.repository.authentication
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
+import com.octopus.socialnetwork.domain.model.user.UserFirebase
 import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationRepository {
@@ -19,8 +21,15 @@ interface AuthenticationRepository {
         password: String
     ): BaseResponse<RegisterDto>
 
-    fun getUserId(): Flow<Int?>
+    suspend fun getUserId(): Int?
 
     suspend fun getLocalFcmToken(): String?
+
     suspend fun deleteUserId()
+
+    suspend fun createUser(user: UserFirebaseDTO)
+    suspend fun updateUser(user: UserFirebaseDTO)
+    suspend fun updateUserToken(userId: String, token: String)
+    suspend fun getFirebaseUser(userId: String): UserFirebaseDTO?
+
 }

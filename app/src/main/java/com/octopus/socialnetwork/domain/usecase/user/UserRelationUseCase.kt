@@ -13,7 +13,7 @@ class UserRelationUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userIdWantedToCheck: Int): UserRelation {
         val userState = CheckUserIsFriendUseCase(userIdWantedToCheck)
-        if (fetchUserIdUseCase().last() == userIdWantedToCheck) {
+        if (fetchUserIdUseCase() == userIdWantedToCheck) {
             return UserRelation.ME
         } else if (userState.isFriend) {
             return UserRelation.IS_FRIEND

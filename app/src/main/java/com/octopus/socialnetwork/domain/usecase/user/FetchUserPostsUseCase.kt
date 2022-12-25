@@ -12,6 +12,6 @@ class FetchUserPostsUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(visitedUserId: Int) : UserPosts {
-        return socialRepository.getUserPosts(visitedUserId, fetchUserIdUseCase().last()).toUserPosts()
+        return socialRepository.getUserPosts(visitedUserId, fetchUserIdUseCase()).toUserPosts()
     }
 }

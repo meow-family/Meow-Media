@@ -12,6 +12,6 @@ class FetchUserNotificationsCountUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke() : UserNotificationsCount {
-        return socialRepository.getUserNotificationsCount(fetchUserIdUseCase().last()).toUserNotificationsCount()
+        return socialRepository.getUserNotificationsCount(fetchUserIdUseCase()).toUserNotificationsCount()
     }
 }

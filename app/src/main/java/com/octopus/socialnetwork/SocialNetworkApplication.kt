@@ -7,7 +7,6 @@ import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,8 +27,7 @@ class SocialNetworkApplication : Application() {
         CoroutineScope(Dispatchers.IO).launch {
 
             dataStorePreferences.readInt(USER_ID_KEY).let { id ->
-                val savedUserId = id.last()
-                isLoggedOut = savedUserId == NO_SUCH_ID || savedUserId == null
+                isLoggedOut = id == NO_SUCH_ID || id == null
             }
 
         }

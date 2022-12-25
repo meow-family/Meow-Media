@@ -12,6 +12,6 @@ class SearchUseCase @Inject constructor(
     private val FetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(query: String): Search {
-        return SocialRepository.search(FetchUserIdUseCase().last(), query).toSearch()
+        return SocialRepository.search(FetchUserIdUseCase(), query).toSearch()
     }
 }

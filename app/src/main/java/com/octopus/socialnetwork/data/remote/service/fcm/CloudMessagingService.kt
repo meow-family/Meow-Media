@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.remote.firebase
+package com.octopus.socialnetwork.data.remote.service.fcm
 
 import com.octopus.socialnetwork.BuildConfig.FCM_KEY
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto

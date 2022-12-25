@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.remote.service
+package com.octopus.socialnetwork.data.remote.service.service
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse

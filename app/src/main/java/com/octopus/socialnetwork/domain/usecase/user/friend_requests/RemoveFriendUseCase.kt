@@ -12,7 +12,7 @@ class RemoveFriendUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(userIdWantedToAdd: Int): FriendValidator {
-        return socialRepository.removeFriend(fetchUserIdUseCase().last(), userIdWantedToAdd
+        return socialRepository.removeFriend(fetchUserIdUseCase(), userIdWantedToAdd
         ).toCheckUserFriend()
     }
 }

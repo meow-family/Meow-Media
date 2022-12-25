@@ -15,7 +15,7 @@ class AddFriendUseCase @Inject constructor(
     suspend operator fun invoke(userIdWantedToAdd: Int): FriendValidator {
         Log.i("TESTING","userIdWantedToAdd usecase $userIdWantedToAdd")
         return socialRepository.addFriend(
-            myUserId = fetchUserIdUseCase().last(),
+            myUserId = fetchUserIdUseCase(),
             userIdWantedToAdd = userIdWantedToAdd
         ).toCheckUserFriend()
     }

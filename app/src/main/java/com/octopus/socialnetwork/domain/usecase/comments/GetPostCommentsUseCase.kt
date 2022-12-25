@@ -12,6 +12,6 @@ class GetPostCommentsUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(postId: Int, type: String) : List<Comment>{
-        return socialRepository.getComments(fetchUserIdUseCase().last(), postId, type).map { it.toComment() }
+        return socialRepository.getComments(fetchUserIdUseCase(), postId, type).map { it.toComment() }
     }
 }

@@ -12,7 +12,7 @@ import javax.inject.Inject
 class FetchUserIdUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
 ) {
-    operator fun invoke(): Flow<Int> {
-        return authenticationRepository.getUserId().map {it ?: -1}
+    suspend operator fun invoke(): Int {
+        return authenticationRepository.getUserId() ?: -1
     }
 }

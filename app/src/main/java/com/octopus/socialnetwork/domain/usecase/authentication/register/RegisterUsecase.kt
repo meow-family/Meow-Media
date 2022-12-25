@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.authentication.register
 
 import android.util.Log
-import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.domain.mapper.user.toUserFirebaseDTO
 import com.octopus.socialnetwork.domain.model.user.UserFirebase
@@ -9,7 +8,7 @@ import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(
     private val signInRepository: AuthenticationRepository,
-    private val CreateUserAccountInFirebase: FirebaseRepository
+    private val authenticationRepository: AuthenticationRepository
 ) {
     suspend operator fun invoke(params: Params): Boolean {
 
@@ -32,7 +31,7 @@ class RegisterUseCase @Inject constructor(
                 username = userResponse.username ?: "",
                 token = ""
             ).toUserFirebaseDTO()
-            CreateUserAccountInFirebase.createUser(userInfo)
+            authenticationRepository.createUser(userInfo)
             true
         } else {
             Log.v("ameer", "error create account  ${response.code} ${response.message}")

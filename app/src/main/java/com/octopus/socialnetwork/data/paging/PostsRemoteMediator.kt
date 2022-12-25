@@ -10,7 +10,7 @@ import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.RemoteKeyEntity
 import com.octopus.socialnetwork.data.mapper.toPostEntity
-import com.octopus.socialnetwork.data.remote.service.SocialService
+import com.octopus.socialnetwork.data.remote.service.service.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import kotlinx.coroutines.flow.last
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class PostsRemoteMediator @Inject constructor(
             }
 
             val userId = authenticationRepository.getUserId()
-            val response = socialService.viewNewsFeed(userId.last() ?: -1, currentPage)
+            val response = socialService.viewNewsFeed(userId ?: -1, currentPage)
             val endOfPaginationReached = response.result.posts.isEmpty()
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
