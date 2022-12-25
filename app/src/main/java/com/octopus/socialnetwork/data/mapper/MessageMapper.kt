@@ -4,7 +4,7 @@ import com.octopus.socialnetwork.data.local.entity.MessageEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 
 
-fun MessageDto.asMessageEntity(): MessageEntity {
+fun MessageDto.toMessageEntity(): MessageEntity {
     return MessageEntity(
         id = id ?: 0,
         answered = answered ?: 0,

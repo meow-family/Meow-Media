@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchUserFriendsUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
-    suspend operator fun invoke(currentUserId: Int) : UserFriends {
-        return socialRepository.getUserFriends(currentUserId).toUserFriends()
+    suspend operator fun invoke(myUserId: Int) : UserFriends {
+        return socialRepository.getUserFriends(myUserId).toUserFriends()
     }
 }

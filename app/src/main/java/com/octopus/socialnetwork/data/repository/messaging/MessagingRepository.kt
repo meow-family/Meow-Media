@@ -21,7 +21,7 @@ interface MessagingRepository {
         markAllRead: Int,
     ): MessageListDto
 
-    suspend fun getMessages(currentUserId: Int, friendId: Int): MessageListDto
+    suspend fun getMessages(myUserId: Int, friendId: Int): MessageListDto
 
     suspend fun postNotification(notification: MessageNotificationDto): Boolean
 

@@ -40,10 +40,10 @@ class EditProfileViewModel @Inject constructor(
         getUserDetails(args.userId?.toIntOrNull() ?: -1)
     }
 
-    private fun getUserDetails(currentUserId: Int) {
+    private fun getUserDetails(myUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userDetails = fetchUserDetails(currentUserId).toEditUserUiState()
+                val userDetails = fetchUserDetails(myUserId).toEditUserUiState()
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -72,7 +72,7 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 updateUserInfo(
-                    currentUserId = checkNotNull(args.userId?.toInt()),
+                    myUserId = checkNotNull(args.userId?.toInt()),
                     firstName = _state.value.firstName,
                     lastName = _state.value.lastName,
                     email = _state.value.email,

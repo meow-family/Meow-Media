@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.search.toSearch
 import com.octopus.socialnetwork.domain.model.search.Search
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(
@@ -11,6 +12,6 @@ class SearchUseCase @Inject constructor(
     private val FetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(query: String): Search {
-        return SocialRepository.search(FetchUserIdUseCase(), query).toSearch()
+        return SocialRepository.search(FetchUserIdUseCase().last(), query).toSearch()
     }
 }

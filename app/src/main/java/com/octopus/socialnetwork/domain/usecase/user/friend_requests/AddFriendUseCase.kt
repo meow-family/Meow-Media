@@ -5,6 +5,7 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.user.friend_requests.toCheckUserFriend
 import com.octopus.socialnetwork.domain.model.user.FriendValidator
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class AddFriendUseCase @Inject constructor(
@@ -14,7 +15,7 @@ class AddFriendUseCase @Inject constructor(
     suspend operator fun invoke(userIdWantedToAdd: Int): FriendValidator {
         Log.i("TESTING","userIdWantedToAdd usecase $userIdWantedToAdd")
         return socialRepository.addFriend(
-            currentUserId = fetchUserIdUseCase(),
+            myUserId = fetchUserIdUseCase().last(),
             userIdWantedToAdd = userIdWantedToAdd
         ).toCheckUserFriend()
     }

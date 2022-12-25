@@ -31,36 +31,36 @@ interface SocialRepository {
 
     suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
 
-    suspend fun checkUserFriend(currentUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO?
+    suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO?
 
-    suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto
+    suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): UserPostsDto
 
     suspend fun editUser(
-        currentUserId: Int, firstName: String, lastName: String,
+        myUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String
     ): UserDto
 
-    suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
-    suspend fun removeFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
-    suspend fun getFriendRequests(currentUserId: Int): FriendRequestsListDTO
+    suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
+    suspend fun getFriendRequests(myUserId: Int): FriendRequestsListDTO
 
     //endregion
 
     //region post
-    suspend fun viewPost(postId: Int, currentUserId: Int): PostDto
+    suspend fun viewPost(postId: Int, myUserId: Int): PostDto
 
-    suspend fun viewUserPosts(visitedUserId: Int, currentUserId: Int): BaseResponse<AllPostDto>
+    suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<AllPostDto>
 
-    suspend fun viewNewsFeed(currentUserId: Int): List<PostDto>
+    suspend fun viewNewsFeed(myUserId: Int): List<PostDto>
 
-//    fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource
-    suspend fun viewNewsFeedPager(currentUserId: Int): Pager<Int, PostDto>
+//    fun viewNewsFeedPagingSource(myUserId: Int): PostsDataSource
+    suspend fun viewNewsFeedPager(myUserId: Int): Pager<Int, PostDto>
 
     fun getNewsFeedPager(): Pager<Int, PostEntity>
 
 
     suspend fun createPost(
-        currentUserId: Int,
+        myUserId: Int,
         posterOwnerId: Int,
         post: String,
         type: String,
@@ -68,17 +68,17 @@ interface SocialRepository {
     ): PostDto?
 
     suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto
-    suspend fun like(currentUserId: Int, contentId: Int, typeContent: String): LikeDto
+    suspend fun like(myUserId: Int, contentId: Int, typeContent: String): LikeDto
 
-    suspend fun unlike(currentUserId: Int, contentId: Int, typeContent: String): LikeDto
+    suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeDto
 
-    suspend fun getUserNotifications(currentUserId: Int): UserNotificationsDTO
+    suspend fun getUserNotifications(myUserId: Int): UserNotificationsDTO
 
-    suspend fun getUserNotificationsCount(currentUserId: Int): UserNotificationsCountDto
+    suspend fun getUserNotificationsCount(myUserId: Int): UserNotificationsCountDto
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getComments(currentUserId: Int, postId: Int, type: String): List<CommentDetails>
+    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDetails>
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditionDto
 
@@ -109,7 +109,7 @@ interface SocialRepository {
 
     // search
     suspend fun search(
-        currentUserId: Int,
+        myUserId: Int,
         query: String
     ): SearchDto
 

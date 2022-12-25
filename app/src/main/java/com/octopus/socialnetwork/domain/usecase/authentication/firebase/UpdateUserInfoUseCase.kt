@@ -9,7 +9,7 @@ import javax.inject.Inject
 class UpdateUserInfoUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
-    suspend operator fun invoke(currentUserId: Int, firstName: String, lastName: String, email: String, currentPassword: String, newPassword: String): UserDetails {
-        return socialRepository.editUser(currentUserId, firstName, lastName, email, currentPassword, newPassword).toUserDetails()
+    suspend operator fun invoke(myUserId: Int, firstName: String, lastName: String, email: String, currentPassword: String, newPassword: String): UserDetails {
+        return socialRepository.editUser(myUserId, firstName, lastName, email, currentPassword, newPassword).toUserDetails()
     }
 }

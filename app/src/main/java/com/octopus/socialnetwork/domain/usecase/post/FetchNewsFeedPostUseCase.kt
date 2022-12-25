@@ -8,6 +8,7 @@ import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class FetchNewsFeedPostUseCase @Inject constructor(
 //    }
 
     suspend operator fun invoke(): Flow<PagingData<Post>> {
-        return socialRepository.viewNewsFeedPager(fetchUserIdUseCase()).flow.map { pagingData ->
+        return socialRepository.viewNewsFeedPager(fetchUserIdUseCase().last()).flow.map { pagingData ->
             pagingData.map { it.toPost() }.filter { it.image.startsWith("https://") }
         }
     }

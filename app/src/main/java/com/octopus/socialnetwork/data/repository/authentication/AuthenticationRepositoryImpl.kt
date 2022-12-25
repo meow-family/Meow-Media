@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
@@ -17,7 +18,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun login(username: String, password: String): AuthResponse {
         val response = service.login(username, password)
         if (response.code == REQUEST_SUCCEED) {
-            dataStorePreferences.writeString(USER_ID_KEY, response.result.id ?: NO_SUCH_ID)
+            dataStorePreferences.writeInt(USER_ID_KEY, response.result.id ?: 0)
         }
         return response.result
     }
@@ -36,16 +37,16 @@ class AuthenticationRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getUserId(): Int? {
-        return dataStorePreferences.readString("user_id")
+    override fun getUserId(): Flow<Int?> {
+        return dataStorePreferences.readInt("user_id")
     }
 
     override suspend fun getLocalFcmToken(): String? {
-        return dataStorePreferences.readFcmToken()
+        return dataStorePreferences.readString("FCM_TOKEN")
     }
 
     override suspend fun deleteUserId() {
-        dataStorePreferences.writeString("user_id", NO_SUCH_ID)
+        dataStorePreferences.writeInt("user_id", NO_SUCH_ID)
     }
 
     companion object {

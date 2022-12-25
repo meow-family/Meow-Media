@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.usecase.messages.fcm
 
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
-import com.octopus.socialnetwork.data.repository.firebase.ChatFirebaseDataSource
+import com.octopus.socialnetwork.data.remote.firebase.ChatFirebaseDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

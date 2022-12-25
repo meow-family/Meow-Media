@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.data.repository.firebase
+package com.octopus.socialnetwork.data.remote.firebase
 
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
 import com.octopus.socialnetwork.domain.model.user.UserFirebase

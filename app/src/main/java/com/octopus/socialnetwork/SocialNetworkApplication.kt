@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.data.local.datastore.DataStorePreferences
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,17 +27,18 @@ class SocialNetworkApplication : Application() {
     private fun checkFirstTimeLaunch() {
         CoroutineScope(Dispatchers.IO).launch {
 
-
-            dataStorePreferences.readString(USER_ID_KEY).let { id ->
-                isLoggedOut = id == NO_SUCH_ID || id == null
+            dataStorePreferences.readInt(USER_ID_KEY).let { id ->
+                val savedUserId = id.last()
+                isLoggedOut = savedUserId == NO_SUCH_ID || savedUserId == null
             }
+
         }
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Log.i("TESTING", it.result.toString())
                     CoroutineScope(Dispatchers.IO).launch {
-                        dataStorePreferences.writeFcmToken("FCM_TOKEN", it.result.toString())
+                        dataStorePreferences.writeString("FCM_TOKEN", it.result.toString())
                     }
                 }
             }.addOnFailureListener {

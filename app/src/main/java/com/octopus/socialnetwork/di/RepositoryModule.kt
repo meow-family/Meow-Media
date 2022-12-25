@@ -3,10 +3,10 @@ package com.octopus.socialnetwork.di
 import androidx.paging.ExperimentalPagingApi
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
-import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepository
-import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepositoryImpl
-import com.octopus.socialnetwork.data.repository.firebase.ChatFirebaseDataSource
-import com.octopus.socialnetwork.data.repository.firebase.ChatFirebaseDataSourceImp
+import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
+import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepositoryImpl
+import com.octopus.socialnetwork.data.remote.firebase.ChatFirebaseDataSource
+import com.octopus.socialnetwork.data.remote.firebase.ChatFirebaseDataSourceImp
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository

@@ -5,6 +5,7 @@ import com.octopus.socialnetwork.domain.mapper.notifications.toUserNotifications
 import com.octopus.socialnetwork.domain.model.notifications.NotificationItems
 import com.octopus.socialnetwork.domain.model.notifications.UserNotifications
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import kotlinx.coroutines.flow.last
 import okhttp3.internal.filterList
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class FetchUserNotificationsUseCase @Inject constructor(
 
     ): List<NotificationItems> {
         val notification =
-            socialRepository.getUserNotifications(fetchUserIdUseCase())
+            socialRepository.getUserNotifications(fetchUserIdUseCase().last())
                 .toUserNotifications()
         return filterNotification(notification)
 

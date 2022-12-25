@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.authentication.firebase
 
-import com.octopus.socialnetwork.data.repository.firebase.FirebaseRepository
+import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
 import javax.inject.Inject
 
 

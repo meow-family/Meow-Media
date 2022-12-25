@@ -58,17 +58,17 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkUserFriend(
-        currentUserId: Int, userIdWantedToCheck: Int
+        myUserId: Int, userIdWantedToCheck: Int
     ): FriendValidatorDTO? {
-        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
+        return socialService.checkUserFriend(myUserId, userIdWantedToCheck).result
     }
 
-    override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto {
-        return socialService.getUserPosts(visitedUserId, currentUserId).result
+    override suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): UserPostsDto {
+        return socialService.getUserPosts(visitedUserId, myUserId).result
     }
 
     override suspend fun editUser(
-        currentUserId: Int,
+        myUserId: Int,
         firstName: String,
         lastName: String,
         email: String,
@@ -76,7 +76,7 @@ class SocialRepositoryImpl @Inject constructor(
         newPassword: String
     ): UserDto {
         return socialService.editUser(
-            currentUserId,
+            myUserId,
             firstName,
             lastName,
             email,
@@ -85,50 +85,50 @@ class SocialRepositoryImpl @Inject constructor(
         ).result
     }
 
-    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
-        return socialService.addFriend(currentUserId, userIdWantedToAdd).result
+    override suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
+        return socialService.addFriend(myUserId, userIdWantedToAdd).result
     }
 
     override suspend fun removeFriend(
-        currentUserId: Int,
+        myUserId: Int,
         userIdWantedToAdd: Int
     ): FriendValidatorDTO {
-        return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
+        return socialService.removeFriend(myUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun getFriendRequests(currentUserId: Int): FriendRequestsListDTO {
-        return socialService.getFriendRequests(currentUserId).result
+    override suspend fun getFriendRequests(myUserId: Int): FriendRequestsListDTO {
+        return socialService.getFriendRequests(myUserId).result
     }
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, currentUserId: Int): PostDto {
-        return socialService.viewPost(postId, currentUserId).result
+    override suspend fun viewPost(postId: Int, myUserId: Int): PostDto {
+        return socialService.viewPost(postId, myUserId).result
     }
 
     override suspend fun viewUserPosts(
         visitedUserId: Int,
-        currentUserId: Int
+        myUserId: Int
     ): BaseResponse<AllPostDto> {
         return socialService.viewUserPosts(
             visitedUserId,
-            currentUserId,
+            myUserId,
         )
     }
 
 
-    override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
-        return socialService.viewNewsFeed(currentUserId, 1).result.posts
+    override suspend fun viewNewsFeed(myUserId: Int): List<PostDto> {
+        return socialService.viewNewsFeed(myUserId, 1).result.posts
     }
 
-//    override fun viewNewsFeedPagingSource(currentUserId: Int): PostsDataSource {
-//        return PostsDataSource(socialService, currentUserId)
+//    override fun viewNewsFeedPagingSource(myUserId: Int): PostsDataSource {
+//        return PostsDataSource(socialService, myUserId)
 //    }
 
-    override suspend fun viewNewsFeedPager(currentUserId: Int): Pager<Int, PostDto> {
+    override suspend fun viewNewsFeedPager(myUserId: Int): Pager<Int, PostDto> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { PostsDataSource(socialService, currentUserId) }
+            pagingSourceFactory = { PostsDataSource(socialService, myUserId) }
         )
     }
 
@@ -141,7 +141,7 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createPost(
-        currentUserId: Int,
+        myUserId: Int,
         posterOwnerId: Int,
         post: String,
         type: String,
@@ -153,7 +153,7 @@ class SocialRepositoryImpl @Inject constructor(
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY) // whatever data you will pass to the the request body
-            .addFormDataPart("owner_guid", currentUserId.toString())
+            .addFormDataPart("owner_guid", myUserId.toString())
             .addFormDataPart("poster_guid",posterOwnerId.toString())
             .addFormDataPart("type",type)
             .addFormDataPart("post",post)
@@ -171,31 +171,31 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun like(
-        currentUserId: Int,
+        myUserId: Int,
         contentId: Int,
         typeContent: String
     ): LikeDto {
-        return socialService.like(currentUserId, contentId, typeContent).result
+        return socialService.like(myUserId, contentId, typeContent).result
     }
 
     override suspend fun unlike(
-        currentUserId: Int,
+        myUserId: Int,
         contentId: Int,
         typeContent: String
     ): LikeDto {
-        return socialService.unlike(currentUserId, contentId, typeContent).result
+        return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
     override suspend fun getUserNotifications(
-        currentUserId: Int,
+        myUserId: Int,
     ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId).result
+        return socialService.getUserNotifications(myUserId).result
     }
 
     override suspend fun getUserNotificationsCount(
-        currentUserId: Int,
+        myUserId: Int,
     ): UserNotificationsCountDto {
-        return socialService.getUserNotificationsCount(currentUserId).result
+        return socialService.getUserNotificationsCount(myUserId).result
     }
 
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
@@ -205,11 +205,11 @@ class SocialRepositoryImpl @Inject constructor(
 
 
     override suspend fun getComments(
-        currentUserId: Int,
+        myUserId: Int,
         postId: Int,
         type: String
     ): List<CommentDetails> {
-        return socialService.getCommentsList(currentUserId, postId, type).result.comments
+        return socialService.getCommentsList(myUserId, postId, type).result.comments
     }
 
     override suspend fun editComment(
@@ -290,11 +290,11 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun search(
-        currentUserId: Int,
+        myUserId: Int,
         query: String
     ): SearchDto {
         return socialService.search(
-            currentUserId,
+            myUserId,
             query
         ).result
     }

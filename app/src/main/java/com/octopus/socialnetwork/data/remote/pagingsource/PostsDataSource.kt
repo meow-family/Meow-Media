@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 class PostsDataSource @Inject constructor(
     private val service: SocialService,
-    private val currentUserId: Int,
+    private val myUserId: Int,
 ) : BasePagingSource<PostDto>() {
 
     override suspend fun getData(page: Int): List<PostDto> {
-        return service.viewNewsFeed(currentUserId, page).result.posts
+        return service.viewNewsFeed(myUserId, page).result.posts
     }
 }
