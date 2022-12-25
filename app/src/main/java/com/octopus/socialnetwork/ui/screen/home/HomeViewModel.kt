@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 toggleLike(postId, totalLikes, isLiked,"post")
-                _homeUiState.update { it.copy(isError = false, isLoading = true) }
+                _homeUiState.update { it.copy(isError = false) }
 
             } catch (e: Exception) {
                _homeUiState.update { it.copy(isError = true) }

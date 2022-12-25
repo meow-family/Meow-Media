@@ -89,12 +89,8 @@ fun ItemPost(
                         onClick = { onComment(post.postId) },
                         tint = Color.White
                     )
-                }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_send,
-                        onClick = onShare, tint = Color.White
-                    )
-                })
+                }
+                )
             )
 
         }
