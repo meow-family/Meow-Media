@@ -38,7 +38,7 @@ fun ImageForEmptyList(
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.background(color = MaterialTheme.colors.background)
+        modifier = modifier.fillMaxSize().background(color = MaterialTheme.colors.background)
             .padding(vertical = 64.dp),
     ) {
         Image(

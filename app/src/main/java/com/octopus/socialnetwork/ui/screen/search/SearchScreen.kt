@@ -29,6 +29,7 @@ import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
+import com.octopus.socialnetwork.ui.theme.spacingMedium
 
 @Composable
 fun SearchScreen(
@@ -62,29 +63,26 @@ private fun SearchContent(
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
         SpacerVertical16()
 
-        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
+        SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch,
+            modifier = Modifier.padding(horizontal = spacingMedium))
 
-        if (state.isError) {
-            LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
-        } else {
-
-            LazyColumn {
-                if(state.query.isEmpty()) {
-                    item { LottieSearch() }
+        LazyColumn {
+            if(state.query.isEmpty()) {
+                item { LottieSearch() }
+            } else {
+                if (state.isLoading) {
+                    item  { LottieLoading() }
+                } else if (state.isError) {
+                    item  { LottieError(queryText = state.query,
+                        onClickTryAgainWithArg = onClickTryAgain) }
+                } else if(state.users.isEmpty()) {
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else {
-                    if (state.isLoading) {
-                        item  { LottieLoading() }
-                    }
-                    else if(state.users.isEmpty()){
-                        item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                    } else {
-                        items(state.users) { searchItem ->
-                            SearchItem(state = searchItem, onClickItem = onClickItem) }
-                    }
-
+                    items(state.users) { searchItem ->
+                        SearchItem(state = searchItem, onClickItem = onClickItem) }
                 }
-            }
 
+            }
         }
 
     }

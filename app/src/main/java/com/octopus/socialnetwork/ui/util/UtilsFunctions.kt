@@ -1,6 +1,9 @@
 package com.octopus.socialnetwork.ui.util
 
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.navigation.NavController
+import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
@@ -41,5 +44,12 @@ fun onClickNotification(
                     notification.ownerId
                 )
         }
+    }
+}
+
+fun playMeowSound(isMeowed: Boolean, context: Context) {
+    if(!isMeowed){
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.meow_sound)
+        mp.start()
     }
 }

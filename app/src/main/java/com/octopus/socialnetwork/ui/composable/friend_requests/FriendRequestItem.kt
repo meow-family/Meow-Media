@@ -22,7 +22,6 @@ import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
-import com.octopus.socialnetwork.ui.theme.Black
 
 
 @Composable
@@ -53,7 +52,7 @@ fun FriendRequestItem(
             text = state.fullName,
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
-            color = Black,
+            color = MaterialTheme.colors.onSecondary,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
