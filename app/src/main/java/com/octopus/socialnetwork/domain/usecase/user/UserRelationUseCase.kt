@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.domain.usecase.user
 import com.octopus.socialnetwork.domain.enums.UserRelation
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 
@@ -12,7 +13,7 @@ class UserRelationUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userIdWantedToCheck: Int): UserRelation {
         val userState = CheckUserIsFriendUseCase(userIdWantedToCheck)
-        if (fetchUserIdUseCase() == userIdWantedToCheck) {
+        if (fetchUserIdUseCase().last() == userIdWantedToCheck) {
             return UserRelation.ME
         } else if (userState.isFriend) {
             return UserRelation.IS_FRIEND
