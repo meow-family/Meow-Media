@@ -11,12 +11,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
     onClickMessage: (Int) -> Unit,
-    state: com.octopus.socialnetwork.ui.screen.conversations.messages.uistate.MessageUiState,
+    state: ConversationUiState,
 ) {
     Row(
         modifier = Modifier

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.conversations.chat
+package com.octopus.socialnetwork.ui.screen.messaging.chat
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ProfileImage
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
-import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 

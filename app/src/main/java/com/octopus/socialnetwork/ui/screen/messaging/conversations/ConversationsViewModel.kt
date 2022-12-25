@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.conversations.messages
+package com.octopus.socialnetwork.ui.screen.messaging.conversations
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
-import com.octopus.socialnetwork.ui.screen.conversations.chat.mapper.toMessagesUiState
-import com.octopus.socialnetwork.ui.screen.conversations.messages.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.conversations.mapper.toConversationUiState
+import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationsMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,19 +19,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MessagesViewModel @Inject constructor(
+class ConversationsViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
     private val searchUseCase: SearchUseCase,
     private val receiveMessageUseCase: ReceiveMessageUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MessageMainUiState())
+    private val _state = MutableStateFlow(ConversationsMainUiState())
     val state = _state.asStateFlow()
     private val query = MutableStateFlow("")
 
 
     init {
         getMessagesDetails()
+        onReceiveMessage()
+        viewModelScope.launch(Dispatchers.IO) {
+            search()
+        }
+    }
+
+
+    private fun onReceiveMessage() {
         viewModelScope.launch(Dispatchers.IO) {
             receiveMessageUseCase().collect { message ->
                 Log.i(
@@ -42,15 +50,12 @@ class MessagesViewModel @Inject constructor(
             }
 
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            search()
-        }
     }
 
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages = fetchRecentMessages().map { it.toMessagesUiState() }
+                val recentMessages = fetchRecentMessages().map { it.toConversationUiState() }
                 _state.update {
                     it.copy(
                         isFail = false, isLoading = false, messages = recentMessages,

@@ -55,7 +55,7 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.chat),
-                        route = MainRoute.Messages,
+                        route = MainRoute.Conversations,
                         icon = painterResource(R.drawable.chat),
                     ),
                     BottomNavItem(

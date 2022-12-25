@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.conversations.chat
+package com.octopus.socialnetwork.ui.screen.messaging.chat
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController

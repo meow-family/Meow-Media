@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.conversations.chat.uistate
+package com.octopus.socialnetwork.ui.screen.messaging.chat.uistate
 
 data class ChatUiState(
     val lastMessage: String = "",

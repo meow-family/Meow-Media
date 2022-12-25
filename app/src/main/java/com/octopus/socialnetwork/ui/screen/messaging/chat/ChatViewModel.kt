@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.conversations.chat
+package com.octopus.socialnetwork.ui.screen.messaging.chat
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -8,9 +8,9 @@ import com.octopus.socialnetwork.domain.usecase.messages.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.conversations.chat.mapper.toMessageUiState
-import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatMainUiState
-import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,7 @@ class ChatViewModel @Inject constructor(
     private fun getMessagesWithUser(friendId: Int) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
-                val messages = getMessageList(friendId).map { it.toMessageUiState() }
+                val messages = getMessageList(friendId).map { it.toChatUiState() }
                 _state.update {
                     it.copy(
                         isFail = false,

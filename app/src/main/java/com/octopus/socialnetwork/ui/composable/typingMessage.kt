@@ -19,7 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.conversations.chat.uistate.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 

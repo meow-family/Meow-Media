@@ -37,9 +37,18 @@ class CommentsViewModel @Inject constructor(
     private fun getPostComments() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postComments = getPostCommentsUseCase(postId = args.postId.toInt(),
-                    type = args.type).map { it.toCommentDetailsUiState() }
-                _state.update { it.copy(comments = postComments, isLoading = false, isSent = true, isError = false) }
+                val postComments = getPostCommentsUseCase(
+                    postId = args.postId.toInt(),
+                    type = args.type
+                ).map { it.toCommentDetailsUiState() }
+                _state.update {
+                    it.copy(
+                        comments = postComments,
+                        isLoading = false,
+                        isSent = true,
+                        isError = false
+                    )
+                }
             } catch (e: Throwable) {
                 _state.update { it.copy(isLoading = false, isSent = false, isError = true) }
             }
@@ -47,12 +56,13 @@ class CommentsViewModel @Inject constructor(
     }
 
     fun onChangeTypingComment(newValue: String) {
-        _state.update { it.copy(comment = newValue) } }
+        _state.update { it.copy(comment = newValue) }
+    }
 
-   private fun addComment(comment: String) {
+    private fun addComment(comment: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                addCommentUseCase(args.postId.toInt(),comment)
+                addCommentUseCase(args.postId.toInt(), comment)
                 _state.update { it.copy(comment = it.comment, isSent = true) }
                 getPostComments()
             } catch (e: Throwable) {
@@ -61,7 +71,7 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    fun onClickSend(){
+    fun onClickSend() {
         addComment(_state.value.comment)
         _state.update { it.copy(comment = "") }
     }
@@ -87,7 +97,6 @@ class CommentsViewModel @Inject constructor(
             }
         }
     }
-
 
 
     private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
