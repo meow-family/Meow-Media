@@ -54,10 +54,10 @@ private fun OnBoardingContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        ImageWithShadow(
-            modifier = Modifier.fillMaxWidth().height(300.dp).wrapContentSize(Alignment.BottomCenter),
-            painter = painterResource(id = R.drawable.on_boarding_image)
-        )
+//        ImageWithShadow(
+//            modifier = Modifier.fillMaxWidth().height(300.dp).wrapContentSize(Alignment.BottomCenter),
+//            painter = painterResource(id = R.drawable.on_boarding_image)
+//        )
 
         Text(
             text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Start,
