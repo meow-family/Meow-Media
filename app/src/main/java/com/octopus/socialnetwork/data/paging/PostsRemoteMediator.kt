@@ -10,7 +10,6 @@ import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.RemoteKeyEntity
 import com.octopus.socialnetwork.data.mapper.toPostEntity
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import kotlinx.coroutines.flow.last
@@ -33,15 +32,19 @@ class PostsRemoteMediator @Inject constructor(
             val currentPage = when(loadType) {
                 LoadType.REFRESH -> {
                     val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
+                    Log.i("PAGING","refrishing ${remoteKey?.nextPage}")
+
                     remoteKey?.nextPage?.minus(1) ?: 1
                 }
                 LoadType.PREPEND -> {
                     val remoteKey = getRemoteKeyForFirstItem(state)
+                    Log.i("PAGING","prepending ${remoteKey?.previousPage}")
                     remoteKey?.previousPage ?: return MediatorResult.Success(remoteKey != null)
                 }
                 LoadType.APPEND -> {
                     val remoteKey = getRemoteKeyForLastItem(state)
-                    remoteKey?.nextPage ?: return MediatorResult.Success(remoteKey != null)
+                    Log.i("PAGING","appending ${remoteKey?.nextPage}")
+                    remoteKey?.nextPage ?: return MediatorResult.Success(remoteKey == null)
                 }
             }
 
@@ -51,6 +54,7 @@ class PostsRemoteMediator @Inject constructor(
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
+            Log.i("PAGING","prevPage $prevPage , currentPage $currentPage, nextPage $nextPage is end $endOfPaginationReached ")
             socialDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     postsDao.deleteAllPosts()
@@ -85,6 +89,8 @@ class PostsRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PostEntity>): RemoteKeyEntity? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { postEntity -> remoteKesDao.getRemoteKeyById(postEntity.id) }
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { postEntity ->
+            Log.i("PAGING",remoteKesDao.getRemoteKeyById(postEntity.id).toString() +  " reomote key")
+            remoteKesDao.getRemoteKeyById(postEntity.id) }
     }
 }

@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn

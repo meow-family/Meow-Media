@@ -92,14 +92,16 @@ private fun HomeContent(
         } else if (state.isError) {
             LottieError(onClickTryAgain)
         } else if (isEmptyFlow) {
-            ImageForEmptyList(modifier = Modifier.fillMaxSize().align(alignment = Alignment.CenterHorizontally))
+            ImageForEmptyList(modifier = Modifier
+                .fillMaxSize()
+                .align(alignment = Alignment.CenterHorizontally))
         } else {
             LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-
+                
                 items(items = posts) {
                     it?.let { post ->
                         ItemPost(

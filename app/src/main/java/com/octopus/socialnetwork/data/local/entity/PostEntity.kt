@@ -7,8 +7,7 @@ import java.util.*
 
 @Entity(tableName = Constants.POSTS_TABLE)
 data class PostEntity(
-    @PrimaryKey(autoGenerate = false)
-    val id: Int,
+    @PrimaryKey(autoGenerate = false) val id: Int,
     val ownerId: Int,
     val description: String,
     val imageUrl: String,
