@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.register.mapper
 
-import com.octopus.socialnetwork.domain.enums.InputFieldValidation
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.InputFieldValidation
 import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
 
 fun InputFieldValidation.toEmailUiState(): EmailState {

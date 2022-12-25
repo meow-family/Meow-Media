@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.login.LoginUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState

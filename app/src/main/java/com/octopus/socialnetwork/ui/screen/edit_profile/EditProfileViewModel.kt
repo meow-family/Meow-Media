@@ -2,16 +2,15 @@ package com.octopus.socialnetwork.ui.screen.edit_profile
 
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
-import com.octopus.socialnetwork.domain.usecase.user.ChangeCoverImageUseCase
-import com.octopus.socialnetwork.domain.usecase.user.ChangeProfileImageUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.UpdateUserInfoUseCase
+import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeCoverImageUseCase
+import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeProfileImageUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.firebase.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
 import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

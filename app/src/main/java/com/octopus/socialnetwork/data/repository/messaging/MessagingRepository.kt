@@ -1,7 +1,9 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
-import com.octopus.socialnetwork.data.remote.response.dto.messages.*
-import com.octopus.socialnetwork.domain.model.messages.MessageNotification
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import kotlinx.coroutines.flow.Flow
 
 interface MessagingRepository {

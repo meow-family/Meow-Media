@@ -6,7 +6,7 @@ import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.service.SocialService
-import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
@@ -40,7 +40,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return dataStorePreferences.readString("user_id")
     }
 
-    override suspend fun getLocalUserToken(): String? {
+    override suspend fun getLocalFcmToken(): String? {
         return dataStorePreferences.readFcmToken()
     }
 

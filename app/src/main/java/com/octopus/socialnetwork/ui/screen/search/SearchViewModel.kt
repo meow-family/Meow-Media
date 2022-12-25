@@ -45,7 +45,7 @@ class SearchViewModel @Inject constructor(
             try {
                 if (query.isNotEmpty()) {
                     val search =
-                        searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
+                        searchUseCase(query = query).searchResults.map { it.toUserDetailsUiState() }
                     updateSearchUiState(search)
                 }
             } catch (e: Exception) {

@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.messages.ReceiveMessageUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.SendMessagesUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatUiState

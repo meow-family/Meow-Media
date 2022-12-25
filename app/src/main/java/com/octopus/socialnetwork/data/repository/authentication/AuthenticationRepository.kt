@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.repository.authentication
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
-import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
 
 interface AuthenticationRepository {
     suspend fun login(username: String, password: String): AuthResponse
@@ -12,6 +12,6 @@ interface AuthenticationRepository {
 
     fun getUserId(): Int?
 
-    suspend fun getLocalUserToken(): String?
+    suspend fun getLocalFcmToken(): String?
     suspend fun deleteUserId()
 }

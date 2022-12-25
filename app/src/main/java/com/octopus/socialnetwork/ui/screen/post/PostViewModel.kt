@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val likeToggleUseCase: LikeToggleUseCase,
+    private val toggleLikeUseCase: ToggleLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -55,7 +55,7 @@ class PostViewModel @Inject constructor(
                 val post = _state.value.postDetails
                 toggleLikeState(
                     newLikeState = post.isLiked.not(),
-                    newLikesCount = likeToggleUseCase(
+                    newLikesCount = toggleLikeUseCase(
                         contentId = post.postId,
                         contentType = "post",
                         isLiked = post.isLiked,

@@ -6,19 +6,19 @@ import com.octopus.socialnetwork.domain.model.user.UserFirebase
 
 fun UserFirebaseDTO.toUserFirebase(): UserFirebase {
     return UserFirebase(
-        userId = userId ?: 0,
-        fullName = fullName ?: "",
-        username = username ?: "",
-        token = token ?: "",
+        userId = userId,
+        fullName = fullName,
+        username = username,
+        token = token,
     )
 
 }
 
 fun UserFirebase.toUserFirebaseDTO(): UserFirebaseDTO {
     return UserFirebaseDTO(
-        userId = userId ?: 0,
-        fullName = fullName ?: "",
-        username = username ?: "",
+        userId = userId,
+        fullName = fullName,
+        username = username,
         token = token ?: "",
     )
 

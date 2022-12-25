@@ -6,6 +6,6 @@ import com.octopus.socialnetwork.domain.model.search.Search
 
 fun SearchDto.toSearch(): Search {
     return Search(
-        users = users?.map { it.toUserDetails() } ?: emptyList(),
+        searchResults = users?.map { it.toUserDetails() } ?: emptyList(),
     )
 }

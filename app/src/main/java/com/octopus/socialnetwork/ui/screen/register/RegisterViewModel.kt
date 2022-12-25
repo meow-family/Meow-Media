@@ -2,8 +2,7 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
-import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
@@ -52,16 +51,12 @@ class RegisterViewModel @Inject constructor(
                         )
                     )
 
-                when (response) {
-                    is LoginResponse.Success -> {
-                        onLoading()
-                        onSuccess()
-                    }
-
-                    is LoginResponse.Failure -> {
-                        onLoading()
-                        onFailedCreateAccount()
-                    }
+                if (response) {
+                    onLoading()
+                    onSuccess()
+                } else {
+                    onLoading()
+                    onFailedCreateAccount()
                 }
 
             } catch (e: Exception) {
@@ -72,11 +67,11 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun onLoading() {
-        _state.update { it.copy(isLoading = !_state.value.isLoading,) }
+        _state.update { it.copy(isLoading = !_state.value.isLoading) }
     }
 
     private fun onSuccess() {
-        _state.update { it.copy(isSuccess = !_state.value.isSuccess,) }
+        _state.update { it.copy(isSuccess = !_state.value.isSuccess) }
     }
 
     fun onFailedCreateAccount() {
@@ -116,7 +111,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     userName = it.userInfoForm.userName.copy(
-                        text = username, error = error, isValid = isValidInputs )
+                        text = username, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -145,8 +141,10 @@ class RegisterViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
-                userInfoForm = it.userInfoForm.copy(email = it.userInfoForm.email.copy(
-                        text = email, error = error, isValid = isValidInputs)
+                userInfoForm = it.userInfoForm.copy(
+                    email = it.userInfoForm.email.copy(
+                        text = email, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -170,7 +168,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     reEmail = it.userInfoForm.reEmail.copy(
-                        text = reEmail, error = error, isValid = isValidInputs)
+                        text = reEmail, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -187,8 +186,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun changePasswordVisibility() {
-        _state.update { it.copy(userInfoForm = it.userInfoForm
-            .copy(showPassword = !it.userInfoForm.showPassword))}
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm
+                    .copy(showPassword = !it.userInfoForm.showPassword)
+            )
+        }
     }
 
     private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
@@ -196,7 +199,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     password = it.userInfoForm.password.copy(
-                        text = password, error = error, isValid = isValidInputs)
+                        text = password, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -261,7 +265,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     gender = it.userInfoForm.gender.copy(
-                        text = gender, error = error, isValid = isValidInputs)
+                        text = gender, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -281,7 +286,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     birthDate = it.userInfoForm.birthDate.copy(
-                        text = gender, error = error, isValid = isValidInputs)
+                        text = gender, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }

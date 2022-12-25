@@ -28,17 +28,16 @@ fun NotificationItemsDto.toNotificationItems(): NotificationItems {
         postOwner = postOwner?.toPoster() ?: PostOwner(0, "", ""),
         entity = entity ?: false,
         post = post ?: false,
-        group = group?.toGroup() ?: Group(0, "", false),
     )
 }
 
 fun NotificationDto.toNotification(): Notification {
     return Notification(
-        guid = guid ?: 0,
+        notificationId = notificationId ?: 0,
         type = type ?: "",
-        posterId = posterGuid ?: 0,
-        ownerId = ownerGuid ?: 0,
-        subjectId = subjectGuid ?: 0,
+        notificationUserId = notificationUserId ?: 0,
+        subjectOwnerId = subjectOwnerId ?: 0,
+        subjectId = subjectId ?: 0,
         viewed = viewed != null,
         timeCreated = timeCreated.toFormattedDate(),
         itemId = itemGuid ?: 0,
@@ -53,13 +52,6 @@ fun PostOwnerDto.toPoster(): PostOwner {
     )
 }
 
-fun GroupDto.toGroup(): Group {
-    return Group(
-        guid = guid ?: 0,
-        title = title ?: "",
-        isMember = isMember ?: false,
-    )
-}
 
 fun UserNotificationsCountDto.toUserNotificationsCount(): UserNotificationsCount {
     return UserNotificationsCount(

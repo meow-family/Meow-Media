@@ -3,9 +3,7 @@ package com.octopus.socialnetwork.domain.mapper.messages
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
-import com.octopus.socialnetwork.domain.model.messages.MessageNotification
 import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.domain.model.messages.MessagesList
 import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding

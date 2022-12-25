@@ -4,7 +4,7 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.notifications.toUserNotifications
 import com.octopus.socialnetwork.domain.model.notifications.NotificationItems
 import com.octopus.socialnetwork.domain.model.notifications.UserNotifications
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import okhttp3.internal.filterList
 import javax.inject.Inject
 

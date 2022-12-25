@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.usecase.messages.chat
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.mapper.messages.toMessageDetails
 import com.octopus.socialnetwork.domain.model.messages.MessageDetails
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import javax.inject.Inject
 
 class GetMessageListUseCase @Inject constructor(

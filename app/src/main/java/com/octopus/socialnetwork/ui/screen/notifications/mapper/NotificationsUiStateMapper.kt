@@ -6,10 +6,10 @@ import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItems
 
 fun NotificationItems.toNotificationsUiState(): NotificationItemsUiState {
     return NotificationItemsUiState(
-        id = notification.guid,
+        id = notification.notificationId,
         type = notification.type,
-        posterId = notification.posterId,
-        ownerId = notification.ownerId,
+        posterId = notification.notificationUserId,
+        ownerId = notification.subjectOwnerId,
         subjectId = notification.subjectId,
         viewed = notification.viewed,
         timeCreated = notification.timeCreated,

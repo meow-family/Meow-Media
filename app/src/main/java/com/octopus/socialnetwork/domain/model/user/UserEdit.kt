@@ -5,7 +5,7 @@ data class UserEdit(
     val firstName: String,
     val lastName: String,
     val username: String,
-    val fullname: String,
+    val fullName: String,
     val birthdate: String,
     val coverUrl: String,
     val email: String,

@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.usecase.notifications
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.notifications.toUserNotificationsCount
 import com.octopus.socialnetwork.domain.model.notifications.UserNotificationsCount
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import javax.inject.Inject
 
 class FetchUserNotificationsCountUseCase @Inject constructor(

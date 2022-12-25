@@ -3,8 +3,8 @@ package com.octopus.socialnetwork.ui.screen.messaging.conversations
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.messages.GetRecentMessagesListUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.ReceiveMessageUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.conversations.GetRecentMessagesListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.mapper.toConversationUiState
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationsMainUiState
@@ -86,7 +86,7 @@ class ConversationsViewModel @Inject constructor(
             if (_state.value.isSearchVisible && query.isNotEmpty()) {
                 try {
                     val searchResult =
-                        searchUseCase(query = query).users.map { it.toUserDetailsUiState() }
+                        searchUseCase(query = query).searchResults.map { it.toUserDetailsUiState() }
                     _state.update { searchUiState ->
                         searchUiState.copy(
                             users = searchResult,
