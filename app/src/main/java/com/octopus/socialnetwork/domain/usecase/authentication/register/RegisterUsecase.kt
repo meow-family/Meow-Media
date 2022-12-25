@@ -1,8 +1,8 @@
 package com.octopus.socialnetwork.domain.usecase.authentication.register
 
 import android.util.Log
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.domain.mapper.user.toUserFirebaseDTO
 import com.octopus.socialnetwork.domain.model.user.UserFirebase
 import javax.inject.Inject
@@ -13,7 +13,16 @@ class RegisterUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(params: Params): Boolean {
 
-        val response = signInRepository.register(params = params)
+        val response = signInRepository.register(
+            firstName = params.firstName,
+            lastName = params.lastName,
+            gender = params.gender,
+            email = params.email,
+            birthDate = params.birthDate,
+            password = params.password,
+            reEmail = params.reEmail,
+            userName = params.userName
+        )
 
         return if (response.code == "100") {
             val userResponse = response.result

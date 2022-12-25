@@ -24,16 +24,25 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun register(params: RegisterUseCase.Params): BaseResponse<RegisterDto> {
+    override suspend fun register(
+        firstName: String,
+        lastName: String,
+        email: String,
+        reEmail:String,
+        gender: String,
+        birthDate: String,
+        userName: String,
+        password: String
+    ): BaseResponse<RegisterDto> {
         return service.register(
-            firstName = params.firstName,
-            lastName = params.lastName,
-            email = params.email,
-            reEmail = params.reEmail,
-            gender = params.gender,
-            birthDate = params.birthDate,
-            userName = params.userName,
-            password = params.password
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            reEmail = reEmail,
+            gender = gender,
+            birthDate = birthDate,
+            userName = userName,
+            password = password
         )
     }
 

@@ -13,9 +13,9 @@ fun rememberDatePicker(onChangeBirthday: (String) -> Unit): DatePickerDialog {
         context,
         R.style.DatePickerDialogTheme,
         { _, year: Int, month: Int, dayOfMonth: Int ->
-            onChangeBirthday("$dayOfMonth/$month/$year")
+            onChangeBirthday("$dayOfMonth/${month+1}/$year")
         },
-        2022, 5, 1
+        1990, 0, 1
     )
     return remember { datePickerDialog }
 }
