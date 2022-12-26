@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -33,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -96,13 +94,13 @@ private fun LoginContent(
             .background(MaterialTheme.colors.background),
 
         ) {
-//        ImageWithShadow(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(300.dp)
-//                .wrapContentSize(Alignment.BottomCenter),
-//             = painterResource(id = R.drawable.login_background)
-//        )
+        ImageWithShadow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .wrapContentSize(Alignment.BottomCenter),
+            painter = painterResource(id = R.drawable.login_background)
+        )
 
 
         Text(
