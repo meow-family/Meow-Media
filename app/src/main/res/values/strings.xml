@@ -124,4 +124,5 @@
     <string name="decline">Decline</string>
     <string name="Accept">Accept</string>
     <string name="remove_friend">Remove Friend</string>
+    <string name="image">Image</string>
 </resources>
