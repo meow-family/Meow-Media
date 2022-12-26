@@ -10,9 +10,8 @@ import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.RemoteKeyEntity
 import com.octopus.socialnetwork.data.mapper.toPostEntity
-import com.octopus.socialnetwork.data.remote.service.service.SocialService
+import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 @ExperimentalPagingApi

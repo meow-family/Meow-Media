@@ -2,7 +2,6 @@ package com.octopus.socialnetwork.domain.usecase.like
 
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class ToggleLikeUseCase @Inject constructor(

@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.domain.usecase.authentication.firebase.GetUserTokenUseCase
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
+import com.octopus.socialnetwork.domain.utils.getHourAndMinutes
 import java.util.*
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class SendNotificationFCMUserCase @Inject constructor(
 ) {
     suspend operator fun invoke(from: Int, to: Int, message: String) {
         val userToken = getUserToken(to.toString())
-        Log.i("TESTING", userToken.toString() + " is the fcm token of user")
+        Log.i("MEOW", userToken.toString() + " is the fcm token of user")
         if (userToken != null) {
 
             val notificationData = NotificationData(

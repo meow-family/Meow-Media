@@ -1,29 +1,28 @@
-package com.octopus.socialnetwork.data.remote.service.service
+package com.octopus.socialnetwork.data.remote.service.apiService
 
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
+import com.octopus.socialnetwork.data.remote.response.dto.auth.LoginDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
-import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentResponse
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageListDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsCountDto
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
-import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
-import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostResponse
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendValidatorResponse
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,7 +36,7 @@ interface SocialService {
     suspend fun login(
         @Query("username") username: String,
         @Query("password") password: String,
-    ): BaseResponse<AuthResponse>
+    ): BaseResponse<LoginDto>
 
     @POST("user_add")
     suspend fun register(
@@ -61,7 +60,7 @@ interface SocialService {
     @GET("user_friends")
     suspend fun getUserFriends(
         @Query("guid") visitedUserId: Int,
-    ): BaseResponse<UserFriendsDto>
+    ): BaseResponse<FriendsDto>
 
     @POST("user_edit")
     suspend fun editUser(
@@ -77,7 +76,7 @@ interface SocialService {
     suspend fun getUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") myUserId: Int,
-    ): BaseResponse<UserPostsDto>
+    ): BaseResponse<PostsDto>
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(
@@ -89,13 +88,13 @@ interface SocialService {
     suspend fun deletePhotoProfile(
         @Query("photoid") photoId: Int,
         @Query("uguid") userId: Int,
-    ): BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoResponse>
 
     @GET("photos_delete_cover")
     suspend fun deleteCoverPhoto(
         @Query("photoid") photoId: Int,
         @Query("uguid") userId: Int,
-    ): BaseResponse<ProfilePhotoDeletion>
+    ): BaseResponse<ProfilePhotoResponse>
 
     @POST("photos_profile_add")
     suspend fun addProfilePicture(
@@ -113,24 +112,24 @@ interface SocialService {
     suspend fun addFriend(
         @Query("user_a") senderUser: Int,
         @Query("user_b") receiverUser: Int
-    ): BaseResponse<FriendValidatorDTO>
+    ): BaseResponse<FriendValidatorResponse>
 
     @POST("user_remove_friend")
     suspend fun removeFriend(
         @Query("user_a") senderUser: Int,
         @Query("user_b") receiverUser: Int
-    ): BaseResponse<FriendValidatorDTO>
+    ): BaseResponse<FriendValidatorResponse>
 
     @GET("user_friend_requests")
     suspend fun getFriendRequests(
         @Query("guid") myUserId: Int,
-    ): BaseResponse<FriendRequestsListDTO>
+    ): BaseResponse<FriendRequestsResponse>
 
     @GET("user_is_friend")
     suspend fun checkUserFriend(
         @Query("user_a") senderUser: Int,
         @Query("user_b") receiverUser: Int,
-    ): BaseResponse<FriendValidatorDTO?>
+    ): BaseResponse<FriendValidatorResponse?>
     //endregion
 
     //region Posts
@@ -144,13 +143,13 @@ interface SocialService {
     suspend fun viewUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") myUserId: Int,
-    ): BaseResponse<AllPostDto>
+    ): BaseResponse<PostResponse>
 
     @GET("wall_list_home")
     suspend fun viewNewsFeed(
         @Query("guid") myUserId: Int,
         @Query("offset") page: Int,
-    ): BaseResponse<AllPostDto>
+    ): BaseResponse<PostResponse>
 
     @POST("wall_add")
     suspend fun createPost(
@@ -170,26 +169,26 @@ interface SocialService {
         @Query("uguid") myUserId: Int,
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
-    ): BaseResponse<LikeDto>
+    ): BaseResponse<LikeResponse>
 
     @POST("unlike_set")
     suspend fun unlike(
         @Query("uguid") myUserId: Int,
         @Query("subject_guid") contentId: Int,
         @Query("type") typeContent: String,
-    ): BaseResponse<LikeDto>
+    ): BaseResponse<LikeResponse>
     //endregion
 
     // region Notifications
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") myUserId: Int,
-    ): BaseResponse<UserNotificationsDTO>
+    ): BaseResponse<NotificationsResponse>
 
     @GET("notifications_count")
     suspend fun getUserNotificationsCount(
         @Query("guid") myUserId: Int,
-    ): BaseResponse<UserNotificationsCountDto>
+    ): BaseResponse<NotificationsCountDto>
 
     @GET("notifications_mark_viewed")
     suspend fun markUserNotificationsAsViewed(
@@ -202,7 +201,7 @@ interface SocialService {
     @GET("message_recent")
     suspend fun getMessagesListRecent(
         @Query("guid") userId: Int
-    ): BaseResponse<MessageListDto>
+    ): BaseResponse<MessageResponse>
 
     @POST("message_add")
     suspend fun sendMessage(
@@ -216,13 +215,13 @@ interface SocialService {
         @Query("from") messageSenderId: Int,
         @Query("to") messageReceiverId: Int,
         @Query("markallread") markAllRead: Int
-    ): BaseResponse<MessageListDto>
+    ): BaseResponse<MessageResponse>
 
     @POST("message_list")
     suspend fun getMessagesList(
         @Query("guid") myUserId: Int,
         @Query("to") friendId: Int,
-    ): BaseResponse<MessageListDto>
+    ): BaseResponse<MessageResponse>
     //endregion
 
     //region Comment
@@ -231,13 +230,13 @@ interface SocialService {
         @Query("uguid") myUserId: Int,
         @Query("guid") postId: Int,
         @Query("type") type: String,
-    ): BaseResponse<CommentDto>
+    ): BaseResponse<CommentResponse>
 
     @POST("comment_edit")
     suspend fun editComment(
         @Query("guid") commentId: Int,
         @Query("comment") comment: String,
-    ): BaseResponse<CommentEditionDto>
+    ): BaseResponse<CommentEditResponse>
 
     @POST("comment_delete")
     suspend fun deleteComment(
@@ -250,7 +249,7 @@ interface SocialService {
         @Query("subject_guid") postId: Int,
         @Query("comment") comment: String,
         @Query("uguid") userId: Int
-    ): BaseResponse<CommentDetails>
+    ): BaseResponse<CommentDto>
     //endregion
 
     //region Photo
@@ -264,7 +263,7 @@ interface SocialService {
     suspend fun getPhotosListProfileCover(
         @Query("guid") userId: Int,
         @Query("type") type: String,
-    ): BaseResponse<List<Photo>>
+    ): BaseResponse<List<PhotoDto>>
 
 
 //endregion

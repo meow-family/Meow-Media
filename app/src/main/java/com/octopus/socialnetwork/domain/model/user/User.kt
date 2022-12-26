@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.model.user
 
 
-data class UserDetails(
+data class User(
     val id: Int,
     val firstName: String,
     val lastName: String,

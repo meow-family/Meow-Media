@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
-import com.octopus.socialnetwork.data.remote.service.service.SocialService
+import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
 import com.simplemented.okdelay.DelayInterceptor

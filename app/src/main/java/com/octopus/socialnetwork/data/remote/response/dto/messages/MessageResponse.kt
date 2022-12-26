@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.messages
 
 import com.google.gson.annotations.SerializedName
 
-data class MessageListDto(
+data class MessageResponse(
     @SerializedName("count")
     val count: Int?,
     @SerializedName("offset")

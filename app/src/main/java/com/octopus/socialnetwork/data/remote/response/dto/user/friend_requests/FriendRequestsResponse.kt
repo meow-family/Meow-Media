@@ -4,7 +4,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests
 import com.google.gson.annotations.SerializedName
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 
-data class FriendRequestsListDTO(
+data class FriendRequestsResponse(
     @SerializedName("count")
     val count: Int?,
     @SerializedName("offset")

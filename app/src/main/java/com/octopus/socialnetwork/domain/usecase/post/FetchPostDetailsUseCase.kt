@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class FetchPostDetailsUseCase @Inject constructor(

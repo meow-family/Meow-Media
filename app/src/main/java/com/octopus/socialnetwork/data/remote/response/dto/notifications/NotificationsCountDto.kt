@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.notifications
 
 import com.google.gson.annotations.SerializedName
 
-data class UserNotificationsCountDto(
+data class NotificationsCountDto(
     @SerializedName("notifications")
     val notifications: Int?,
     @SerializedName("messages")

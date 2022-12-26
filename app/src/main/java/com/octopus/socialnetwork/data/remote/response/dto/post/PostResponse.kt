@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.post
 import com.google.gson.annotations.SerializedName
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 
-data class AllPostDto(
+data class PostResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("offset")

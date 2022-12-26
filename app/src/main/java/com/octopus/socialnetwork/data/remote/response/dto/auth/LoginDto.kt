@@ -4,7 +4,7 @@ package com.octopus.socialnetwork.data.remote.response.dto.auth
 import com.google.gson.annotations.SerializedName
 import com.octopus.socialnetwork.data.remote.response.dto.Avatar
 
-data class AuthResponse(
+data class LoginDto(
     @SerializedName("guid")
     val id: Int?,
     @SerializedName("first_name")

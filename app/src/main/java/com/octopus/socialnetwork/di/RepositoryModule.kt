@@ -1,12 +1,6 @@
 package com.octopus.socialnetwork.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.paging.ExperimentalPagingApi
-import com.google.firebase.firestore.FirebaseFirestore
-import com.octopus.socialnetwork.data.remote.service.service.SocialService
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository

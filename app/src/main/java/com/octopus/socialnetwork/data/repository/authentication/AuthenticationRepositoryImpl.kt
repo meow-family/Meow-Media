@@ -6,14 +6,17 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.firebase.firestore.FirebaseFirestore
-import com.octopus.socialnetwork.SocialNetworkApplication.Companion.USER_ID_KEY
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.auth.AuthResponse
+import com.octopus.socialnetwork.data.remote.response.dto.auth.LoginDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
-import com.octopus.socialnetwork.data.remote.service.service.SocialService
-import com.octopus.socialnetwork.data.utils.Constants
+import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.utils.Constants.FCM_TOKEN
+import com.octopus.socialnetwork.data.utils.Constants.NO_SUCH_ID
+import com.octopus.socialnetwork.data.utils.Constants.REQUEST_SUCCEED
+import com.octopus.socialnetwork.data.utils.Constants.TOKEN
+import com.octopus.socialnetwork.data.utils.Constants.USERS_COLLECTION
+import com.octopus.socialnetwork.data.utils.Constants.USER_ID_KEY
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -24,7 +27,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
     private val fireStore: FirebaseFirestore,
 ) : AuthenticationRepository {
 
-    override suspend fun login(username: String, password: String): AuthResponse {
+    override suspend fun login(username: String, password: String): LoginDto {
         val response = service.login(username, password)
         if (response.code == REQUEST_SUCCEED) {
             dataStore.edit { MutableStringPref ->
@@ -34,36 +37,27 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return response.result
     }
 
-    override suspend fun register(
-        firstName: String,
-        lastName: String,
-        email: String,
-        reEmail: String,
-        gender: String,
-        birthDate: String,
-        userName: String,
-        password: String
-    ): BaseResponse<RegisterDto> {
+    override suspend fun register(paramRegister: ParamRegisterDto): BaseResponse<RegisterDto> {
         return service.register(
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            reEmail = reEmail,
-            gender = gender,
-            birthDate = birthDate,
-            userName = userName,
-            password = password
+            firstName = paramRegister.firstName,
+            lastName = paramRegister.lastName,
+            email = paramRegister.email,
+            reEmail = paramRegister.reEmail,
+            gender = paramRegister.gender,
+            birthDate = paramRegister.birthDate,
+            userName = paramRegister.userName,
+            password = paramRegister.password
         )
     }
 
     override suspend fun getUserId(): Int? {
         val preferences = dataStore.data.first()
-        return preferences[intPreferencesKey("user_id")]
+        return preferences[intPreferencesKey(USER_ID_KEY)]
     }
 
     override suspend fun getLocalFcmToken(): String? {
         val preferences = dataStore.data.first()
-        return preferences[stringPreferencesKey("FCM_TOKEN")]
+        return preferences[stringPreferencesKey(FCM_TOKEN)]
     }
 
     override suspend fun writeFcmToken(token: String) {
@@ -74,32 +68,31 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun deleteUserId() {
         dataStore.edit { MutableStringPref ->
-            MutableStringPref[intPreferencesKey("user_id")] = NO_SUCH_ID
+            MutableStringPref[intPreferencesKey(USER_ID_KEY)] = NO_SUCH_ID
         }
     }
 
     override suspend fun createUser(user: UserFirebaseDTO) {
-        fireStore.collection(Constants.USERS_COLLECTION).document(user.userId.toString())
+        fireStore.collection(USERS_COLLECTION).document(user.userId.toString())
             .set(user).await()
     }
 
     override suspend fun updateUser(user: UserFirebaseDTO) {
-        fireStore.collection(Constants.USERS_COLLECTION).document(user.userId.toString())
+        fireStore.collection(USERS_COLLECTION).document(user.userId.toString())
             .set(user).await()
     }
 
     override suspend fun updateUserToken(userId: String, token: String) {
-        fireStore.collection(Constants.USERS_COLLECTION).document(userId).update("token", token)
+        fireStore.collection(USERS_COLLECTION).document(userId).update(TOKEN, token)
             .await()
     }
 
     override suspend fun getFirebaseUser(userId: String): UserFirebaseDTO? {
-        return fireStore.collection(Constants.USERS_COLLECTION).document(userId).get().await()
+        return fireStore.collection(USERS_COLLECTION).document(userId).get().await()
             .toObject(UserFirebaseDTO::class.java)
     }
 
     companion object {
-        const val REQUEST_SUCCEED = "100"
-        const val NO_SUCH_ID = -1
+
     }
 }

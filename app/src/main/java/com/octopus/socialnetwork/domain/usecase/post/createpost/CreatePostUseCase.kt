@@ -4,7 +4,8 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.last
+import com.octopus.socialnetwork.domain.utils.Constants.ADDING_POST_FAILED
+import com.octopus.socialnetwork.domain.utils.Constants.POST_TYPE
 import java.io.File
 import javax.inject.Inject
 
@@ -21,11 +22,9 @@ class CreatePostUseCase @Inject constructor(
                 description,
                 POST_TYPE,
                 it
-            )?.toPost() ?: throw Exception("Adding post failed!")
+            )?.toPost() ?: throw Exception(ADDING_POST_FAILED)
         }
     }
 
-    companion object{
-        const val POST_TYPE = "user"
-    }
+
 }

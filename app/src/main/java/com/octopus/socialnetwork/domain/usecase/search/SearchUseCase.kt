@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.search.toSearch
 import com.octopus.socialnetwork.domain.model.search.Search
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(

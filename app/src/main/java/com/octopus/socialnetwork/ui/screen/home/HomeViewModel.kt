@@ -1,12 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsCountUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
 import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val toggleLike: ToggleLikeUseCase,
-    private val fetchNotificationsCount: FetchUserNotificationsCountUseCase,
+    private val fetchNotificationsCount: FetchNotificationsCountUseCase,
     private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
     private val fetchNewsFeed: FetchPostsUseCase,
 ) : ViewModel() {

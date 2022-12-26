@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.domain.model.user
 
-data class UserFriends(
+data class Friends(
     val total: Int,
-    val friends: List<UserDetails>,
+    val friends: List<User>,
 )
