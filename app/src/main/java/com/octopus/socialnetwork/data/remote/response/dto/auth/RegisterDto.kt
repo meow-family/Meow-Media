@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.remote.response.dto.auth
 
 import com.google.gson.annotations.SerializedName
+import com.octopus.socialnetwork.data.remote.response.dto.Avatar
 
 
 data class RegisterDto(
@@ -9,12 +10,7 @@ data class RegisterDto(
     @SerializedName("guid")
     val userId: Int?,
     @SerializedName("icon")
-    val icon: AvatarSmall?,
+    val icon: Avatar?,
     @SerializedName("username")
     val username: String?
-)
-
-data class AvatarSmall(
-    @SerializedName("small")
-    val small: String?
 )

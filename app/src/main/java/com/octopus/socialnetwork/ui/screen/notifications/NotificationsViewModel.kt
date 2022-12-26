@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsUseCase
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-    private val fetchNotifications: FetchUserNotificationsUseCase,
+    private val fetchNotifications: FetchNotificationsUseCase,
     private val fetchNotificationItems: FetchNotificationItemsUseCase,
 ) : ViewModel() {
 
@@ -42,6 +42,7 @@ class NotificationsViewModel @Inject constructor(
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     fun markViewedNotification(notification: NotificationItemsUiState) {
         viewModelScope.launch {
             try {

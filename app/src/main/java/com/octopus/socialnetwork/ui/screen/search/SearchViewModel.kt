@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchUseCase: SearchUseCase,
+    private val search: SearchUseCase,
     private val userRelation: UserRelationUseCase
 ) : ViewModel() {
 
@@ -48,7 +48,7 @@ class SearchViewModel @Inject constructor(
             try {
                 if (query.isNotEmpty()) {
                     val search =
-                        searchUseCase(query = query).searchResults.map { it.toUserDetailsUiState() }
+                        search(query = query).searchResults.map { it.toUserDetailsUiState() }
                             .map { user ->
                                 user.relation =
                                     userRelation(user.userId).toUserRelationUiState()

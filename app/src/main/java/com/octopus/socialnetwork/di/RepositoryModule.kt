@@ -1,12 +1,6 @@
 package com.octopus.socialnetwork.di
 
 import androidx.paging.ExperimentalPagingApi
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
-import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
-import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepositoryImpl
-import com.octopus.socialnetwork.data.remote.firebase.ChatFirebaseDataSource
-import com.octopus.socialnetwork.data.remote.firebase.ChatFirebaseDataSourceImp
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
@@ -21,12 +15,6 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
 
-    @ViewModelScoped
-    @Binds
-    abstract fun bindAuthenticationRepository(
-        authenticationRepositoryImpl: AuthenticationRepositoryImpl,
-    ): AuthenticationRepository
-
     @ExperimentalPagingApi
     @ViewModelScoped
     @Binds
@@ -40,13 +28,5 @@ abstract class RepositoryModule {
         messagingRepositoryImpl: MessagingRepositoryImpl,
     ): MessagingRepository
 
-    @Binds
-    abstract fun bindChatFirebaseDataSource(
-        chatDataSource: ChatFirebaseDataSourceImp
-    ): ChatFirebaseDataSource
 
-    @Binds
-    abstract fun bindFirebaseRepository(
-        firebaseRepository: FirebaseRepositoryImpl
-    ): FirebaseRepository
 }

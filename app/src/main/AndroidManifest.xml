@@ -39,7 +39,7 @@
 
 
         <service
-            android:name=".data.remote.firebase.FirebaseCloudMessagingService"
+            android:name=".data.remote.service.fcm.FirebaseCloudMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

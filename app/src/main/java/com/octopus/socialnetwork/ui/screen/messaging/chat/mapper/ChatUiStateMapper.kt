@@ -1,13 +1,15 @@
 package com.octopus.socialnetwork.ui.screen.messaging.chat.mapper
 
-import com.octopus.socialnetwork.domain.model.messages.MessageDetails
+import com.octopus.socialnetwork.domain.model.messages.Messages
+
 import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
+import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 
-fun MessageDetails.toChatUiState(): ChatUiState {
+fun Messages.toChatUiState(): ChatUiState {
     return ChatUiState(
-        message = this.message,
-        lastMessage = this.message,
+        message = message.removeHtmlEncoding(),
+        lastMessage = message.removeHtmlEncoding(),
         lastSendTime = time.getHourAndMinutes(),
         viewed = viewed,
         unreadMessagesCount = "0",

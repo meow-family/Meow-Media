@@ -19,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
-    private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val getPostComments: GetPostCommentsUseCase,
     private val likeToggle: ToggleLikeUseCase,
-    private val addCommentUseCase: AddCommentUseCase,
+    private val addComment: AddCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -37,7 +37,7 @@ class CommentsViewModel @Inject constructor(
     private fun getPostComments() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postComments = getPostCommentsUseCase(
+                val postComments = getPostComments(
                     postId = args.postId.toInt(),
                     type = args.type
                 ).map { it.toCommentDetailsUiState() }
@@ -62,7 +62,7 @@ class CommentsViewModel @Inject constructor(
     private fun addComment(comment: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                addCommentUseCase(args.postId.toInt(), comment)
+                addComment(args.postId.toInt(), comment)
                 _state.update { it.copy(comment = it.comment, isSent = true) }
                 getPostComments()
             } catch (e: Throwable) {

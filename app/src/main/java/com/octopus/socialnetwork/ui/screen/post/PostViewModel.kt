@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val toggleLikeUseCase: ToggleLikeUseCase,
+    private val toggleLike: ToggleLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -55,7 +55,7 @@ class PostViewModel @Inject constructor(
                 val post = _state.value.postDetails
                 toggleLikeState(
                     newLikeState = post.isLiked.not(),
-                    newLikesCount = toggleLikeUseCase(
+                    newLikesCount = toggleLike(
                         contentId = post.postId,
                         contentType = "post",
                         isLiked = post.isLiked,

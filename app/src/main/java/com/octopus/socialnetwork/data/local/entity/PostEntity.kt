@@ -3,7 +3,6 @@ package com.octopus.socialnetwork.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.octopus.socialnetwork.data.utils.Constants
-import java.util.*
 
 @Entity(tableName = Constants.POSTS_TABLE)
 data class PostEntity(

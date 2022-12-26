@@ -10,7 +10,7 @@ class UnlikeUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(userId: Int, postId: Int, contentType: String): Int? {
         val response = socialRepository.unlike(userId, postId, contentType)
-        Log.i("TESTING","response.count : ${response.count}")
+        Log.i("MEOW","response.count : ${response.count}")
         return response.count
     }
 }

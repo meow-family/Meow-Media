@@ -2,11 +2,11 @@ package com.octopus.socialnetwork.domain.mapper.notifications
 
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.*
 import com.octopus.socialnetwork.domain.model.notifications.*
-import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
+import com.octopus.socialnetwork.domain.utils.toFormattedDate
 import java.util.*
 
-fun UserNotificationsDTO.toUserNotifications(): UserNotifications {
-    return UserNotifications(
+fun NotificationsResponse.toUserNotifications(): Notifications {
+    return Notifications(
         notifications = list?.map { it.toNotificationItems() } ?: emptyList(),
         count = count ?: 0,
         offset = offset ?: 0
@@ -53,8 +53,8 @@ fun PostOwnerDto.toPoster(): PostOwner {
 }
 
 
-fun UserNotificationsCountDto.toUserNotificationsCount(): UserNotificationsCount {
-    return UserNotificationsCount(
+fun NotificationsCountDto.toNotificationsCount(): NotificationsCount {
+    return NotificationsCount(
         notifications = notifications ?: 0,
         messages = messages ?: 0,
         friends = friends ?: 0,

@@ -19,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val createPostUseCase: CreatePostUseCase,
+    private val createPost: CreatePostUseCase,
     private val detectCat: DetectCatUseCase,
-    private val openFileUseCase: OpenFileUseCase
+    private val openFile: OpenFileUseCase
 ) : ViewModel() {
 
 
@@ -35,11 +35,10 @@ class CreatePostViewModel @Inject constructor(
 
             setLoading(true)
             if (isImageValid) {
-                val result = createPostUseCase(_state.value.captionText, openFileUseCase(uri))
+                val result = createPost(_state.value.captionText, openFile(uri))
                 result?.let {
                     setLoading(false)
-                    onUploadPostSuccess()
-                } ?: setLoading(false)
+                    onUploadPostSuccess() } ?: setLoading(false)
             } else {
                 setLoading(false)
                 onInvalidImageDetection()

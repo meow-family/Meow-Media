@@ -25,7 +25,6 @@ import com.octopus.socialnetwork.ui.composable.Avatar
 import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable
@@ -111,7 +110,7 @@ fun ItemComment(
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = commentDetails.timeCreated.getHourAndMinutes(),
+        Text(text = commentDetails.timeCreated,
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,

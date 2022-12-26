@@ -23,7 +23,6 @@ import com.octopus.socialnetwork.ui.composable.MultiTextStyle
 import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.*
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.setNotificationsTitle
 
 
@@ -62,7 +61,7 @@ fun ItemNotification(
             )
 
             Text(
-                text = notification.timeCreated.getHourAndMinutes(),
+                text = notification.timeCreated,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colors.textThirdColor,

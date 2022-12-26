@@ -1,13 +1,13 @@
 package com.octopus.socialnetwork.domain.usecase.authentication.firebase
 
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserFirebaseDTO
-import com.octopus.socialnetwork.data.remote.firebase.FirebaseRepository
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
 import javax.inject.Inject
 
 class CreateAccountInFirebase @Inject constructor(
-    val firebase: FirebaseRepository,
+    val authenticationRepository: AuthenticationRepository
 ) {
     suspend operator fun invoke(user: UserFirebaseDTO) {
-        return firebase.createUser(user)
+        return authenticationRepository.createUser(user)
     }
 }

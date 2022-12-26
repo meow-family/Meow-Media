@@ -21,8 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ConversationsViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
-    private val searchUseCase: SearchUseCase,
-    private val receiveMessageUseCase: ReceiveMessageUseCase,
+    private val search: SearchUseCase,
+    private val receiveMessage: ReceiveMessageUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ConversationsMainUiState())
@@ -41,7 +41,7 @@ class ConversationsViewModel @Inject constructor(
 
     private fun onReceiveMessage() {
         viewModelScope.launch(Dispatchers.IO) {
-            receiveMessageUseCase().collect { message ->
+            receiveMessage().collect { message ->
                 Log.i(
                     "TESTING",
                     "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
@@ -86,7 +86,7 @@ class ConversationsViewModel @Inject constructor(
             if (_state.value.isSearchVisible && query.isNotEmpty()) {
                 try {
                     val searchResult =
-                        searchUseCase(query = query).searchResults.map { it.toUserDetailsUiState() }
+                        search(query = query).searchResults.map { it.toUserDetailsUiState() }
                     _state.update { searchUiState ->
                         searchUiState.copy(
                             users = searchResult,
