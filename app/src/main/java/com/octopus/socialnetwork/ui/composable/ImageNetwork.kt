@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,8 +31,10 @@ fun ImageNetwork(
         },
         failure = {
             Image(
+                modifier = Modifier.fillMaxSize(),
                 painter = painterResource(id = R.drawable.error_image),
-                contentDescription = stringResource(id = R.string.icon)
+                contentDescription = stringResource(id = R.string.icon),
+                contentScale = contentScale,
             )
 
         }
