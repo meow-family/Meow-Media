@@ -1,8 +1,0 @@
-package com.octopus.socialnetwork.domain.model.user
-
-import com.octopus.socialnetwork.domain.model.post.Post
-
-data class UserPosts(
-    val posts: List<Post>,
-    val count: Int,
-)

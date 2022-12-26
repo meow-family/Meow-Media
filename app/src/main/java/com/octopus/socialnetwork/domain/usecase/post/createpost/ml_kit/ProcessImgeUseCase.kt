@@ -14,9 +14,7 @@ import kotlin.coroutines.resumeWithException
 class ProcessImageUseCase @Inject constructor(
     private val imageConverter: ImageConverter,
 ) {
-    suspend operator fun invoke(
-        imageUri: Uri,
-    ): List<ImageLabel>? {
+    suspend operator fun invoke(imageUri: Uri, ): List<ImageLabel>? {
 
         return suspendCancellableCoroutine { continuation ->
             val image = imageConverter.convertToInputImage(imageUri)

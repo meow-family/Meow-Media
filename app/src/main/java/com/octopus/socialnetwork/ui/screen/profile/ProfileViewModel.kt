@@ -11,7 +11,7 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUs
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -27,13 +27,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
-    private val fetchUserFriendsCount: FetchUserFriendsUseCase,
+    private val fetchUserFriendsCount: FetchFriendsUseCase,
     private val fetchUserPosts: FetchUserPostsUseCase,
     private val fetchUserId: FetchUserIdUseCase,
-    private val addFriendUseCase: AddFriendUseCase,
-    private val removeFriendUseCase: RemoveFriendUseCase,
-    private val checkUserIsFriendUseCase: CheckUserIsFriendUseCase,
-    private val logoutUseCase: LogoutUseCase,
+    private val addFriend: AddFriendUseCase,
+    private val removeFriend: RemoveFriendUseCase,
+    private val checkUserIsFriend: CheckUserIsFriendUseCase,
+    private val logout: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -45,17 +45,16 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            fetchUserId().collect { myUserId ->
-                val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
-                _state.update { profile ->
+            val myUserId = fetchUserId()
+            val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
+            _state.update { profile ->
 
-                    profile.copy(
-                        isMyProfile = myUserId == visitedUserId,
-                        userDetails = profile.userDetails.copy(
-                            userId = args.visitedUserId?.toIntOrNull() ?: myUserId,
-                        )
+                profile.copy(
+                    isMyProfile = myUserId == visitedUserId,
+                    userDetails = profile.userDetails.copy(
+                        userId = args.visitedUserId?.toIntOrNull() ?: myUserId,
                     )
-                }
+                )
             }
         }
 
@@ -100,7 +99,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.i("TESTING", "view model isRequestSent $visitedUserId")
-                val isRequestSent = checkUserIsFriendUseCase(visitedUserId).requestExists
+                val isRequestSent = checkUserIsFriend(visitedUserId).requestExists
                 _state.update { it.copy(isRequestExists = isRequestSent) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -112,7 +111,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             if (_state.value.isRequestExists.not()) {
                 _state.update { it.copy(isRequestExists = true) }
-                val result = addFriendUseCase(friendId)
+                val result = addFriend(friendId)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,
@@ -121,7 +120,7 @@ class ProfileViewModel @Inject constructor(
                 }
             } else {
                 _state.update { it.copy(isFriend = false) }
-                val result = removeFriendUseCase(friendId)
+                val result = removeFriend(friendId)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,
@@ -135,7 +134,7 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickLogout() {
         viewModelScope.launch(Dispatchers.IO) {
-            logoutUseCase()
+            logout()
             _state.update { it.copy(isLogout = true) }
         }
     }

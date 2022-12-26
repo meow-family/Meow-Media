@@ -16,9 +16,9 @@ fun UserFirebaseDTO.toUserFirebase(): UserFirebase {
 
 fun UserFirebase.toUserFirebaseDTO(): UserFirebaseDTO {
     return UserFirebaseDTO(
-        userId = userId,
-        fullName = fullName,
-        username = username,
+        userId = userId ,
+        fullName = fullName ,
+        username = username ,
         token = token ?: "",
     )
 
