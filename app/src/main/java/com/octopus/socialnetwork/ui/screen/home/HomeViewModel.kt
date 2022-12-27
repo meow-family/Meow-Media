@@ -12,6 +12,9 @@ import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,14 +36,17 @@ class HomeViewModel @Inject constructor(
         getNotificationsCount()
     }
 
+    var getNewsFeed: Job? = null
+
     private fun getNewsFeed() {
-        viewModelScope.launch {
+        getNewsFeed?.cancel()
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val posts = fetchNewsFeed().cachedIn(viewModelScope).map { pagingData ->
                     pagingData.map { post -> post.toPostUiState() }
                 }
                 _homeUiState.update {
-                    it.copy(posts = posts, isLoading = false, isError = false,)
+                    it.copy(posts = posts, isLoading = false, isError = false)
                 }
             } catch (e: Exception) {
                 _homeUiState.update {
@@ -51,23 +57,23 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                toggleLike(postId, totalLikes, isLiked,"post")
+                toggleLike(postId, totalLikes, isLiked, "post")
                 _homeUiState.update { it.copy(isError = false) }
 
             } catch (e: Exception) {
-               _homeUiState.update { it.copy(isError = true) }
+                _homeUiState.update { it.copy(isError = true) }
             }
         }
     }
 
 
-
     private fun getFriendRequestsCount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val friendRequestsCount = fetchFriendRequestsList().map { it.toUserDetailsUiState() }.size
+                val friendRequestsCount =
+                    fetchFriendRequestsList().map { it.toUserDetailsUiState() }.size
                 _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
             } catch (e: Exception) {
                 _homeUiState.update { it.copy(isError = true) }
@@ -76,7 +82,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getNotificationsCount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }

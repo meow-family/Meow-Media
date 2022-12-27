@@ -76,32 +76,33 @@ private fun FriendRequestContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError) {
+        }
+        if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (state.requests.isEmpty()) {
+        }
+        if (state.requests.isEmpty()) {
             ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                if (state.requests.isEmpty()) {
-                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                } else {
-                    items(state.requests) {
-                        UserRelationItem(
-                            state = it,
-                            friendRequest = true,
-                            onClickAccept = onClickAccept,
-                            onClickDecline = onClickDecline,
-                            onClickItem = onClickRequest
-                        )
-                    }
+        }
+
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            if (state.requests.isEmpty()) {
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+            } else {
+                items(state.requests) {
+                    UserRelationItem(
+                        state = it,
+                        friendRequest = true,
+                        onClickAccept = onClickAccept,
+                        onClickDecline = onClickDecline,
+                        onClickItem = onClickRequest
+                    )
                 }
             }
         }
-
     }
 }
 

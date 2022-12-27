@@ -29,7 +29,7 @@ fun FloatingActionButton(
     onClick: () -> Unit,
 
     ) {
-    IconButton(onClick = { onClick() }) {
+    IconButton(onClick = onClick ) {
         Box(
             modifier = modifier
                 .offset(y = 5.dp)
@@ -37,7 +37,7 @@ fun FloatingActionButton(
                 .clip(CircleShape)
                 .background(
                     color = if (hiddenBoarder) Color.Transparent else MaterialTheme.colors.background
-                ),
+                ) ,
             contentAlignment = Alignment.Center
         ) {
             Icon(

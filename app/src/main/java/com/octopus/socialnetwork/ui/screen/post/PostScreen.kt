@@ -1,14 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -35,6 +28,7 @@ import com.octopus.socialnetwork.ui.composable.post.LargPostDetails
 import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
+import com.octopus.socialnetwork.ui.navigation.Graph
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
@@ -49,7 +43,7 @@ fun PostScreen(
     val state by viewModel.state.collectAsState()
     PostContent(
         state = state,
-        onClickBack = { navController.popBackStack() },
+        onClickBack = { navController.popBackStack(Graph.MAIN,false) },
         onLike = viewModel::onClickLike,
         onComment = {
             navController.navigateToCommentsScreen(

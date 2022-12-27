@@ -89,32 +89,34 @@ private fun HomeContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError) {
+        }
+        if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (isEmptyFlow) {
-            ImageForEmptyList(modifier = Modifier
-                .fillMaxSize()
-                .align(alignment = Alignment.CenterHorizontally))
-        } else {
-            LazyColumn(
-                Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                
-                items(items = posts) {
-                    it?.let { post ->
-                        ItemPost(
-                            post = post,
-                            onClickPost = onClickPost,
-                            onLike = onClickLike,
-                            onComment = onClickComment,
-                            onShare = {}
-                        )
-                    }
+        }
+        if (isEmptyFlow) {
+            ImageForEmptyList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(alignment = Alignment.CenterHorizontally)
+            )
+        }
+        LazyColumn(
+            Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+
+            items(items = posts) {
+                it?.let { post ->
+                    ItemPost(
+                        post = post,
+                        onClickPost = onClickPost,
+                        onLike = onClickLike,
+                        onComment = onClickComment,
+                        onShare = {}
+                    )
                 }
             }
-
         }
     }
 

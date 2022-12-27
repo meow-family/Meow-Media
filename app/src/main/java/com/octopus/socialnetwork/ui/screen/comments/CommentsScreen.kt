@@ -26,6 +26,7 @@ import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
+import com.octopus.socialnetwork.ui.navigation.Graph
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
@@ -42,7 +43,7 @@ fun CommentsScreen(
         state = state,
         onChangeTypingComment = viewModel::onChangeTypingComment,
         onClickSend = viewModel::onClickSend,
-        onClickBack = { navController.popBackStack() },
+        onClickBack = { navController.popBackStack(Graph.MAIN,false) },
         onClickLike = viewModel::onClickLike,
         onClickTryAgain = viewModel::onClickTryAgain
     )
@@ -61,54 +62,58 @@ private fun CommentsContent(
     val listState = rememberLazyListState()
 
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background),
-            verticalArrangement = Arrangement.SpaceEvenly
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        AppBar(onClickBack, title = stringResource(id = R.string.Comments))
+        if (state.isLoading) {
+            LottieLoading()
+        }
+        if (state.comments.isEmpty()) {
+            ImageForEmptyList(modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f))
+        }
+        if (state.isError) {
+            LottieError(onClickTryAgain)
+        }
+
+        LazyColumn(
+            Modifier
+                .fillMaxWidth()
+                .weight(.8f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            state = listState,
+            reverseLayout = true,
         ) {
-            AppBar(onClickBack, title = stringResource(id = R.string.Comments))
-            if (state.isLoading) {
-                LottieLoading()
-            } else if (state.comments.isEmpty()) {
-                ImageForEmptyList(modifier = Modifier.fillMaxWidth().weight(1f))
-            }else if (state.isError ){
-                LottieError(onClickTryAgain)
-            } else {
 
-            LazyColumn(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(.8f),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                state = listState,
-                reverseLayout = true,
-            ) {
-
-                    itemsIndexed(state.comments) { index, item ->
-                        ItemComment(
-                            commentDetails = item,
-                            onLike = { onClickLike(item.commentId) }
-                        )
-                        if (index < state.comments.lastIndex) Divider()
-                    }
-                }
+            itemsIndexed(state.comments) { index, item ->
+                ItemComment(
+                    commentDetails = item,
+                    onLike = { onClickLike(item.commentId) }
+                )
+                if (index < state.comments.lastIndex) Divider()
             }
-
-            TypingField(
-                onChangeTypingComment = onChangeTypingComment,
-                onClickSend = onClickSend,
-                state = state
-            )
-
         }
 
 
+        TypingField(
+            onChangeTypingComment = onChangeTypingComment,
+            onClickSend = onClickSend,
+            state = state
+        )
 
-    LaunchedEffect(key1 = state.isSent ){
-       if (state.isSent)
-           listState.animateScrollToItem(index = state.comments.lastIndexOrZero())
+    }
+
+
+
+    LaunchedEffect(key1 = state.isSent) {
+        if (state.isSent)
+            listState.animateScrollToItem(index = state.comments.lastIndexOrZero())
     }
 
 }
