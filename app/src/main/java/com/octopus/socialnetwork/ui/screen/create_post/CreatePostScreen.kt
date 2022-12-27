@@ -197,7 +197,7 @@ fun CreatePostContent(
                 title = stringResource(R.string.image_post_rejected),
                 description = stringResource(R.string.image_post_rejected_description),
                 actionTitle = stringResource(id = R.string.ok),
-                checkAction = {
+                onClickPrimaryAction = {
                     onInvalidImageDetection()
                 },
             )

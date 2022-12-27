@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.register
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,20 +14,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -40,8 +38,8 @@ import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.composable.register.AccountInformation
-import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
+import com.octopus.socialnetwork.ui.composable.register.RegisterDialog
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
@@ -65,14 +63,25 @@ fun RegisterScreen(
     val state by viewModel.state.collectAsState()
     val pagerState = rememberPagerState(state.initPage)
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val errorOpenEmailApp = stringResource(R.string.email_app_not_found)
+
+    fun onClickOpenEmail() {
+        try {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            viewModel.onError(errorOpenEmailApp)
+        }
+    }
 
     RegisterContent(
-        state = state, pagerState = pagerState,
-        onClickRegister = viewModel::register,
+        state = state,
+        pagerState = pagerState,
         coroutineScope = coroutineScope,
-        showErrorValidationInput = viewModel::showErrorValidationInput,
-        onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
-        onFailedCreateAccount = viewModel::onFailedCreateAccount,
+        onClickRegister = viewModel::register,
         onChangeUserName = viewModel::onChangeUserName,
         onChangeEmail = viewModel::onChangeEmail,
         onChangeReEmail = viewModel::onChangeReEmail,
@@ -81,8 +90,12 @@ fun RegisterScreen(
         onChangeLastName = viewModel::onChangeLastName,
         onChangeGender = viewModel::onChangeGender,
         onChangeBirthday = viewModel::onChangeBirthday,
+        showErrorValidationInput = viewModel::showErrorValidationInput,
+        onSuccessCreateAccount = viewModel::onSuccessCreateAccount,
+        onFailedCreateAccount = viewModel::onFailedCreateAccount,
+        onClickShowPassword = viewModel::changePasswordVisibility,
         onClickLogin = { navController.navigateToLogin() },
-        onClickShowPassword = viewModel::changePasswordVisibility
+        onClickOpenEmail = ::onClickOpenEmail
     )
 }
 
@@ -92,10 +105,9 @@ fun RegisterScreen(
 private fun RegisterContent(
     state: RegisterUiState,
     pagerState: PagerState,
+    coroutineScope: CoroutineScope,
     onClickRegister: () -> Unit,
     onClickLogin: () -> Unit,
-    coroutineScope: CoroutineScope,
-    showErrorValidationInput: (InputInformation) -> Unit,
     onSuccessCreateAccount: () -> Unit,
     onFailedCreateAccount: () -> Unit,
     onChangeUserName: (String) -> Unit,
@@ -107,6 +119,8 @@ private fun RegisterContent(
     onChangeGender: (String) -> Unit,
     onChangeBirthday: (String) -> Unit,
     onClickShowPassword: () -> Unit,
+    showErrorValidationInput: (InputInformation) -> Unit,
+    onClickOpenEmail: () -> Unit,
 ) {
 
     Column(
@@ -211,12 +225,13 @@ private fun RegisterContent(
                 onClick = onClickLogin
             )
 
-
         }
 
     }
 
-
+    if (state.isLoading) {
+        LoadingDialog()
+    }
 
     if (state.failedCreateAccount) {
         CustomSnackBar(
@@ -225,42 +240,45 @@ private fun RegisterContent(
         )
     }
 
-    if (state.isLoading) {
-        LoadingDialog()
-    }
-
     if (state.isSuccess) {
-        Dialog(onDismissRequest = { }) {
-            CustomDialog(
-                icon = Icons.Default.Email,
-                title = stringResource(R.string.create_account_success),
-                description = stringResource(R.string.create_account_message),
-                actionTitle = stringResource(id = R.string.check_email),
-                cancelTitle = stringResource(id = R.string.not_now),
-                checkAction = {
-                    onSuccessCreateAccount()
-                    onClickLogin()
-                },
-                onClickCancel = {
-                    onSuccessCreateAccount()
-                }
-            )
+        RegisterDialog {
+            onClickOpenEmail()
+            onSuccessCreateAccount()
+            onClickLogin()
         }
-
     }
 
 
 }
 
 
-@Preview
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
-fun RegisterScreenPreview() {
+@Preview(name = "Account Info", showSystemUi = true)
+private fun RegisterScreenAccountInfoPreview() {
     SocialNetworkTheme {
-        Surface {
+        RegisterContent(
+            RegisterUiState(),
+            rememberPagerState(0),
+            rememberCoroutineScope(),
+            {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+        )
+    }
+}
 
-        }
+
+@Composable
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@Preview(name = "Personal Info", showSystemUi = true)
+private fun RegisterScreenPersonalInfoPreview() {
+    SocialNetworkTheme {
+        RegisterContent(
+            RegisterUiState(),
+            rememberPagerState(1),
+            rememberCoroutineScope(),
+            {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+        )
     }
 }

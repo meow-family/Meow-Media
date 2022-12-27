@@ -4,12 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.model.user.ParamRegister
 import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.EmailValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.NameValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.RequiredValidationUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.*
+import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
+import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
+import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -292,5 +300,9 @@ class RegisterViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun onError(error: String) {
+
     }
 }
