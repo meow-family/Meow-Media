@@ -1,23 +1,27 @@
-package com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit
+package com.octopus.socialnetwork.domain.utils
 
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.google.mlkit.vision.common.InputImage
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import javax.inject.Inject
 
-class OpenFileUseCase @Inject constructor(
-    @ApplicationContext private val context: Context
-){
+class FileServiceImpl @Inject constructor(
+    private val context: Context,
+) : FileService {
+    override fun openInputImage(uri: Uri): InputImage {
+        return InputImage.fromFilePath(context, uri)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    operator fun invoke(fileUri: Uri): File {
+    override fun openFile(fileUri: Uri): File {
         var fileName = ""
+
         fileUri.let { returnUri ->
             context.contentResolver.query(returnUri, null, null, null)
         }?.use { cursor ->
@@ -33,6 +37,7 @@ class OpenFileUseCase @Inject constructor(
         copyStreamToFile(iStream, outputFile)
         iStream.close()
         return outputFile
+
     }
 
     private fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
@@ -49,5 +54,4 @@ class OpenFileUseCase @Inject constructor(
             }
         }
     }
-
 }

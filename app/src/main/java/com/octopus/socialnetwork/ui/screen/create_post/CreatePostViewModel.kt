@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.createpost.CreatePostUseCase
 import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.DetectCatUseCase
-import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.OpenFileUseCase
+import com.octopus.socialnetwork.domain.utils.FileService
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class CreatePostViewModel @Inject constructor(
     private val createPost: CreatePostUseCase,
     private val detectCat: DetectCatUseCase,
-    private val openFile: OpenFileUseCase
+    private val fileService: FileService
 ) : ViewModel() {
 
 
@@ -35,10 +35,11 @@ class CreatePostViewModel @Inject constructor(
 
             setLoading(true)
             if (isImageValid) {
-                val result = createPost(_state.value.captionText, openFile(uri))
+                val result = createPost(_state.value.captionText, fileService.openFile(uri))
                 result?.let {
                     setLoading(false)
-                    onUploadPostSuccess() } ?: setLoading(false)
+                    onUploadPostSuccess()
+                } ?: setLoading(false)
             } else {
                 setLoading(false)
                 onInvalidImageDetection()
