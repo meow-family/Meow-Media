@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 
-private const val ROUTE = MainRoute.Search
-fun NavController.navigateToSearchScreen() {
+private const val ROUTE = "friendsScreen"
+fun NavController.navigateToProfileScreen() {
     popBackStack()
 }
 

@@ -13,10 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.octopus.socialnetwork.ui.composable.search.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
+import com.octopus.socialnetwork.ui.screen.user_friends.state.UserFriendsUiState
 
 @Composable
 fun UserFriendsScreen(
@@ -33,7 +33,7 @@ fun UserFriendsScreen(
 
 @Composable
 private fun UserFriendsContent(
-    state: SearchUiState,
+    state: UserFriendsUiState,
     onClickItem: (Int) -> Unit,
 ) {
     Column(
