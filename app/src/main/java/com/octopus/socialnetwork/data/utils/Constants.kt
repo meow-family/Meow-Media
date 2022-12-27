@@ -22,4 +22,5 @@ object Constants {
     const val USER_ID_KEY = "user_id"
     const val TOKEN = "token"
     const val USERS_COLLECTION = "users"
+    const val PROFILE_TABLE = "profile_table"
 }

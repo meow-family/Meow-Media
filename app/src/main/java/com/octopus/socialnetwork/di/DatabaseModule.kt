@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.dao.PostsDao
+import com.octopus.socialnetwork.data.local.dao.ProfileDao
 import com.octopus.socialnetwork.data.local.dao.RemoteKeysDao
 import com.octopus.socialnetwork.di.Constants.DATABASE_NAME
 import dagger.Module
@@ -37,5 +38,11 @@ object DatabaseModule {
     @Provides
     fun provideRemoteKeysDao(database: SocialDatabase): RemoteKeysDao {
         return database.remoteKeysDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideProfileDao(database: SocialDatabase): ProfileDao {
+        return database.ProfileDao()
     }
 }
