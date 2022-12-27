@@ -5,11 +5,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.post.CreatePostUseCase
-import com.octopus.socialnetwork.domain.usecase.post.DetectCatUseCase
-import com.octopus.socialnetwork.domain.usecase.post.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.post.createpost.CreatePostUseCase
+import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.DetectCatUseCase
+import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.OpenFileUseCase
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -18,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val createPostUseCase: CreatePostUseCase,
+    private val createPost: CreatePostUseCase,
     private val detectCat: DetectCatUseCase,
-    private val openFileUseCase: OpenFileUseCase
+    private val openFile: OpenFileUseCase
 ) : ViewModel() {
 
 
@@ -29,16 +30,15 @@ class CreatePostViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickChangeImage(uri: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
 
             setLoading(true)
             if (isImageValid) {
-                val result = createPostUseCase(_state.value.captionText, openFileUseCase(uri))
+                val result = createPost(_state.value.captionText, openFile(uri))
                 result?.let {
                     setLoading(false)
-                    onUploadPostSuccess()
-                } ?: setLoading(false)
+                    onUploadPostSuccess() } ?: setLoading(false)
             } else {
                 setLoading(false)
                 onInvalidImageDetection()

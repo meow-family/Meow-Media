@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val likeToggleUseCase: LikeToggleUseCase,
+    private val toggleLike: ToggleLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -33,7 +34,7 @@ class PostViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private fun getPostDetails() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val post = fetchPostDetails(args.postId.toInt()).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
@@ -48,16 +49,17 @@ class PostViewModel @Inject constructor(
     }
 
     fun onClickLike() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
 
                 val post = _state.value.postDetails
                 toggleLikeState(
                     newLikeState = post.isLiked.not(),
-                    newLikesCount = likeToggleUseCase(
+                    newLikesCount = toggleLike(
                         contentId = post.postId,
                         contentType = "post",
-                        isLiked = post.isLiked
+                        isLiked = post.isLiked,
+                        totalLikes = post.likeCount.toInt()
                     ) ?: 0
                 )
             } catch (e: Exception) {
@@ -80,5 +82,9 @@ class PostViewModel @Inject constructor(
 
     fun onClickShare() {
         //
+    }
+
+    fun onClickTryAgain() {
+        getPostDetails()
     }
 }

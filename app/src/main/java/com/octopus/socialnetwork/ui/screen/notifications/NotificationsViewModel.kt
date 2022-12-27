@@ -1,9 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
-import com.octopus.socialnetwork.domain.usecase.notifications.FetchUserNotificationsUseCase
+import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsUseCase
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-    private val fetchUserNotifications: FetchUserNotificationsUseCase,
+    private val fetchNotifications: FetchNotificationsUseCase,
     private val fetchNotificationItems: FetchNotificationItemsUseCase,
 ) : ViewModel() {
 
@@ -28,48 +29,35 @@ class NotificationsViewModel @Inject constructor(
     }
 
     private fun getNotifications() {
+        _state.update { it.copy(isLoading = true, isError = true) }
         viewModelScope.launch {
             try {
-                val userNotifications =
-                    fetchUserNotifications().map { it.toNotificationsUiState() }
-
+                val notifications = fetchNotifications().map { it.toNotificationsUiState() }
                 _state.update {
-                    it.copy(
-                        notifications = userNotifications,
-                        isLoading = false,
-                        isError = false,
-                    )
-                }
-
+                    it.copy(notifications = notifications, isLoading = false, isError = false,) }
             } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = true
-                    )
-                }
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
-
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     fun markViewedNotification(notification: NotificationItemsUiState) {
         viewModelScope.launch {
             try {
                 if (!notification.viewed)
-                    fetchNotificationItems(notification.id)
-                getNotifications()
+                fetchNotificationItems(notification.id)
+                     getNotifications()
             } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        viewed = false,
-                        isError = true
-                    )
-                }
+                _state.update { it.copy(isLoading = false, viewed = false, isError = true) }
             }
         }
+    }
+
+
+    fun onClickTryAgain() {
+        getNotifications()
     }
 
 }

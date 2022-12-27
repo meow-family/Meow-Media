@@ -2,24 +2,17 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginResponse
-import com.octopus.socialnetwork.domain.usecase.authentication.RegisterUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.EmailValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.NameValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.RequiredValidationUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
+import com.octopus.socialnetwork.domain.model.user.ParamRegister
+import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
-import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
-import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.screen.register.uistate.*
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -28,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase,
+    private val register: RegisterUseCase,
     private val userNameValidation: UserNameValidationUseCase,
     private val emailValidation: EmailValidationUseCase,
     private val passwordValidation: PasswordValidationUseCase,
@@ -42,12 +35,12 @@ class RegisterViewModel @Inject constructor(
     fun register() {
         onLoading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 val response =
-                    registerUseCase(
-                        RegisterUseCase.Params(
+                    register(
+                        ParamRegister(
                             firstName = state.value.userInfoForm.firstName.text,
                             lastName = state.value.userInfoForm.lastName.text,
                             email = state.value.userInfoForm.email.text,
@@ -59,16 +52,12 @@ class RegisterViewModel @Inject constructor(
                         )
                     )
 
-                when (response) {
-                    is LoginResponse.Success -> {
-                        onLoading()
-                        onSuccess()
-                    }
-
-                    is LoginResponse.Failure -> {
-                        onLoading()
-                        onFailedCreateAccount()
-                    }
+                if (response) {
+                    onLoading()
+                    onSuccess()
+                } else {
+                    onLoading()
+                    onFailedCreateAccount()
                 }
 
             } catch (e: Exception) {
@@ -79,11 +68,11 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun onLoading() {
-        _state.update { it.copy(isLoading = !_state.value.isLoading,) }
+        _state.update { it.copy(isLoading = !_state.value.isLoading) }
     }
 
     private fun onSuccess() {
-        _state.update { it.copy(isSuccess = !_state.value.isSuccess,) }
+        _state.update { it.copy(isSuccess = !_state.value.isSuccess) }
     }
 
     fun onFailedCreateAccount() {
@@ -123,7 +112,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     userName = it.userInfoForm.userName.copy(
-                        text = username, error = error, isValid = isValidInputs )
+                        text = username, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -152,8 +142,10 @@ class RegisterViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isValidInputs = isValidInputs,
-                userInfoForm = it.userInfoForm.copy(email = it.userInfoForm.email.copy(
-                        text = email, error = error, isValid = isValidInputs)
+                userInfoForm = it.userInfoForm.copy(
+                    email = it.userInfoForm.email.copy(
+                        text = email, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -177,7 +169,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     reEmail = it.userInfoForm.reEmail.copy(
-                        text = reEmail, error = error, isValid = isValidInputs)
+                        text = reEmail, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -194,8 +187,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun changePasswordVisibility() {
-        _state.update { it.copy(userInfoForm = it.userInfoForm
-            .copy(showPassword = !it.userInfoForm.showPassword))}
+        _state.update {
+            it.copy(
+                userInfoForm = it.userInfoForm
+                    .copy(showPassword = !it.userInfoForm.showPassword)
+            )
+        }
     }
 
     private fun passwordState(password: String, isValidInputs: Boolean, error: Int? = null) {
@@ -203,7 +200,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     password = it.userInfoForm.password.copy(
-                        text = password, error = error, isValid = isValidInputs)
+                        text = password, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -268,7 +266,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     gender = it.userInfoForm.gender.copy(
-                        text = gender, error = error, isValid = isValidInputs)
+                        text = gender, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }
@@ -288,7 +287,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 isValidInputs = isValidInputs, userInfoForm = it.userInfoForm.copy(
                     birthDate = it.userInfoForm.birthDate.copy(
-                        text = gender, error = error, isValid = isValidInputs)
+                        text = gender, error = error, isValid = isValidInputs
+                    )
                 )
             )
         }

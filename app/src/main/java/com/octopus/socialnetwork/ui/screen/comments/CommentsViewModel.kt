@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
-import com.octopus.socialnetwork.domain.usecase.like.LikeToggleUseCase
+import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
+import com.octopus.socialnetwork.ui.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,9 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
-    private val getPostCommentsUseCase: GetPostCommentsUseCase,
-    private val toggleLikeState: LikeToggleUseCase,
-    private val addCommentUseCase: AddCommentUseCase,
+    private val getPostComments: GetPostCommentsUseCase,
+    private val likeToggle: ToggleLikeUseCase,
+    private val addComment: AddCommentUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -33,25 +35,35 @@ class CommentsViewModel @Inject constructor(
     }
 
     private fun getPostComments() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postComments = getPostCommentsUseCase(postId = args.postId.toInt(),
-                    type = args.type).map { it.toCommentDetailsUiState() }
-                _state.update { it.copy(comments = postComments, isSuccess = true) }
+                val postComments = getPostComments(
+                    postId = args.postId.toInt(),
+                    type = args.type
+                ).map { it.toCommentDetailsUiState() }
+                _state.update {
+                    it.copy(
+                        comments = postComments,
+                        isLoading = false,
+                        isSent = true,
+                        isError = false
+                    )
+                }
             } catch (e: Throwable) {
-                _state.update { it.copy(isError = true,isSuccess = false) }
+                _state.update { it.copy(isLoading = false, isSent = false, isError = true) }
             }
         }
     }
 
     fun onChangeTypingComment(newValue: String) {
-        _state.update { it.copy(comment = newValue) } }
+        _state.update { it.copy(comment = newValue) }
+    }
 
-    fun addComment(comment: String) {
-        viewModelScope.launch {
+    private fun addComment(comment: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                addCommentUseCase(args.postId.toInt(),comment)
-                _state.update { it.copy(comment = it.comment, isSuccess = true) }
+                addComment(args.postId.toInt(), comment)
+                _state.update { it.copy(comment = it.comment, isSent = true) }
                 getPostComments()
             } catch (e: Throwable) {
                 _state.update { it.copy(isError = true) }
@@ -59,23 +71,24 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    fun onClickSend(){
+    fun onClickSend() {
         addComment(_state.value.comment)
         _state.update { it.copy(comment = "") }
     }
 
     fun onClickLike(commentId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val clickedComment = _state.value.comments
                 clickedComment.find { it.commentId == commentId }?.let { comment ->
                     toggleLikeState(
                         commentId = commentId,
                         isLiked = comment.isLikedByUser.not(),
-                        newLikesCount = toggleLikeState(
+                        newLikesCount = likeToggle(
                             contentId = commentId,
                             isLiked = comment.isLikedByUser,
-                            contentType = "annotation"
+                            contentType = Constants.LIKE_TYPE,
+                            totalLikes = comment.likeCounter
                         ) ?: 0
                     )
                 }
@@ -84,6 +97,7 @@ class CommentsViewModel @Inject constructor(
             }
         }
     }
+
 
     private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
         _state.update { commentUiState ->
@@ -97,5 +111,9 @@ class CommentsViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun onClickTryAgain() {
+        getPostComments()
     }
 }

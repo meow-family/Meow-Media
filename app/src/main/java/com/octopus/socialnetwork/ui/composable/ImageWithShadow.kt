@@ -16,22 +16,35 @@ import com.octopus.socialnetwork.R
 
 
 @Composable
-fun ImageWithShadow(painter: Painter, modifier: Modifier){
+fun ImageWithShadow(imageUrl: String? = null, painter: Painter? = null, modifier: Modifier) {
     Box(
         modifier = modifier
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.LightGray),
-            painter = painter,
-            contentDescription = stringResource(R.string.background),
-            contentScale = ContentScale.Crop,
-        )
+        if (imageUrl != null)
+            ImageNetwork(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.LightGray),
+                imageUrl = imageUrl,
+                contentDescription = stringResource(R.string.background),
+            )
+
+        if (painter != null)
+            Image(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.LightGray),
+                painter = painter,
+                contentScale =  ContentScale.Crop,
+                contentDescription = stringResource(R.string.background),
+            )
+
         Box(
-            modifier = Modifier.backgroundVerticalGradientWhite(
-                MaterialTheme.colors.background
-            ).align(alignment = Alignment.BottomCenter)
+            modifier = Modifier
+                .backgroundVerticalGradientWhite(
+                    MaterialTheme.colors.background
+                )
+                .align(alignment = Alignment.BottomCenter)
         )
 
     }

@@ -5,5 +5,4 @@ data class NotificationItems(
     val postOwner: PostOwner,
     val entity: Boolean,
     val post: Boolean,
-    val group: Group,
 )

@@ -9,9 +9,7 @@ class ValidateUseCase @Inject constructor() {
     }
 
     private fun isValidUsername(username: String): Boolean {
-        Log.i(
-            "TESTING",
-            "entered username or email: $username is ${
+        Log.i("MEOW", "entered username or email: $username is ${
                 username.matches(USERNAME_REGEX) || username.matches(
                     EMAIL_REGEX
                 )
@@ -21,10 +19,7 @@ class ValidateUseCase @Inject constructor() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        Log.i(
-            "TESTING",
-            "entered password: $password is ${password.matches(PASSWORD_REGEX)}"
-        )
+        Log.i("MEOW", "entered password: $password is ${password.matches(PASSWORD_REGEX)}")
         return password.matches(PASSWORD_REGEX)
     }
 

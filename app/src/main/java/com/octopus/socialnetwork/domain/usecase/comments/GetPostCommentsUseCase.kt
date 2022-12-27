@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.usecase.comments
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.comments.toComment
 import com.octopus.socialnetwork.domain.model.comment.Comment
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import javax.inject.Inject
 
 class GetPostCommentsUseCase @Inject constructor(

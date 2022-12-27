@@ -4,17 +4,19 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,48 +27,51 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
-    private val fetchUserFriendsCount: FetchUserFriendsUseCase,
+    private val fetchUserFriendsCount: FetchFriendsUseCase,
     private val fetchUserPosts: FetchUserPostsUseCase,
-    private val userIdVisitor: FetchUserIdUseCase,
-    private val addFriendUseCase: AddFriendUseCase,
-    private val removeFriendUseCase: RemoveFriendUseCase,
-    private val checkUserFriendUseCase: CheckUserFriendUseCase,
+    private val fetchUserId: FetchUserIdUseCase,
+    private val addFriend: AddFriendUseCase,
+    private val removeFriend: RemoveFriendUseCase,
+    private val checkUserIsFriend: CheckUserIsFriendUseCase,
+    private val logout: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
 
+
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
-        val currentUserId = getCurrentUserId()
+        viewModelScope.launch {
+            val myUserId = fetchUserId()
+            val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
+            _state.update { profile ->
 
-        getUserDetails(currentUserId)
-        isRequestSent(currentUserId, userIdVisitor())
-    }
+                profile.copy(
+                    isMyProfile = myUserId == visitedUserId,
+                    userDetails = profile.userDetails.copy(
+                        userId = args.visitedUserId?.toIntOrNull() ?: myUserId,
+                    )
+                )
+            }
+        }
 
-
-    private fun getCurrentUserId(): Int {
-        val currentUserId = args.userIdVisitor?.toIntOrNull()
-        return if (currentUserId != null) {
-
-            val isNotUserVisitor = userIdVisitor() != currentUserId
-            _state.update { it.copy(isUserVisitor = isNotUserVisitor) }
-            currentUserId
-
-        } else {
-            userIdVisitor()
+        getUserDetails(_state.value.userDetails.userId)
+        if (_state.value.isMyProfile.not()) {
+            isRequestSent(_state.value.userDetails.userId)
         }
     }
 
-    private fun getUserDetails(currentUserId: Int) {
-        viewModelScope.launch {
+
+    private fun getUserDetails(myUserId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userFriendsCount = fetchUserFriendsCount(currentUserId).total
-                val profilePosts = fetchUserPosts(currentUserId).posts.toProfilePostsUiState()
-                val userPostsCount = fetchUserPosts(currentUserId).count
-                val profileUiState = fetchUserDetailS(currentUserId).toUserDetailsUiState()
+                val userFriendsCount = fetchUserFriendsCount(myUserId).total
+                val profilePosts = fetchUserPosts(myUserId).posts.toProfilePostsUiState()
+                val userPostsCount = fetchUserPosts(myUserId).count
+                val profileUiState = fetchUserDetailS(myUserId).toUserDetailsUiState()
 
                 _state.update {
                     it.copy(
@@ -80,7 +85,7 @@ class ProfileViewModel @Inject constructor(
                             profileCover = profileUiState.profileCover,
                             friendsCount = userFriendsCount.toString(),
                             postCount = userPostsCount.toString(),
-                            userId = profileUiState.userId
+                            userId = profileUiState.userId,
                         )
                     )
                 }
@@ -90,38 +95,36 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun isRequestSent(currentUserId: Int, visitedUserId: Int) {
-        viewModelScope.launch {
+    private fun isRequestSent(visitedUserId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.i("TESTING","view model isRequestSent $visitedUserId")
-                val isRequestSent = checkUserFriendUseCase(visitedUserId).requestExists
-                _state.update {
-                    it.copy(isRequestExists = isRequestSent)
-                }
+                Log.i("TESTING", "view model isRequestSent $visitedUserId")
+                val isRequestSent = checkUserIsFriend(visitedUserId).requestExists
+                _state.update { it.copy(isRequestExists = isRequestSent) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
 
-    fun onClickAddFriend(otherUserId: Int) {
-        viewModelScope.launch {
-            if (!_state.value.isRequestExists) {
-                val result = addFriendUseCase(otherUserId)
+    fun onClickAddFriend(friendId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_state.value.isRequestExists.not()) {
+                _state.update { it.copy(isRequestExists = true) }
+                val result = addFriend(friendId)
                 _state.update {
                     it.copy(
                         isRequestExists = result.requestExists,
-                        isRequestSent = result.success,
                         isFriend = result.isFriend
                     )
                 }
             } else {
-                removeFriendUseCase(otherUserId)
+                _state.update { it.copy(isFriend = false) }
+                val result = removeFriend(friendId)
                 _state.update {
                     it.copy(
-                        isRequestExists = false,
-                        isRequestSent = false,
-                        isFriend = false,
+                        isRequestExists = result.requestExists,
+                        isFriend = result.isFriend
                     )
                 }
             }
@@ -129,16 +132,17 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-
-    fun onClickMessage(){
-        //
-    }
-
     fun onClickLogout() {
-        //
+        viewModelScope.launch(Dispatchers.IO) {
+            logout()
+            _state.update { it.copy(isLogout = true) }
+        }
     }
 
-    fun onClickEditeProfile() {
-        //
+    fun onClickTryAgain() {
+        getUserDetails(_state.value.userDetails.userId)
+        if (_state.value.isMyProfile.not()) {
+            isRequestSent(_state.value.userDetails.userId)
+        }
     }
 }

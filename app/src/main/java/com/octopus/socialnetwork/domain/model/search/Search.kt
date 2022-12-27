@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.domain.model.search
 
-import com.octopus.socialnetwork.domain.model.user.UserDetails
+import com.octopus.socialnetwork.domain.model.user.User
 
 data class Search(
-    val users: List<UserDetails>
+    val searchResults: List<User>
 )

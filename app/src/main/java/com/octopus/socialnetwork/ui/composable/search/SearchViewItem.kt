@@ -1,15 +1,15 @@
 package com.octopus.socialnetwork.ui.composable.search
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -19,13 +19,15 @@ import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 
 @Composable
-fun SearchViewItem(query: String, onValueChange: (String) -> Unit) {
+fun SearchViewItem(
+    query: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     TextField(
         value = query,
         onValueChange = onValueChange,
-        modifier = Modifier.padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .height(height = 48.dp),
+        modifier = modifier.fillMaxWidth().height(height = 48.dp),
         textStyle = TextStyle(color =  MaterialTheme.colors.textPrimaryColor,
             fontSize = 14.sp),
         leadingIcon = {
@@ -62,4 +64,27 @@ fun SearchViewItem(query: String, onValueChange: (String) -> Unit) {
         )
 
     )
+}
+
+
+@Composable
+fun ShowSearchView(onClickSearch: () -> Unit) {
+    Row(
+        modifier = Modifier.padding(bottom = 16.dp)
+            .fillMaxWidth().height(height = 48.dp)
+            .clickable { onClickSearch() }
+            .background(color = MaterialTheme.colors.textSecondaryColor,
+                shape = RoundedCornerShape(24.dp))
+            .padding(horizontal = 8.dp),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            Icons.Default.Search,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = Color.Gray
+        )
+    }
+
 }

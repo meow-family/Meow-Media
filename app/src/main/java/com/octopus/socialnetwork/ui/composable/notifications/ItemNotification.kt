@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable.notifications
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,11 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
+import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.composable.MultiTextStyle
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.*
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.setNotificationsTitle
 
 
@@ -44,8 +42,8 @@ fun ItemNotification(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = customImageLoad(notification.posterAvatar),
+        ImageNetwork(
+            imageUrl = notification.posterAvatar,
             contentDescription = stringResource(R.string.profile_image),
             modifier = Modifier
                 .clip(CircleShape)
@@ -62,7 +60,7 @@ fun ItemNotification(
             )
 
             Text(
-                text = notification.timeCreated.getHourAndMinutes(),
+                text = notification.timeCreated,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colors.textThirdColor,

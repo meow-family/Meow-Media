@@ -1,7 +1,15 @@
 package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,13 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageUiState
+import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
 import com.octopus.socialnetwork.ui.theme.PoppinsTypography
 
 @Composable
 fun MessageItem(
     onClickMessage: (Int) -> Unit,
-    state: MessageUiState,
+    state: ConversationUiState,
 ) {
     Row(
         modifier = Modifier
@@ -28,7 +36,7 @@ fun MessageItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ProfileImage(
-            painter = customImageLoad(imageUrl = state.otherUser.profileAvatar),
+            imageUrl = state.otherUser.profileAvatar,
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
@@ -76,18 +84,6 @@ fun MessageItem(
 
             )
             SpaceVertically4dp()
-            if (state.viewed == "1") {
-                Text(
-                    text = "Seen",
-                    modifier = Modifier.align(Alignment.End),
-                    fontWeight = FontWeight.Light,
-                    fontFamily = PoppinsTypography.overline.fontFamily,
-                    fontStyle = PoppinsTypography.overline.fontStyle,
-                    fontSize = PoppinsTypography.overline.fontSize
-                )
-            } else {
-                CircleShapeWithText()
-            }
 
         }
 

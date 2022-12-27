@@ -12,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,10 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable
@@ -52,13 +49,14 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            painter = customImageLoad(commentDetails.userAvatar) , size = 50
+            imageUrl = commentDetails.userAvatar, size = 50,
+            contentDescription = stringResource(id = R.string.profile_image)
         )
 
         Text(
             text = commentDetails.fullName,
             fontSize = 14.sp,
-            color = Color.Black,
+            color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.constrainAs(fullName) {
                 top.linkTo(userImage.top, 4.dp)
@@ -76,7 +74,7 @@ fun ItemComment(
 
         Text(text = commentDetails.comment,
             fontSize = 12.sp,
-            color = Color.Black,
+            color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Normal,
             modifier = Modifier
                 .constrainAs(postText) {
@@ -104,21 +102,19 @@ fun ItemComment(
 
         Text(text = commentDetails.likeCounter.toString(),
             fontSize = 12.sp,
-            color = Color.Black,
+            color = Color.Gray,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .alpha(.3f)
-                .constrainAs(likeCounter) {
+            modifier = Modifier.constrainAs(likeCounter) {
                     start.linkTo(like.end, 4.dp)
                     top.linkTo(like.top, 4.dp)
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = commentDetails.timeCreated.getHourAndMinutes(),
+        Text(text = commentDetails.timeCreated,
             fontSize = 12.sp,
-            color = Color.Black,
+            color = Color.Gray,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.alpha(.3f).constrainAs(contentTime) {
+            modifier = Modifier.constrainAs(contentTime) {
                     top.linkTo(postText.bottom, 12.dp)
                     start.linkTo(likeCounter.end, 18.dp)
                 })

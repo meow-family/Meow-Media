@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.domain.usecase.search
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.search.toSearch
 import com.octopus.socialnetwork.domain.model.search.Search
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserIdUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(

@@ -1,41 +1,54 @@
 package com.octopus.socialnetwork.data.repository.social
 
-import android.graphics.BitmapFactory
-import android.util.Log
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.octopus.socialnetwork.data.local.database.SocialDatabase
+import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
-import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsCountDto
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
-import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
-import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostResponse
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendValidatorResponse
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
-import com.octopus.socialnetwork.data.remote.service.SocialService
-import okhttp3.MediaType
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
+import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
+import com.octopus.socialnetwork.data.utils.Constants.API_KEY_TOKEN
+import com.octopus.socialnetwork.data.utils.Constants.GUID
+import com.octopus.socialnetwork.data.utils.Constants.JPEG
+import com.octopus.socialnetwork.data.utils.Constants.JPG
+import com.octopus.socialnetwork.data.utils.Constants.OSSN_PHOTO
+import com.octopus.socialnetwork.data.utils.Constants.OWNER_GUID
+import com.octopus.socialnetwork.data.utils.Constants.POST
+import com.octopus.socialnetwork.data.utils.Constants.POSTER_GUID
+import com.octopus.socialnetwork.data.utils.Constants.PRIVACY
+import com.octopus.socialnetwork.data.utils.Constants.PUBLIC_PRIVACY
+import com.octopus.socialnetwork.data.utils.Constants.TYPE
+import com.octopus.socialnetwork.data.utils.Constants.USER_PHOTO
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
+    private val socialDatabase: SocialDatabase,
+    private val postsRemoteMediator: PostsRemoteMediator,
 ) : SocialRepository {
 
     //region user
@@ -43,150 +56,98 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getUserDetails(visitedUserId).result
     }
 
-    override suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto {
+    override suspend fun getFriends(visitedUserId: Int): FriendsDto {
         return socialService.getUserFriends(visitedUserId).result
     }
 
-    override suspend fun checkUserFriend(
-        currentUserId: Int, userIdWantedToCheck: Int
-    ): FriendValidatorDTO? {
-        return socialService.checkUserFriend(currentUserId, userIdWantedToCheck).result
+    override suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorResponse? {
+        return socialService.checkUserFriend(myUserId, userIdWantedToCheck).result
     }
 
-    override suspend fun getUserPosts(visitedUserId: Int, currentUserId: Int): UserPostsDto {
-        return socialService.getUserPosts(visitedUserId, currentUserId).result
+    override suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): PostsDto {
+        return socialService.getUserPosts(visitedUserId, myUserId).result
     }
 
-    override suspend fun editUser(
-        currentUserId: Int,
-        firstName: String,
-        lastName: String,
-        email: String,
-        currentPassword: String,
-        newPassword: String
-    ): UserDto {
-        return socialService.editUser(
-            currentUserId,
-            firstName,
-            lastName,
-            email,
-            currentPassword,
-            newPassword
+    override suspend fun editUser(myUserId: Int, firstName: String, lastName: String, email: String,
+        currentPassword: String, newPassword: String): UserDto {
+        return socialService.editUser(myUserId, firstName, lastName, email, currentPassword, newPassword
         ).result
     }
 
-    override suspend fun addFriend(currentUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO {
-        return socialService.addFriend(currentUserId, userIdWantedToAdd).result
+    override suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse {
+        return socialService.addFriend(myUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun removeFriend(
-        currentUserId: Int,
-        userIdWantedToAdd: Int
-    ): FriendValidatorDTO {
-        return socialService.removeFriend(currentUserId, userIdWantedToAdd).result
+    override suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse {
+        return socialService.removeFriend(myUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun getFriendRequests(currentUserId: Int): FriendRequestsListDTO {
-        return socialService.getFriendRequests(currentUserId).result
+    override suspend fun getFriendRequests(myUserId: Int): FriendRequestsResponse {
+        return socialService.getFriendRequests(myUserId).result
     }
 
     //endregion
     //region post
-    override suspend fun viewPost(postId: Int, currentUserId: Int): PostDto {
-        return socialService.viewPost(postId, currentUserId).result
+    override suspend fun viewPost(postId: Int, myUserId: Int): PostDto {
+        return socialService.viewPost(postId, myUserId).result
     }
 
-    override suspend fun viewUserPosts(
-        visitedUserId: Int,
-        currentUserId: Int
-    ): BaseResponse<AllPostDto> {
-        return socialService.viewUserPosts(
-            visitedUserId,
-            currentUserId,
+    override suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse> {
+        return socialService.viewUserPosts(visitedUserId, myUserId,)
+    }
+
+    override fun getNewsFeedPager(): Pager<Int, PostEntity> {
+        return Pager(
+            config = PagingConfig(10),
+            remoteMediator = postsRemoteMediator,
+            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
         )
     }
 
-
-    override suspend fun viewNewsFeed(currentUserId: Int): List<PostDto> {
-        return socialService.viewNewsFeed(currentUserId).result.posts
-    }
-
-    override suspend fun createPost(
-        currentUserId: Int,
-        posterOwnerId: Int,
-        post: String,
-        type: String,
-        photo: File
-    ): PostDto {
-        Log.i("MEOW",photo.extension + " is the extension! ${"image/${photo.extension}".toMediaTypeOrNull()}")
-        val photoExtension = if (photo.extension=="jpg") "jpeg" else photo.extension
+    override suspend fun createPost(myUserId: Int, posterOwnerId: Int, post: String, type: String,
+        photo: File): PostDto {
+        val photoExtension = if (photo.extension== JPG ) JPEG else photo.extension
         val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-
-        val requestBody = builder.addFormDataPart("api_key_token", BuildConfig.API_KEY) // whatever data you will pass to the the request body
-            .addFormDataPart("owner_guid", currentUserId.toString())
-            .addFormDataPart("poster_guid",posterOwnerId.toString())
-            .addFormDataPart("type",type)
-            .addFormDataPart("post",post)
-            .addFormDataPart("privacy","2")
-            .addFormDataPart("ossn_photo",photo.name,requestFile).build()
-
+        val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
+            .addFormDataPart(OWNER_GUID, myUserId.toString())
+            .addFormDataPart(POSTER_GUID,posterOwnerId.toString())
+            .addFormDataPart(TYPE,type)
+            .addFormDataPart(POST,post)
+            .addFormDataPart(PRIVACY,PUBLIC_PRIVACY)
+            .addFormDataPart(OSSN_PHOTO,photo.name,requestFile).build()
         return socialService.createPost(requestBody).result
     }
 
     override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto {
-        return socialService.deletePost(
-            postId,
-            postOwnerId,
-        ).result
+        return socialService.deletePost(postId, postOwnerId).result
     }
 
-    override suspend fun like(
-        currentUserId: Int,
-        contentId: Int,
-        typeContent: String
-    ): LikeDto {
-        return socialService.like(currentUserId, contentId, typeContent).result
+    override suspend fun like(myUserId: Int, contentId: Int, typeContent: String): LikeResponse {
+        return socialService.like(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun unlike(
-        currentUserId: Int,
-        contentId: Int,
-        typeContent: String
-    ): LikeDto {
-        return socialService.unlike(currentUserId, contentId, typeContent).result
+    override suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeResponse {
+        return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun getUserNotifications(
-        currentUserId: Int,
-    ): UserNotificationsDTO {
-        return socialService.getUserNotifications(currentUserId).result
+    override suspend fun getNotifications(myUserId: Int, ): NotificationsResponse {
+        return socialService.getUserNotifications(myUserId).result
     }
 
-    override suspend fun getUserNotificationsCount(
-        currentUserId: Int,
-    ): UserNotificationsCountDto {
-        return socialService.getUserNotificationsCount(currentUserId).result
+    override suspend fun getNotificationsCount(myUserId: Int, ): NotificationsCountDto {
+        return socialService.getUserNotificationsCount(myUserId).result
     }
 
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
-
-
-    override suspend fun getComments(
-        currentUserId: Int,
-        postId: Int,
-        type: String
-    ): List<CommentDetails> {
-        return socialService.getCommentsList(currentUserId, postId, type).result.comments
+    override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto> {
+        return socialService.getCommentsList(myUserId, postId, type).result.comments
     }
 
-    override suspend fun editComment(
-        commentId: Int,
-        comment: String
-    ): CommentEditionDto {
+    override suspend fun editComment(commentId: Int, comment: String): CommentEditResponse {
         return socialService.editComment(commentId, comment).result
     }
 
@@ -199,49 +160,57 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getPhoto(photoId, userId).result
     }
 
-    override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails {
+    override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDto {
         return socialService.addComment(postId, comment, userId).result
     }
 
-    override suspend fun getPhotosListProfileCover(
-        userId: Int,
-        type: String
-    ): BaseResponse<List<Photo>> {
+    override suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int) {
+        socialDatabase.postsDao().updatePostLikeStatus(id, isLikedByUser, newLikesCount)
+    }
+
+    override suspend fun getPhotosListProfileCover(userId: Int, type: String
+    ): BaseResponse<List<PhotoDto>> {
         return socialService.getPhotosListProfileCover(userId, type)
     }
 
-    override suspend fun getPhotoViewProfile(
-        photoId: Int,
-        userId: Int
+    override suspend fun getPhotoViewProfile(photoId: Int, userId: Int
     ): BaseResponse<UserProfileDto> {
         return socialService.getPhotoViewProfile(photoId, userId)
     }
 
-    override suspend fun deletePhotoProfile(
-        photoId: Int,
-        userId: Int
-    ): BaseResponse<ProfilePhotoDeletion> {
+    override suspend fun deletePhotoProfile(photoId: Int, userId: Int
+    ): BaseResponse<ProfilePhotoResponse> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
-    override suspend fun deleteProfileCover(
-        photoId: Int,
-        userId: Int
-    ): BaseResponse<ProfilePhotoDeletion> {
+    override suspend fun deleteProfileCover(photoId: Int, userId: Int
+    ): BaseResponse<ProfilePhotoResponse> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
-    override suspend fun search(
-        currentUserId: Int,
-        query: String
-    ): SearchDto {
-        return socialService.search(
-            currentUserId,
-            query
-        ).result
+    override suspend fun addProfilePicture(userID: Int, photo: File): UserDto {
+        val photoExtension = if (photo.extension==JPG) JPEG else photo.extension
+        val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
+            .addFormDataPart(GUID, userID.toString())
+            .addFormDataPart(USER_PHOTO,photo.name,requestFile).build()
+        return socialService.addProfilePicture(requestBody).result
+    }
+
+    override suspend fun addCoverPicture(userID: Int, photo: File): UserDto {
+        val photoExtension = if (photo.extension==JPG) JPEG else photo.extension
+        val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
+            .addFormDataPart(GUID, userID.toString())
+            .addFormDataPart(USER_PHOTO,photo.name,requestFile).build()
+        return socialService.addCoverPicture(requestBody).result
+    }
+
+    override suspend fun search(myUserId: Int, query: String): SearchDto {
+        return socialService.search(myUserId, query).result
     }
     //endregion
-
-
 
 }

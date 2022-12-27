@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meow Social</string>
+    <string name="app_name">Meow Media</string>
     <string name="description">Welcome back! login to rejoin our community</string>
     <string name="donot_have_account">Don’t have a account? </string>
     <string name="background">background</string>
@@ -115,6 +115,14 @@
     <string name="image_post">Post Image</string>
     <string name="back">Back</string>
     <string name="image_post_rejected">Image Rejected!</string>
-    <string name="image_post_rejected_description">Meow Meow! your image doensn\'t contain a cat! this app is for meows only.</string>
+    <string name="image_post_rejected_description">Meow Meow! your image doesn\'t contain a cat! this app is for meows only.</string>
 
+    <string name="no_items">Look like there\'s no meows\n items here!</string>
+
+    <string name="try_again">Try again to get\n meows</string>
+
+    <string name="decline">Decline</string>
+    <string name="Accept">Accept</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="image">Image</string>
 </resources>

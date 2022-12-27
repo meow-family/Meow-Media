@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class NotificationDto(
     @SerializedName("guid")
-    val guid: Int?,
+    val notificationId: Int?,
     @SerializedName("type")
     val type: String?,
     @SerializedName("poster_guid")
-    val posterGuid: Int?,
+    val notificationUserId: Int?,
     @SerializedName("owner_guid")
-    val ownerGuid: Int?,
+    val subjectOwnerId: Int?,
     @SerializedName("subject_guid")
-    val subjectGuid: Int?,
+    val subjectId: Int?,
     @SerializedName("viewed")
     val viewed: String? = null,
     @SerializedName("time_created")

@@ -1,8 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.authentication.LoginUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.login.LoginUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
@@ -11,6 +12,7 @@ import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -84,16 +86,18 @@ class LoginViewModel @Inject constructor(
     fun login() {
         onLoading()
         val userInput = _state.value.userInput
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val loginResponse =
                     loginUseCase(userInput.userName.text, userInput.password.text)
+                Log.i("TESTING",loginResponse.toString() + " is login response")
                 if (loginResponse?.username.isNullOrEmpty()) {
                     _state.update { it.copy(isError = true, isLoading = false) }
                 } else {
                     _state.update { it.copy(isError = false, isLoading = false, isSuccess = true) }
                 }
             } catch (e: Exception) {
+                Log.i("TESTING","catched $e")
                 _state.update {
                     it.copy(
                         isError = true,

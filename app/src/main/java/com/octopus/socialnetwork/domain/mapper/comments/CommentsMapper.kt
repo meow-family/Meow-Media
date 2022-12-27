@@ -1,13 +1,12 @@
 package com.octopus.socialnetwork.domain.mapper.comments
 
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.domain.model.comment.Comment
-import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
-import com.octopus.socialnetwork.ui.util.extensions.toFormattedDate
+import com.octopus.socialnetwork.domain.utils.toFormattedDate
 
-fun CommentDetails.toComment(): Comment {
+fun CommentDto.toComment(): Comment {
     return Comment(
-        comment = commentsPost?.removeHtmlEncoding() ?: "",
+        comment = commentsPost?: "",
         commentOwnerId = commentOwnerId ?: 0,
         isLikedByUser = isLikedByUser ?: false,
         timeCreated = timeCreated.toFormattedDate(),

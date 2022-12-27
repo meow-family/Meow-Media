@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.di
 
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
+import androidx.paging.ExperimentalPagingApi
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
@@ -16,12 +15,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
 
-    @ViewModelScoped
-    @Binds
-    abstract fun bindAuthenticationRepository(
-        authenticationRepositoryImpl: AuthenticationRepositoryImpl,
-    ): AuthenticationRepository
-
+    @ExperimentalPagingApi
     @ViewModelScoped
     @Binds
     abstract fun bindSocialRepository(
@@ -33,5 +27,6 @@ abstract class RepositoryModule {
     abstract fun bindMessagingRepository(
         messagingRepositoryImpl: MessagingRepositoryImpl,
     ): MessagingRepository
+
 
 }

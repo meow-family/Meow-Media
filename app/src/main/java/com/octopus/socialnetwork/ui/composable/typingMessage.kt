@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -21,16 +19,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.chat.uistate.MessageMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
-import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
 
 @Composable
 fun TypingMessage(
     modifier: Modifier = Modifier,
-    state: MessageMainUiState,
+    state: ChatMainUiState,
     onChangeTypingComment: (String) -> Unit,
     onClickSend:() -> Unit,
 ) {
@@ -69,6 +66,7 @@ fun TypingMessage(
                 Icon(
                     Icons.Filled.Send,
                     contentDescription = null,
+                    modifier = Modifier.mirroringIcon(),
                     tint = if (state.message.isNotBlank()) Color.Red else Color.Gray
                 )
             }

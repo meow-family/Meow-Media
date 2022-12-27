@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Social Network</string>
+    <string name="app_name">ميو ميديا</string>
     <string name="description">مرحبًا بعودتك! قم بتسجيل الدخول لإعادة الانضمام إلى مجتمعنا</string>
     <string name="donot_have_account">ليس لديك حساب؟ </string>
     <string name="background">خلفية</string>
@@ -25,7 +25,7 @@
     <string name="your_message">رسالتك…</string>
 
     <string name="icon_on_boarding">Icon On Boarding</string>
-    <string name="on_boarding_text">تواصل مع الأشخاص الذين تحبهم!</string>
+    <string name="on_boarding_text">أهلا وسهلا بك إلى أرض القطط!  هل أنت مستعد لمشاركة صور قطتك مع العالم؟  هذا التطبيق هو لك.</string>
     <string name="MeowMedia">Meow Media</string>
 
     <string name="friends">الاصدقاء</string>
@@ -118,4 +118,13 @@
     <string name="image_post_rejected">تم دفض صوره المنشور</string>
     <string name="image_post_rejected_description">الصوره يجب ان تتضمن صوره</string>
 
+
+    <string name="no_items">يبدو انه لا توجد عناصر meows هنا!</string>
+
+    <string name="try_again">حاول مرة اخرى للحصول على meows</string>
+
+    <string name="decline">Decline</string>
+    <string name="Accept">Accept</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="image">Image</string>
 </resources>

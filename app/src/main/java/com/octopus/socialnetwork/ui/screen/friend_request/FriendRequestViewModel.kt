@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFrien
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,9 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FriendRequestViewModel @Inject constructor(
-    private val fetchFriendRequestsListUseCase: FetchFriendRequestsListUseCase,
-    private val addFriendUseCase: AddFriendUseCase,
-    private val removeFriendUseCase: RemoveFriendUseCase,
+    private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
+    private val addFriend: AddFriendUseCase,
+    private val removeFriend: RemoveFriendUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -31,13 +32,13 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     private fun getFriendRequests() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val friendRequests = fetchFriendRequestsListUseCase()
+                val friendRequests = fetchFriendRequestsList()
 
                 _state.update {
                     it.copy(
-                        friendRequests = friendRequests.map { it.toUserDetailsUiState() },
+                        requests = friendRequests.map { it.toUserDetailsUiState() },
                         isLoading = false,
                         isError = false,
                     )
@@ -49,9 +50,9 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     fun onClickAccept(clickedUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = addFriendUseCase.invoke(clickedUserId).requestExists
+                val isRequestExists = addFriend.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -60,9 +61,9 @@ class FriendRequestViewModel @Inject constructor(
     }
 
     fun onClickDecline(clickedUserId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = removeFriendUseCase.invoke(clickedUserId).requestExists
+                val isRequestExists = removeFriend.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -72,8 +73,11 @@ class FriendRequestViewModel @Inject constructor(
 
     private fun removeRequestIfNotExists(isRequestExist: Boolean, userId: Int) {
         _state.update {
-            it.copy(friendRequests = if (!isRequestExist) _state.value.friendRequests.filter { it.userId != userId } else _state.value.friendRequests)
+            it.copy(requests = if (!isRequestExist) _state.value.requests.filter { it.userId != userId } else _state.value.requests)
         }
     }
 
+    fun onClickTryAgain() {
+        getFriendRequests()
+    }
 }

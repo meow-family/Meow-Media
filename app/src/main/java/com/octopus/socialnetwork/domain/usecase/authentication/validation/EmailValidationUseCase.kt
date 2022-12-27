@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.domain.usecase.authentication.validation
 
 import androidx.core.util.PatternsCompat
-import com.octopus.socialnetwork.domain.enums.InputFieldValidation
 import javax.inject.Inject
 
 class EmailValidationUseCase @Inject constructor() {
