@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 
@@ -50,7 +49,8 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            painter = customImageLoad(commentDetails.userAvatar) , size = 50
+            imageUrl = commentDetails.userAvatar, size = 50,
+            contentDescription = stringResource(id = R.string.profile_image)
         )
 
         Text(

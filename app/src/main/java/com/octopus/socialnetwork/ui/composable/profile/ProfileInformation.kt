@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.composable.profile
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -36,13 +37,12 @@ fun ProfileInformation(
         Box(
             modifier = Modifier
                 .size(86.dp)
-                .align(alignment = Alignment.BottomCenter)
+                .align(alignment = Alignment.BottomCenter).clip(CircleShape)
+                .border(1.dp, color = Color.LightGray, shape = CircleShape)
         ) {
             ProfileImage(
                 imageUrl = profileImageUrl,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .border(1.dp, color = Color.LightGray, shape = CircleShape)
+                modifier = Modifier.fillMaxSize()
             )
         }
     }

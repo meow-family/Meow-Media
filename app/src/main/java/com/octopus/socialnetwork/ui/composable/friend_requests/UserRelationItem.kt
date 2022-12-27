@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.composable.friend_requests
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
+import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
@@ -55,14 +53,15 @@ fun UserRelationItem(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = customImageLoad(state.profileAvatar),
-            contentDescription = stringResource(R.string.profile_image),
+
+        ImageNetwork(
+            imageUrl = state.profileAvatar,
             modifier = Modifier
                 .clip(CircleShape)
                 .size(48.dp),
-            contentScale = ContentScale.Crop,
+            contentDescription = stringResource(R.string.profile_image),
         )
+
         Text(
             modifier = Modifier
                 .padding(horizontal = spacingMedium)

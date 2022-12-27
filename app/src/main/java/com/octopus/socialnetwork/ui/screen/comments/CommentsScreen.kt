@@ -70,11 +70,13 @@ private fun CommentsContent(
             AppBar(onClickBack, title = stringResource(id = R.string.Comments))
             if (state.isLoading) {
                 LottieLoading()
-            } else if (state.comments.isEmpty()) {
+            }
+            if (state.comments.isEmpty()) {
                 ImageForEmptyList(modifier = Modifier.fillMaxWidth().weight(1f))
-            }else if (state.isError ){
+            }
+            if (state.isError ){
                 LottieError(onClickTryAgain)
-            } else {
+            }
 
             LazyColumn(
                 Modifier
@@ -94,7 +96,7 @@ private fun CommentsContent(
                         if (index < state.comments.lastIndex) Divider()
                     }
                 }
-            }
+
 
             TypingField(
                 onChangeTypingComment = onChangeTypingComment,

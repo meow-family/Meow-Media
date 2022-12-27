@@ -7,7 +7,7 @@ fun PostDto.toPostEntity(): PostEntity {
     return PostEntity(
         id = details?.postId ?: 0,
         ownerId = details?.ownerId ?: 0,
-        description = description ?: "",
+        description = if (description == "false") "" else description ?: "",
         imageUrl = image ?: "",
         fullName = user?.fullName ?: "",
         username = user?.username ?: "",
