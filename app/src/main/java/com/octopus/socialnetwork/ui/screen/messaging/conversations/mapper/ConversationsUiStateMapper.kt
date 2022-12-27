@@ -5,12 +5,13 @@ import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
+import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 
 fun Messages.toConversationUiState(): ConversationUiState {
     return ConversationUiState(
-        message = this.message,
+        message = this.message.removeHtmlEncoding(),
         otherUser = otherUser.toUserUiState(),
-        lastMessage = this.message,
+        lastMessage = this.message.removeHtmlEncoding(),
         lastSendTime = time.getHourAndMinutes(),
         isSentByMe = isSentByMe,
     )
