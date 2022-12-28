@@ -10,7 +10,6 @@ import com.octopus.socialnetwork.ui.navigation.Graph
 
 private const val ROUTE = Graph.MAIN
 
-
 fun NavController.navigateToMain() {
     navigate(ROUTE)
 }

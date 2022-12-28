@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.main
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumedWindowInsets
@@ -19,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
@@ -31,12 +31,10 @@ import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.screen.create_post.navigateToCreatePostRoute
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
-
-@OptIn(ExperimentalLayoutApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
+@OptIn(ExperimentalLayoutApi::class)
 fun MainScreen(navController: NavHostController, rootNavController: NavController) {
 
     Scaffold(
@@ -102,14 +100,12 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
-fun SocialNetworkAppPreview() {
+private fun SocialNetworkAppPreview() {
     SocialNetworkTheme {
-
-//        SocialNetworkApp()
-
+        MainScreen(rememberNavController(), rememberNavController())
     }
 }

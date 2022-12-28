@@ -18,7 +18,6 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfilePostUiState
 
-
 @Composable
 fun ProfilePostItem(
     post: ProfilePostUiState,

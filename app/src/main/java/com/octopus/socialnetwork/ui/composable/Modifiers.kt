@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.LightBlack_86
-import com.octopus.socialnetwork.ui.theme.light_grey
 
 
 @Stable
@@ -49,12 +47,6 @@ fun Modifier.backgroundVerticalGradientWhite(
 fun Modifier.backgroundVerticalGradientLightBlack() = then(
     Modifier.background(
         Brush.verticalGradient(listOf(Color.Transparent, LightBlack_86))
-    )
-)
-@Stable
-fun Modifier.backgroundVerticalGradientWhite() = then(
-    Modifier.background(
-        Brush.verticalGradient(listOf(light_grey,Color.Transparent ))
     )
 )
 
@@ -99,13 +91,14 @@ fun Modifier.underLineBoarder(
 )
 
 
-@Composable
 @Stable
 fun Modifier.mirroringIcon(): Modifier =
-    if (LocalLayoutDirection.current == LayoutDirection.Rtl) {
-        this.scale(scaleX = -1f, scaleY = 1f)
-    } else {
-        this
+    composed {
+        if (LocalLayoutDirection.current == LayoutDirection.Rtl) {
+            this.scale(scaleX = -1f, scaleY = 1f)
+        } else {
+            this
+        }
     }
 
 

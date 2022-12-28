@@ -24,7 +24,6 @@ import com.octopus.socialnetwork.ui.composable.rememberDatePicker
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
-
 @Composable
 @ExperimentalMaterialApi
 fun PersonalInformation(

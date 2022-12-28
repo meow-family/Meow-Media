@@ -18,7 +18,6 @@ import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
-
 @Composable
 fun AccountInformation(
     state: UserInfoFormUiState,
@@ -77,8 +76,6 @@ fun AccountInformation(
                 }
             }
         )
-
     }
-
 
 }
