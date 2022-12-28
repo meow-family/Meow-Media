@@ -49,6 +49,7 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
+    private val commentDataSource: CommentDataSource
 ) : SocialRepository {
 
     //region user
@@ -144,7 +145,16 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto> {
-        return socialService.getCommentsList(myUserId, postId, type).result.comments
+        return socialService.getCommentsList(myUserId, postId, type,1).result.comments
+    }
+
+    override suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto> {
+        val dataSource = commentDataSource
+        dataSource.setCommentID(postId)
+        return Pager(
+            config = PagingConfig(100,
+            prefetchDistance = 5,enablePlaceholders = false) ,
+            pagingSourceFactory = { dataSource })
     }
 
     override suspend fun editComment(commentId: Int, comment: String): CommentEditResponse {

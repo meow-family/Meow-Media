@@ -28,9 +28,9 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 
 @Composable
 fun ItemComment(
-    commentDetails: CommentDetailsUiState,
+    state: CommentDetailsUiState,
     modifier: Modifier = Modifier,
-    onLike: () -> Unit
+    onLike: (Int, Int, Boolean) -> Unit,
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -49,12 +49,12 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            imageUrl = commentDetails.userAvatar, size = 50,
+            imageUrl = state.userAvatar, size = 50,
             contentDescription = stringResource(id = R.string.profile_image)
         )
 
         Text(
-            text = commentDetails.fullName,
+            text = state.fullName,
             fontSize = 14.sp,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Bold,
@@ -63,7 +63,7 @@ fun ItemComment(
                 start.linkTo(userImage.end, 8.dp)
             })
         Text(
-            text = commentDetails.userName,
+            text = state.userName,
             fontSize = 12.sp,
             color = light_outline,
             fontWeight = FontWeight.Normal,
@@ -72,7 +72,7 @@ fun ItemComment(
                 start.linkTo(fullName.start)
             })
 
-        Text(text = commentDetails.comment,
+        Text(text = state.comment,
             fontSize = 12.sp,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Normal,
@@ -82,7 +82,7 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick =  onLike,
+        IconButton(onClick = { onLike(state.commentId, state.likeCounter, state.isLikedByUser) },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)
@@ -92,15 +92,15 @@ fun ItemComment(
                 }) {
             Icon(
                 painterResource(
-                    if (commentDetails.isLikedByUser) R.drawable.ic_like_12
+                    if (state.isLikedByUser) R.drawable.ic_like_12
                     else R.drawable.ic_un_like_12
                 ),
                 contentDescription = stringResource(id = R.string.like),
-                tint = if (commentDetails.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
+                tint = if (state.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
             )
         }
 
-        Text(text = commentDetails.likeCounter.toString(),
+        Text(text = state.likeCounter.toString(),
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,
@@ -110,7 +110,7 @@ fun ItemComment(
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = commentDetails.timeCreated,
+        Text(text = state.timeCreated,
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,
