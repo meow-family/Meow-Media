@@ -71,7 +71,7 @@ interface SocialRepository {
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>
+    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>?
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 

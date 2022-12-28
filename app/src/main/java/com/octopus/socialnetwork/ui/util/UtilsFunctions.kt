@@ -11,15 +11,15 @@ import com.octopus.socialnetwork.ui.util.Constants.NOTIFICATIONS_TYPES_List
 import com.octopus.socialnetwork.ui.util.extensions.notificationsTypes
 
 
-fun isNotificationType(type: String) : Boolean = NOTIFICATIONS_TYPES_List.contains(type)
+fun isNotificationType(type: String): Boolean = NOTIFICATIONS_TYPES_List.contains(type)
 
 fun onClickNotification(
     type: String,
     navController: NavController,
     notification: NotificationItemsUiState
 ) {
-    if(isNotificationType(type)){
-        when(type) {
+    if (isNotificationType(type)) {
+        when (type) {
             notificationsTypes.LIKE_POST ->
                 navController.navigateToPostScreen(
                     notification.subjectId,
@@ -32,11 +32,17 @@ fun onClickNotification(
                     notification.type
                 )
 
-            notificationsTypes.COMMENTS_POST ->
+
+            notificationsTypes.COMMENTS_POST -> {
+                navController.navigateToPostScreen(
+                    notification.subjectId,
+                    notification.ownerId
+                )
                 navController.navigateToCommentsScreen(
                     notification.subjectId,
                     notification.type
                 )
+            }
 
             else ->
                 navController.navigateToPostScreen(
@@ -48,7 +54,7 @@ fun onClickNotification(
 }
 
 fun playMeowSound(isMeowed: Boolean, context: Context) {
-    if(!isMeowed){
+    if (!isMeowed) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.meow_sound)
         mp.start()
         if (mp.isPlaying.not()) {

@@ -143,8 +143,8 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
-    override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto> {
-        return socialService.getCommentsList(myUserId, postId, type).result.comments
+    override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>? {
+        return socialService.getCommentsList(myUserId, postId, type).result?.comments
     }
 
     override suspend fun editComment(commentId: Int, comment: String): CommentEditResponse {
