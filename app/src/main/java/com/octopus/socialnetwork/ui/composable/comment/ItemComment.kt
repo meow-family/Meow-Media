@@ -23,9 +23,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
 import com.octopus.socialnetwork.ui.composable.customImageLoad
+import com.octopus.socialnetwork.ui.composable.post.setLikeColor
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable
@@ -92,12 +92,9 @@ fun ItemComment(
                     start.linkTo(postText.start)
                 }) {
             Icon(
-                painterResource(
-                    if (commentDetails.isLikedByUser) R.drawable.ic_like_12
-                    else R.drawable.ic_un_like_12
-                ),
+                painterResource(R.drawable.ic_cat_foot),
                 contentDescription = stringResource(id = R.string.like),
-                tint = if (commentDetails.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
+                tint = setLikeColor(commentDetails.isLikedByUser, true)
             )
         }
 
@@ -111,7 +108,7 @@ fun ItemComment(
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = commentDetails.timeCreated.getHourAndMinutes(),
+        Text(text = commentDetails.timeCreated,
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,

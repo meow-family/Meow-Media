@@ -27,7 +27,6 @@ import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBl
 import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
 @Composable

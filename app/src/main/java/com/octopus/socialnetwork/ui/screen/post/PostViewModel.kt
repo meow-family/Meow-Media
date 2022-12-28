@@ -25,13 +25,12 @@ class PostViewModel @Inject constructor(
 
     private val args: PostScreenArgs = PostScreenArgs(savedStateHandle)
 
+    private val _state = MutableStateFlow(PostMainUiState())
+    val state = _state.asStateFlow()
 
     init {
         getPostDetails()
     }
-
-    private val _state = MutableStateFlow(PostMainUiState())
-    val state = _state.asStateFlow()
 
     private fun getPostDetails() {
         viewModelScope.launch(Dispatchers.IO) {

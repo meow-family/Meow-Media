@@ -1,9 +1,5 @@
 package com.octopus.socialnetwork.ui.composable
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -15,18 +11,19 @@ import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
+import com.octopus.socialnetwork.ui.composable.post.setLikeColor
+import com.octopus.socialnetwork.ui.composable.post.setLikeSize
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
@@ -41,19 +38,6 @@ fun ItemPost(
     onShare: () -> Unit
 ) {
 
-    val iconColor by animateColorAsState(
-        targetValue = if (post.isLiked) Color.Red else Color.White,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMediumLow)
-    )
-
-    val iconSize by animateDpAsState(
-        targetValue = if (post.isLiked) 18.dp else 16.dp,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMediumLow)
-    )
     val context = LocalContext.current
 
     Box(
@@ -89,8 +73,8 @@ fun ItemPost(
                             onLike(post.postId, post.likeCount.toInt(), post.isLiked)
                             playMeowSound(post.isLiked, context)
                         },
-                        tint = iconColor,
-                        modifier = Modifier.size(iconSize)
+                        tint = setLikeColor(post.isLiked),
+                        modifier = Modifier.size(setLikeSize(post.isLiked))
                     )
                 }, {
                     InteractionIcon(
@@ -117,7 +101,6 @@ fun ItemPost(
         ) {
             SmallPostDetails(post = post)
         }
-
 
     }
 }

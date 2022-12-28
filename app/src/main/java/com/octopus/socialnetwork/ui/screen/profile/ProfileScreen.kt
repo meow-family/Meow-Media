@@ -28,6 +28,7 @@ import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 
@@ -68,54 +69,55 @@ private fun ProfileContent(
     onClickTryAgain: () -> Unit,
 ) {
 
-    if (state.isLoading) {
-        LottieLoading()
-    } else {
+    LazyVerticalGrid(
+        modifier = Modifier
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize(),
+        columns = GridCells.Fixed(3),
+        verticalArrangement = Arrangement.spacedBy(spacingSmall),
+        horizontalArrangement = Arrangement.Center
+    ) {
 
-        LazyVerticalGrid(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
-                .fillMaxSize(),
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.Center
-        ) {
+        item(span = { GridItemSpan(3) }) {
 
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                UserDetails(state.userDetails)
 
-            item(span = { GridItemSpan(3) }) {
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    UserDetails(state.userDetails)
-
-                    Row {
-                        if (state.isMyProfile) {
-                            MyProfileLayout(
-                                state = state,
-                                onClickEditProfile = onClickEditProfile,
-                                onClickLogout = onClickLogout
-                            )
-                        } else {
-                            VisitedProfileLayout(
-                                state = state,
-                                onClickAddFriend = onClickAddFriend,
-                                onClickMessage = onClickMessage
-                            )
-                        }
+                Row {
+                    if (state.isMyProfile) {
+                        MyProfileLayout(
+                            state = state,
+                            onClickEditProfile = onClickEditProfile,
+                            onClickLogout = onClickLogout
+                        )
+                    } else {
+                        VisitedProfileLayout(
+                            state = state,
+                            onClickAddFriend = onClickAddFriend,
+                            onClickMessage = onClickMessage
+                        )
                     }
-                    SpaceVertically8dp()
-                    Divider()
                 }
-
+                SpaceVertically8dp()
+                Divider()
             }
 
-            if (state.isError) {
-                item(span = { GridItemSpan(3) }) { LottieError(onClickTryAgain) }
-            } else if (state.profilePosts.isEmpty()) {
-                item(span = { GridItemSpan(3) }) { ImageForEmptyList() }
-            } else {
+        }
+
+        when {
+            state.isLoading -> item(span = { GridItemSpan(3) }) {
+                LottieLoading(modifier = Modifier.padding(vertical = spacingExtraLarge))
+            }
+            state.isError -> item(span = { GridItemSpan(3) }) {
+                LottieError(onClickTryAgain)
+            }
+            state.profilePosts.isEmpty() -> item(span = { GridItemSpan(3) }) {
+                ImageForEmptyList()
+            }
+            else -> {
                 items(items = state.profilePosts) { ProfilePostUiState ->
                     ProfilePostItem(
                         post = ProfilePostUiState,
@@ -126,7 +128,5 @@ private fun ProfileContent(
         }
 
     }
+
 }
-
-
-

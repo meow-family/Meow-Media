@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -33,20 +32,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.ImageWithShadow
-import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
-import com.octopus.socialnetwork.ui.composable.LoadingDialog
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
-import com.octopus.socialnetwork.ui.composable.SpacerVertical32
-import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
@@ -96,14 +88,10 @@ private fun LoginContent(
             .background(MaterialTheme.colors.background),
 
         ) {
-//        ImageWithShadow(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(300.dp)
-//                .wrapContentSize(Alignment.BottomCenter),
-//             = painterResource(id = R.drawable.login_background)
-//        )
-
+        ImagePainterWithShadow(
+            painter = painterResource(id = R.drawable.login_image),
+            modifier = Modifier.fillMaxWidth().height(300.dp).wrapContentSize(Alignment.BottomCenter)
+        )
 
         Text(
             modifier = Modifier.padding(vertical = 24.dp),

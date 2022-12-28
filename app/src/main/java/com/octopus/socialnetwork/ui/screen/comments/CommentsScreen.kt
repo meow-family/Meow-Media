@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
+import com.octopus.socialnetwork.ui.util.playMeowSound
 
 
 @Composable
@@ -67,6 +69,8 @@ private fun CommentsContent(
                 .background(MaterialTheme.colors.background),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+            val context = LocalContext.current
+
             AppBar(onClickBack, title = stringResource(id = R.string.Comments))
             if (state.isLoading) {
                 LottieLoading()
@@ -89,7 +93,10 @@ private fun CommentsContent(
                     itemsIndexed(state.comments) { index, item ->
                         ItemComment(
                             commentDetails = item,
-                            onLike = { onClickLike(item.commentId) }
+                            onLike = {
+                                onClickLike(item.commentId)
+                                playMeowSound(item.isLikedByUser, context)
+                            }
                         )
                         if (index < state.comments.lastIndex) Divider()
                     }
