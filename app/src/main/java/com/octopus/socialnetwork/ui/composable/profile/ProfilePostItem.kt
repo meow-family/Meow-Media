@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ImageNetwork
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfilePostUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfilePostUiState
 
 
 @Composable

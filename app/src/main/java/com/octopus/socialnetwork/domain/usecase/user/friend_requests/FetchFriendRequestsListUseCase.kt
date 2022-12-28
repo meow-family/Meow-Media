@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.user.friend_requests.toFriendRequestsList
 import com.octopus.socialnetwork.domain.model.user.User
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 
@@ -13,7 +14,7 @@ class FetchFriendRequestsListUseCase @Inject constructor(
 
     ) {
     suspend operator fun invoke(): List<User> {
-        return socialRepository.getFriendRequests(fetchUserIdUseCase.invoke()).toFriendRequestsList()
+        return socialRepository.getFriendRequests(fetchUserIdUseCase().first()).toFriendRequestsList()
     }
 }
 

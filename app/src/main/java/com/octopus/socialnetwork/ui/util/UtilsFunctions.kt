@@ -51,5 +51,8 @@ fun playMeowSound(isMeowed: Boolean, context: Context) {
     if(!isMeowed){
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.meow_sound)
         mp.start()
+        if (mp.isPlaying.not()) {
+            mp.release()
+        }
     }
 }

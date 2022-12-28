@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileContentTab
+import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfileContentTab
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.theme.fontSizePrimary
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor

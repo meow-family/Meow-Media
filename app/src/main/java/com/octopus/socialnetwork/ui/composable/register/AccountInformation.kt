@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserInfoFormUiState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.UserInfoFormUiState
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 
 

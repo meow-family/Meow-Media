@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.*
 
 @Composable

@@ -9,7 +9,9 @@ import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 private const val ROUTE = DetailsRoute.Notifications
 
 fun NavController.navigateToNotificationsScreen(){
-    navigate(ROUTE)
+    navigate(ROUTE) {
+        launchSingleTop = true
+    }
 }
 
 fun NavGraphBuilder.notificationsRoute(navController: NavController) {

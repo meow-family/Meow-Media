@@ -40,12 +40,11 @@ import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
+import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostViewModel
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
-import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.util.onClickNotification
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 
 @RequiresApi(Build.VERSION_CODES.O)

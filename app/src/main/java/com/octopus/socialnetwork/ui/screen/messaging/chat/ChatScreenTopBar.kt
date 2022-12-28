@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.ProfileImage
 import com.octopus.socialnetwork.ui.composable.underLineBoarder
-import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.state.uistate.ChatMainUiState
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 

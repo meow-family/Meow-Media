@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
@@ -23,10 +22,10 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
-import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
+import com.octopus.socialnetwork.ui.screen.home.state.HomeViewModel
+import com.octopus.socialnetwork.ui.screen.home.state.uistate.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-import kotlinx.coroutines.flow.emptyFlow
 
 
 @Composable

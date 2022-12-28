@@ -25,7 +25,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
-import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor

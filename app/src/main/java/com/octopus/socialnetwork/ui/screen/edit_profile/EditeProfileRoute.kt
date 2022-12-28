@@ -11,7 +11,9 @@ import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 private const val ROUTE = DetailsRoute.EditeProfile
 
 fun NavController.navigateToEditeProfileRoute(userId: Int) {
-    navigate("${ROUTE}/$userId")
+    navigate("${ROUTE}/$userId") {
+        launchSingleTop = true
+    }
 }
 
 fun NavGraphBuilder.editeProfileRouteRoute(navController: NavController) {

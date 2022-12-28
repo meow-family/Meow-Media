@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.mirroringIcon
-import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentsUiState
+import com.octopus.socialnetwork.ui.screen.comments.state.uistate.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textSecondaryColor
 

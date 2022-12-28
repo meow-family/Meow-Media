@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.register.mapper
 
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.InputFieldValidation
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.UserNameState
 
 
 fun InputFieldValidation.toUserNameUiState(): UserNameState {

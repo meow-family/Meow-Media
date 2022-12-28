@@ -44,7 +44,8 @@ import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.StepIndicatorRegistration
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
-import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.state.RegisterViewModel
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor

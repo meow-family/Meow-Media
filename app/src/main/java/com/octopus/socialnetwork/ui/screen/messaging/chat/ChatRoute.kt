@@ -12,7 +12,9 @@ private const val ROUTE = DetailsRoute.Chat
 
 
 fun NavController.navigateToChat(userId: Int){
-    navigate("$ROUTE/$userId")
+    navigate("$ROUTE/$userId") {
+        launchSingleTop = true
+    }
 }
 fun NavGraphBuilder.chatRoute(navController: NavController) {
     composable("$ROUTE/{${ChatScreenArgs.USER_ID}}",

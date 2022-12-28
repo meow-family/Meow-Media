@@ -27,7 +27,8 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
-import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
+import com.octopus.socialnetwork.ui.screen.edit_profile.state.EditProfileViewModel
+import com.octopus.socialnetwork.ui.screen.edit_profile.state.uistate.EditProfileUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingMedium

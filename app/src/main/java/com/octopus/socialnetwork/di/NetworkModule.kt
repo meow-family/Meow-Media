@@ -1,14 +1,9 @@
 package com.octopus.socialnetwork.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.google.firebase.firestore.FirebaseFirestore
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
-import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
+import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
@@ -77,17 +72,5 @@ object NetworkModule {
             .build()
     }
 
-
-    @Singleton
-    @Provides
-    fun bindAuthenticationRepository(
-        dataStore: DataStore<Preferences>,
-        apiService: SocialService,
-        firebaseFirestore: FirebaseFirestore
-    ): AuthenticationRepository = AuthenticationRepositoryImpl(
-        dataStore = dataStore,
-        service = apiService,
-        fireStore = firebaseFirestore
-    )
 
 }

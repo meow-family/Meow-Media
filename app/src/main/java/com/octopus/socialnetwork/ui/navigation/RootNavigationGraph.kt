@@ -10,10 +10,10 @@ import com.octopus.socialnetwork.ui.screen.main.mainRoute
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavigationGraph(navController: NavHostController,isLoggedOut: Boolean) {
     NavHost(
         navController = navController,
-        startDestination = if (SocialNetworkApplication.isLoggedOut) Graph.AUTH else Graph.MAIN,
+        startDestination = if (isLoggedOut) Graph.AUTH else Graph.MAIN,
         route = Graph.ROOT
     ) {
         authNavigationGraph(navController)

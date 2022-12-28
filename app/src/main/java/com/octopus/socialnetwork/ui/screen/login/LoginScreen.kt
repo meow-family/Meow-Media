@@ -46,6 +46,7 @@ import com.octopus.socialnetwork.ui.composable.SpacerVertical16
 import com.octopus.socialnetwork.ui.composable.SpacerVertical32
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
+import com.octopus.socialnetwork.ui.screen.login.state.LoginViewModel
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
 import com.octopus.socialnetwork.ui.theme.spacingMedium

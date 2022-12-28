@@ -28,6 +28,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
+import com.octopus.socialnetwork.ui.screen.search.state.SearchViewModel
 import com.octopus.socialnetwork.ui.theme.outLine
 
 @Composable

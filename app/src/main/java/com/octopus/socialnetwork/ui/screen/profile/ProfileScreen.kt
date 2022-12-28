@@ -1,7 +1,10 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,7 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.*
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
@@ -23,11 +26,11 @@ import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
-import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
-import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
+import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileViewModel
+import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 
@@ -51,9 +54,7 @@ fun ProfileScreen(
         },
         onClickTryAgain = viewModel::onClickTryAgain
     )
-    if (state.isLogout) {
-        navController.navigate(AuthenticationRoute.OnBoarding)
-    }
+
 }
 
 @Composable

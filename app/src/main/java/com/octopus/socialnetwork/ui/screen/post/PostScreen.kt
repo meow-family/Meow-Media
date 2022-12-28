@@ -36,7 +36,8 @@ import com.octopus.socialnetwork.ui.composable.post.PostImage
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostViewModel
+import com.octopus.socialnetwork.ui.screen.post.state.uistate.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
 import com.octopus.socialnetwork.ui.util.Constants

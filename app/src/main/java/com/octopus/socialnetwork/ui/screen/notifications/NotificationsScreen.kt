@@ -19,13 +19,13 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsViewModel
 import com.octopus.socialnetwork.ui.theme.DividerColor
 import com.octopus.socialnetwork.ui.util.onClickNotification
 

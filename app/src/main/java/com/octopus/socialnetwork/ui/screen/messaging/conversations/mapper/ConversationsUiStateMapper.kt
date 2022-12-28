@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.messaging.conversations.mapper
 import com.octopus.socialnetwork.domain.model.messages.Messages
 import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
-import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 
