@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit
+package com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit
 
 import android.net.Uri
 import android.util.Log
@@ -14,7 +14,7 @@ import kotlin.coroutines.resumeWithException
 class ProcessImageUseCase @Inject constructor(
     private val imageConverter: ImageConverter,
 ) {
-    suspend operator fun invoke(imageUri: Uri, ): List<ImageLabel>? {
+    suspend operator fun invoke(imageUri: Uri): List<ImageLabel>? {
 
         return suspendCancellableCoroutine { continuation ->
             val image = imageConverter.convertToInputImage(imageUri)

@@ -106,7 +106,6 @@ private fun ProfileContent(
             })
         {
 
-
             LazyVerticalGrid(
                 modifier = Modifier
                     .background(MaterialTheme.colors.background)
@@ -115,10 +114,7 @@ private fun ProfileContent(
                 verticalArrangement = Arrangement.spacedBy(spacingSmall),
                 horizontalArrangement = Arrangement.Center
             ) {
-
-
                 item(span = { GridItemSpan(3) }) {
-
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally

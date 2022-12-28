@@ -32,7 +32,7 @@ import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.outLine
-import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
+import com.octopus.socialnetwork.ui.util.UserRelationUiState
 
 @Composable
 fun FriendRequestScreen(

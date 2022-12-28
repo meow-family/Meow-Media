@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit
+package com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit
 
 import android.net.Uri
 import javax.inject.Inject

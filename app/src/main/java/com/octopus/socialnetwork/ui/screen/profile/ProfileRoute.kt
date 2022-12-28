@@ -8,11 +8,6 @@ import com.octopus.socialnetwork.ui.navigation.MainRoute
 
 private const val ROUTE = MainRoute.Profile
 
-
-fun NavController.navigateToMyProfileScreen() {
-    navigate(ROUTE)
-}
-
 fun NavGraphBuilder.myProfileRoute(navController: NavController) {
     composable(ROUTE) { ProfileScreen(navController) }
 }

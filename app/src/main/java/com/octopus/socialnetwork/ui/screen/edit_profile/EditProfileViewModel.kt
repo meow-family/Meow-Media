@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit.OpenFileUseCase
 import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeCoverImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase

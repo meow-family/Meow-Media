@@ -18,7 +18,7 @@ import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
 import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
 import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
 import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
-import com.octopus.socialnetwork.ui.util.enums.InputInformation
+import com.octopus.socialnetwork.ui.util.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

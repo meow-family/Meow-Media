@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.domain.usecase.post.createpost
+package com.octopus.socialnetwork.domain.usecase.post.create_post
 
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.posts.toPost

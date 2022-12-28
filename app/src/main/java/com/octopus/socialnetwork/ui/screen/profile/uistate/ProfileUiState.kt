@@ -1,7 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.profile.uistate
 
-import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
+import com.octopus.socialnetwork.ui.util.UserRelationUiState
 
 data class ProfileUiState(
     val isLoading: Boolean = true,
@@ -13,10 +12,8 @@ data class ProfileUiState(
     val profilePosts: List<ProfilePostUiState> = emptyList(),
     val isFriend: Boolean = false,
     val isRequestExists: Boolean = false,
-    val profileContentTab: ProfileContentTab = ProfileContentTab(),
     val friends: List<UserDetailsUiState> = emptyList(),
-
-    )
+)
 
 data class UserDetailsUiState(
     val userId: Int = 0,
@@ -29,6 +26,8 @@ data class UserDetailsUiState(
     var relation: UserRelationUiState = UserRelationUiState.ME,
 )
 
-data class ProfileContentTab(
-    val itemTabs: List<Int> = listOf(R.string.resents, R.string.albums)
+data class ProfilePostUiState(
+    val postId: Int = 0,
+    val postOwnerId: Int = 0,
+    val postImage: String = ""
 )
