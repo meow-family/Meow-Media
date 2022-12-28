@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,7 @@ import com.octopus.socialnetwork.ui.composable.Avatar
 import com.octopus.socialnetwork.ui.composable.post.setLikeColor
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
+import com.octopus.socialnetwork.ui.util.playMeowSound
 
 
 @Composable
@@ -33,6 +35,8 @@ fun ItemComment(
     modifier: Modifier = Modifier,
     onLike: (Int, Int, Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
+
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
@@ -83,7 +87,10 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick = { onLike(state.commentId, state.likeCounter, state.isLikedByUser) },
+        IconButton(onClick = {
+            onLike(state.commentId, state.likeCounter, state.isLikedByUser)
+            playMeowSound(state.isLikedByUser, context)
+        },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)

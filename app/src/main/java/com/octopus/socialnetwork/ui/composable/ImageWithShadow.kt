@@ -49,25 +49,3 @@ fun ImageWithShadow(imageUrl: String? = null, painter: Painter? = null, modifier
 
     }
 }
-
-
-@Composable
-fun ImagePainterWithShadow(painter: Painter, modifier: Modifier) {
-    Box(
-        modifier = modifier
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colors.background),
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = stringResource(R.string.background),
-        )
-
-        Box(
-            modifier = Modifier
-                .backgroundVerticalGradientWhite(MaterialTheme.colors.background)
-                .align(alignment = Alignment.BottomCenter)
-        )
-
-    }
-}

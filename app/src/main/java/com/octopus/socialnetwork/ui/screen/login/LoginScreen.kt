@@ -96,11 +96,6 @@ private fun LoginContent(
             painter = painterResource(id = R.drawable.login_image)
         )
 
-//        ImagePainterWithShadow(
-//            painter = painterResource(id = R.drawable.login_image),
-//            modifier = Modifier.fillMaxWidth().height(300.dp).wrapContentSize(Alignment.BottomCenter)
-//        )
-
         Text(
             modifier = Modifier.padding(vertical = 24.dp),
             text = stringResource(R.string.login),

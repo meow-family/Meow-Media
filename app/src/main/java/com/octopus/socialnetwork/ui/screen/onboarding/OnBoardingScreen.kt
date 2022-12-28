@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.ImageWithShadow
 import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.navigateToLogin
 import com.octopus.socialnetwork.ui.screen.register.navigateToRegister
@@ -71,10 +72,6 @@ private fun OnBoardingContent(
                 .wrapContentSize(Alignment.BottomCenter),
             painter = painterResource(id = R.drawable.on_boarding_image)
         )
-//        ImagePainterWithShadow(
-//            painter = painterResource(id = R.drawable.on_boarding_image),
-//            modifier = Modifier.fillMaxWidth().height(300.dp).wrapContentSize(Alignment.BottomCenter),
-//        )
 
         Text(
             text = stringResource(R.string.on_boarding_text), textAlign = TextAlign.Start,
