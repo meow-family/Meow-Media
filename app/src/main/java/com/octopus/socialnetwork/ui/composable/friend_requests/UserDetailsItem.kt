@@ -34,7 +34,7 @@ import com.octopus.socialnetwork.ui.util.fake_data.FakeData
 
 
 @Composable
-fun UserRelationItem(
+fun UserDetailsItem(
     state: UserDetailsUiState,
     onClickItem: (Int) -> Unit,
     friendRequest: Boolean = false,
@@ -128,7 +128,7 @@ fun UserRelationItem(
 @Composable
 fun UserRelationItemPreviewMe() {
     SocialNetworkTheme {
-        UserRelationItem(
+        UserDetailsItem(
             state = FakeData.meUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
@@ -141,7 +141,7 @@ fun UserRelationItemPreviewMe() {
 @Composable
 fun UserRelationItemPreviewFriend() {
     SocialNetworkTheme {
-        UserRelationItem(
+        UserDetailsItem(
             state = FakeData.friendUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
@@ -155,7 +155,7 @@ fun UserRelationItemPreviewFriend() {
 @Composable
 fun UserRelationItemPreviewNotFriend() {
     SocialNetworkTheme {
-        UserRelationItem(
+        UserDetailsItem(
             state = FakeData.notFriendUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},
@@ -168,7 +168,7 @@ fun UserRelationItemPreviewNotFriend() {
 @Composable
 fun UserRelationItemPreview() {
     SocialNetworkTheme {
-        UserRelationItem(
+        UserDetailsItem(
             state = FakeData.RequestedUserDetailsUiState,
             onClickAccept = {},
             onClickDecline = {},

@@ -8,14 +8,15 @@ data class ProfileUiState(
     val isError: Boolean = false,
     val isMyProfile: Boolean = false,
     val isUserVisitor: Boolean = false,
-    val isLogout: Boolean =false,
+    val isLogout: Boolean = false,
     val userDetails: UserDetailsUiState = UserDetailsUiState(),
     val profilePosts: List<ProfilePostUiState> = emptyList(),
     val isFriend: Boolean = false,
     val isRequestExists: Boolean = false,
-    val profileContentTab: ProfileContentTab = ProfileContentTab()
+    val profileContentTab: ProfileContentTab = ProfileContentTab(),
+    val friends: List<UserDetailsUiState> = emptyList(),
 
-)
+    )
 
 data class UserDetailsUiState(
     val userId: Int = 0,

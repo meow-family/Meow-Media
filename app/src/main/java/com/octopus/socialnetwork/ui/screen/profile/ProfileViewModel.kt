@@ -10,8 +10,8 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
@@ -68,12 +68,12 @@ class ProfileViewModel @Inject constructor(
     private fun getUserDetails(myUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userFriendsCount = fetchUserFriendsCount(myUserId).total
+                val userFriend = fetchUserFriendsCount(myUserId)
                 val profilePosts = fetchUserPosts(myUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(myUserId).count
                 val profileUiState = fetchUserDetailS(myUserId).toUserDetailsUiState()
 
-                _state.update {
+                _state.update { it ->
                     it.copy(
                         isLoading = false,
                         isError = false,
@@ -83,10 +83,11 @@ class ProfileViewModel @Inject constructor(
                             username = profileUiState.username,
                             profileAvatar = profileUiState.profileAvatar,
                             profileCover = profileUiState.profileCover,
-                            friendsCount = userFriendsCount.toString(),
+                            friendsCount = userFriend.total.toString(),
                             postCount = userPostsCount.toString(),
                             userId = profileUiState.userId,
-                        )
+                        ),
+                        friends = userFriend.friends.map { it.toUserDetailsUiState() },
                     )
                 }
             } catch (e: Exception) {

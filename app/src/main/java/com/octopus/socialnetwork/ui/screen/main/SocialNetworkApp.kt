@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.octopus.socialnetwork.ui.navigation.RootNavigationGraph
-import com.octopus.socialnetwork.ui.screen.user_friends.UserFriendsScreen
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
@@ -14,8 +13,7 @@ import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 fun SocialNetworkApp() {
     SocialNetworkTheme {
         val navController = rememberNavController()
-        //RootNavigationGraph(navController)
-        UserFriendsScreen(navController = navController)
+        RootNavigationGraph(navController)
     }
 }
 
