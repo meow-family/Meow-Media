@@ -51,7 +51,9 @@ fun InputDropdown(
                 expanded = expanded, onDismissRequest = onDismissRequest
             ) {
                 options.forEach { selectionOption ->
-                    DropdownMenuItem(onClick = { onClick(selectionOption) }) {
+                    DropdownMenuItem(
+                        onClick = { onClick(selectionOption) },
+                    ) {
                         Text(
                             text = selectionOption,
                             color = MaterialTheme.colors.textPrimaryColor

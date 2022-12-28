@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -27,7 +26,7 @@ import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 @Composable
 @ExperimentalMaterialApi
 fun PersonalInformation(
-    userInfoForm: UserInfoFormUiState,
+    state: UserInfoFormUiState,
     showError: Boolean,
     onChangeFirstName: (String) -> Unit,
     onChangeLastName: (String) -> Unit,
@@ -37,7 +36,7 @@ fun PersonalInformation(
 
     var expandedDropdownMenu by remember { mutableStateOf(false) }
     val datePicker = rememberDatePicker(onChangeBirthday)
-    val gender: List<String> = listOf("male", "female")
+
 
     Column(
         modifier = Modifier
@@ -46,7 +45,7 @@ fun PersonalInformation(
     ) {
 
         InputTextFieldValidation(
-            state = userInfoForm.firstName,
+            state = state.firstName,
             onChangeValue = onChangeFirstName,
             placeholder = stringResource(R.string.first_name),
             icon = Icons.Default.Person,
@@ -54,7 +53,7 @@ fun PersonalInformation(
         )
         SpacerVertical16()
         InputTextFieldValidation(
-            state = userInfoForm.lastName,
+            state = state.lastName,
             onChangeValue = onChangeLastName,
             placeholder = stringResource(R.string.last_name),
             icon = Icons.Default.Person,
@@ -64,8 +63,8 @@ fun PersonalInformation(
         InputDropdown(
             expanded = expandedDropdownMenu,
             onValueChange = onChangeGender,
-            options = gender,
-            state = userInfoForm.gender,
+            options = state.genderOption,
+            state = state.gender,
             onExpandedChange = {
                 expandedDropdownMenu = !expandedDropdownMenu
             },
@@ -73,7 +72,7 @@ fun PersonalInformation(
                 expandedDropdownMenu = false
             },
             onClick = { selectedGender ->
-                userInfoForm.gender.text = selectedGender
+                state.gender.text = selectedGender
                 onChangeGender(selectedGender)
                 expandedDropdownMenu = false
             },
@@ -82,11 +81,11 @@ fun PersonalInformation(
         SpacerVertical16()
         InputTextFieldValidation(
             Modifier.clickable { datePicker.show() },
-            state = userInfoForm.birthDate,
+            state = state.birthDate,
             onChangeValue = onChangeBirthday,
             placeholder = stringResource(R.string.birthday),
             icon = Icons.Default.CalendarMonth,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardAction = ImeAction.Done,
             isReadOnly = true,
             isEnabled = false,
             showError = showError
