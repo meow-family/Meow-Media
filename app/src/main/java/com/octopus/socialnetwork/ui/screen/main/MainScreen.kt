@@ -12,9 +12,11 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
@@ -22,7 +24,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavItem
 import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.BottomNavigation
-import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.CustomFloatingActionButton
+import com.octopus.socialnetwork.ui.composable.coloredShadow
 import com.octopus.socialnetwork.ui.navigation.MainNavigationGraph
 import com.octopus.socialnetwork.ui.navigation.MainRoute
 import com.octopus.socialnetwork.ui.screen.create_post.navigateToCreatePostRoute
@@ -74,12 +77,19 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
 
         },
         floatingActionButton = {
-            FloatingActionButton {
+            CustomFloatingActionButton(
+                modifier = Modifier.coloredShadow(
+                    Color.Gray,
+                    alpha = 0.1F,
+                    offsetY = (-2).dp,
+                    shadowRadius = 2.dp,
+                    borderRadius = 65.dp
+                ),
+            ) {
                 rootNavController.navigateToCreatePostRoute()
             }
         }
     ) { innerPadding ->
-
         Box(
             modifier = Modifier
                 .consumedWindowInsets(innerPadding)

@@ -27,7 +27,7 @@ import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
-import com.octopus.socialnetwork.ui.composable.profile.FriendSheet
+import com.octopus.socialnetwork.ui.composable.profile.Friends
 import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
@@ -102,7 +102,7 @@ private fun ProfileContent(
             modifier = Modifier.padding(top = 20.dp),
             sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
             sheetContent = {
-                FriendSheet(state.friends, onClickItem)
+                Friends(state.friends, onClickItem)
             })
         {
 
