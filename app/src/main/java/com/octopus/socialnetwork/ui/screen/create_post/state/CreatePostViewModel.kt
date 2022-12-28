@@ -28,7 +28,8 @@ class CreatePostViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickChangeImage(uri: Uri) {
+    fun onClickPost(uri: Uri) {
+        _state.update { it.copy(isPostButtonEnabled = false) }
         viewModelScope.launch(Dispatchers.IO) {
             val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
 
@@ -43,8 +44,11 @@ class CreatePostViewModel @Inject constructor(
                 setLoading(false)
                 onInvalidImageDetection()
             }
+            _state.update { it.copy(isPostButtonEnabled = true) }
         }
     }
+
+
 
     private fun setLoading(state: Boolean) {
         _state.update { it.copy(isLoading = state) }
@@ -58,7 +62,7 @@ class CreatePostViewModel @Inject constructor(
         _state.update { it.copy(imageUri = imageUri) }
     }
 
-    fun onClickAddImage() {
+    fun onClickEdit() {
         _state.update { it.copy(isAddNewImage = !state.value.isAddNewImage) }
     }
 

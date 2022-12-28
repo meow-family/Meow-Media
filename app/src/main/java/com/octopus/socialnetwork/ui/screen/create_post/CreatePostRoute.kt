@@ -11,7 +11,9 @@ private const val ROUTE = DetailsRoute.CreatePost
 
 
 fun NavController.navigateToCreatePostRoute() {
-    navigate(ROUTE)
+    navigate(ROUTE) {
+        launchSingleTop = true
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
