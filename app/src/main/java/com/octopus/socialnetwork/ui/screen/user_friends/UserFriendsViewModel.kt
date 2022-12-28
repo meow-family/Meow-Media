@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.screen.user_friends
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchFriendsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserFriendsViewModel @Inject constructor(
-    private val fetchUserFriendsUseCase: FetchUserFriendsUseCase,
+    private val fetchFriendsUseCase: FetchFriendsUseCase,
     stateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -30,7 +30,7 @@ class UserFriendsViewModel @Inject constructor(
    private fun getUserFriends(userId: Int) {
            viewModelScope.launch {
                 try {
-                    val search = fetchUserFriendsUseCase( userId)
+                    val search = fetchFriendsUseCase( userId)
                     _state.update { searchUiState ->
                         searchUiState.copy(
                             users = search.friends.map { it.toUserDetailsUiState() },
