@@ -13,9 +13,7 @@ class FilterUnwantedImagesUseCase @Inject constructor(
 
         val detectedLabels = processImageUseCase.invoke(imageUri)
 
-        return detectedLabels?.filterNot {
-            it.index in unwantedLabels
-        }?.size == detectedLabels?.size
+        return detectedLabels?.filterNot { it.index in unwantedLabels }?.size == detectedLabels?.size
     }
 
 

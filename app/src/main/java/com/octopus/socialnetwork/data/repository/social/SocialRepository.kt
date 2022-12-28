@@ -3,24 +3,23 @@ package com.octopus.socialnetwork.data.repository.social
 import androidx.paging.Pager
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDetails
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditionDto
-import com.octopus.socialnetwork.data.remote.response.dto.like.LikeDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
+import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsCountDto
-import com.octopus.socialnetwork.data.remote.response.dto.notifications.UserNotificationsDTO
-import com.octopus.socialnetwork.data.remote.response.dto.photo.Photo
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsCountDto
+import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationsResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
-import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoDeletion
+import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
-import com.octopus.socialnetwork.data.remote.response.dto.post.AllPostDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostResponse
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
 import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.FriendValidatorDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendValidatorResponse
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserFriendsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserPostsDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsListDTO
+import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
 import java.io.File
 
 interface SocialRepository {
@@ -28,27 +27,27 @@ interface SocialRepository {
     //region user
     suspend fun getUserDetails(visitedUserId: Int): UserDto
 
-    suspend fun getUserFriends(visitedUserId: Int): UserFriendsDto
+    suspend fun getFriends(visitedUserId: Int): FriendsDto
 
-    suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorDTO?
+    suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorResponse?
 
-    suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): UserPostsDto
+    suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): PostsDto
 
     suspend fun editUser(
         myUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String
     ): UserDto
 
-    suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
-    suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorDTO
-    suspend fun getFriendRequests(myUserId: Int): FriendRequestsListDTO
+    suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse
+    suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse
+    suspend fun getFriendRequests(myUserId: Int): FriendRequestsResponse
 
     //endregion
 
     //region post
     suspend fun viewPost(postId: Int, myUserId: Int): PostDto
 
-    suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<AllPostDto>
+    suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
     fun getNewsFeedPager(): Pager<Int, PostEntity>
 
@@ -62,50 +61,47 @@ interface SocialRepository {
     ): PostDto?
 
     suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto
-    suspend fun like(myUserId: Int, contentId: Int, typeContent: String): LikeDto
+    suspend fun like(myUserId: Int, contentId: Int, typeContent: String): LikeResponse
 
-    suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeDto
+    suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeResponse
 
-    suspend fun getUserNotifications(myUserId: Int): UserNotificationsDTO
+    suspend fun getNotifications(myUserId: Int): NotificationsResponse
 
-    suspend fun getUserNotificationsCount(myUserId: Int): UserNotificationsCountDto
+    suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDetails>
+    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>
 
-    suspend fun editComment(commentId: Int, comment: String): CommentEditionDto
+    suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto>
+
+
+    suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 
     suspend fun deleteComment(commentId: Int, userId: Int): Boolean
 
-    suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDetails
+    suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDto
 
     suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int)
     //endregion
 
     //region photo
-    suspend fun getPhoto(
-        photoId: Int,
-        userId: Int,
-    ): PhotoDto
+    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
 
-    suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<Photo>>
+    suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<PhotoDto>>
 
     suspend fun getPhotoViewProfile(photoId: Int, userId: Int): BaseResponse<UserProfileDto>
 
-    suspend fun deletePhotoProfile(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
+    suspend fun deletePhotoProfile(photoId: Int, userId: Int): BaseResponse<ProfilePhotoResponse>
 
-    suspend fun deleteProfileCover(photoId: Int, userId: Int): BaseResponse<ProfilePhotoDeletion>
+    suspend fun deleteProfileCover(photoId: Int, userId: Int): BaseResponse<ProfilePhotoResponse>
 
     suspend fun addProfilePicture(userID: Int, photo: File): UserDto
 
     suspend fun addCoverPicture(userID: Int, photo: File): UserDto
 
     // search
-    suspend fun search(
-        myUserId: Int,
-        query: String
-    ): SearchDto
+    suspend fun search(myUserId: Int, query: String): SearchDto
 
 //endregion
 

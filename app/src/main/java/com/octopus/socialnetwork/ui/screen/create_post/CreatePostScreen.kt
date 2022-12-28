@@ -166,6 +166,7 @@ fun CreatePostContent(
                     .fillMaxWidth()
                     .backgroundTextShadow()
                     .padding(horizontal = spacingMedium),
+                maxLines = 10 ,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.White,
                     disabledTextColor = Color.Transparent,
@@ -176,10 +177,7 @@ fun CreatePostContent(
 
                 ),
                 placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.add_caption),
-                        color = Color.White
-                    )
+                    Text(text = stringResource(id = R.string.add_caption), color = Color.White)
                 },
                 value = state.captionText,
                 onValueChange = onChangeCaptionText

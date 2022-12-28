@@ -7,9 +7,7 @@ import javax.inject.Inject
 class DetectCatUseCase @Inject constructor(
     private val processImageUseCase: ProcessImageUseCase,
 ) {
-    suspend operator fun invoke(
-        imageUri: Uri,
-        labels: List<Int> = listOf(CAT_LABEL_INDEX),
+    suspend operator fun invoke(imageUri: Uri, labels: List<Int> = listOf(CAT_LABEL_INDEX),
     ): Boolean {
 
         val detectedLabels = processImageUseCase.invoke(imageUri)

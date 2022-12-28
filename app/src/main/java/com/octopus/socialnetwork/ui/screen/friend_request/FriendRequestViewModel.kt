@@ -18,9 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FriendRequestViewModel @Inject constructor(
-    private val fetchFriendRequestsListUseCase: FetchFriendRequestsListUseCase,
-    private val addFriendUseCase: AddFriendUseCase,
-    private val removeFriendUseCase: RemoveFriendUseCase,
+    private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
+    private val addFriend: AddFriendUseCase,
+    private val removeFriend: RemoveFriendUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -34,7 +34,7 @@ class FriendRequestViewModel @Inject constructor(
     private fun getFriendRequests() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val friendRequests = fetchFriendRequestsListUseCase()
+                val friendRequests = fetchFriendRequestsList()
 
                 _state.update {
                     it.copy(
@@ -52,7 +52,7 @@ class FriendRequestViewModel @Inject constructor(
     fun onClickAccept(clickedUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = addFriendUseCase.invoke(clickedUserId).requestExists
+                val isRequestExists = addFriend.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -63,7 +63,7 @@ class FriendRequestViewModel @Inject constructor(
     fun onClickDecline(clickedUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = removeFriendUseCase.invoke(clickedUserId).requestExists
+                val isRequestExists = removeFriend.invoke(clickedUserId).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }

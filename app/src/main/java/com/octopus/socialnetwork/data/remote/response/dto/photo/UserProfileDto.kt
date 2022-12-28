@@ -6,7 +6,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 
 data class UserProfileDto(
     @SerializedName("photo")
-    val photo: Photo,
+    val photo: PhotoDto,
     @SerializedName("user")
     val user: UserDto
 )

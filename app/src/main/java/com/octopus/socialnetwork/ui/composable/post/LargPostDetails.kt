@@ -72,6 +72,7 @@ fun LargPostDetails(
         Text(
             modifier = Modifier,
             text = postDescription,
+            maxLines = 10,
             color = Color.White, fontSize = 14.sp,
             textAlign = TextAlign.Start
         )

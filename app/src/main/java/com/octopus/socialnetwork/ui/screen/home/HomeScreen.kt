@@ -68,7 +68,7 @@ private fun HomeContent(
 ) {
 
     val posts = state.posts.collectAsLazyPagingItems()
-    var isEmptyFlow = posts.itemSnapshotList.isEmpty()
+    val isEmptyFlow = posts.itemSnapshotList.isEmpty()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,13 +87,16 @@ private fun HomeContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError) {
+        }
+        if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (isEmptyFlow) {
+        }
+        if (isEmptyFlow) {
             ImageForEmptyList(modifier = Modifier
                 .fillMaxSize()
                 .align(alignment = Alignment.CenterHorizontally))
-        } else {
+        }
+
             LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
@@ -113,7 +116,7 @@ private fun HomeContent(
                 }
             }
 
-        }
+
     }
 
 }

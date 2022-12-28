@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.composable.post.setLikeColor
 import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
@@ -30,9 +29,9 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 
 @Composable
 fun ItemComment(
-    commentDetails: CommentDetailsUiState,
+    state: CommentDetailsUiState,
     modifier: Modifier = Modifier,
-    onLike: () -> Unit
+    onLike: (Int, Int, Boolean) -> Unit,
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -51,11 +50,12 @@ fun ItemComment(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-            painter = customImageLoad(commentDetails.userAvatar) , size = 50
+            imageUrl = state.userAvatar, size = 50,
+            contentDescription = stringResource(id = R.string.profile_image)
         )
 
         Text(
-            text = commentDetails.fullName,
+            text = state.fullName,
             fontSize = 14.sp,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Bold,
@@ -64,7 +64,7 @@ fun ItemComment(
                 start.linkTo(userImage.end, 8.dp)
             })
         Text(
-            text = commentDetails.userName,
+            text = state.userName,
             fontSize = 12.sp,
             color = light_outline,
             fontWeight = FontWeight.Normal,
@@ -73,7 +73,7 @@ fun ItemComment(
                 start.linkTo(fullName.start)
             })
 
-        Text(text = commentDetails.comment,
+        Text(text = state.comment,
             fontSize = 12.sp,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.Normal,
@@ -83,7 +83,7 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick =  onLike,
+        IconButton(onClick = { onLike(state.commentId, state.likeCounter, state.isLikedByUser) },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)
@@ -94,11 +94,11 @@ fun ItemComment(
             Icon(
                 painterResource(R.drawable.ic_cat_foot),
                 contentDescription = stringResource(id = R.string.like),
-                tint = setLikeColor(commentDetails.isLikedByUser, true)
+                tint = setLikeColor(state.isLikedByUser, true)
             )
         }
 
-        Text(text = commentDetails.likeCounter.toString(),
+        Text(text = state.likeCounter.toString(),
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,
@@ -108,7 +108,7 @@ fun ItemComment(
                     bottom.linkTo(like.bottom)
                 })
 
-        Text(text = commentDetails.timeCreated,
+        Text(text = state.timeCreated,
             fontSize = 12.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium,

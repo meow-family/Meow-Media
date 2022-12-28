@@ -2,7 +2,6 @@ package com.octopus.socialnetwork.domain.usecase.like
 
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class ToggleLikeUseCase @Inject constructor(
@@ -12,7 +11,7 @@ class ToggleLikeUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
 ) {
     suspend operator fun invoke(contentId: Int, totalLikes: Int, isLiked: Boolean, contentType: String): Int? {
-        val userId = fetchUserIdUseCase().last()
+        val userId = fetchUserIdUseCase()
         return if (isLiked) {
             // LIKED -> UNLIKE
             socialRepository.updatePostLikeStatusLocally(contentId, false, totalLikes.minus(1))

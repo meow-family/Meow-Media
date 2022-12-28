@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.model.user.ParamRegister
 import com.octopus.socialnetwork.domain.usecase.authentication.register.RegisterUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.*
 import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase,
+    private val register: RegisterUseCase,
     private val userNameValidation: UserNameValidationUseCase,
     private val emailValidation: EmailValidationUseCase,
     private val passwordValidation: PasswordValidationUseCase,
@@ -38,8 +39,8 @@ class RegisterViewModel @Inject constructor(
 
             try {
                 val response =
-                    registerUseCase(
-                        RegisterUseCase.Params(
+                    register(
+                        ParamRegister(
                             firstName = state.value.userInfoForm.firstName.text,
                             lastName = state.value.userInfoForm.lastName.text,
                             email = state.value.userInfoForm.email.text,

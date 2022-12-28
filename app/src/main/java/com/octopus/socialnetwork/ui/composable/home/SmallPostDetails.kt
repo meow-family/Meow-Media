@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.composable.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -17,14 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically4dp
 import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBlack
-import com.octopus.socialnetwork.ui.composable.customImageLoad
 import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 
@@ -33,16 +33,21 @@ import com.octopus.socialnetwork.ui.theme.spacingMedium
 fun SmallPostDetails(post: PostUiState) {
 
     Column(
-        modifier = Modifier.fillMaxWidth().backgroundVerticalGradientLightBlack().padding(spacingMedium),
+        modifier = Modifier
+            .fillMaxWidth()
+            .backgroundVerticalGradientLightBlack()
+            .padding(spacingMedium),
         verticalArrangement = Arrangement.Bottom
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = customImageLoad(post.profileAvatar),
-                contentDescription = null, contentScale = ContentScale.Crop,
-                modifier = Modifier.size(24.dp).clip(CircleShape)
+            ImageNetwork(
+                imageUrl = post.profileAvatar,
+                contentDescription = stringResource(id = R.string.profile_image),
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
             )
             SpaceHorizontally8dp()
             Text(
