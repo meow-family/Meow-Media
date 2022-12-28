@@ -119,7 +119,10 @@ private fun ProfileContent(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        UserDetails(state.userDetails)
+                        UserDetails(
+                            state.userDetails,
+                            onClickShowFriends = { scope.launch { sheetState.show() } }
+                        )
 
                         Row {
                             if (state.isMyProfile) {

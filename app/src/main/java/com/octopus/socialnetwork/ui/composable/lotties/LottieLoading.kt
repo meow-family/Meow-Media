@@ -18,9 +18,17 @@ import com.octopus.socialnetwork.R
 @Composable
 fun LottieLoading() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_loading_cat))
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
-        contentAlignment = Alignment.Center) {
-        LottieAnimation(composition = composition, iterations = Int.MAX_VALUE,
-            modifier = Modifier.size(100.dp))
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
+        contentAlignment = Alignment.Center
+    ) {
+        LottieAnimation(
+            composition = composition,
+            iterations = Int.MAX_VALUE,
+            modifier = Modifier.size(100.dp)
+        )
     }
 }
