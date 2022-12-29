@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.screen.comments.state
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,10 +40,10 @@ class CommentsViewModel @Inject constructor(
     private fun getPostComments() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val postComments = getPostComments(
-                    postId = args.postId.toInt(),
-                    type = args.type
-                ).map { it.toCommentDetailsUiState() }
+
+                val postComments = getPostComments(args.postId.toInt()).map{
+                        pager -> pager.map {it.toCommentDetailsUiState() } }
+
                 _state.update {
                     it.copy(
                         comments = postComments,
@@ -77,40 +79,14 @@ class CommentsViewModel @Inject constructor(
         _state.update { it.copy(comment = "") }
     }
 
-    fun onClickLike(commentId: Int) {
+    fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val clickedComment = _state.value.comments
-                clickedComment.find { it.commentId == commentId }?.let { comment ->
-                    toggleLikeState(
-                        commentId = commentId,
-                        isLiked = comment.isLikedByUser.not(),
-                        newLikesCount = likeToggle(
-                            contentId = commentId,
-                            isLiked = comment.isLikedByUser,
-                            contentType = Constants.LIKE_TYPE,
-                            totalLikes = comment.likeCounter
-                        ) ?: 0
-                    )
-                }
+                likeToggle(postId, totalLikes, isLiked,Constants.LIKE_TYPE)
+                _state.update { it.copy(isError = false) }
             } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isError = true) }
+                _state.update { it.copy(isError = true) }
             }
-        }
-    }
-
-
-    private fun toggleLikeState(commentId: Int, newLikesCount: Int, isLiked: Boolean) {
-        _state.update { commentUiState ->
-            commentUiState.copy(
-                comments = _state.value.comments.map { comment ->
-                    if (comment.commentId == commentId) {
-                        comment.copy(isLikedByUser = isLiked, likeCounter = newLikesCount)
-                    } else {
-                        comment
-                    }
-                }
-            )
         }
     }
 

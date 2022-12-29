@@ -230,6 +230,7 @@ interface SocialService {
         @Query("uguid") myUserId: Int,
         @Query("guid") postId: Int,
         @Query("type") type: String,
+        @Query("offset") page: Int,
     ): BaseResponse<CommentResponse?>
 
     @POST("comment_edit")

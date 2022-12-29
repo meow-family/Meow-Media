@@ -75,6 +75,9 @@ interface SocialRepository {
 
     suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>?
 
+    suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto>
+
+
     suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 
     suspend fun deleteComment(commentId: Int, userId: Int): Boolean
@@ -85,10 +88,7 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(
-        photoId: Int,
-        userId: Int,
-    ): PhotoDto
+    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<PhotoDto>>
 
@@ -103,10 +103,7 @@ interface SocialRepository {
     suspend fun addCoverPicture(userID: Int, photo: File): UserDto
 
     // search
-    suspend fun search(
-        myUserId: Int,
-        query: String
-    ): SearchDto
+    suspend fun search(myUserId: Int, query: String): SearchDto
 
 //endregion
 
