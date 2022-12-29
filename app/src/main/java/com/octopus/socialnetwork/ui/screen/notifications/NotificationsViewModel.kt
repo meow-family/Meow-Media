@@ -29,39 +29,22 @@ class NotificationsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getNotificationsTest()
+        getNotifications()
     }
 
-//    private fun getNotifications() {
-//        _state.update { it.copy(isLoading = true, isError = true) }
-//        viewModelScope.launch {
-//            try {
-//                val notifications = fetchNotifications().map { it }
-//                _state.update {
-//                    it.copy(notifications = notifications, isLoading = false, isError = false)
-//                }
-//            } catch (e: Exception) {
-//                _state.update { it.copy(isLoading = false, isError = true) }
-//            }
-//        }
-//    }
-
-    private fun getNotificationsTest() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getNotifications() {
+        _state.update { it.copy(isLoading = true, isError = false) }
+        viewModelScope.launch {
             try {
 
-                val notifications = fetchNotifications().map { pager -> pager.map { it } }
+                val notifications = fetchNotifications().map{
+                        pager -> pager.map {it.toNotificationsUiState() } }
 
-//                _state.update {
-//                    it.copy(
-//                        notifications = notifications,
-//                        isLoading = false,
-//                        viewed = false,
-//                        isError = false
-//                    )
-//                }
-            } catch (e: Throwable) {
-                _state.update { it.copy(isLoading = false, viewed = false, isError = true) }
+                _state.update {
+                    it.copy(notifications = notifications, isLoading = false, isError = false)
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
@@ -73,7 +56,7 @@ class NotificationsViewModel @Inject constructor(
             try {
                 if (!notification.viewed)
                     fetchNotificationItems(notification.id)
-                getNotificationsTest()
+                getNotifications()
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, viewed = false, isError = true) }
             }
@@ -82,7 +65,7 @@ class NotificationsViewModel @Inject constructor(
 
 
     fun onClickTryAgain() {
-        getNotificationsTest()
+        getNotifications()
     }
 
 }

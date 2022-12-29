@@ -16,6 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
@@ -56,6 +59,10 @@ private fun NotificationsContent(
     onClickBack: () -> Unit,
     onClickTryAgain: () -> Unit
 ) {
+
+    val notifications = state.notifications.collectAsLazyPagingItems()
+    val isEmptyFlow = notifications.itemSnapshotList.isEmpty()
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -68,7 +75,8 @@ private fun NotificationsContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError) {
+        }
+        if (state.isError) {
             LottieError(onClickTryAgain)
         } else {
             LazyColumn(
@@ -76,13 +84,26 @@ private fun NotificationsContent(
                     .fillMaxWidth()
                     .background(color = MaterialTheme.colors.background),
             ) {
-                if (state.notifications.isEmpty()) {
+
+
+                if (isEmptyFlow) {
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 116.dp)) }
-                } else {
-                    items(state.notifications) { notification ->
-                        ItemNotification(notification, onClickNotification)
+                }
+
+                items(notifications) { notification ->
+                    notification?.let { ItemNotification(it, onClickNotification) }
+                }
+                when (notifications.loadState.append) {
+                    is LoadState.NotLoading -> Unit
+                    LoadState.Loading -> {
+                        item {  LottieLoading() }
+                    }
+                    is LoadState.Error -> {
+                        item { LottieLoading() }
                     }
                 }
+
+
             }
         }
 
