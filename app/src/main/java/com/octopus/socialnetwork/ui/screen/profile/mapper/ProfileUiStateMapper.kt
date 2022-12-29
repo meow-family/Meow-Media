@@ -2,8 +2,8 @@ package com.octopus.socialnetwork.ui.screen.profile.mapper
 
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.model.user.User
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfilePostUiState
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfilePostUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 
 
 fun User.toUserDetailsUiState(): UserDetailsUiState {

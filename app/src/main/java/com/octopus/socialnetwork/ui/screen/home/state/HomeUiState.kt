@@ -1,7 +1,7 @@
-package com.octopus.socialnetwork.ui.screen.home.state.uistate
+package com.octopus.socialnetwork.ui.screen.home.state
 
 import androidx.paging.PagingData
-import com.octopus.socialnetwork.ui.screen.post.state.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

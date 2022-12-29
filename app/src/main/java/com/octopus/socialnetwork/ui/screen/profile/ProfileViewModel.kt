@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.profile.state
+package com.octopus.socialnetwork.ui.screen.profile
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -12,10 +12,9 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIs
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
-import com.octopus.socialnetwork.ui.screen.profile.ProfileScreenArgs
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

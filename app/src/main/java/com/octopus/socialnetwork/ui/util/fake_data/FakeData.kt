@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.util.fake_data
 
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
 
 object FakeData {

@@ -25,10 +25,8 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
-import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
-import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsViewModel
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.theme.DividerColor
 import com.octopus.socialnetwork.ui.util.extensions.notificationsTypes

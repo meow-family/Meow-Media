@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.create_post.state
+package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.net.Uri
 import android.os.Build
@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.createpost.CreatePostUseCase
 import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.DetectCatUseCase
 import com.octopus.socialnetwork.domain.utils.FileService
+import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

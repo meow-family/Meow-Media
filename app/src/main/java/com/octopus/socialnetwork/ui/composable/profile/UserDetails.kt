@@ -16,7 +16,7 @@ import com.octopus.socialnetwork.ui.composable.SpaceHorizontally16dp
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally4dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically10dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 
 @Composable

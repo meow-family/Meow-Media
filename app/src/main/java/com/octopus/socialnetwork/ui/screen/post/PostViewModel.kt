@@ -1,13 +1,12 @@
-package com.octopus.socialnetwork.ui.screen.post.state
+package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.post.PostScreenArgs
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
-import com.octopus.socialnetwork.ui.screen.post.state.uistate.PostMainUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

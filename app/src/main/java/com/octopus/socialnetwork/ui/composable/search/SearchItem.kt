@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.customImageLoad
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 import com.octopus.socialnetwork.ui.theme.outLine
 

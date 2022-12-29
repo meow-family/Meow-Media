@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.messaging.chat.state
+package com.octopus.socialnetwork.ui.screen.messaging.chat
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -8,10 +8,9 @@ import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCa
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.messaging.chat.ChatScreenArgs
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
-import com.octopus.socialnetwork.ui.screen.messaging.chat.state.uistate.ChatMainUiState
-import com.octopus.socialnetwork.ui.screen.messaging.chat.state.uistate.ChatUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

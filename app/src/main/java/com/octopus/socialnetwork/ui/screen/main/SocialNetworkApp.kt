@@ -4,13 +4,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.navigation.RootNavigationGraph
-import com.octopus.socialnetwork.ui.screen.main.state.MainViewModel
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 

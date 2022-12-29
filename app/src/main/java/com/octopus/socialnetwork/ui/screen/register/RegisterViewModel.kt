@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.register.state
+package com.octopus.socialnetwork.ui.screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
+import com.octopus.socialnetwork.ui.screen.register.state.RegisterUiState
 import com.octopus.socialnetwork.ui.screen.register.state.uistate.*
 import com.octopus.socialnetwork.ui.util.enums.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel

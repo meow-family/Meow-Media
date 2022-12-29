@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.messaging.chat.state.uistate
+package com.octopus.socialnetwork.ui.screen.messaging.chat.state
 
 data class ChatMainUiState(
     val isFail: Boolean = false,

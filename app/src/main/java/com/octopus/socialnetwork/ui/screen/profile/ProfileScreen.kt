@@ -29,8 +29,7 @@ import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-import com.octopus.socialnetwork.ui.screen.profile.state.ProfileViewModel
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 
 

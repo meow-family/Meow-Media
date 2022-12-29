@@ -1,10 +1,11 @@
-package com.octopus.socialnetwork.ui.screen.main.state
+package com.octopus.socialnetwork.ui.screen.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.firebase.StoreUserTokenUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.CheckIsLogoutUseCase
+import com.octopus.socialnetwork.ui.screen.main.state.MainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

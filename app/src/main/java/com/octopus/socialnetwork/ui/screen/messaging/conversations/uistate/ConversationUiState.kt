@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate
 
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 
 data class ConversationUiState(
     val lastMessage: String = "",

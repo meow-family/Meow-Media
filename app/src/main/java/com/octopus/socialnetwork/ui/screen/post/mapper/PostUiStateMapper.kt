@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.post.mapper
 
 import com.octopus.socialnetwork.domain.model.post.Post
-import com.octopus.socialnetwork.ui.screen.post.state.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 

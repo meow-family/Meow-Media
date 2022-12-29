@@ -5,7 +5,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CircleButton
 import com.octopus.socialnetwork.ui.composable.ReduceButton
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 
 @Composable
 fun VisitedProfileLayout(

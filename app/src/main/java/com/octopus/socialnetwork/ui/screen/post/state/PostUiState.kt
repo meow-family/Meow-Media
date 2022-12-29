@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.post.state.uistate
+package com.octopus.socialnetwork.ui.screen.post.state
 
 
 data class PostUiState(

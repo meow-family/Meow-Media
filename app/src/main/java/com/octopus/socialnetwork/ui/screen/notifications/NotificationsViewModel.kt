@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.notifications.state
+package com.octopus.socialnetwork.ui.screen.notifications
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsUseCase
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
+import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

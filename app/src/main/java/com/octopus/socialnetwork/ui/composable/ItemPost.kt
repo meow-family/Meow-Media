@@ -24,7 +24,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.screen.post.state.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 
 @Composable
 fun ItemPost(

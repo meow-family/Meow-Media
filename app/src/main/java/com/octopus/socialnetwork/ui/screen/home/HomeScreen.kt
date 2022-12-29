@@ -22,8 +22,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
-import com.octopus.socialnetwork.ui.screen.home.state.HomeViewModel
-import com.octopus.socialnetwork.ui.screen.home.state.uistate.HomeUiState
+import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 

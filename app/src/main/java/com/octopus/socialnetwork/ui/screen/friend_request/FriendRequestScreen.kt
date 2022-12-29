@@ -28,9 +28,8 @@ import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
-import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestViewModel
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
-import com.octopus.socialnetwork.ui.screen.profile.state.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.outLine
 import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState

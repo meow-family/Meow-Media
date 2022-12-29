@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.profile.state.uistate
+package com.octopus.socialnetwork.ui.screen.profile.state
 
 data class ProfilePostUiState(
     val postId: Int = 0,

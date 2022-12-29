@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.edit_profile.state
+package com.octopus.socialnetwork.ui.screen.edit_profile
 
 import android.net.Uri
 import android.os.Build
@@ -11,9 +11,8 @@ import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeProfileImage
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.firebase.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.domain.utils.FileService
-import com.octopus.socialnetwork.ui.screen.edit_profile.EditProfileScreenArgs
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
-import com.octopus.socialnetwork.ui.screen.edit_profile.state.uistate.EditProfileUiState
+import com.octopus.socialnetwork.ui.screen.edit_profile.state.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

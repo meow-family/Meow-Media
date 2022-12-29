@@ -148,11 +148,6 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
-=
-    override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>? {
-        return socialService.getCommentsList(myUserId, postId, type).result?.comments
-    }
-
     override suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto> {
         val dataSource = commentDataSource
         dataSource.setCommentID(postId)

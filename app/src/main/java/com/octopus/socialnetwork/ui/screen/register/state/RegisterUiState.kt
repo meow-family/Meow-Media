@@ -1,4 +1,6 @@
-package com.octopus.socialnetwork.ui.screen.register.state.uistate
+package com.octopus.socialnetwork.ui.screen.register.state
+
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.UserInfoFormUiState
 
 data class RegisterUiState(
     val initPage: Int = 0,
