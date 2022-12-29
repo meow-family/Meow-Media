@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments.state
+package com.octopus.socialnetwork.ui.screen.comments
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,9 +7,8 @@ import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.comments.AddCommentUseCase
 import com.octopus.socialnetwork.domain.usecase.comments.GetPostCommentsUseCase
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
-import com.octopus.socialnetwork.ui.screen.comments.CommentsScreenArgs
 import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
-import com.octopus.socialnetwork.ui.screen.comments.state.uistate.CommentsUiState
+import com.octopus.socialnetwork.ui.screen.comments.state.CommentsUiState
 import com.octopus.socialnetwork.ui.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

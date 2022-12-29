@@ -21,7 +21,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
-import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
+import com.octopus.socialnetwork.ui.composable.friend_requests.UserDetailsItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
@@ -78,7 +78,7 @@ private fun SearchContent(
                         item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                     } else {
                         items(state.users) { searchItem ->
-                            UserRelationItem(
+                            UserDetailsItem(
                                 state = searchItem,
                                 onClickItem = onClickItem,
                             )

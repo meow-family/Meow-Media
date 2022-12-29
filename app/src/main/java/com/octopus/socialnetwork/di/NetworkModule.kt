@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
+import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService.Companion.FCM_BASE_URL
 import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
@@ -50,26 +51,30 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseCloudMessagingService(retrofit: Retrofit): CloudMessagingService =
-        retrofit.create(CloudMessagingService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideSocialService(retrofit: Retrofit): SocialService =
-        retrofit.create(SocialService::class.java)
-
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(
+    fun provideFirebaseCloudMessagingService(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ): Retrofit {
+    ): CloudMessagingService =
+        Retrofit.Builder()
+            .baseUrl(FCM_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+            .create(CloudMessagingService::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideSocialService(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): SocialService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
+            .create(SocialService::class.java)
     }
 
 

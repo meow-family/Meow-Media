@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 @HiltViewModel
@@ -90,7 +91,7 @@ class LoginViewModel @Inject constructor(
                 val loginResponse =
                     loginUseCase(userInput.userName.text, userInput.password.text)
                 Log.i("TESTING",loginResponse.toString() + " is login response")
-                if (loginResponse?.username.isNullOrEmpty()) {
+                if (loginResponse.username.isNullOrEmpty()) {
                     _state.update { it.copy(isError = true, isLoading = false) }
                 } else {
                     _state.update { it.copy(isError = false, isLoading = false, isSuccess = true) }

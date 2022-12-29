@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.ui.composable.profile
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +23,8 @@ import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 @Composable
 fun UserDetails(
     state: UserDetailsUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickShowFriends: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -55,15 +57,17 @@ fun UserDetails(
             Row(modifier = Modifier.align(Alignment.CenterHorizontally))
             {
 
-                Text(
-                    text = state.friendsCount,
-                    style = MaterialTheme.typography.subtitle2.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = MaterialTheme.colors.textPrimaryColor,
-                )
-                SpaceHorizontally4dp()
-                LightText(stringResource(R.string.friends))
+                Row(Modifier.clickable { onClickShowFriends() }) {
+                    Text(
+                        text = state.friendsCount,
+                        style = MaterialTheme.typography.subtitle2.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = MaterialTheme.colors.textPrimaryColor,
+                    )
+                    SpaceHorizontally4dp()
+                    LightText(stringResource(R.string.friends))
+                }
                 SpaceHorizontally16dp()
                 Text(
                     text = state.postCount,

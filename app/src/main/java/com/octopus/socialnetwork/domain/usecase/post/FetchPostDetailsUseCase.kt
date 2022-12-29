@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.model.post.Post
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class FetchPostDetailsUseCase @Inject constructor(
@@ -14,7 +13,7 @@ class FetchPostDetailsUseCase @Inject constructor(
     suspend operator fun invoke(postId: Int): Post {
         val localPostDetails = socialRepository.getPostDetails(postId)
         return if(localPostDetails == null)
-            socialRepository.viewPost(postId, fetchUserIdUseCase().first()).toPost()
+            socialRepository.viewPost(postId, fetchUserIdUseCase()).toPost()
         else localPostDetails.toPost()
     }
 

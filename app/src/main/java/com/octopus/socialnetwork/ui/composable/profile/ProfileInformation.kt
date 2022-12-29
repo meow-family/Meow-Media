@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.ui.composable.ImageWithShadow
 import com.octopus.socialnetwork.ui.composable.ProfileImage
 
-
 @Composable
 fun ProfileInformation(
     backgroundProfileImageUrl: String,

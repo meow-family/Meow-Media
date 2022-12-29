@@ -6,10 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
-private const val ROUTE = DetailsRoute.Chat
-
+private const val ROUTE = "chat"
 
 fun NavController.navigateToChat(userId: Int){
     navigate("$ROUTE/$userId") {
@@ -17,17 +15,18 @@ fun NavController.navigateToChat(userId: Int){
     }
 }
 fun NavGraphBuilder.chatRoute(navController: NavController) {
-    composable("$ROUTE/{${ChatScreenArgs.USER_ID}}",
+    composable(
+        "$ROUTE/{${ChatScreenArgs.USER_ID}}",
         arguments = listOf(
             navArgument(ChatScreenArgs.USER_ID) { NavType.IntType },
         )
-
-    ) { ChatScreen(navController) }
+    ) {
+        ChatScreen(navController)
+    }
 }
 
 class ChatScreenArgs(savedStateHandle: SavedStateHandle) {
     val friendId: String = checkNotNull(savedStateHandle[USER_ID])
-
 
     companion object {
         const val USER_ID = "friendId"

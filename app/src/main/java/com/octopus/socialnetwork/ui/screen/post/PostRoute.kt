@@ -1,13 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.post
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
+import androidx.navigation.navArgument
 
 
-private const val ROUTE = DetailsRoute.Post
+private const val ROUTE = "post"
 fun NavController.navigateToPostScreen(postId: Int,postOwner: Int){
     navigate("$ROUTE/$postId/$postOwner"
     ) {

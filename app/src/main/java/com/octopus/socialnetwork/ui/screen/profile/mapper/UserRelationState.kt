@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.profile.mapper
 
 import com.octopus.socialnetwork.domain.enums.UserRelation
-import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
+import com.octopus.socialnetwork.ui.util.UserRelationUiState
 
 
 fun UserRelation.toUserRelationUiState(): UserRelationUiState {

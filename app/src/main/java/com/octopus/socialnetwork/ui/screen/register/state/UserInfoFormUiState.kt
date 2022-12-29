@@ -13,6 +13,7 @@ data class UserInfoFormUiState(
     var gender: TextFieldUiState = TextFieldUiState(),
     var birthDate: TextFieldUiState = TextFieldUiState(),
     var showPassword: Boolean = false,
+    val genderOption: List<String> = listOf("male", "female")
 )
 
 data class TextFieldUiState(

@@ -38,13 +38,13 @@ import coil.compose.AsyncImage
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.CustomFloatingActionButton
 import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -156,11 +156,12 @@ fun CreatePostContent(
                 .align(alignment = Alignment.BottomCenter),
             horizontalAlignment = Alignment.End
         ) {
-            FloatingAction(
-                onClick = onClickEdit,
-                modifier = Modifier.padding(spacingMedium),
-                imageVector = if (state.imageUri == null) Icons.Filled.Add else Icons.Filled.Edit,
+            CustomFloatingActionButton(
+                onClick =  onClickEdit,
                 hiddenBoarder = true,
+                size = 55.dp,
+                modifier = Modifier.padding(spacingMedium),
+                imageVector = if (state.imageUri == null) Icons.Filled.Add else Icons.Filled.Edit
             )
 
             TextField(
@@ -199,7 +200,7 @@ fun CreatePostContent(
                 title = stringResource(R.string.image_post_rejected),
                 description = stringResource(R.string.image_post_rejected_description),
                 actionTitle = stringResource(id = R.string.ok),
-                checkAction = {
+                onClickPrimaryAction = {
                     onInvalidImageDetection()
                 },
             )

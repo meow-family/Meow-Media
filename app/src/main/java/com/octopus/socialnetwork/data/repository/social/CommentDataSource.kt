@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.paging.BasePagingSource
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -23,7 +22,7 @@ class CommentDataSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommentDto> {
         val pageNumber = params.key ?: 1
         return try {
-            val response = authenticationRepository.getUserId().first()
+            val response = authenticationRepository.getUserId()
                 ?.let { service.getCommentsList(it,postId,"post",pageNumber) }
             LoadResult.Page(
                 data = response?.result?.comments ?: emptyList(),

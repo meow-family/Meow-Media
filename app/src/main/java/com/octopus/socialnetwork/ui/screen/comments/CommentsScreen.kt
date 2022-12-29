@@ -29,8 +29,7 @@ import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
-import com.octopus.socialnetwork.ui.screen.comments.state.CommentsViewModel
-import com.octopus.socialnetwork.ui.screen.comments.state.uistate.CommentsUiState
+import com.octopus.socialnetwork.ui.screen.comments.state.CommentsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
 
@@ -80,14 +79,13 @@ private fun CommentsContent(
         if (state.isError) {
             LottieError(onClickTryAgain)
         }
-
         if (isEmptyFlow) {
             ImageForEmptyList(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.weight(1f).fillMaxWidth()
                     .align(alignment = Alignment.CenterHorizontally)
             )
         }
+
 
         LazyColumn(
             Modifier

@@ -10,8 +10,8 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
@@ -19,7 +19,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,7 +45,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val myUserId = fetchUserId().first()
+            val myUserId = fetchUserId()
             val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
             _state.update { profile ->
 
@@ -69,12 +68,12 @@ class ProfileViewModel @Inject constructor(
     private fun getUserDetails(myUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userFriendsCount = fetchUserFriendsCount(myUserId).total
+                val userFriend = fetchUserFriendsCount(myUserId)
                 val profilePosts = fetchUserPosts(myUserId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(myUserId).count
                 val profileUiState = fetchUserDetailS(myUserId).toUserDetailsUiState()
 
-                _state.update {
+                _state.update { it ->
                     it.copy(
                         isLoading = false,
                         isError = false,
@@ -84,10 +83,11 @@ class ProfileViewModel @Inject constructor(
                             username = profileUiState.username,
                             profileAvatar = profileUiState.profileAvatar,
                             profileCover = profileUiState.profileCover,
-                            friendsCount = userFriendsCount.toString(),
+                            friendsCount = userFriend.total.toString(),
                             postCount = userPostsCount.toString(),
                             userId = profileUiState.userId,
-                        )
+                        ),
+                        friends = userFriend.friends.map { it.toUserDetailsUiState() },
                     )
                 }
             } catch (e: Exception) {

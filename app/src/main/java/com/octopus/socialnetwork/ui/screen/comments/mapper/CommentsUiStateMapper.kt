@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.comments.mapper
 
 import com.octopus.socialnetwork.domain.model.comment.Comment
-import com.octopus.socialnetwork.ui.screen.comments.state.uistate.CommentDetailsUiState
+import com.octopus.socialnetwork.ui.screen.comments.state.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.util.enums
+package com.octopus.socialnetwork.ui.util
 
 enum class InputInformation {
     Account,
