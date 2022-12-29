@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.di
 
 import android.content.Context
 import androidx.room.Room
+import com.octopus.socialnetwork.data.local.dao.ConversationsDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.dao.PostsDao
 import com.octopus.socialnetwork.data.local.dao.RemoteKeysDao
@@ -37,5 +38,11 @@ object DatabaseModule {
     @Provides
     fun provideRemoteKeysDao(database: SocialDatabase): RemoteKeysDao {
         return database.remoteKeysDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideConversationsDao(database: SocialDatabase): ConversationsDao {
+        return database.ConversationsDao()
     }
 }

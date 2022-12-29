@@ -9,7 +9,6 @@ import com.octopus.socialnetwork.ui.util.extensions.removeHtmlEncoding
 
 fun Messages.toConversationUiState(): ConversationUiState {
     return ConversationUiState(
-        message = this.message.removeHtmlEncoding(),
         otherUser = otherUser.toUserUiState(),
         lastMessage = this.message.removeHtmlEncoding(),
         lastSendTime = time.getHourAndMinutes(),

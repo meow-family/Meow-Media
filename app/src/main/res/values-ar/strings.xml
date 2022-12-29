@@ -56,7 +56,7 @@
 
     <!-- Profile  -->
     <string name="save">حفظ</string>
-    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
     <string name="current_password">كلمة المرور الحالية</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="home">الصفحة الرئيسية</string>
