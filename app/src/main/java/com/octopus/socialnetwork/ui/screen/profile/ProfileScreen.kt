@@ -32,9 +32,9 @@ import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
 import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
 import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
-import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
+import com.octopus.socialnetwork.ui.screen.onboarding.navigateToOnBoarding
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingSmall
@@ -73,7 +73,7 @@ fun ProfileScreen(
 
         )
     if (state.isLogout) {
-        navController.navigate(AuthenticationRoute.OnBoarding)
+        navController.navigateToOnBoarding()
     }
 }
 

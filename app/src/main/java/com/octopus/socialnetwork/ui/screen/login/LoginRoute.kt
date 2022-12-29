@@ -3,10 +3,8 @@ package com.octopus.socialnetwork.ui.screen.login
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.octopus.socialnetwork.ui.navigation.AuthenticationRoute
 
-private const val ROUTE = AuthenticationRoute.Login
-
+private const val ROUTE = "login"
 
 fun NavController.navigateToLogin() {
     navigate(ROUTE)

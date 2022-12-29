@@ -6,10 +6,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
 
-private const val ROUTE = DetailsRoute.Post
+private const val ROUTE = "post"
 fun NavController.navigateToPostScreen(postId: Int,postOwner: Int){
     navigate("$ROUTE/$postId/$postOwner")
 }

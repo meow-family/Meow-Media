@@ -3,15 +3,16 @@ package com.octopus.socialnetwork.ui.screen.notifications
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
 
-private const val ROUTE = DetailsRoute.Notifications
+const val ROUTE_NOTIFICATION = "notifications"
 
 fun NavController.navigateToNotificationsScreen(){
-    navigate(ROUTE)
+    navigate(ROUTE_NOTIFICATION)
 }
 
 fun NavGraphBuilder.notificationsRoute(navController: NavController) {
-    composable(ROUTE) { NotificationsScreen(navController) }
+    composable(ROUTE_NOTIFICATION) {
+        NotificationsScreen(navController)
+    }
 }

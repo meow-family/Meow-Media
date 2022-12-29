@@ -6,9 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
-private const val ROUTE = DetailsRoute.EditeProfile
+private const val ROUTE = "edite_profile"
 
 fun NavController.navigateToEditeProfileRoute(userId: Int) {
     navigate("${ROUTE}/$userId")
@@ -20,11 +19,12 @@ fun NavGraphBuilder.editeProfileRouteRoute(navController: NavController) {
         arguments = listOf(
             navArgument(name = EditProfileScreenArgs.USER_ID) { NavType.StringType }
         )
-    ) { EditProfileScreen(navController) }
+    ) {
+        EditProfileScreen(navController)
+    }
 }
 
 class EditProfileScreenArgs(savedStateHandle: SavedStateHandle) {
-
     val userId: String? = savedStateHandle[USER_ID]
 
     companion object {

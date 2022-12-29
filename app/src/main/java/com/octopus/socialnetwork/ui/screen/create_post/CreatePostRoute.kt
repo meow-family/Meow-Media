@@ -5,10 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
-private const val ROUTE = DetailsRoute.CreatePost
-
+private const val ROUTE = "create_post"
 
 fun NavController.navigateToCreatePostRoute() {
     navigate(ROUTE)
