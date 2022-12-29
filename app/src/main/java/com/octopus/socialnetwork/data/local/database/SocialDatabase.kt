@@ -12,11 +12,10 @@ import com.octopus.socialnetwork.data.local.entity.UserEntity
 
 @Database(
     entities = [
-        UserEntity::class,
         PostEntity::class,
         MessageEntity::class,
         RemoteKeyEntity::class,
-    UserEntity::class,
+        UserEntity::class
     ], version = 1
 )
 abstract class SocialDatabase : RoomDatabase() {

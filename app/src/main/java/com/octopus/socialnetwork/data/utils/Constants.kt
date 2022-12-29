@@ -23,5 +23,5 @@ object Constants {
     const val LOGIN_STATE = "LOGOUT_STATE"
     const val TOKEN = "token"
     const val USERS_COLLECTION = "users"
-    const val PROFILE_TABLE = "profile_table"
+    const val USER_TABLE = "user_table"
 }
