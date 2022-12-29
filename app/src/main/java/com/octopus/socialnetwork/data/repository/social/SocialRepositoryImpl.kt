@@ -4,8 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.octopus.socialnetwork.BuildConfig
+import com.octopus.socialnetwork.data.local.dao.UserDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.local.entity.UserEntity
+import com.octopus.socialnetwork.data.mapper.toUserEntity
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
@@ -38,6 +41,7 @@ import com.octopus.socialnetwork.data.utils.Constants.PRIVACY
 import com.octopus.socialnetwork.data.utils.Constants.PUBLIC_PRIVACY
 import com.octopus.socialnetwork.data.utils.Constants.TYPE
 import com.octopus.socialnetwork.data.utils.Constants.USER_PHOTO
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -49,12 +53,21 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
-    private val commentDataSource: CommentDataSource
+    private val commentDataSource: CommentDataSource,
+    private val userDao: UserDao,
 ) : SocialRepository {
 
     //region user
     override suspend fun getUserDetails(visitedUserId: Int): UserDto {
         return socialService.getUserDetails(visitedUserId).result
+    }
+
+    override suspend fun insertProfileDetails(userId: Int) {
+        return userDao.insertProfileDetails(getUserDetails(userId).toUserEntity())
+    }
+
+    override suspend fun getProfileDetails(): Flow<UserEntity> {
+        return userDao.getProfileDetails()
     }
 
     override suspend fun getFriends(visitedUserId: Int): FriendsDto {

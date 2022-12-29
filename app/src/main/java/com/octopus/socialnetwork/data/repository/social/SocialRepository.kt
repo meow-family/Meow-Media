@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.data.repository.social
 
 import androidx.paging.Pager
 import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
@@ -20,12 +21,17 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface SocialRepository {
 
     //region user
     suspend fun getUserDetails(visitedUserId: Int): UserDto
+
+    suspend fun insertProfileDetails(userId: Int)
+
+    suspend fun getProfileDetails(): Flow<UserEntity>
 
     suspend fun getFriends(visitedUserId: Int): FriendsDto
 
