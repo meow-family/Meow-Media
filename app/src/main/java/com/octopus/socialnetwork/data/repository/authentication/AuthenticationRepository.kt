@@ -13,8 +13,10 @@ interface AuthenticationRepository {
         paramRegister: ParamRegisterDto
     ): BaseResponse<RegisterDto>
 
+    suspend fun storeLoginState(loginState: Boolean)
+    fun getLoginState(): Flow<Boolean>
     suspend fun deleteUserId()
-    fun getUserId(): Flow<Int?>
+    suspend fun getUserId(): Int?
 
     suspend fun getLocalFcmToken(): String?
     suspend fun createUser(user: UserFirebaseDTO)

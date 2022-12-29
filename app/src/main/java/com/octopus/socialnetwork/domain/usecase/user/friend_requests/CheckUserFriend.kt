@@ -5,7 +5,6 @@ import com.octopus.socialnetwork.domain.mapper.user.friend_requests.toCheckUserF
 import com.octopus.socialnetwork.domain.model.user.FriendValidator
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.utils.Constants.FRIEND_REQUEST_RESPONSE_IS_NULL
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CheckUserIsFriendUseCase @Inject constructor(
@@ -15,7 +14,7 @@ class CheckUserIsFriendUseCase @Inject constructor(
     suspend operator fun invoke(userIdWantedToCheck: Int): FriendValidator {
 
         return socialRepository.checkUserFriend(
-            fetchUserIdUseCase().first(),
+            fetchUserIdUseCase(),
             userIdWantedToCheck
         )?.toCheckUserFriend() ?: throw Throwable(FRIEND_REQUEST_RESPONSE_IS_NULL)
     }
