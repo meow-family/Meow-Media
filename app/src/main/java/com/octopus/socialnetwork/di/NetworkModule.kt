@@ -2,10 +2,10 @@ package com.octopus.socialnetwork.di
 
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
+import com.octopus.socialnetwork.data.remote.interceptor.DelayInterceptor
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService.Companion.FCM_BASE_URL
-import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,12 +32,13 @@ object NetworkModule {
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
+        DelayInterceptor: DelayInterceptor,
     ): OkHttpClient {
         val builder = OkHttpClient()
             .newBuilder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(DelayInterceptor)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(DelayInterceptor(2000L, TimeUnit.MILLISECONDS))
             .callTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()
