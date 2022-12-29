@@ -7,15 +7,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.R
@@ -42,12 +50,25 @@ fun TypingMessage(
     ) {
         Row(Modifier.height(IntrinsicSize.Min)) {
             BasicTextField(
-                modifier = Modifier.weight(1f).padding(16.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp),
                 value = state.message,
-                maxLines = 10,
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Send,
+                ),
+                keyboardActions = KeyboardActions(
+                    onSend = { onClickSend() }
+                ),
                 onValueChange = onChangeTypingComment,
-                textStyle = TextStyle(color = MaterialTheme.colors.textPrimaryColor, fontSize = 14.sp),
+                textStyle = TextStyle(
+                    color = MaterialTheme.colors.textPrimaryColor,
+                    fontSize = 14.sp
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colors.primary),
                 decorationBox = { innerTextField ->
+
                     if (state.message.isEmpty()) {
                         Text(
                             text = stringResource(R.string.your_message),
@@ -56,8 +77,9 @@ fun TypingMessage(
                         )
                     }
                     innerTextField()
-                }
-            )
+                },
+
+                )
 
             IconButton(
                 onClick = onClickSend,

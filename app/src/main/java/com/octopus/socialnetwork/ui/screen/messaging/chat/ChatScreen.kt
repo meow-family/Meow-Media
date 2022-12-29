@@ -60,7 +60,8 @@ fun ChatScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.background),
+                .background(MaterialTheme.colors.background)
+                .imePadding(),
             verticalArrangement = Arrangement.SpaceEvenly
 
         ) {
