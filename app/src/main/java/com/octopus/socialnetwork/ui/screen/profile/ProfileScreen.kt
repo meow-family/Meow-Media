@@ -36,6 +36,8 @@ import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRo
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.onboarding.navigateToOnBoarding
+import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
+import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingSmall
@@ -71,6 +73,7 @@ fun ProfileScreen(
             scope.launch { sheetState.hide() }
         },
     )
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
