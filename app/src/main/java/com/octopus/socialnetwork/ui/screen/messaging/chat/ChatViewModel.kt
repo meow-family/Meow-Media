@@ -41,15 +41,20 @@ class ChatViewModel @Inject constructor(
         getMessagesWithUser(args.friendId.toInt())
         getUserInfo(args.friendId.toInt())
         viewModelScope.launch(Dispatchers.IO) {
-            receiveMessageUseCase().collect { message ->
-                Log.i(
-                    "TESTING",
-                    "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
-                )
-                if (message.friendId == args.friendId.toInt()) {
-                    getMessagesWithUser(message.friendId)
+            try {
+                receiveMessageUseCase().collect { message ->
+                    Log.i(
+                        "MESSAGING",
+                        "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
+                    )
+                    if (message.friendId == args.friendId.toInt()) {
+                        getMessagesWithUser(message.friendId)
+                    }
                 }
+            }catch (e: Exception) {
+                Log.i("MESSAGING","catched this exception $e")
             }
+
         }
     }
 
