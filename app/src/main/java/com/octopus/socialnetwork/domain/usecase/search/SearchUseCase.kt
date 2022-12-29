@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(
     private val SocialRepository: SocialRepository,
-    private val FetchUserIdUseCase: FetchUserIdUseCase
+    private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(query: String): Search {
-        return SocialRepository.search(FetchUserIdUseCase(), query).toSearch()
+        return SocialRepository.search(fetchUserIdUseCase(), query).toSearch()
     }
 }

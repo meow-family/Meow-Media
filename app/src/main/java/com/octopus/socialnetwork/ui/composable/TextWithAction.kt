@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.spacing
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
@@ -22,25 +24,33 @@ fun TextWithAction(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = spacingMedium),
-
         ) {
         Text(
             text = text,
             style = MaterialTheme.typography.caption.copy(
-                    color = MaterialTheme.colors.textPrimaryColor),
-            )
+                color = MaterialTheme.colors.textPrimaryColor
+            ),
+        )
         IconButton(onClick = onClick) {
             Text(
                 modifier = Modifier.padding(spacing),
                 text = textAction,
                 style = MaterialTheme.typography.caption
-                    .copy(fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.primary),
+                    .copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.primary
+                    ),
             )
         }
 
-
     }
 
+}
 
+@Composable
+@Preview(showBackground = true)
+private fun TextWithActionPreview() {
+    SocialNetworkTheme {
+        TextWithAction("Create", "Login") {}
+    }
 }

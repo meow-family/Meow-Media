@@ -69,14 +69,14 @@
     <string name="Comments">تعليقات</string>
 
     <!-- Notification Titles  -->
-    <string name="liked_your_post">اعجب بمنشورك</string>
-    <string name="liked_your_comment">اعجب بتعليقك</string>
+    <string name="liked_your_post">قام بعمل ميو على منشورك</string>
+    <string name="liked_your_comment">قام بعمل ميو على تعليقك</string>
     <string name="add_comments_to_your_post">أضاف تعليقات على منشورك</string>
     <string name="asked_to_join_group">طلب الانضمام إلى مجموعة</string>
     <string name="mentioned_you_in_comment">ذكرك في تعليق</string>
-    <string name="poked_you">لكزك</string>
+    <string name="poked_you">نكزك</string>
     <string name="started_following_you">بدأ بمتابعتك</string>
-    <string name="liked_your_photo_in_album">اعجب بصورتك في الألبوم</string>
+    <string name="liked_your_photo_in_album">قام بعمل ميو على صورتك في الألبوم</string>
     <string name="add_comments_to_your_photo_in_album">أضاف تعليقات إلى صورتك في الألبوم</string>
     <string name="unknown_notification">اشعار غير معروف</string>
 
@@ -127,4 +127,6 @@
     <string name="Accept">Accept</string>
     <string name="remove_friend">Remove Friend</string>
     <string name="image">Image</string>
+    <string name="email_app_not_found">you don`t have an email app</string>
+
 </resources>

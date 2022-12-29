@@ -8,7 +8,7 @@ import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
-import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
+import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

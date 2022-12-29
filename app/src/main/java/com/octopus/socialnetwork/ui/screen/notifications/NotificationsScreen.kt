@@ -9,7 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,15 +24,15 @@ import androidx.paging.compose.items
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.Loading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.notifications.ItemNotification
-import com.octopus.socialnetwork.ui.screen.home.navigateToHomeScreen
+import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
+import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.theme.DividerColor
-import com.octopus.socialnetwork.ui.util.onClickNotification
+import com.octopus.socialnetwork.ui.util.extensions.notificationsTypes
 
 
 @Composable
@@ -43,10 +45,35 @@ fun NotificationsScreen(
     NotificationsContent(
         state = state,
         onClickNotification = { notification ->
-            onClickNotification(notification.type, navController, notification)
+            when (notification.type) {
+                notificationsTypes.LIKE_POST -> navController.navigateToPostScreen(
+                    notification.subjectId,
+                    notification.ownerId
+                )
+
+                notificationsTypes.LIKE_ANNOTATION_COMMENTS_POST -> navController.navigateToCommentsScreen(
+                    notification.subjectId,
+                    notification.type
+                )
+
+
+                notificationsTypes.COMMENTS_POST -> {
+                    navController.navigateToPostScreen(notification.subjectId, notification.ownerId)
+                    navController.navigateToCommentsScreen(
+                        notification.subjectId,
+                        notification.type
+                    )
+                }
+
+                else -> navController.navigateToPostScreen(
+                    notification.subjectId,
+                    notification.ownerId
+                )
+            }
+
             viewModel.markViewedNotification(notification)
         },
-        onClickBack = { navController.navigateToHomeScreen() },
+        onClickBack = { navController.popBackStack() },
         onClickTryAgain = viewModel::onClickTryAgain
     )
 }

@@ -6,12 +6,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
 
-private const val ROUTE = DetailsRoute.Comments
+private const val ROUTE = "comments"
 fun NavController.navigateToCommentsScreen(postId: Int, type: String){
-    navigate("$ROUTE/$postId/$type")
+    navigate("$ROUTE/$postId/$type") {
+        launchSingleTop = true
+    }
 }
 fun NavGraphBuilder.commentsRoute(navController: NavController) {
     composable("$ROUTE/{${CommentsScreenArgs.POST_ID}}/{${CommentsScreenArgs.TYPE}}",

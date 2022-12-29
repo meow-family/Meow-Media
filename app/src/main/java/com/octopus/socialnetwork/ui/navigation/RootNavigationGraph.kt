@@ -1,19 +1,21 @@
 package com.octopus.socialnetwork.ui.navigation
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.octopus.socialnetwork.SocialNetworkApplication
 import com.octopus.socialnetwork.ui.screen.main.mainRoute
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavigationGraph(navController: NavHostController,isLoggedOut: Boolean) {
     NavHost(
         navController = navController,
-        startDestination = if (SocialNetworkApplication.isLoggedOut) Graph.AUTH else Graph.MAIN,
+        startDestination = if (isLoggedOut) Graph.AUTH else Graph.MAIN,
         route = Graph.ROOT
     ) {
         authNavigationGraph(navController)

@@ -8,7 +8,9 @@ import androidx.navigation.compose.composable
 private const val ROUTE = "friend_request"
 
 fun NavController.navigateToFriendRequests() {
-    navigate(ROUTE)
+    navigate(ROUTE) {
+        launchSingleTop = true
+    }
 }
 
 

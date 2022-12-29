@@ -1,17 +1,17 @@
 package com.octopus.socialnetwork.ui.screen.post
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.octopus.socialnetwork.ui.navigation.DetailsRoute
 
 
-private const val ROUTE = DetailsRoute.Post
+private const val ROUTE = "post"
 fun NavController.navigateToPostScreen(postId: Int,postOwner: Int){
-    navigate("$ROUTE/$postId/$postOwner")
+    navigate("$ROUTE/$postId/$postOwner"
+    ) {
+        launchSingleTop = true
+    }
 }
 fun NavGraphBuilder.postRoute(navController: NavController) {
     composable("$ROUTE/{${PostScreenArgs.POST_ID}}/{${PostScreenArgs.POST_OWNER_ID}}",

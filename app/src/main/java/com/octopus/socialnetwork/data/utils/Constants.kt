@@ -20,6 +20,7 @@ object Constants {
     const val NO_SUCH_ID = -1
     const val FCM_TOKEN = "FCM_TOKEN"
     const val USER_ID_KEY = "user_id"
+    const val LOGIN_STATE = "LOGOUT_STATE"
     const val TOKEN = "token"
     const val USERS_COLLECTION = "users"
 }

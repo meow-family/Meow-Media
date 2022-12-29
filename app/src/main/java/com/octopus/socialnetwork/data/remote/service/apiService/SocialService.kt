@@ -232,7 +232,7 @@ interface SocialService {
         @Query("guid") postId: Int,
         @Query("type") type: String,
         @Query("offset") page: Int,
-    ): BaseResponse<CommentResponse>
+    ): BaseResponse<CommentResponse?>
 
     @POST("comment_edit")
     suspend fun editComment(

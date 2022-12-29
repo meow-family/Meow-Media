@@ -24,15 +24,15 @@ import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
-import com.octopus.socialnetwork.ui.composable.friend_requests.UserRelationItem
+import com.octopus.socialnetwork.ui.composable.friend_requests.UserDetailsItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
-import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 import com.octopus.socialnetwork.ui.theme.outLine
-import com.octopus.socialnetwork.ui.util.enums.UserRelationUiState
+import com.octopus.socialnetwork.ui.util.UserRelationUiState
 
 @Composable
 fun FriendRequestScreen(
@@ -90,7 +90,7 @@ private fun FriendRequestContent(
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
                 } else {
                     items(state.requests) {
-                        UserRelationItem(
+                        UserDetailsItem(
                             state = it,
                             friendRequest = true,
                             onClickAccept = onClickAccept,

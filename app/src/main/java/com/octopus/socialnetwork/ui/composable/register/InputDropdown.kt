@@ -14,9 +14,8 @@ import androidx.compose.ui.res.stringResource
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
 import com.octopus.socialnetwork.ui.composable.TextFieldError
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
-
 
 @Composable
 @ExperimentalMaterialApi
@@ -52,7 +51,9 @@ fun InputDropdown(
                 expanded = expanded, onDismissRequest = onDismissRequest
             ) {
                 options.forEach { selectionOption ->
-                    DropdownMenuItem(onClick = { onClick(selectionOption) }) {
+                    DropdownMenuItem(
+                        onClick = { onClick(selectionOption) },
+                    ) {
                         Text(
                             text = selectionOption,
                             color = MaterialTheme.colors.textPrimaryColor

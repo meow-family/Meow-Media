@@ -1,7 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.register.mapper
 
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.InputFieldValidation
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.PasswordState
 
 fun InputFieldValidation.toPasswordUiState(): PasswordState {
     return when (this) {

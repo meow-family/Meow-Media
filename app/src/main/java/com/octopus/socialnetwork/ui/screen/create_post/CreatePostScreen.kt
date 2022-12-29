@@ -38,13 +38,13 @@ import coil.compose.AsyncImage
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
+import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.CustomFloatingActionButton
 import com.octopus.socialnetwork.ui.composable.register.CustomDialog
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.spacingMedium
-import com.octopus.socialnetwork.ui.composable.buttom_navigation_bar.FloatingActionButton as FloatingAction
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -60,15 +60,16 @@ fun CreatePostScreen(
         onResult = { uri -> uri?.let { viewModel.setImageUri(it) } }
     )
 
+
     CreatePostContent(
         state = state,
         navController = navController,
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
-        onClickAddImage = viewModel::onClickAddImage,
+        onClickEdit = viewModel::onClickEdit,
         onInvalidImageDetection = viewModel::onInvalidImageDetection,
         onClickBack = { navController.popBackStack() },
-        onClickChangeImage = viewModel::onClickChangeImage,
+        onClickPost = viewModel::onClickPost,
     )
 }
 
@@ -77,9 +78,9 @@ fun CreatePostContent(
     state: CreatePostUiState,
     navController: NavController,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    onClickChangeImage: (Uri) -> Unit,
+    onClickPost: (Uri) -> Unit,
     onClickBack: () -> Unit,
-    onClickAddImage: () -> Unit,
+    onClickEdit: () -> Unit,
     onInvalidImageDetection: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
@@ -119,7 +120,7 @@ fun CreatePostContent(
                 )
             }
             Button(
-                onClick = { state.imageUri?.let { imageUri -> onClickChangeImage(imageUri) } },
+                onClick = { state.imageUri?.let { imageUri -> onClickPost(imageUri) } },
                 modifier = Modifier
                     .width(120.dp)
                     .zIndex(1f)
@@ -128,13 +129,14 @@ fun CreatePostContent(
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary
                 ),
-                enabled = state.imageUri != null
+                enabled = state.imageUri != null && state.isPostButtonEnabled
             ) {
                 Text(
                     text = stringResource(id = R.string.post),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
+
                 )
             }
         }
@@ -154,11 +156,12 @@ fun CreatePostContent(
                 .align(alignment = Alignment.BottomCenter),
             horizontalAlignment = Alignment.End
         ) {
-            FloatingAction(
-                onClick = onClickAddImage,
-                modifier = Modifier.padding(spacingMedium),
-                imageVector = if (state.imageUri == null) Icons.Filled.Add else Icons.Filled.Edit,
+            CustomFloatingActionButton(
+                onClick =  onClickEdit,
                 hiddenBoarder = true,
+                size = 55.dp,
+                modifier = Modifier.padding(spacingMedium),
+                imageVector = if (state.imageUri == null) Icons.Filled.Add else Icons.Filled.Edit
             )
 
             TextField(
@@ -191,13 +194,13 @@ fun CreatePostContent(
         LoadingDialog()
     }
     if (state.isInvalidImage) {
-        Dialog(onDismissRequest = { }) {
+        Dialog(onDismissRequest = { onClickEdit()}) {
             CustomDialog(
                 icon = Icons.Default.Image,
                 title = stringResource(R.string.image_post_rejected),
                 description = stringResource(R.string.image_post_rejected_description),
                 actionTitle = stringResource(id = R.string.ok),
-                checkAction = {
+                onClickPrimaryAction = {
                     onInvalidImageDetection()
                 },
             )

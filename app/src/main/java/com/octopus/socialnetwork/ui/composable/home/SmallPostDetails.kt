@@ -25,7 +25,7 @@ import com.octopus.socialnetwork.ui.composable.ImageNetwork
 import com.octopus.socialnetwork.ui.composable.SpaceHorizontally8dp
 import com.octopus.socialnetwork.ui.composable.SpaceVertically4dp
 import com.octopus.socialnetwork.ui.composable.backgroundVerticalGradientLightBlack
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 
 
