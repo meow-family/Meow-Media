@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.LoginDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
@@ -17,7 +18,10 @@ import com.octopus.socialnetwork.data.utils.Constants.REQUEST_SUCCEED
 import com.octopus.socialnetwork.data.utils.Constants.TOKEN
 import com.octopus.socialnetwork.data.utils.Constants.USERS_COLLECTION
 import com.octopus.socialnetwork.data.utils.Constants.USER_ID_KEY
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -31,7 +35,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
         val response = service.login(username, password)
         if (response.code == REQUEST_SUCCEED) {
             dataStore.edit { MutableStringPref ->
-                MutableStringPref[intPreferencesKey(USER_ID_KEY)] = response.result.id ?: 0
+                MutableStringPref[intPreferencesKey(USER_ID_KEY)] = response.result.id ?: -1
             }
         }
         return response.result
@@ -50,9 +54,12 @@ class AuthenticationRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getUserId(): Int? {
-        val preferences = dataStore.data.first()
-        return preferences[intPreferencesKey(USER_ID_KEY)]
+    override fun getUserId(): Flow<Int?> {
+        return flow {
+            dataStore.data.collect {
+                emit(it[intPreferencesKey(USER_ID_KEY)])
+            }
+        }
     }
 
     override suspend fun getLocalFcmToken(): String? {
@@ -91,6 +98,11 @@ class AuthenticationRepositoryImpl @Inject constructor(
         return fireStore.collection(USERS_COLLECTION).document(userId).get().await()
             .toObject(UserFirebaseDTO::class.java)
     }
+
+    override suspend fun getFirebaseFcmToken(): String? {
+        return FirebaseMessaging.getInstance().token.await()
+    }
+
 
     companion object {
 

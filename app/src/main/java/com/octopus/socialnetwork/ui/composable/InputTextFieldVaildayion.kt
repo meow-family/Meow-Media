@@ -19,12 +19,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightDefaultButton
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
+import com.octopus.socialnetwork.ui.theme.*
 
 @Composable
 fun InputTextFieldValidation(

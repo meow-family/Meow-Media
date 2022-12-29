@@ -60,15 +60,16 @@ fun CreatePostScreen(
         onResult = { uri -> uri?.let { viewModel.setImageUri(it) } }
     )
 
+
     CreatePostContent(
         state = state,
         navController = navController,
         singlePhotoPickerLauncher = singlePhotoPickerLauncher,
         onChangeCaptionText = viewModel::onChangeCaptionText,
-        onClickAddImage = viewModel::onClickAddImage,
+        onClickEdit = viewModel::onClickEdit,
         onInvalidImageDetection = viewModel::onInvalidImageDetection,
         onClickBack = { navController.popBackStack() },
-        onClickChangeImage = viewModel::onClickChangeImage,
+        onClickPost = viewModel::onClickPost,
     )
 }
 
@@ -77,9 +78,9 @@ fun CreatePostContent(
     state: CreatePostUiState,
     navController: NavController,
     singlePhotoPickerLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    onClickChangeImage: (Uri) -> Unit,
+    onClickPost: (Uri) -> Unit,
     onClickBack: () -> Unit,
-    onClickAddImage: () -> Unit,
+    onClickEdit: () -> Unit,
     onInvalidImageDetection: () -> Unit,
     onChangeCaptionText: (String) -> Unit,
 ) {
@@ -119,7 +120,7 @@ fun CreatePostContent(
                 )
             }
             Button(
-                onClick = { state.imageUri?.let { imageUri -> onClickChangeImage(imageUri) } },
+                onClick = { state.imageUri?.let { imageUri -> onClickPost(imageUri) } },
                 modifier = Modifier
                     .width(120.dp)
                     .zIndex(1f)
@@ -128,13 +129,14 @@ fun CreatePostContent(
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary
                 ),
-                enabled = state.imageUri != null
+                enabled = state.imageUri != null && state.isPostButtonEnabled
             ) {
                 Text(
                     text = stringResource(id = R.string.post),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
+
                 )
             }
         }
@@ -155,7 +157,7 @@ fun CreatePostContent(
             horizontalAlignment = Alignment.End
         ) {
             CustomFloatingActionButton(
-                onClick = onClickAddImage,
+                onClick =  onClickEdit,
                 hiddenBoarder = true,
                 size = 55.dp,
                 modifier = Modifier.padding(spacingMedium),
@@ -192,7 +194,7 @@ fun CreatePostContent(
         LoadingDialog()
     }
     if (state.isInvalidImage) {
-        Dialog(onDismissRequest = { }) {
+        Dialog(onDismissRequest = { onClickEdit()}) {
             CustomDialog(
                 icon = Icons.Default.Image,
                 title = stringResource(R.string.image_post_rejected),

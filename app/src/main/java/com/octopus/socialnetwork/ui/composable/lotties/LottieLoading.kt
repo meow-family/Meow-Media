@@ -16,7 +16,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.octopus.socialnetwork.R
 
 @Composable
-fun LottieLoading() {
+fun LottieLoading(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_loading_cat))
 
     Box(
@@ -28,7 +28,7 @@ fun LottieLoading() {
         LottieAnimation(
             composition = composition,
             iterations = Int.MAX_VALUE,
-            modifier = Modifier.size(100.dp)
+            modifier = modifier.size(100.dp)
         )
     }
 }

@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.search.state
 
-import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 
 
 data class SearchUiState(

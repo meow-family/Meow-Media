@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.*
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
@@ -34,9 +34,10 @@ import com.octopus.socialnetwork.ui.composable.profile.UserDetails
 import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
+import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.onboarding.navigateToOnBoarding
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -45,8 +46,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProfileScreen(
-    navController: NavController,
-    viewModel: ProfileViewModel = hiltViewModel()
+    navController: NavController, viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -70,11 +70,7 @@ fun ProfileScreen(
             navController.navigateToUserProfileScreen(it)
             scope.launch { sheetState.hide() }
         },
-
-        )
-    if (state.isLogout) {
-        navController.navigateToOnBoarding()
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -97,14 +93,12 @@ private fun ProfileContent(
         LottieLoading()
     } else {
 
-        ModalBottomSheetLayout(
-            sheetState = sheetState,
+        ModalBottomSheetLayout(sheetState = sheetState,
             modifier = Modifier.padding(top = 20.dp),
             sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
             sheetContent = {
                 Friends(state.friends, onClickItem)
-            })
-        {
+            }) {
 
             LazyVerticalGrid(
                 modifier = Modifier
@@ -119,10 +113,8 @@ private fun ProfileContent(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        UserDetails(
-                            state.userDetails,
-                            onClickShowFriends = { scope.launch { sheetState.show() } }
-                        )
+                        UserDetails(state.userDetails,
+                            onClickShowFriends = { scope.launch { sheetState.show() } })
 
                         Row {
                             if (state.isMyProfile) {
@@ -152,8 +144,7 @@ private fun ProfileContent(
                 } else {
                     items(items = state.profilePosts) { ProfilePostUiState ->
                         ProfilePostItem(
-                            post = ProfilePostUiState,
-                            onClickPost = onClickPost
+                            post = ProfilePostUiState, onClickPost = onClickPost
                         )
                     }
                 }
@@ -162,10 +153,6 @@ private fun ProfileContent(
         }
     }
 }
-
-
-
-
 
 
 

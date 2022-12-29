@@ -10,7 +10,9 @@ import androidx.navigation.navArgument
 
 private const val ROUTE = "comments"
 fun NavController.navigateToCommentsScreen(postId: Int, type: String){
-    navigate("$ROUTE/$postId/$type")
+    navigate("$ROUTE/$postId/$type") {
+        launchSingleTop = true
+    }
 }
 fun NavGraphBuilder.commentsRoute(navController: NavController) {
     composable("$ROUTE/{${CommentsScreenArgs.POST_ID}}/{${CommentsScreenArgs.TYPE}}",

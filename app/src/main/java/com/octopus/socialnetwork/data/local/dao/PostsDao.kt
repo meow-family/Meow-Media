@@ -15,6 +15,9 @@ interface PostsDao {
     @Query("SELECT * FROM posts_table ORDER BY id DESC ")
     fun getAllPosts(): PagingSource<Int, PostEntity>
 
+    @Query("SELECT * FROM posts_table WHERE  id = :postId ")
+    fun getPostDetails(postId:Int): PostEntity
+
     @Query("DELETE FROM posts_table")
     suspend fun deleteAllPosts()
 

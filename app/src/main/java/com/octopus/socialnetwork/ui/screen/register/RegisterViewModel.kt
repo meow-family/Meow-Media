@@ -13,11 +13,8 @@ import com.octopus.socialnetwork.ui.screen.register.mapper.toEmailUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toInputFieldUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.EmailState
-import com.octopus.socialnetwork.ui.screen.register.uistate.InputFieldState
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
-import com.octopus.socialnetwork.ui.screen.register.uistate.RegisterUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.screen.register.state.RegisterUiState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.*
 import com.octopus.socialnetwork.ui.util.InputInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

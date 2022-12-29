@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.login
+package com.octopus.socialnetwork.ui.screen.login.state
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.authentication.login.LoginUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.PasswordValidationUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.validation.UserNameValidationUseCase
-import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toPasswordUiState
 import com.octopus.socialnetwork.ui.screen.register.mapper.toUserNameUiState
-import com.octopus.socialnetwork.ui.screen.register.uistate.PasswordState
-import com.octopus.socialnetwork.ui.screen.register.uistate.UserNameState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.PasswordState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

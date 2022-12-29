@@ -5,9 +5,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.utils.FileService
 import com.octopus.socialnetwork.domain.usecase.post.create_post.CreatePostUseCase
 import com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit.DetectCatUseCase
-import com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit.OpenFileUseCase
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class CreatePostViewModel @Inject constructor(
     private val createPost: CreatePostUseCase,
     private val detectCat: DetectCatUseCase,
-    private val openFile: OpenFileUseCase
+    private val fileService: FileService
 ) : ViewModel() {
 
 
@@ -29,22 +29,27 @@ class CreatePostViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickChangeImage(uri: Uri) {
+    fun onClickPost(uri: Uri) {
+        _state.update { it.copy(isPostButtonEnabled = false) }
         viewModelScope.launch(Dispatchers.IO) {
             val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
 
             setLoading(true)
             if (isImageValid) {
-                val result = createPost(_state.value.captionText, openFile(uri))
+                val result = createPost(_state.value.captionText, fileService.openFile(uri))
                 result?.let {
                     setLoading(false)
-                    onUploadPostSuccess() } ?: setLoading(false)
+                    onUploadPostSuccess()
+                } ?: setLoading(false)
             } else {
                 setLoading(false)
                 onInvalidImageDetection()
             }
+            _state.update { it.copy(isPostButtonEnabled = true) }
         }
     }
+
+
 
     private fun setLoading(state: Boolean) {
         _state.update { it.copy(isLoading = state) }
@@ -58,7 +63,7 @@ class CreatePostViewModel @Inject constructor(
         _state.update { it.copy(imageUri = imageUri) }
     }
 
-    fun onClickAddImage() {
+    fun onClickEdit() {
         _state.update { it.copy(isAddNewImage = !state.value.isAddNewImage) }
     }
 

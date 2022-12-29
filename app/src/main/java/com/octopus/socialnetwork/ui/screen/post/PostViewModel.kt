@@ -1,13 +1,12 @@
 package com.octopus.socialnetwork.ui.screen.post
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,10 +37,6 @@ class PostViewModel @Inject constructor(
             try {
                 val post = fetchPostDetails(args.postId.toInt()).toPostUiState()
                 _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
-                Log.i(
-                    "TESTING",
-                    fetchPostDetails(args.postId.toInt()).toString()
-                )
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -51,7 +46,6 @@ class PostViewModel @Inject constructor(
     fun onClickLike() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-
                 val post = _state.value.postDetails
                 toggleLikeState(
                     newLikeState = post.isLiked.not(),

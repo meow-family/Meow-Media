@@ -14,11 +14,12 @@ import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUs
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val myUserId = fetchUserId()
+            val myUserId = fetchUserId().first()
             val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
             _state.update { profile ->
 

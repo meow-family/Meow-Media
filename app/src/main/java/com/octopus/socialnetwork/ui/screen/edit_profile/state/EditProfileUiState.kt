@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.edit_profile.uistate
+package com.octopus.socialnetwork.ui.screen.edit_profile.state
 
 import android.net.Uri
 

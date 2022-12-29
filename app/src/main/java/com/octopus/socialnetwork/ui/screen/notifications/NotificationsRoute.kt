@@ -8,7 +8,9 @@ import androidx.navigation.compose.composable
 const val ROUTE_NOTIFICATION = "notifications"
 
 fun NavController.navigateToNotificationsScreen(){
-    navigate(ROUTE_NOTIFICATION)
+    navigate(ROUTE_NOTIFICATION) {
+        launchSingleTop = true
+    }
 }
 
 fun NavGraphBuilder.notificationsRoute(navController: NavController) {

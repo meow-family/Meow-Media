@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.friend_request.state
 
-import com.octopus.socialnetwork.ui.screen.profile.uistate.UserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 
 
 data class FriendRequestUiState(

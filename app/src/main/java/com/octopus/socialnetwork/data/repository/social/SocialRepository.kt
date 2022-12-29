@@ -47,6 +47,8 @@ interface SocialRepository {
     //region post
     suspend fun viewPost(postId: Int, myUserId: Int): PostDto
 
+    fun getPostDetails(postId: Int): PostEntity
+
     suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
     fun getNewsFeedPager(): Pager<Int, PostEntity>
@@ -71,10 +73,7 @@ interface SocialRepository {
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>
-
     suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto>
-
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 

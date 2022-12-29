@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.profile.uistate
+package com.octopus.socialnetwork.ui.screen.profile.state
 
 import com.octopus.socialnetwork.ui.util.UserRelationUiState
 

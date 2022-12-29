@@ -4,6 +4,7 @@ import com.octopus.socialnetwork.data.repository.social.SocialRepository
 import com.octopus.socialnetwork.domain.mapper.user.toPosts
 import com.octopus.socialnetwork.domain.model.user.Posts
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class FetchUserPostsUseCase @Inject constructor(
@@ -11,6 +12,6 @@ class FetchUserPostsUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(visitedUserId: Int) : Posts {
-        return socialRepository.getUserPosts(visitedUserId, fetchUserIdUseCase()).toPosts()
+        return socialRepository.getUserPosts(visitedUserId, fetchUserIdUseCase().first()).toPosts()
     }
 }

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments.uistate
+package com.octopus.socialnetwork.ui.screen.comments.state
 
 
 data class CommentDetailsUiState(

@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.register.uistate
+package com.octopus.socialnetwork.ui.screen.register.state.uistate
 
 import com.octopus.socialnetwork.R
 

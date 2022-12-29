@@ -9,7 +9,9 @@ import androidx.navigation.compose.composable
 private const val ROUTE = "create_post"
 
 fun NavController.navigateToCreatePostRoute() {
-    navigate(ROUTE)
+    navigate(ROUTE) {
+        launchSingleTop = true
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
