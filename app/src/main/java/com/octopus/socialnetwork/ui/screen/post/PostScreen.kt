@@ -51,14 +51,14 @@ fun PostScreen(
     PostContent(
         state = state,
         onClickBack = { navController.popBackStack() },
-        onLike = viewModel::onClickLike,
+        onClickLike = viewModel::onClickLike,
         onComment = {
             navController.navigateToCommentsScreen(
                 postId = state.postDetails.postId,
                 type = Constants.COMMENT_TYPE
             )
         },
-        onShare = viewModel::onClickShare,
+        onShare = { },
         onClickTryAgain = viewModel::onClickTryAgain
     )
 }
@@ -67,7 +67,7 @@ fun PostScreen(
 private fun PostContent(
     state: PostMainUiState,
     onClickBack: () -> Unit,
-    onLike: () -> Unit,
+    onClickLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
     onClickTryAgain: () -> Unit
@@ -107,60 +107,57 @@ private fun PostContent(
             LottieError(onClickTryAgain)
         } else {
             PostImage(postImage = state.postDetails.postImage)
+        }
 
-            Card(
-                modifier = Modifier
-                    .height(210.dp)
-                    .align(alignment = Alignment.CenterEnd)
-                    .width(48.dp),
-                elevation = 0.dp,
-                shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-                backgroundColor = Color.Transparent,
-            ) {
-                InteractionGroup(
-                    interactions =
-                    listOf({
-                        InteractionIcon(
-                            icon = if (state.postDetails.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
-                            count = state.postDetails.likeCount,
-                            onClick = onLike,
-                            tint = if (state.postDetails.isLiked) Color.Red else Color.White
-                        )
-                    }, {
-                        InteractionIcon(
-                            icon = R.drawable.ic_baseline_comment_24,
-                            count = state.postDetails.commentCount,
-                            onClick = onComment,
-                            tint = Color.White
-                        )
-                    }, {
-                        InteractionIcon(
-                            icon = R.drawable.ic_send,
-                            onClick = onShare, tint = Color.White
-                        )
-                    })
-                )
-
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .align(alignment = Alignment.BottomCenter)
-                    .backgroundTextShadow()
-            ) {
-                LargPostDetails(
-                    profileImage = state.postDetails.profileAvatar,
-                    userName = state.postDetails.userName,
-                    fullName = state.postDetails.fullName,
-                    postDescription = state.postDetails.postDescription,
-                )
-            }
+        Card(
+            modifier = Modifier
+                .height(210.dp)
+                .align(alignment = Alignment.CenterEnd)
+                .width(48.dp),
+            elevation = 0.dp,
+            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+            backgroundColor = Color.Transparent,
+        ) {
+            InteractionGroup(
+                interactions =
+                listOf({
+                    InteractionIcon(
+                        icon = if (state.postDetails.isLiked) R.drawable.ic_like_16 else R.drawable.ic_un_like_16,
+                        count = state.postDetails.likeCount,
+                        onClick = onClickLike,
+                        tint = if (state.postDetails.isLiked) Color.Red else Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_baseline_comment_24,
+                        count = state.postDetails.commentCount,
+                        onClick = onComment,
+                        tint = Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_send,
+                        onClick = onShare, tint = Color.White
+                    )
+                })
+            )
 
         }
 
-
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .align(alignment = Alignment.BottomCenter)
+                .backgroundTextShadow()
+        ) {
+            LargPostDetails(
+                profileImage = state.postDetails.profileAvatar,
+                userName = state.postDetails.userName,
+                fullName = state.postDetails.fullName,
+                postDescription = state.postDetails.postDescription,
+            )
+        }
     }
 
 

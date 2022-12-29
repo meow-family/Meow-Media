@@ -47,6 +47,8 @@ interface SocialRepository {
     //region post
     suspend fun viewPost(postId: Int, myUserId: Int): PostDto
 
+    fun getPostDetails(postId: Int): PostEntity
+
     suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
     fun getNewsFeedPager(): Pager<Int, PostEntity>

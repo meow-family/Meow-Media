@@ -82,6 +82,7 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.removeFriend(myUserId, userIdWantedToAdd).result
     }
 
+
     override suspend fun getFriendRequests(myUserId: Int): FriendRequestsResponse {
         return socialService.getFriendRequests(myUserId).result
     }
@@ -90,6 +91,10 @@ class SocialRepositoryImpl @Inject constructor(
     //region post
     override suspend fun viewPost(postId: Int, myUserId: Int): PostDto {
         return socialService.viewPost(postId, myUserId).result
+    }
+
+    override fun getPostDetails(postId: Int): PostEntity {
+        return socialDatabase.postsDao().getPostDetails(postId)
     }
 
     override suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse> {

@@ -12,6 +12,11 @@ class FetchPostDetailsUseCase @Inject constructor(
     private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {
     suspend operator fun invoke(postId: Int): Post {
-        return socialRepository.viewPost(postId, fetchUserIdUseCase().first()).toPost()
+        val localPostDetails = socialRepository.getPostDetails(postId)
+        return if(localPostDetails == null)
+            socialRepository.viewPost(postId, fetchUserIdUseCase().first()).toPost()
+        else localPostDetails.toPost()
     }
+
+
 }
