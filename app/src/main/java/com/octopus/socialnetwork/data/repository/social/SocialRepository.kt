@@ -66,6 +66,7 @@ interface SocialRepository {
     suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeResponse
 
     suspend fun getNotifications(myUserId: Int): NotificationsResponse
+    suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto>
 
     suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto
 
@@ -86,7 +87,7 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
+    suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<PhotoDto>>
 

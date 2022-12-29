@@ -49,7 +49,8 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
-    private val commentDataSource: CommentDataSource
+    private val commentDataSource: CommentDataSource,
+    private val notificationDataSource: NotificationDataSource
 ) : SocialRepository {
 
     //region user
@@ -61,7 +62,10 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getUserFriends(visitedUserId).result
     }
 
-    override suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorResponse? {
+    override suspend fun checkUserFriend(
+        myUserId: Int,
+        userIdWantedToCheck: Int
+    ): FriendValidatorResponse? {
         return socialService.checkUserFriend(myUserId, userIdWantedToCheck).result
     }
 
@@ -69,9 +73,12 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getUserPosts(visitedUserId, myUserId).result
     }
 
-    override suspend fun editUser(myUserId: Int, firstName: String, lastName: String, email: String,
-        currentPassword: String, newPassword: String): UserDto {
-        return socialService.editUser(myUserId, firstName, lastName, email, currentPassword, newPassword
+    override suspend fun editUser(
+        myUserId: Int, firstName: String, lastName: String, email: String,
+        currentPassword: String, newPassword: String
+    ): UserDto {
+        return socialService.editUser(
+            myUserId, firstName, lastName, email, currentPassword, newPassword
         ).result
     }
 
@@ -79,7 +86,10 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.addFriend(myUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse {
+    override suspend fun removeFriend(
+        myUserId: Int,
+        userIdWantedToAdd: Int
+    ): FriendValidatorResponse {
         return socialService.removeFriend(myUserId, userIdWantedToAdd).result
     }
 
@@ -93,8 +103,11 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.viewPost(postId, myUserId).result
     }
 
-    override suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse> {
-        return socialService.viewUserPosts(visitedUserId, myUserId,)
+    override suspend fun viewUserPosts(
+        visitedUserId: Int,
+        myUserId: Int
+    ): BaseResponse<PostResponse> {
+        return socialService.viewUserPosts(visitedUserId, myUserId)
     }
 
     override fun getNewsFeedPager(): Pager<Int, PostEntity> {
@@ -105,18 +118,20 @@ class SocialRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun createPost(myUserId: Int, posterOwnerId: Int, post: String, type: String,
-        photo: File): PostDto {
-        val photoExtension = if (photo.extension== JPG ) JPEG else photo.extension
+    override suspend fun createPost(
+        myUserId: Int, posterOwnerId: Int, post: String, type: String,
+        photo: File
+    ): PostDto {
+        val photoExtension = if (photo.extension == JPG) JPEG else photo.extension
         val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
             .addFormDataPart(OWNER_GUID, myUserId.toString())
-            .addFormDataPart(POSTER_GUID,posterOwnerId.toString())
-            .addFormDataPart(TYPE,type)
-            .addFormDataPart(POST,post)
-            .addFormDataPart(PRIVACY,PUBLIC_PRIVACY)
-            .addFormDataPart(OSSN_PHOTO,photo.name,requestFile).build()
+            .addFormDataPart(POSTER_GUID, posterOwnerId.toString())
+            .addFormDataPart(TYPE, type)
+            .addFormDataPart(POST, post)
+            .addFormDataPart(PRIVACY, PUBLIC_PRIVACY)
+            .addFormDataPart(OSSN_PHOTO, photo.name, requestFile).build()
         return socialService.createPost(requestBody).result
     }
 
@@ -132,11 +147,22 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun getNotifications(myUserId: Int, ): NotificationsResponse {
-        return socialService.getUserNotifications(myUserId).result
+    override suspend fun getNotifications(myUserId: Int): NotificationsResponse {
+        return socialService.getUserNotifications(myUserId = myUserId, page = 1).result
     }
 
-    override suspend fun getNotificationsCount(myUserId: Int, ): NotificationsCountDto {
+    override suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto> {
+        val dataSource = notificationDataSource
+        return Pager(
+            config = PagingConfig(
+                pageSize = 100,
+                prefetchDistance = 5, enablePlaceholders = false
+            ),
+            pagingSourceFactory = { dataSource })
+    }
+
+
+    override suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto {
         return socialService.getUserNotificationsCount(myUserId).result
     }
 
@@ -145,15 +171,17 @@ class SocialRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto> {
-        return socialService.getCommentsList(myUserId, postId, type,1).result.comments
+        return socialService.getCommentsList(myUserId, postId, type, 1).result.comments
     }
 
     override suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto> {
         val dataSource = commentDataSource
         dataSource.setCommentID(postId)
         return Pager(
-            config = PagingConfig(100,
-            prefetchDistance = 5,enablePlaceholders = false) ,
+            config = PagingConfig(
+                pageSize = 100,
+                prefetchDistance = 5, enablePlaceholders = false
+            ),
             pagingSourceFactory = { dataSource })
     }
 
@@ -174,47 +202,55 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.addComment(postId, comment, userId).result
     }
 
-    override suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int) {
+    override suspend fun updatePostLikeStatusLocally(
+        id: Int,
+        isLikedByUser: Boolean,
+        newLikesCount: Int
+    ) {
         socialDatabase.postsDao().updatePostLikeStatus(id, isLikedByUser, newLikesCount)
     }
 
-    override suspend fun getPhotosListProfileCover(userId: Int, type: String
+    override suspend fun getPhotosListProfileCover(
+        userId: Int, type: String
     ): BaseResponse<List<PhotoDto>> {
         return socialService.getPhotosListProfileCover(userId, type)
     }
 
-    override suspend fun getPhotoViewProfile(photoId: Int, userId: Int
+    override suspend fun getPhotoViewProfile(
+        photoId: Int, userId: Int
     ): BaseResponse<UserProfileDto> {
         return socialService.getPhotoViewProfile(photoId, userId)
     }
 
-    override suspend fun deletePhotoProfile(photoId: Int, userId: Int
+    override suspend fun deletePhotoProfile(
+        photoId: Int, userId: Int
     ): BaseResponse<ProfilePhotoResponse> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
-    override suspend fun deleteProfileCover(photoId: Int, userId: Int
+    override suspend fun deleteProfileCover(
+        photoId: Int, userId: Int
     ): BaseResponse<ProfilePhotoResponse> {
         return socialService.deleteCoverPhoto(photoId, userId)
     }
 
     override suspend fun addProfilePicture(userID: Int, photo: File): UserDto {
-        val photoExtension = if (photo.extension==JPG) JPEG else photo.extension
+        val photoExtension = if (photo.extension == JPG) JPEG else photo.extension
         val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
             .addFormDataPart(GUID, userID.toString())
-            .addFormDataPart(USER_PHOTO,photo.name,requestFile).build()
+            .addFormDataPart(USER_PHOTO, photo.name, requestFile).build()
         return socialService.addProfilePicture(requestBody).result
     }
 
     override suspend fun addCoverPicture(userID: Int, photo: File): UserDto {
-        val photoExtension = if (photo.extension==JPG) JPEG else photo.extension
+        val photoExtension = if (photo.extension == JPG) JPEG else photo.extension
         val requestFile = photo.asRequestBody("image/$photoExtension".toMediaType())
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         val requestBody = builder.addFormDataPart(API_KEY_TOKEN, BuildConfig.API_KEY)
             .addFormDataPart(GUID, userID.toString())
-            .addFormDataPart(USER_PHOTO,photo.name,requestFile).build()
+            .addFormDataPart(USER_PHOTO, photo.name, requestFile).build()
         return socialService.addCoverPicture(requestBody).result
     }
 
