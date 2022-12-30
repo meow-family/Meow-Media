@@ -37,7 +37,6 @@ object NetworkModule {
             .newBuilder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(DelayInterceptor(2000L, TimeUnit.MILLISECONDS))
             .callTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()

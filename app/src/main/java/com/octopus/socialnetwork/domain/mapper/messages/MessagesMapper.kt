@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.mapper.messages
 
+import com.octopus.socialnetwork.data.local.entity.MessageEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDto
 import com.octopus.socialnetwork.domain.model.messages.Messages
@@ -23,5 +24,15 @@ fun MessageUserDto.toMessageUser(): MessageUser {
         fullName = fullName ?: "",
         userName = username ?: "",
         avatar = avatar?.larger ?: ""
+    )
+}
+
+fun MessageEntity.toMessage(): Messages {
+    return Messages(
+        message = message,
+        otherUser = MessageUser(userId = messageUserId, fullName = fullName, avatar = avatar),
+        time = time.toFormattedDate(),
+        viewed = viewed,
+        isSentByMe = isSentByMe,
     )
 }

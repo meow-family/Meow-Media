@@ -4,17 +4,17 @@ import com.octopus.socialnetwork.data.local.entity.MessageEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 
 
-fun MessageDto.toMessageEntity(): MessageEntity {
+fun MessageDto.toMessageEntity(userId: Int): MessageEntity {
+    val chatOtherUser = if (messageSender?.userId == userId) messageReceiver else messageSender
+
     return MessageEntity(
-        id = id ?: 0,
-        answered = answered ?: 0,
+        id = chatOtherUser?.userId ?: 0,
         message = message ?: "",
-        userId = messageSender?.userId ?: 0,
-        fullName = messageSender?.fullName ?: "",
-        avatar = messageSender?.avatar?.large ?: "",
-        username = messageSender?.username ?: "",
+        messageUserId = chatOtherUser?.userId ?: 0,
+        fullName = chatOtherUser?.fullName ?: "",
+        avatar = chatOtherUser?.avatar?.larger ?: "",
         time = time ?: 0L,
         viewed = viewed ?: "",
-
+        isSentByMe = userId == messageSender?.userId
     )
 }

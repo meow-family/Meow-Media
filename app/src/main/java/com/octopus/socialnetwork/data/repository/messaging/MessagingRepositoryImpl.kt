@@ -1,5 +1,8 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
+import com.octopus.socialnetwork.data.local.dao.ConversationsDao
+import com.octopus.socialnetwork.data.local.entity.MessageEntity
+import com.octopus.socialnetwork.data.mapper.toMessageEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
@@ -13,6 +16,7 @@ import javax.inject.Inject
 class MessagingRepositoryImpl @Inject constructor(
     private val service: SocialService,
     private val cloudMessagingService: CloudMessagingService,
+    private val conversationsDao: ConversationsDao,
 ) : MessagingRepository {
 
     override suspend fun getRecentMassagesList(messageReceiver: Int): MessageResponse {
@@ -48,5 +52,25 @@ class MessagingRepositoryImpl @Inject constructor(
         return FirebaseCloudMessagingService.events
     }
 
-}
 
+    override suspend fun insertConversations(userId: Int) {
+        try {
+            with(service.getMessagesListRecent(userId).result) {
+                if (this.count != 0) {
+                    val messagesList = this.messages?.map { messageDto ->
+                        messageDto.toMessageEntity(userId)
+                    }
+                    messagesList?.let { messagesEntity ->
+
+                        conversationsDao.insertConversations(messagesEntity)
+                    }
+                }
+            }
+        } catch (throwable: Throwable) { }
+    }
+
+    override fun getAllConversations(): Flow<List<MessageEntity>> {
+        return conversationsDao.getAllConversations()
+    }
+
+}

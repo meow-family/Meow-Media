@@ -55,12 +55,13 @@ class ConversationsViewModel @Inject constructor(
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages = fetchRecentMessages().map { it.toConversationUiState() }
-                _state.update {
-                    it.copy(
-                        isFail = false, isLoading = false, messages = recentMessages,
-                        isSuccess = true
-                    )
+                fetchRecentMessages().collect { messages ->
+                    val recentMessages = messages.map { it.toConversationUiState() }
+                    _state.update {
+                        it.copy(
+                            isFail = false, isSuccess = true, isLoading = false, messages = recentMessages,
+                        )
+                    }
                 }
             } catch (e: Exception) {
                 Log.i("TESTING", "$e was catched! in ${this.javaClass.simpleName}")
