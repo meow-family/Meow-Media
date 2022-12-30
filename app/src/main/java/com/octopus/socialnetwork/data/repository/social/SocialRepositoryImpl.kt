@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.local.dao.UserDao
+import com.octopus.socialnetwork.data.local.dao.PostsDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.UserEntity
@@ -53,8 +54,10 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
-    private val commentDataSource: CommentDataSource,
     private val userDao: UserDao,
+    private val commentDataSource: CommentDataSource,
+    private val notificationDataSource: NotificationDataSource,
+    private val postsDao: PostsDao,
 ) : SocialRepository {
 
     //region user
@@ -116,7 +119,7 @@ class SocialRepositoryImpl @Inject constructor(
 
     override fun getNewsFeedPager(): Pager<Int, PostEntity> {
         return Pager(
-            config = PagingConfig(10),
+            config = PagingConfig(10, prefetchDistance = 5),
             remoteMediator = postsRemoteMediator,
             pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
         )
@@ -149,11 +152,22 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun getNotifications(myUserId: Int, ): NotificationsResponse {
-        return socialService.getUserNotifications(myUserId).result
+    override suspend fun getNotifications(myUserId: Int): NotificationsResponse {
+        return socialService.getUserNotifications(myUserId = myUserId, page = 1).result
     }
 
-    override suspend fun getNotificationsCount(myUserId: Int, ): NotificationsCountDto {
+    override suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto> {
+        val dataSource = notificationDataSource
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = { dataSource })
+    }
+
+
+    override suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto {
         return socialService.getUserNotificationsCount(myUserId).result
     }
 
@@ -165,8 +179,8 @@ class SocialRepositoryImpl @Inject constructor(
         val dataSource = commentDataSource
         dataSource.setCommentID(postId)
         return Pager(
-            config = PagingConfig(100,
-            prefetchDistance = 5,enablePlaceholders = false) ,
+            config = PagingConfig(5,
+            prefetchDistance = 5,enablePlaceholders = true) ,
             pagingSourceFactory = { dataSource })
     }
 
@@ -234,6 +248,10 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun search(myUserId: Int, query: String): SearchDto {
         return socialService.search(myUserId, query).result
+    }
+
+    override suspend fun insertPosts(posts: List<PostEntity>) {
+        postsDao.insertPosts(posts)
     }
     //endregion
 

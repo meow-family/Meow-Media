@@ -19,7 +19,7 @@ class PostsRemoteMediator @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val authenticationRepository: AuthenticationRepository,
-): RemoteMediator<Int, PostEntity>() {
+) : RemoteMediator<Int, PostEntity>() {
     private val postsDao = socialDatabase.postsDao()
     private val remoteKesDao = socialDatabase.remoteKeysDao()
 
@@ -28,21 +28,20 @@ class PostsRemoteMediator @Inject constructor(
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
         return try {
-            val currentPage = when(loadType) {
+            val currentPage = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                    Log.i("PAGING","refrishing ${remoteKey?.nextPage}")
-
+                    Log.i("PAGING", "refrishing ${remoteKey?.nextPage}")
                     remoteKey?.nextPage?.minus(1) ?: 1
                 }
                 LoadType.PREPEND -> {
                     val remoteKey = getRemoteKeyForFirstItem(state)
-                    Log.i("PAGING","prepending ${remoteKey?.previousPage}")
+                    Log.i("PAGING", "prepending ${remoteKey?.previousPage}")
                     remoteKey?.previousPage ?: return MediatorResult.Success(remoteKey != null)
                 }
                 LoadType.APPEND -> {
                     val remoteKey = getRemoteKeyForLastItem(state)
-                    Log.i("PAGING","appending ${remoteKey?.nextPage}")
+                    Log.i("PAGING", "appending ${remoteKey?.nextPage}")
                     remoteKey?.nextPage ?: return MediatorResult.Success(remoteKey == null)
                 }
             }
@@ -53,7 +52,10 @@ class PostsRemoteMediator @Inject constructor(
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            Log.i("PAGING","prevPage $prevPage , currentPage $currentPage, nextPage $nextPage is end $endOfPaginationReached ")
+            Log.i(
+                "PAGING",
+                "prevPage $prevPage , currentPage $currentPage, nextPage $nextPage is end $endOfPaginationReached "
+            )
             socialDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     postsDao.deleteAllPosts()
@@ -84,12 +86,18 @@ class PostsRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PostEntity>): RemoteKeyEntity? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { postEntity -> remoteKesDao.getRemoteKeyById(postEntity.id) }
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
+            ?.let { postEntity -> remoteKesDao.getRemoteKeyById(postEntity.id) }
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PostEntity>): RemoteKeyEntity? {
-        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { postEntity ->
-            Log.i("PAGING",remoteKesDao.getRemoteKeyById(postEntity.id).toString() +  " reomote key")
-            remoteKesDao.getRemoteKeyById(postEntity.id) }
+        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+            ?.let { postEntity ->
+                Log.i(
+                    "PAGING",
+                    remoteKesDao.getRemoteKeyById(postEntity.id).toString() + " reomote key"
+                )
+                remoteKesDao.getRemoteKeyById(postEntity.id)
+            }
     }
 }
