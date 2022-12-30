@@ -1,8 +1,6 @@
 package com.octopus.socialnetwork.ui.navigation
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,7 +10,6 @@ import com.octopus.socialnetwork.ui.screen.login.state.LoginViewModel
 import com.octopus.socialnetwork.ui.screen.main.mainRoute
 import com.octopus.socialnetwork.ui.screen.register.RegisterViewModel
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RootNavigationGraph(

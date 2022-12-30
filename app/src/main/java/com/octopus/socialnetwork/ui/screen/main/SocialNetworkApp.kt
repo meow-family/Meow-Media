@@ -1,8 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.main
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,7 +10,6 @@ import com.octopus.socialnetwork.ui.navigation.RootNavigationGraph
 import com.octopus.socialnetwork.ui.theme.SocialNetworkTheme
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SocialNetworkApp() {
     SocialNetworkTheme {

@@ -1,13 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.utils.FileService
 import com.octopus.socialnetwork.domain.usecase.post.create_post.CreatePostUseCase
 import com.octopus.socialnetwork.domain.usecase.post.create_post.ml_kit.DetectCatUseCase
+import com.octopus.socialnetwork.domain.utils.FileService
 import com.octopus.socialnetwork.ui.screen.create_post.state.CreatePostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +26,7 @@ class CreatePostViewModel @Inject constructor(
     private val _state = MutableStateFlow(CreatePostUiState())
     val state = _state.asStateFlow()
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun onClickPost(uri: Uri) {
         _state.update { it.copy(isPostButtonEnabled = false) }
         viewModelScope.launch(Dispatchers.IO) {
