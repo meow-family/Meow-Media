@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.octopus.socialnetwork.BuildConfig
+import com.octopus.socialnetwork.data.local.dao.PostsDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
@@ -50,7 +51,8 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
     private val commentDataSource: CommentDataSource,
-    private val notificationDataSource: NotificationDataSource
+    private val notificationDataSource: NotificationDataSource,
+    private val postsDao: PostsDao,
 ) : SocialRepository {
 
     //region user
@@ -104,7 +106,7 @@ class SocialRepositoryImpl @Inject constructor(
 
     override fun getNewsFeedPager(): Pager<Int, PostEntity> {
         return Pager(
-            config = PagingConfig(10),
+            config = PagingConfig(10, prefetchDistance = 5),
             remoteMediator = postsRemoteMediator,
             pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
         )
@@ -233,6 +235,10 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun search(myUserId: Int, query: String): SearchDto {
         return socialService.search(myUserId, query).result
+    }
+
+    override suspend fun insertPosts(posts: List<PostEntity>) {
+        postsDao.insertPosts(posts)
     }
     //endregion
 

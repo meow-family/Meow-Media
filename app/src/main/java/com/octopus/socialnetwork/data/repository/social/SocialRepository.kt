@@ -103,6 +103,8 @@ interface SocialRepository {
     // search
     suspend fun search(myUserId: Int, query: String): SearchDto
 
+    suspend fun insertPosts(posts: List<PostEntity>)
+
 //endregion
 
 }
