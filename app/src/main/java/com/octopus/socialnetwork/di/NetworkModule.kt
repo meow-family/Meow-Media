@@ -2,6 +2,7 @@ package com.octopus.socialnetwork.di
 
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.interceptor.AuthInterceptor
+import com.octopus.socialnetwork.data.remote.interceptor.DdosInterceptor
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService.Companion.FCM_BASE_URL
@@ -31,10 +32,12 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
+        ddosInterceptor: DdosInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         val builder = OkHttpClient()
             .newBuilder()
+            .addInterceptor(ddosInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .callTimeout(1, TimeUnit.MINUTES)

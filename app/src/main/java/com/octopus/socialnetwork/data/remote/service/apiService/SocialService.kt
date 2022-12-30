@@ -183,6 +183,7 @@ interface SocialService {
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") myUserId: Int,
+        @Query("offset") page: Int,
     ): BaseResponse<NotificationsResponse>
 
     @GET("notifications_count")

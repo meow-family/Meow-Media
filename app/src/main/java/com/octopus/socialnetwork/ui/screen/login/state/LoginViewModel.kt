@@ -30,7 +30,11 @@ class LoginViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
 
+
     fun onChangeUsername(newUsername: String) {
+        if (newUsername.isNotEmpty()) {
+            showErrorValidationInput()
+        }
         val username = newUsername.trim()
         val usernameState = userNameValidation(username).toUserNameUiState()
         if (usernameState == UserNameState.VALID) {
@@ -101,7 +105,7 @@ class LoginViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isError = true,
-                        errorMessage = e.toString(),
+                        errorMessage = e.localizedMessage.toString(),
                         isLoading = false
                     )
                 }
@@ -109,9 +113,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun clearErrorMessage() {
+        _state.update { it.copy(errorMessage = "") }
+    }
+
     fun showErrorValidationInput() {
         _state.update { it.copy(isDisplayErrorValidationInputs = true) }
-
     }
 
     fun changePasswordVisibility() {

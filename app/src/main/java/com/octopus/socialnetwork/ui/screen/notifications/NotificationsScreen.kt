@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,6 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
@@ -55,7 +56,6 @@ fun NotificationsScreen(
 
 
                 notificationsTypes.COMMENTS_POST -> {
-                    navController.navigateToPostScreen(notification.subjectId, notification.ownerId)
                     navController.navigateToCommentsScreen(
                         notification.subjectId,
                         notification.type
@@ -83,6 +83,10 @@ private fun NotificationsContent(
     onClickBack: () -> Unit,
     onClickTryAgain: () -> Unit
 ) {
+
+    val notifications = state.notifications.collectAsLazyPagingItems()
+    val isEmptyFlow = notifications.itemSnapshotList.isEmpty()
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -97,21 +101,37 @@ private fun NotificationsContent(
             LottieLoading()
         } else if (state.isError) {
             LottieError(onClickTryAgain)
+        } else if (isEmptyFlow) {
+            ImageForEmptyList(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .fillMaxSize()
+            )
         } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = MaterialTheme.colors.background),
             ) {
-                if (state.notifications.isEmpty()) {
-                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 116.dp)) }
-                } else {
-                    items(state.notifications) { notification ->
-                        ItemNotification(notification, onClickNotification)
+
+
+                items(notifications) { notification ->
+                    notification?.let { ItemNotification(it, onClickNotification) }
+                }
+                when (notifications.loadState.append) {
+                    is LoadState.NotLoading -> Unit
+                    LoadState.Loading -> {
+                        item { LottieLoading() }
+                    }
+                    is LoadState.Error -> {
+                        item { LottieLoading() }
                     }
                 }
+
+
             }
         }
+
 
     }
 }

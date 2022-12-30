@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -93,8 +92,7 @@ fun ConversationsContent(
             AnimatedContent(
                 targetState = state.isSearchVisible,
                 transitionSpec = {
-                    slideIn(tween(300)) { it -> IntOffset(it.width, 0) } with
-                            slideOut(tween(300)) { it -> IntOffset(it.width, 0) }
+                    fadeIn(tween(300)) with fadeOut(tween(300))
                 }
             ) {
                 when (it) {
@@ -114,13 +112,15 @@ fun ConversationsContent(
                                 horizontalArrangement = Arrangement.Start,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                IconButton(onClick = onClickSearch) {
+                                IconButton(onClick = onClickSearch, modifier = Modifier
+                                    .padding(start = spacingSmall).size(24.dp)) {
                                     Icon(
                                         painter = painterResource(
                                             id = R.drawable.ic_baseline_arrow_back_ios_24),
-                                        contentDescription = stringResource(id = R.string.icon_arrow_back),
+                                        contentDescription = stringResource(
+                                            id = R.string.icon_arrow_back),
                                         tint = Color.Gray,
-                                        modifier = Modifier.size(20.dp)
+                                        modifier = Modifier.size(24.dp).padding(start = 4.dp)
                                     )
                                 }
 
@@ -128,7 +128,7 @@ fun ConversationsContent(
                                     SearchViewItem(
                                         query = state.query,
                                         onValueChange = onChangeText,
-                                        modifier = Modifier.padding(horizontal = spacingSmall)
+                                        modifier = Modifier.padding(end = spacingSmall)
                                     )
                                 }
 

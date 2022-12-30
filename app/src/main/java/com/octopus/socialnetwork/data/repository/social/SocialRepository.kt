@@ -1,7 +1,9 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
@@ -20,12 +22,17 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface SocialRepository {
 
     //region user
     suspend fun getUserDetails(visitedUserId: Int): UserDto
+
+    suspend fun insertProfileDetails(userId: Int)
+
+    suspend fun getProfileDetails(): Flow<UserEntity>
 
     suspend fun getFriends(visitedUserId: Int): FriendsDto
 
@@ -51,7 +58,7 @@ interface SocialRepository {
 
     suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
-    fun getNewsFeedPager(): Pager<Int, PostEntity>
+    fun getNewsFeedPager(): Flow<PagingData<PostEntity>>
 
 
     suspend fun createPost(
@@ -68,6 +75,7 @@ interface SocialRepository {
     suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeResponse
 
     suspend fun getNotifications(myUserId: Int): NotificationsResponse
+    suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto>
 
     suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto
 
@@ -85,7 +93,7 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
+    suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<PhotoDto>>
 
@@ -101,6 +109,8 @@ interface SocialRepository {
 
     // search
     suspend fun search(myUserId: Int, query: String): SearchDto
+
+    suspend fun insertPosts(posts: List<PostEntity>)
 
 //endregion
 

@@ -23,7 +23,7 @@ fun Avatar(
     size: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
-     ) {
+) {
     ImageNetwork(
         imageUrl = imageUrl,
         contentDescription = contentDescription,

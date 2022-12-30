@@ -6,6 +6,7 @@ import com.octopus.socialnetwork.data.local.dao.ConversationsDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.dao.PostsDao
 import com.octopus.socialnetwork.data.local.dao.RemoteKeysDao
+import com.octopus.socialnetwork.data.local.dao.UserDao
 import com.octopus.socialnetwork.di.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -38,6 +39,12 @@ object DatabaseModule {
     @Provides
     fun provideRemoteKeysDao(database: SocialDatabase): RemoteKeysDao {
         return database.remoteKeysDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserDao(database: SocialDatabase): UserDao {
+        return database.userDao()
     }
 
     @Singleton

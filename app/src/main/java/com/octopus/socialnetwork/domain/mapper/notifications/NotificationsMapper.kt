@@ -13,8 +13,8 @@ fun NotificationsResponse.toUserNotifications(): Notifications {
     )
 }
 
-fun NotificationItemsDto.toNotificationItems(): NotificationItems {
-    return NotificationItems(
+fun NotificationItemsDto.toNotificationItems(): NotificationItem {
+    return NotificationItem(
         notification = notification?.toNotification() ?: Notification(
             0,
             "",
