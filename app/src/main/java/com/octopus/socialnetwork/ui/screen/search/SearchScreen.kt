@@ -69,15 +69,19 @@ private fun SearchContent(
             LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
         } else {
 
-            LazyColumn {
                 if (state.query.isEmpty()) {
-                    item { LottieSearch() }
+                     LottieSearch()
                 } else {
                     if (state.isLoading) {
-                        item { LottieLoading() }
+                         LottieLoading()
                     } else if (state.users.isEmpty()) {
-                        item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                        ImageForEmptyList(
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                                .fillMaxSize()
+                        )
                     } else {
+                        LazyColumn {
                         items(state.users) { searchItem ->
                             UserDetailsItem(
                                 state = searchItem,

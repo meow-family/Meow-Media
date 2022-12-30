@@ -1,7 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -54,7 +56,6 @@ fun NotificationsScreen(
 
 
                 notificationsTypes.COMMENTS_POST -> {
-                    navController.navigateToPostScreen(notification.subjectId, notification.ownerId)
                     navController.navigateToCommentsScreen(
                         notification.subjectId,
                         notification.type
@@ -98,33 +99,37 @@ private fun NotificationsContent(
 
         if (state.isLoading) {
             LottieLoading()
-        }else if (state.isError) {
+        } else if (state.isError) {
             LottieError(onClickTryAgain)
         } else if (isEmptyFlow) {
-        ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally).fillMaxSize())
-        }
+            ImageForEmptyList(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .fillMaxSize()
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.background),
+            ) {
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colors.background),
-        ) {
 
-
-            items(notifications) { notification ->
-                notification?.let { ItemNotification(it, onClickNotification) }
-            }
-            when (notifications.loadState.append) {
-                is LoadState.NotLoading -> Unit
-                LoadState.Loading -> {
-                    item { LottieLoading() }
+                items(notifications) { notification ->
+                    notification?.let { ItemNotification(it, onClickNotification) }
                 }
-                is LoadState.Error -> {
-                    item { LottieLoading() }
+                when (notifications.loadState.append) {
+                    is LoadState.NotLoading -> Unit
+                    LoadState.Loading -> {
+                        item { LottieLoading() }
+                    }
+                    is LoadState.Error -> {
+                        item { LottieLoading() }
+                    }
                 }
+
+
             }
-
-
         }
 
 
