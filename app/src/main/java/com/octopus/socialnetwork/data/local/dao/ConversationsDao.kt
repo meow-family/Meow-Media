@@ -12,6 +12,6 @@ interface ConversationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertConversations(conversations: List<MessageEntity>)
 
-    @Query("SELECT * FROM message_table")
+    @Query("SELECT * FROM message_table ORDER BY time DESC")
     fun getAllConversations(): Flow<List<MessageEntity>>
 }
