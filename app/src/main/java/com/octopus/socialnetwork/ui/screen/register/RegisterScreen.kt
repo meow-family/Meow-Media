@@ -58,7 +58,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 fun RegisterScreen(
     navController: NavController,
-    viewModel: RegisterViewModel = hiltViewModel()
+    viewModel: RegisterViewModel
 ) {
     val state by viewModel.state.collectAsState()
     val pagerState = rememberPagerState(state.initPage)
