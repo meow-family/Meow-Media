@@ -22,9 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 import com.octopus.socialnetwork.ui.theme.*
-import com.octopus.socialnetwork.ui.util.playMeowSound
 
 @Composable
 fun setLikeColor(isLiked: Boolean, isComment: Boolean = false): Color {
@@ -75,10 +74,7 @@ fun InteractionLikeIcon(
             verticalArrangement = Arrangement.Center
         ) {
             IconButton(
-                onClick = {
-                    onClickLike()
-                    playMeowSound(post.isLiked, context)
-                },
+                onClick =  onClickLike,
                 modifier = modifier.size(setLikeSize(post.isLiked))
             ) {
                 Icon(

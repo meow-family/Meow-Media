@@ -146,7 +146,7 @@ class SocialRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
-                prefetchDistance = 5, enablePlaceholders = true
+                enablePlaceholders = true
             ),
             pagingSourceFactory = { dataSource })
     }
@@ -164,8 +164,8 @@ class SocialRepositoryImpl @Inject constructor(
         val dataSource = commentDataSource
         dataSource.setCommentID(postId)
         return Pager(
-            config = PagingConfig(100,
-            prefetchDistance = 5,enablePlaceholders = false) ,
+            config = PagingConfig(5,
+            prefetchDistance = 5,enablePlaceholders = true) ,
             pagingSourceFactory = { dataSource })
     }
 

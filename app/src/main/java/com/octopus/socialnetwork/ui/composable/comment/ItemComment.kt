@@ -24,10 +24,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
 import com.octopus.socialnetwork.ui.composable.post.setLikeColor
-import com.octopus.socialnetwork.ui.screen.comments.uistate.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.comments.state.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
-import com.octopus.socialnetwork.ui.util.playMeowSound
 
 
 @Composable
@@ -89,9 +87,7 @@ fun ItemComment(
                 })
 
         IconButton(onClick = {
-            onLike(state.commentId, state.likeCounter, state.isLikedByUser)
-            playMeowSound(state.isLikedByUser, context)
-        },
+            onLike(state.commentId, state.likeCounter, state.isLikedByUser)  },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)

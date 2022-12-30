@@ -7,12 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,20 +22,11 @@ import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.SpaceVertically8dp
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
-import com.octopus.socialnetwork.ui.composable.profile.Friends
-import com.octopus.socialnetwork.ui.composable.profile.MyProfileLayout
-import com.octopus.socialnetwork.ui.composable.profile.ProfilePostItem
-import com.octopus.socialnetwork.ui.composable.profile.UserDetails
-import com.octopus.socialnetwork.ui.composable.profile.VisitedProfileLayout
-import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
-import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
-import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
-import com.octopus.socialnetwork.ui.screen.onboarding.navigateToOnBoarding
+import com.octopus.socialnetwork.ui.composable.profile.*
 import com.octopus.socialnetwork.ui.screen.edit_profile.navigateToEditeProfileRoute
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
-import com.octopus.socialnetwork.ui.screen.profile.uistate.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingSmall
 import kotlinx.coroutines.CoroutineScope
@@ -70,12 +56,12 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
-    )
+
         onClickItem = {
             navController.navigateToUserProfileScreen(it)
             scope.launch { sheetState.hide() }
         },
-
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -164,4 +150,5 @@ private fun ProfileContent(
         }
     }
 
+}
 }
