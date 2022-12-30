@@ -56,7 +56,8 @@ private fun SearchContent(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background).padding(horizontal = 16.dp),
+            .background(MaterialTheme.colors.background)
+            .padding(horizontal = 16.dp),
     ) {
         AppBar(title = stringResource(R.string.search), showBackButton = false)
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)

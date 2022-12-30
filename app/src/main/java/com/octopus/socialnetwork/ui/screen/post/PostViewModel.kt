@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val toggleLike: ToggleLikeUseCase,
+        private val toggleLike: ToggleLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
