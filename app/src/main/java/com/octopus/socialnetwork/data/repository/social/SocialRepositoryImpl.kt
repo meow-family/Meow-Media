@@ -3,10 +3,10 @@ package com.octopus.socialnetwork.data.repository.social
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
-import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
@@ -17,14 +17,14 @@ import com.octopus.socialnetwork.data.remote.response.dto.notifications.Notifica
 import com.octopus.socialnetwork.data.remote.response.dto.photo.PhotoDto
 import com.octopus.socialnetwork.data.remote.response.dto.photo.ProfilePhotoResponse
 import com.octopus.socialnetwork.data.remote.response.dto.photo.UserProfileDto
-import com.octopus.socialnetwork.data.remote.response.dto.post.PostResponse
 import com.octopus.socialnetwork.data.remote.response.dto.post.PostDto
+import com.octopus.socialnetwork.data.remote.response.dto.post.PostResponse
 import com.octopus.socialnetwork.data.remote.response.dto.search.SearchDto
-import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendValidatorResponse
-import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
+import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
+import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendValidatorResponse
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.utils.Constants.API_KEY_TOKEN
 import com.octopus.socialnetwork.data.utils.Constants.GUID
@@ -49,7 +49,8 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
-    private val commentDataSource: CommentDataSource
+    private val commentDataSource: CommentDataSource,
+    private val notificationDataSource: NotificationDataSource
 ) : SocialRepository {
 
     //region user
@@ -93,6 +94,10 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.viewPost(postId, myUserId).result
     }
 
+    override fun getPostDetails(postId: Int): PostEntity {
+        return socialDatabase.postsDao().getPostDetails(postId)
+    }
+
     override suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse> {
         return socialService.viewUserPosts(visitedUserId, myUserId,)
     }
@@ -132,20 +137,27 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun getNotifications(myUserId: Int, ): NotificationsResponse {
-        return socialService.getUserNotifications(myUserId).result
+    override suspend fun getNotifications(myUserId: Int): NotificationsResponse {
+        return socialService.getUserNotifications(myUserId = myUserId, page = 1).result
     }
 
-    override suspend fun getNotificationsCount(myUserId: Int, ): NotificationsCountDto {
+    override suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto> {
+        val dataSource = notificationDataSource
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                prefetchDistance = 5, enablePlaceholders = true
+            ),
+            pagingSourceFactory = { dataSource })
+    }
+
+
+    override suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto {
         return socialService.getUserNotificationsCount(myUserId).result
     }
 
     override suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto {
         return socialService.markUserNotificationsAsViewed(notificationId).result
-    }
-
-    override suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto> {
-        return socialService.getCommentsList(myUserId, postId, type,1).result.comments
     }
 
     override suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto> {
@@ -156,6 +168,7 @@ class SocialRepositoryImpl @Inject constructor(
             prefetchDistance = 5,enablePlaceholders = false) ,
             pagingSourceFactory = { dataSource })
     }
+
 
     override suspend fun editComment(commentId: Int, comment: String): CommentEditResponse {
         return socialService.editComment(commentId, comment).result

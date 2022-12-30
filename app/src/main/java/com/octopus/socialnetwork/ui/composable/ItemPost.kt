@@ -21,8 +21,7 @@ import com.octopus.socialnetwork.ui.composable.post.setLikeColor
 import com.octopus.socialnetwork.ui.composable.post.setLikeSize
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostUiState
-import com.octopus.socialnetwork.ui.util.playMeowSound
+import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
 
 @Composable
 fun ItemPost(
@@ -33,6 +32,21 @@ fun ItemPost(
     onShare: () -> Unit
 ) {
 
+    val iconColor by animateColorAsState(
+        targetValue = if (post.isLiked) Color.Red else Color.White,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMediumLow
+        )
+    )
+
+    val iconSize by animateDpAsState(
+        targetValue = if (post.isLiked) 18.dp else 16.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMediumLow
+        )
+    )
     val context = LocalContext.current
 
     Box(
@@ -67,7 +81,6 @@ fun ItemPost(
                         count = post.likeCount,
                         onClick = {
                             onLike(post.postId, post.likeCount.toInt(), post.isLiked)
-                            playMeowSound(post.isLiked, context)
                         },
                         tint = setLikeColor(post.isLiked),
                         modifier = Modifier.size(setLikeSize(post.isLiked))
@@ -97,6 +110,7 @@ fun ItemPost(
         ) {
             SmallPostDetails(post = post)
         }
+
 
     }
 }

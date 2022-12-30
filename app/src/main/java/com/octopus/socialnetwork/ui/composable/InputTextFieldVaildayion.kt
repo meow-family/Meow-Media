@@ -19,7 +19,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
+import com.octopus.socialnetwork.ui.theme.Shapes
+import com.octopus.socialnetwork.ui.theme.heightDefaultButton
+import com.octopus.socialnetwork.ui.theme.spacingMedium
+import com.octopus.socialnetwork.ui.theme.textPrimaryColor
+import com.octopus.socialnetwork.ui.theme.textThirdColor
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.*
 
 @Composable
@@ -33,13 +38,15 @@ fun InputTextFieldValidation(
     isPassword: Boolean = false,
     isReadOnly: Boolean = false,
     isEnabled: Boolean = true,
-    keyboardOptions: KeyboardOptions= KeyboardOptions.Default.copy(
-        imeAction =  ImeAction.Next,
-        keyboardType = KeyboardType.Text),
+    keyboardAction: ImeAction = ImeAction.Next,
+    keyboardType: KeyboardType = KeyboardType.Text,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
-        modifier = modifier.height(heightDefaultButton).fillMaxWidth().padding(horizontal = spacingMedium),
+        modifier = modifier
+            .height(heightDefaultButton)
+            .fillMaxWidth()
+            .padding(horizontal = spacingMedium),
         shape = Shapes.large,
         value = state.text,
         readOnly = isReadOnly,
@@ -48,19 +55,28 @@ fun InputTextFieldValidation(
         visualTransformation = if (isPassword) PasswordVisualTransformation()
         else VisualTransformation.None,
         onValueChange = onChangeValue,
-        keyboardOptions = keyboardOptions,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            imeAction = keyboardAction,
+            keyboardType = keyboardType
+        ),
         placeholder = {
             Text(
                 text = placeholder, style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.textThirdColor
             )
         },
-        leadingIcon = { Icon(icon, stringResource(id = R.string.icon_description, placeholder), tint = Color.Gray,) },
+        leadingIcon = {
+            Icon(
+                icon,
+                stringResource(id = R.string.icon_description, placeholder),
+                tint = Color.Gray,
+            )
+        },
         trailingIcon = trailingIcon,
         textStyle = MaterialTheme.typography.h6,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = MaterialTheme.colors.primary,
-            focusedBorderColor = MaterialTheme.colors.textPrimaryColor,
+            focusedBorderColor = MaterialTheme.colors.primary,
             unfocusedBorderColor = if (!state.isValid && showError) MaterialTheme.colors.error else Color.Gray,
             focusedLabelColor = MaterialTheme.colors.primary,
             errorBorderColor = MaterialTheme.colors.error,

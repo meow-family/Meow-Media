@@ -68,14 +68,14 @@
     <string name="Comments">Comments</string>
 
     <!-- Notification Titles  -->
-    <string name="liked_your_post">liked your post</string>
-    <string name="liked_your_comment">liked your comment</string>
-    <string name="add_comments_to_your_post">has add comments to your post</string>
+    <string name="liked_your_post">meowed your photo</string>
+    <string name="liked_your_comment">meowed your comment</string>
+    <string name="add_comments_to_your_post">has add comments to your photo</string>
     <string name="asked_to_join_group">asked to join a group</string>
     <string name="mentioned_you_in_comment">mentioned you in a comment</string>
     <string name="poked_you">has poked you</string>
     <string name="started_following_you">has started following you</string>
-    <string name="liked_your_photo_in_album">liked your photo in album</string>
+    <string name="liked_your_photo_in_album">meowed your photo in album</string>
     <string name="add_comments_to_your_photo_in_album">has add comments to your photo in album</string>
     <string name="unknown_notification">unknown notification</string>
 
@@ -125,4 +125,6 @@
     <string name="Accept">Accept</string>
     <string name="remove_friend">Remove Friend</string>
     <string name="image">Image</string>
+    <string name="email_app_not_found">you don`t have an email app</string>
+
 </resources>

@@ -6,13 +6,13 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.post.createpost.ml_kit.OpenFileUseCase
+import com.octopus.socialnetwork.domain.usecase.authentication.firebase.UpdateUserInfoUseCase
 import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeCoverImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.edituser.ChangeProfileImageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.authentication.firebase.UpdateUserInfoUseCase
+import com.octopus.socialnetwork.domain.utils.FileService
 import com.octopus.socialnetwork.ui.screen.edit_profile.mapper.toEditUserUiState
-import com.octopus.socialnetwork.ui.screen.edit_profile.uistate.EditProfileUiState
+import com.octopus.socialnetwork.ui.screen.edit_profile.state.EditProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ class EditProfileViewModel @Inject constructor(
     private val fetchUserDetails: FetchUserDetailsUseCase,
     private val changeProfileImage: ChangeProfileImageUseCase,
     private val changeCoverImage: ChangeCoverImageUseCase,
-    private val openFile: OpenFileUseCase,
+    private val fileService: FileService,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -103,7 +103,7 @@ class EditProfileViewModel @Inject constructor(
     fun onClickChangeImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val updatedProfileImage = changeProfileImage(profileImage = openFile(uri))
+                val updatedProfileImage = changeProfileImage(profileImage = fileService.openFile(uri))
                 _state.update { it.copy(profileAvatar = updatedProfileImage.avatar) }
             } catch (e: Throwable) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -114,7 +114,7 @@ class EditProfileViewModel @Inject constructor(
     fun changeCoverImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val changeCover = changeCoverImage(coverImage = openFile(uri))
+                val changeCover = changeCoverImage(coverImage = fileService.openFile(uri))
                 _state.update { it.copy(profileCover = changeCover.coverUrl) }
             } catch (e: Throwable) {
                 _state.update { it.copy(isLoading = false, isError = true) }

@@ -1,6 +1,8 @@
 package com.octopus.socialnetwork.di
 
 import androidx.paging.ExperimentalPagingApi
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
+import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepositoryImpl
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepositoryImpl
 import com.octopus.socialnetwork.data.repository.social.SocialRepository
@@ -28,5 +30,10 @@ abstract class RepositoryModule {
         messagingRepositoryImpl: MessagingRepositoryImpl,
     ): MessagingRepository
 
+    @ViewModelScoped
+    @Binds
+    abstract fun bindAuthenticationRepository(
+        authenticationRepositoryImpl: AuthenticationRepositoryImpl,
+    ): AuthenticationRepository
 
 }

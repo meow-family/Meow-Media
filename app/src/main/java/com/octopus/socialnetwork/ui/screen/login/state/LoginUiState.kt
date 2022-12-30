@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.login.state
 
-import com.octopus.socialnetwork.ui.screen.register.uistate.TextFieldUiState
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
 
 data class LoginUiState(
     val isLoading: Boolean = false,

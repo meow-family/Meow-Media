@@ -183,6 +183,7 @@ interface SocialService {
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") myUserId: Int,
+        @Query("offset") page: Int,
     ): BaseResponse<NotificationsResponse>
 
     @GET("notifications_count")
@@ -231,7 +232,7 @@ interface SocialService {
         @Query("guid") postId: Int,
         @Query("type") type: String,
         @Query("offset") page: Int,
-        ): BaseResponse<CommentResponse>
+    ): BaseResponse<CommentResponse?>
 
     @POST("comment_edit")
     suspend fun editComment(

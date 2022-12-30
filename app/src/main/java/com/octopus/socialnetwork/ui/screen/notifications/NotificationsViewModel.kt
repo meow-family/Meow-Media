@@ -3,14 +3,17 @@ package com.octopus.socialnetwork.ui.screen.notifications
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsUseCase
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,16 +28,22 @@ class NotificationsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
+
+        _state.update { it.copy(isLoading = true, isError = false) }
+
         getNotifications()
     }
 
     private fun getNotifications() {
-        _state.update { it.copy(isLoading = true, isError = true) }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val notifications = fetchNotifications().map { it.toNotificationsUiState() }
+
+                val notifications = fetchNotifications().map{
+                        pager -> pager.map {it.toNotificationsUiState() } }
+
                 _state.update {
-                    it.copy(notifications = notifications, isLoading = false, isError = false,) }
+                    it.copy(notifications = notifications, isLoading = false, isError = false, isSuccess = true)
+                }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -47,8 +56,8 @@ class NotificationsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!notification.viewed)
-                fetchNotificationItems(notification.id)
-                     getNotifications()
+                    fetchNotificationItems(notification.id)
+                getNotifications()
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, viewed = false, isError = true) }
             }

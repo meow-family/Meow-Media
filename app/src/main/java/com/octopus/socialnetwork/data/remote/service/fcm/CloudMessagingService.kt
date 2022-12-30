@@ -17,7 +17,7 @@ interface CloudMessagingService {
     ): Response<ResponseBody>
 
     companion object {
-        const val BASE_URL = "https://fcm.googleapis.com"
+        const val FCM_BASE_URL = "https://fcm.googleapis.com"
         private const val CONTENT_TYPE = "application/json"
     }
 }

@@ -35,7 +35,7 @@ import com.octopus.socialnetwork.ui.composable.post.*
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
-import com.octopus.socialnetwork.ui.screen.post.uistate.PostMainUiState
+import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
 import com.octopus.socialnetwork.ui.util.Constants
@@ -49,14 +49,14 @@ fun PostScreen(
     PostContent(
         state = state,
         onClickBack = { navController.popBackStack() },
-        onLike = viewModel::onClickLike,
+        onClickLike = viewModel::onClickLike,
         onComment = {
             navController.navigateToCommentsScreen(
                 postId = state.postDetails.postId,
                 type = Constants.COMMENT_TYPE
             )
         },
-        onShare = viewModel::onClickShare,
+        onShare = { },
         onClickTryAgain = viewModel::onClickTryAgain
     )
 }
@@ -65,7 +65,7 @@ fun PostScreen(
 private fun PostContent(
     state: PostMainUiState,
     onClickBack: () -> Unit,
-    onLike: () -> Unit,
+    onClickLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
     onClickTryAgain: () -> Unit
@@ -103,6 +103,7 @@ private fun PostContent(
             LottieError(onClickTryAgain)
         } else {
             PostImage(postImage = state.postDetails.postImage)
+        }
 
             Card(
                 modifier = Modifier
@@ -116,7 +117,7 @@ private fun PostContent(
                 InteractionGroup(
                     interactions =
                     listOf({
-                        InteractionLikeIcon(state.postDetails, onLike)
+                        InteractionLikeIcon(state.postDetails, onClickLike)
                     }, {
                         InteractionIcon(
                             icon = R.drawable.ic_baseline_comment_24,
@@ -132,23 +133,21 @@ private fun PostContent(
                     })
                 )
 
-            }
+        }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .align(alignment = Alignment.BottomCenter)
-                    .backgroundTextShadow()
-            ) {
-                LargPostDetails(
-                    profileImage = state.postDetails.profileAvatar,
-                    userName = state.postDetails.userName,
-                    fullName = state.postDetails.fullName,
-                    postDescription = state.postDetails.postDescription,
-                )
-            }
-
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .align(alignment = Alignment.BottomCenter)
+                .backgroundTextShadow()
+        ) {
+            LargPostDetails(
+                profileImage = state.postDetails.profileAvatar,
+                userName = state.postDetails.userName,
+                fullName = state.postDetails.fullName,
+                postDescription = state.postDetails.postDescription,
+            )
         }
 
 
@@ -156,3 +155,4 @@ private fun PostContent(
 
 
 }
+

@@ -9,8 +9,8 @@ import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCas
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
-import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatMainUiState
-import com.octopus.socialnetwork.ui.screen.messaging.chat.uistate.ChatUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
+import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,15 +41,20 @@ class ChatViewModel @Inject constructor(
         getMessagesWithUser(args.friendId.toInt())
         getUserInfo(args.friendId.toInt())
         viewModelScope.launch(Dispatchers.IO) {
-            receiveMessageUseCase().collect { message ->
-                Log.i(
-                    "TESTING",
-                    "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
-                )
-                if (message.friendId == args.friendId.toInt()) {
-                    getMessagesWithUser(message.friendId)
+            try {
+                receiveMessageUseCase().collect { message ->
+                    Log.i(
+                        "MESSAGING",
+                        "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
+                    )
+                    if (message.friendId == args.friendId.toInt()) {
+                        getMessagesWithUser(message.friendId)
+                    }
                 }
+            }catch (e: Exception) {
+                Log.i("MESSAGING","catched this exception $e")
             }
+
         }
     }
 

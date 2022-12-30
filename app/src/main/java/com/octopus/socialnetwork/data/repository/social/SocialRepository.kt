@@ -47,6 +47,8 @@ interface SocialRepository {
     //region post
     suspend fun viewPost(postId: Int, myUserId: Int): PostDto
 
+    fun getPostDetails(postId: Int): PostEntity
+
     suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
     fun getNewsFeedPager(): Pager<Int, PostEntity>
@@ -66,15 +68,13 @@ interface SocialRepository {
     suspend fun unlike(myUserId: Int, contentId: Int, typeContent: String): LikeResponse
 
     suspend fun getNotifications(myUserId: Int): NotificationsResponse
+    suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto>
 
     suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getComments(myUserId: Int, postId: Int, type: String): List<CommentDto>
-
     suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto>
-
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 
@@ -86,7 +86,7 @@ interface SocialRepository {
     //endregion
 
     //region photo
-    suspend fun getPhoto(photoId: Int, userId: Int, ): PhotoDto
+    suspend fun getPhoto(photoId: Int, userId: Int): PhotoDto
 
     suspend fun getPhotosListProfileCover(userId: Int, type: String): BaseResponse<List<PhotoDto>>
 

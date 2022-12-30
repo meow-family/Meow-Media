@@ -8,14 +8,8 @@ import com.octopus.socialnetwork.ui.navigation.MainRoute
 
 private const val ROUTE = MainRoute.Profile
 
-
-fun NavController.navigateToMyProfileScreen() {
-    navigate(ROUTE)
-}
-
 fun NavGraphBuilder.myProfileRoute(navController: NavController) {
-    composable(ROUTE)
-    { ProfileScreen(navController) }
+    composable(ROUTE) { ProfileScreen(navController) }
 }
 
 
@@ -33,9 +27,7 @@ fun NavGraphBuilder.userProfileRoute(navController: NavController) {
 }
 
 class ProfileScreenArgs(savedStateHandle: SavedStateHandle) {
-
     val visitedUserId: String? = savedStateHandle[USER_ID]
-
     companion object {
         const val USER_ID = "userId"
     }

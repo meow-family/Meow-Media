@@ -3,7 +3,6 @@ package com.octopus.socialnetwork.ui.screen.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
@@ -22,7 +22,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.screen.comments.navigateToCommentsScreen
 import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendRequests
-import com.octopus.socialnetwork.ui.screen.home.uistate.HomeUiState
+import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 
@@ -114,6 +114,15 @@ private fun HomeContent(
                         )
                     }
                 }
+                when (posts.loadState.append) {
+                    is LoadState.NotLoading -> Unit
+                    LoadState.Loading -> {
+                        item {  LottieLoading(modifier = Modifier.size(70.dp)) }
+                    }
+                    is LoadState.Error -> {
+                        item { LottieLoading(modifier = Modifier.size(70.dp)) }
+                    }
+                }
             }
 
 
@@ -121,19 +130,3 @@ private fun HomeContent(
 
 }
 
-@Composable
-fun LoadingPaging() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .size(42.dp)
-                .padding(8.dp),
-            strokeWidth = 5.dp
-        )
-    }
-}
