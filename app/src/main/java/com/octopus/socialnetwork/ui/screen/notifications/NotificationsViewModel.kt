@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationItemsUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsUseCase
-import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.mapper.toNotificationsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationsUiState
@@ -29,19 +28,21 @@ class NotificationsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
+
+        _state.update { it.copy(isLoading = true, isError = false) }
+
         getNotifications()
     }
 
     private fun getNotifications() {
-        _state.update { it.copy(isLoading = true, isError = false) }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
 
                 val notifications = fetchNotifications().map{
                         pager -> pager.map {it.toNotificationsUiState() } }
 
                 _state.update {
-                    it.copy(notifications = notifications, isLoading = false, isError = false)
+                    it.copy(notifications = notifications, isLoading = false, isError = false, isSuccess = true)
                 }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }

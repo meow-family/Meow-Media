@@ -145,8 +145,8 @@ class SocialRepositoryImpl @Inject constructor(
         val dataSource = notificationDataSource
         return Pager(
             config = PagingConfig(
-                pageSize = 100,
-                prefetchDistance = 5, enablePlaceholders = false
+                pageSize = 10,
+                prefetchDistance = 5, enablePlaceholders = true
             ),
             pagingSourceFactory = { dataSource })
     }

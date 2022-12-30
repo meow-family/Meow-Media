@@ -1,12 +1,8 @@
 package com.octopus.socialnetwork.ui.screen.notifications
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -102,37 +98,35 @@ private fun NotificationsContent(
 
         if (state.isLoading) {
             LottieLoading()
-        }
-        if (state.isError) {
+        }else if (state.isError) {
             LottieError(onClickTryAgain)
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = MaterialTheme.colors.background),
-            ) {
-
-
-                if (isEmptyFlow) {
-                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 116.dp)) }
-                }
-
-                items(notifications) { notification ->
-                    notification?.let { ItemNotification(it, onClickNotification) }
-                }
-                when (notifications.loadState.append) {
-                    is LoadState.NotLoading -> Unit
-                    LoadState.Loading -> {
-                        item {  LottieLoading() }
-                    }
-                    is LoadState.Error -> {
-                        item { LottieLoading() }
-                    }
-                }
-
-
-            }
+        } else if (isEmptyFlow) {
+        ImageForEmptyList(modifier = Modifier.align(alignment = Alignment.CenterHorizontally).fillMaxSize())
         }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.background),
+        ) {
+
+
+            items(notifications) { notification ->
+                notification?.let { ItemNotification(it, onClickNotification) }
+            }
+            when (notifications.loadState.append) {
+                is LoadState.NotLoading -> Unit
+                LoadState.Loading -> {
+                    item { LottieLoading() }
+                }
+                is LoadState.Error -> {
+                    item { LottieLoading() }
+                }
+            }
+
+
+        }
+
 
     }
 }
