@@ -10,18 +10,19 @@ class DdosInterceptor @Inject constructor(): Interceptor {
 
 
     override fun intercept(chain: Interceptor.Chain): Response {
+
         val request = chain.request()
-        requestsHashCodeBuffer.add(0, request.hashCode())
-        while (requestsHashCodeBuffer.last() != request.hashCode()){
-            runBlocking {
-                delay(DELAY_PERIOD)
-            }
-        }
         return try {
+            requestsHashCodeBuffer.add(0, request.hashCode())
+            while (requestsHashCodeBuffer.last() != request.hashCode()){
+                runBlocking {
+                    delay(DELAY_PERIOD)
+                }
+            }
             chain.proceed(request).also {
                 requestsHashCodeBuffer.removeLast()
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             requestsHashCodeBuffer.removeLast()
             chain.proceed(request)
         }
