@@ -10,16 +10,19 @@ import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchProfileDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.InsertProfileDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -54,15 +57,16 @@ class ProfileViewModel @Inject constructor(
                     )
                 )
             }
+            if (_state.value.isMyProfile) {
+                getMyProfileDetails()
+            } else {
+                getUserDetails()
+            }
+            if (_state.value.isMyProfile.not()) {
+                isRequestSent(_state.value.userDetails.userId)
+            }
         }
-        if (_state.value.isMyProfile) {
-            getMyProfileDetails()
-        } else {
-            getUserDetails()
-        }
-        if (_state.value.isMyProfile.not()) {
-            isRequestSent(_state.value.userDetails.userId)
-        }
+
     }
 
     private fun getMyProfileDetails() {
@@ -113,48 +117,49 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun getMyPosts() {
-            try {
-                Log.d("rrr", "start get my posts")
-                val profilePosts = fetchUserPosts(_state.value.userDetails.userId)
-                    .posts.toProfilePostsUiState()
-                Log.d("rrr", "done get my posts")
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = false,
-                        profilePosts = profilePosts,
-                        userDetails = it.userDetails.copy(
-                            postCount = profilePosts.count().toString()
-                        )
+        try {
+            Log.d("rrr", "start get my posts")
+            val profilePosts = fetchUserPosts(_state.value.userDetails.userId)
+                .posts.toProfilePostsUiState()
+            Log.d("rrr", "done get my posts")
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    isError = false,
+                    profilePosts = profilePosts,
+                    userDetails = it.userDetails.copy(
+                        postCount = profilePosts.count().toString()
                     )
-                }
-            } catch (e: Throwable) {
-                Log.d("kkk", "loading my posts failed")
-                _state.update { it.copy(isLoading = false, isError = true) }
+                )
+            }
+        } catch (e: Throwable) {
+            Log.d("kkk", "loading my posts failed")
+            _state.update { it.copy(isLoading = false, isError = true) }
         }
     }
 
     private suspend fun getFriendsCount() {
-            try {
-                Log.d("rrr", "start get my friends")
-                val friendsCount = fetchUserFriendsCount(_state.value.userDetails.userId).total
-                Log.d("rrr", "done get my friends")
-                _state.update { profileUiState ->
-                    profileUiState.copy(
-                        userDetails = profileUiState.userDetails.copy(
-                            friendsCount = friendsCount.toString()
-                        )
+        try {
+            Log.d("rrr", "start get my friends")
+            val friendsCount = fetchUserFriendsCount(_state.value.userDetails.userId)
+            Log.d("rrr", "done get my friends")
+            _state.update { profileUiState ->
+                profileUiState.copy(
+                    friends = friendsCount.friends.map { it.toUserDetailsUiState() },
+                    userDetails = profileUiState.userDetails.copy(
+                        friendsCount = friendsCount.total.toString()
                     )
-                }
-            } catch (e: Throwable) {
-                Log.d("kkk", "getting my friends failed")
+                )
             }
+        } catch (e: Throwable) {
+            Log.d("kkk", "getting my friends failed")
+        }
     }
 
     private fun getUserDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userFriendsCount = fetchUserFriendsCount(_state.value.userDetails.userId).total
+                val userFriendsCount = fetchUserFriendsCount(_state.value.userDetails.userId)
                 val profilePosts =
                     fetchUserPosts(_state.value.userDetails.userId).posts.toProfilePostsUiState()
                 val userPostsCount = fetchUserPosts(_state.value.userDetails.userId).count
@@ -165,12 +170,13 @@ class ProfileViewModel @Inject constructor(
                         isLoading = false,
                         isError = false,
                         profilePosts = profilePosts,
+                        friends = userFriendsCount.friends.map { it.toUserDetailsUiState() },
                         userDetails = it.userDetails.copy(
                             fullName = profileUiState.fullName,
                             username = profileUiState.username,
                             profileAvatar = profileUiState.profileAvatar,
                             profileCover = profileUiState.profileCover,
-                            friendsCount = userFriendsCount.toString(),
+                            friendsCount = userFriendsCount.total.toString(),
                             postCount = userPostsCount.toString(),
                             userId = profileUiState.userId,
                         )
