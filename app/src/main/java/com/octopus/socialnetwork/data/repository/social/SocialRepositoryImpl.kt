@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.data.repository.social
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.octopus.socialnetwork.BuildConfig
 import com.octopus.socialnetwork.data.local.dao.UserDao
 import com.octopus.socialnetwork.data.local.dao.PostsDao
@@ -119,14 +120,6 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.viewUserPosts(visitedUserId, myUserId,)
     }
 
-    override fun getNewsFeedPager(): Pager<Int, PostEntity> {
-        return Pager(
-            config = PagingConfig(10, prefetchDistance = 5),
-            remoteMediator = postsRemoteMediator,
-            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
-        )
-    }
-
     override suspend fun createPost(myUserId: Int, posterOwnerId: Int, post: String, type: String,
         photo: File): PostDto {
         val photoExtension = if (photo.extension== JPG ) JPEG else photo.extension
@@ -140,6 +133,14 @@ class SocialRepositoryImpl @Inject constructor(
             .addFormDataPart(PRIVACY,PUBLIC_PRIVACY)
             .addFormDataPart(OSSN_PHOTO,photo.name,requestFile).build()
         return socialService.createPost(requestBody).result
+    }
+
+    override fun getNewsFeedPager(): Flow<PagingData<PostEntity>> {
+        return Pager(
+            config = PagingConfig(10, prefetchDistance = 5),
+            remoteMediator = postsRemoteMediator,
+            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
+        ).flow
     }
 
     override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto {

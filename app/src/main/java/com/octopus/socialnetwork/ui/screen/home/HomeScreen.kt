@@ -87,43 +87,45 @@ private fun HomeContent(
 
         if (state.isLoading) {
             LottieLoading()
-        }
-        if (state.isError) {
+        } else if (state.isError) {
             LottieError(onClickTryAgain)
-        }
-        if (isEmptyFlow) {
-            ImageForEmptyList(modifier = Modifier
-                .fillMaxSize()
-                .align(alignment = Alignment.CenterHorizontally))
-        }
+        } else {
+            if (isEmptyFlow && state.isLoading.not()) {
+                ImageForEmptyList(modifier = Modifier
+                    .fillMaxSize()
+                    .align(alignment = Alignment.CenterHorizontally))
 
-            LazyColumn(
-                Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                
-                items(items = posts) {
-                    it?.let { post ->
-                        ItemPost(
-                            post = post,
-                            onClickPost = onClickPost,
-                            onLike = onClickLike,
-                            onComment = onClickComment,
-                            onShare = {}
-                        )
+            } else {
+                LazyColumn(
+                    Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+
+                    items(items = posts) {
+                        it?.let { post ->
+                            ItemPost(
+                                post = post,
+                                onClickPost = onClickPost,
+                                onLike = onClickLike,
+                                onComment = onClickComment,
+                                onShare = {}
+                            )
+                        }
                     }
-                }
-                when (posts.loadState.append) {
-                    is LoadState.NotLoading -> Unit
-                    LoadState.Loading -> {
-                        item {  LottieLoading(modifier = Modifier.size(70.dp)) }
-                    }
-                    is LoadState.Error -> {
-                        item { LottieLoading(modifier = Modifier.size(70.dp)) }
+                    when (posts.loadState.append) {
+                        is LoadState.NotLoading -> Unit
+                        LoadState.Loading -> {
+                            item {  LottieLoading(modifier = Modifier.size(70.dp)) }
+                        }
+                        is LoadState.Error -> {
+                            item { LottieLoading(modifier = Modifier.size(70.dp)) }
+                        }
                     }
                 }
             }
+        }
+
 
 
     }

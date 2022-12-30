@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.data.repository.social
 
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
@@ -57,7 +58,7 @@ interface SocialRepository {
 
     suspend fun viewUserPosts(visitedUserId: Int, myUserId: Int): BaseResponse<PostResponse>
 
-    fun getNewsFeedPager(): Pager<Int, PostEntity>
+    fun getNewsFeedPager(): Flow<PagingData<PostEntity>>
 
 
     suspend fun createPost(

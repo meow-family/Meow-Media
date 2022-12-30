@@ -16,7 +16,7 @@ class FetchPostsUseCase
     private val socialRepository: SocialRepository,
 ) {
     operator fun invoke(): Flow<PagingData<Post>> {
-        return socialRepository.getNewsFeedPager().flow.map { it.map { postEntity -> postEntity.toPost() }.filter {post ->
+        return socialRepository.getNewsFeedPager().map { it.map { postEntity -> postEntity.toPost() }.filter {post ->
             post.description != "null:data"
         } }
     }
