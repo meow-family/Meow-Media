@@ -1,6 +1,5 @@
-package com.octopus.socialnetwork.data.repository.social
+package com.octopus.socialnetwork.data.paging
 
-import com.octopus.socialnetwork.data.paging.BasePagingSource
 import com.octopus.socialnetwork.data.remote.response.dto.notifications.NotificationItemsDto
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.repository.authentication.AuthenticationRepository
