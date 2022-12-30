@@ -67,11 +67,11 @@ class ProfileViewModel @Inject constructor(
 
     private fun getMyProfileDetails() {
         viewModelScope.launch(Dispatchers.IO) {
+            getFriendsCount()
+            getMyPosts()
             cachingMyProfileDetails()
             getCachedProfileDetails()
         }
-        getFriendsCount()
-        getMyPosts()
     }
 
     private suspend fun cachingMyProfileDetails() {
@@ -112,8 +112,7 @@ class ProfileViewModel @Inject constructor(
 
     }
 
-    private fun getMyPosts() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun getMyPosts() {
             try {
                 Log.d("rrr", "start get my posts")
                 val profilePosts = fetchUserPosts(_state.value.userDetails.userId)
@@ -132,12 +131,10 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Throwable) {
                 Log.d("kkk", "loading my posts failed")
                 _state.update { it.copy(isLoading = false, isError = true) }
-            }
         }
     }
 
-    private fun getFriendsCount() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun getFriendsCount() {
             try {
                 Log.d("rrr", "start get my friends")
                 val friendsCount = fetchUserFriendsCount(_state.value.userDetails.userId).total
@@ -152,7 +149,6 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Throwable) {
                 Log.d("kkk", "getting my friends failed")
             }
-        }
     }
 
     private fun getUserDetails() {

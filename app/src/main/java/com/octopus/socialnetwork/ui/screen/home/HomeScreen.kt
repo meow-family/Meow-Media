@@ -94,7 +94,6 @@ private fun HomeContent(
                 ImageForEmptyList(modifier = Modifier
                     .fillMaxSize()
                     .align(alignment = Alignment.CenterHorizontally))
-
             } else {
                 LazyColumn(
                     Modifier.fillMaxSize(),
