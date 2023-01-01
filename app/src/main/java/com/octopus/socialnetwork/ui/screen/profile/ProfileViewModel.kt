@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchPostsCountUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.UserRelationUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
@@ -17,11 +18,15 @@ import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetai
 import com.octopus.socialnetwork.domain.usecase.user.user_details.InsertMyProfileDetailsLocallyUseCase
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserRelationUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +37,7 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserDetails: FetchMyProfileDetailsUseCase,
     private val insertUserDetailsLocally: InsertMyProfileDetailsLocallyUseCase,
     private val fetchFriends: FetchFriendsUseCase,
+    private val userRelation: UserRelationUseCase,
     private val fetchPostsCount: FetchPostsCountUseCase,
     private val fetchPosts: FetchPostsUseCase,
     private val fetchUserId: FetchUserIdUseCase,
@@ -80,7 +86,9 @@ class ProfileViewModel @Inject constructor(
                 insertUserDetailsLocally()
                 getFriends()
                 getPosts()
-                fetchUserDetails().map { it.toUserDetailsUiState() }.collect { user ->
+                fetchUserDetails().map {
+                    it.toUserDetailsUiState()
+                }.collect { user ->
                     updateDetails(user)
                 }
             } catch (e: Exception) {
@@ -92,6 +100,7 @@ class ProfileViewModel @Inject constructor(
     private fun getFriendDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                getUserRelation()
                 getFriends()
                 getPosts()
                 val user =
@@ -100,6 +109,17 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
+        }
+    }
+
+    private suspend fun getUserRelation() {
+        val userRelation = userRelation(_state.value.userDetails.userId).toUserRelationUiState()
+        _state.update { user ->
+            user.copy(
+                userDetails = user.userDetails.copy(
+                    relation = userRelation
+                )
+            )
         }
     }
 

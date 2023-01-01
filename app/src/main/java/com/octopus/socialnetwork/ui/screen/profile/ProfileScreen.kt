@@ -37,7 +37,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProfileScreen(
-    navController: NavController, viewModel: ProfileViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -107,8 +108,12 @@ private fun ProfileContent(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    UserDetails(state.userDetails,
-                        onClickShowFriends = { scope.launch { sheetState.show() } })
+                    UserDetails(
+                        state.userDetails,
+                        onClickShowFriends = {
+                            scope.launch { sheetState.show() }
+                        }
+                    )
 
                     Row {
                         if (state.isMyProfile) {
@@ -121,6 +126,7 @@ private fun ProfileContent(
                             VisitedProfileLayout(
                                 state = state,
                                 onClickAddFriend = onClickAddFriend,
+                                onClickRemoveFriend = {},
                                 onClickMessage = onClickMessage
                             )
                         }
