@@ -76,7 +76,8 @@ interface SocialService {
     suspend fun getUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") myUserId: Int,
-    ): BaseResponse<PostsDto>
+        @Query("offset") page: Int,
+        ): BaseResponse<PostsDto>
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(

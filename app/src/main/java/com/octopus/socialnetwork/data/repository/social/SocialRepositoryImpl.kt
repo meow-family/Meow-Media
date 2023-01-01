@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -13,6 +14,7 @@ import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.mapper.toUserEntity
 import com.octopus.socialnetwork.data.paging.CommentDataSource
 import com.octopus.socialnetwork.data.paging.NotificationDataSource
+import com.octopus.socialnetwork.data.paging.PostDataSource
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
@@ -60,6 +62,7 @@ class SocialRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
     private val commentDataSource: CommentDataSource,
     private val notificationDataSource: NotificationDataSource,
+    private val postDataSource: PostDataSource,
     private val postsDao: PostsDao,
 ) : SocialRepository {
 
@@ -72,7 +75,7 @@ class SocialRepositoryImpl @Inject constructor(
         return userDao.insertProfileDetails(getUserDetails(userId).toUserEntity())
     }
 
-    override suspend fun getProfileDetails(): Flow<UserEntity> {
+    override suspend fun getMyProfileDetails(): Flow<UserEntity> {
         return userDao.getProfileDetails()
     }
 
@@ -84,8 +87,18 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.checkUserFriend(myUserId, userIdWantedToCheck).result
     }
 
-    override suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): PostsDto {
-        return socialService.getUserPosts(visitedUserId, myUserId).result
+    override suspend fun getPostsCount(visitedUserId: Int, myUserId: Int): PostsDto {
+        return socialService.getUserPosts(visitedUserId, myUserId,1).result
+    }
+
+    override suspend fun getUserPostsPager(visitedUserId: Int): Pager<Int, PostDto> {
+        val dataSource = postDataSource
+        dataSource.setUserID(visitedUserId)
+        Log.e("TESTING","IN REPOSETORY $dataSource")
+        return Pager(
+            config = PagingConfig(5,
+                prefetchDistance = 5,enablePlaceholders = true) ,
+            pagingSourceFactory = { dataSource })
     }
 
     override suspend fun editUser(myUserId: Int, firstName: String, lastName: String, email: String,

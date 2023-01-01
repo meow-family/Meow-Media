@@ -1,51 +1,56 @@
 package com.octopus.socialnetwork.ui.screen.profile
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchUserPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchPostsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchProfileDetailsUseCase
+import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchMyProfileDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.user_details.InsertProfileDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostsUiState
+import com.octopus.socialnetwork.domain.usecase.user.user_details.InsertMyProfileDetailsLocallyUseCase
+import com.octopus.socialnetwork.ui.screen.profile.mapper.toProfilePostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
+import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val fetchUserDetailS: FetchUserDetailsUseCase,
-    private val fetchUserFriendsCount: FetchFriendsUseCase,
-    private val fetchUserPosts: FetchUserPostsUseCase,
+    private val fetchFriendDetails: FetchUserDetailsUseCase,
+    private val fetchUserDetails: FetchMyProfileDetailsUseCase,
+    private val insertUserDetailsLocally: InsertMyProfileDetailsLocallyUseCase,
+    private val fetchFriends: FetchFriendsUseCase,
+    private val fetchPostsCount: FetchPostsCountUseCase,
+    private val fetchPosts: FetchPostsUseCase,
     private val fetchUserId: FetchUserIdUseCase,
     private val addFriend: AddFriendUseCase,
     private val removeFriend: RemoveFriendUseCase,
     private val checkUserIsFriend: CheckUserIsFriendUseCase,
     private val logout: LogoutUseCase,
-    private val insertProfileDetailsUseCase: InsertProfileDetailsUseCase,
-    private val fetchProfileDetailsUseCase: FetchProfileDetailsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val args: ProfileScreenArgs = ProfileScreenArgs(savedStateHandle)
+
     private val _state = MutableStateFlow(ProfileUiState())
     val state = _state.asStateFlow()
 
     init {
+        chickIfMyProfile()
+    }
+
+    private fun chickIfMyProfile() {
         viewModelScope.launch {
             val myUserId = fetchUserId()
             val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
@@ -58,131 +63,91 @@ class ProfileViewModel @Inject constructor(
                 )
             }
             if (_state.value.isMyProfile) {
-                getMyProfileDetails()
-            } else {
                 getUserDetails()
+            } else {
+                getFriendDetails()
             }
             if (_state.value.isMyProfile.not()) {
                 isRequestSent(_state.value.userDetails.userId)
             }
         }
-
     }
 
-    private fun getMyProfileDetails() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getFriendsCount()
-            getMyPosts()
-            cachingMyProfileDetails()
-            getCachedProfileDetails()
-        }
-    }
-
-    private suspend fun cachingMyProfileDetails() {
-        try {
-            Log.d("rrr", "start caching")
-            insertProfileDetailsUseCase()
-            Log.d("rrr", "done caching")
-            _state.update { it.copy(isLoading = false, isError = false) }
-        } catch (e: Exception) {
-            Log.d("kkk", "caching network data failed")
-            _state.update { it.copy(isLoading = false, isError = true) }
-        }
-
-    }
-
-    private suspend fun getCachedProfileDetails() {
-        try {
-            Log.d("rrr", "get caching")
-            val profileUiState = fetchProfileDetailsUseCase().map { it.toUserDetailsUiState() }
-            Log.d("rrr", "done getting caching")
-            profileUiState.collect { userDetailsUiState ->
-                _state.update { profileUiState ->
-                    profileUiState.copy(
-                        userDetails = profileUiState.userDetails.copy(
-                            fullName = userDetailsUiState.fullName,
-                            username = userDetailsUiState.username,
-                            profileAvatar = userDetailsUiState.profileAvatar,
-                            profileCover = userDetailsUiState.profileCover,
-                            userId = userDetailsUiState.userId,
-                        )
-                    )
-                }
-            }
-        } catch (e: Exception) {
-            Log.d("kkk", "loading cached data failed")
-            _state.update { it.copy(isLoading = false, isError = true) }
-        }
-
-    }
-
-    private suspend fun getMyPosts() {
-        try {
-            Log.d("rrr", "start get my posts")
-            val profilePosts = fetchUserPosts(_state.value.userDetails.userId)
-                .posts.toProfilePostsUiState()
-            Log.d("rrr", "done get my posts")
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    isError = false,
-                    profilePosts = profilePosts,
-                    userDetails = it.userDetails.copy(
-                        postCount = profilePosts.count().toString()
-                    )
-                )
-            }
-        } catch (e: Throwable) {
-            Log.d("kkk", "loading my posts failed")
-            _state.update { it.copy(isLoading = false, isError = true) }
-        }
-    }
-
-    private suspend fun getFriendsCount() {
-        try {
-            Log.d("rrr", "start get my friends")
-            val friendsCount = fetchUserFriendsCount(_state.value.userDetails.userId)
-            Log.d("rrr", "done get my friends")
-            _state.update { profileUiState ->
-                profileUiState.copy(
-                    friends = friendsCount.friends.map { it.toUserDetailsUiState() },
-                    userDetails = profileUiState.userDetails.copy(
-                        friendsCount = friendsCount.total.toString()
-                    )
-                )
-            }
-        } catch (e: Throwable) {
-            Log.d("kkk", "getting my friends failed")
-        }
-    }
 
     private fun getUserDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userFriendsCount = fetchUserFriendsCount(_state.value.userDetails.userId)
-                val profilePosts =
-                    fetchUserPosts(_state.value.userDetails.userId).posts.toProfilePostsUiState()
-                val userPostsCount = fetchUserPosts(_state.value.userDetails.userId).count
-                val profileUiState =
-                    fetchUserDetailS(_state.value.userDetails.userId).toUserDetailsUiState()
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = false,
-                        profilePosts = profilePosts,
-                        friends = userFriendsCount.friends.map { it.toUserDetailsUiState() },
-                        userDetails = it.userDetails.copy(
-                            fullName = profileUiState.fullName,
-                            username = profileUiState.username,
-                            profileAvatar = profileUiState.profileAvatar,
-                            profileCover = profileUiState.profileCover,
-                            friendsCount = userFriendsCount.total.toString(),
-                            postCount = userPostsCount.toString(),
-                            userId = profileUiState.userId,
-                        )
-                    )
+                insertUserDetailsLocally()
+                getFriends()
+                getPosts()
+                fetchUserDetails().map { it.toUserDetailsUiState() }.collect { user ->
+                    updateDetails(user)
                 }
             } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
+    private fun getFriendDetails() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getFriends()
+                getPosts()
+                val user =
+                    fetchFriendDetails(_state.value.userDetails.userId).toUserDetailsUiState()
+                updateDetails(user)
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
+    private fun updateDetails(user: UserDetailsUiState) {
+        _state.update { profileUiState ->
+            profileUiState.copy(
+                userDetails = profileUiState.userDetails.copy(
+                    fullName = user.fullName, username = user.username,
+                    profileAvatar = user.profileAvatar, profileCover = user.profileCover,
+                    userId = user.userId,
+                )
+            )
+        }
+    }
+
+    private fun getFriends() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val friend = fetchFriends(_state.value.userDetails.userId)
+                _state.update {
+                    it.copy(
+                        isLoading = false, isError = false,
+                        friends = friend.friends.map { it.toUserDetailsUiState() },
+                        userDetails = it.userDetails.copy(friendsCount = friend.total.toString())
+                    )
+                }
+            } catch (e: Throwable) {
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
+    }
+
+    private fun getPosts() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                val posts = fetchPosts(_state.value.userDetails.userId).map { pager ->
+                    pager.map { it.toProfilePostUiState() }
+                }
+                val postsCount = fetchPostsCount(_state.value.userDetails.userId)
+                _state.update {
+                    it.copy(
+                        isLoading = false, isError = false,
+                        profilePosts = posts,
+                        userDetails = it.userDetails.copy(postCount = postsCount.toString())
+                    )
+                }
+            } catch (e: Throwable) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
@@ -232,7 +197,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickTryAgain() {
-        if (_state.value.isMyProfile) getMyProfileDetails() else getUserDetails()
+        if (_state.value.isMyProfile) getUserDetails() else getFriendDetails()
         if (_state.value.isMyProfile.not()) {
             isRequestSent(_state.value.userDetails.userId)
         }
