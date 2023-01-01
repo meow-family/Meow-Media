@@ -3,12 +3,10 @@ package com.octopus.socialnetwork.ui.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
-import com.octopus.socialnetwork.domain.mapper.posts.toPost
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsCountUseCase
-import com.octopus.socialnetwork.domain.usecase.post.FetchPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
 import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
@@ -23,7 +21,7 @@ class HomeViewModel @Inject constructor(
     private val toggleLike: ToggleLikeUseCase,
     private val fetchNotificationsCount: FetchNotificationsCountUseCase,
     private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
-    private val fetchNewsFeed: FetchPostsUseCase,
+    private val fetchNewsFeed: FetchNewsFeedPostsUseCase,
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -61,6 +59,7 @@ class HomeViewModel @Inject constructor(
                 _homeUiState.update { it.copy(isError = false) }
 
             } catch (e: Exception) {
+                _homeUiState.update { it.copy(isLoading = false, isError = true)}
 
             }
         }

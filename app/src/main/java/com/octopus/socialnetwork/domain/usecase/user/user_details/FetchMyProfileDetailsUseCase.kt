@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class FetchProfileDetailsUseCase @Inject constructor(
+class FetchMyProfileDetailsUseCase @Inject constructor(
     private val socialRepository: SocialRepository
 ) {
     suspend operator fun invoke() : Flow<User>{
-        return socialRepository.getProfileDetails().map { it.toUser() }
+        return socialRepository.getMyProfileDetails().map { it.toUser() }
     }
 }

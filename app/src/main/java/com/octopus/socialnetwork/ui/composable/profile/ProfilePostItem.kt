@@ -21,13 +21,13 @@ import com.octopus.socialnetwork.ui.screen.profile.state.ProfilePostUiState
 @Composable
 fun ProfilePostItem(
     post: ProfilePostUiState,
-    onClickPost: (Int,Int) -> Unit
+    onClickPost: (Int,Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     Box(
-        modifier = Modifier
-            .height(130.dp)
-            .padding(horizontal = 8.dp)
+        modifier = modifier
+            .height(130.dp).padding(horizontal = 8.dp )
             .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
             .clip(shape = RoundedCornerShape(8.dp))
             .clickable { onClickPost(post.postId, post.postOwnerId) },

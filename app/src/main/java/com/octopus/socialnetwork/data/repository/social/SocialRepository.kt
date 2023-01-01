@@ -32,13 +32,15 @@ interface SocialRepository {
 
     suspend fun insertProfileDetails(userId: Int)
 
-    suspend fun getProfileDetails(): Flow<UserEntity>
+    suspend fun getMyProfileDetails(): Flow<UserEntity>
 
     suspend fun getFriends(visitedUserId: Int): FriendsDto
 
     suspend fun checkUserFriend(myUserId: Int, userIdWantedToCheck: Int): FriendValidatorResponse?
 
-    suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): PostsDto
+    suspend fun getPostsCount(visitedUserId: Int, myUserId: Int): PostsDto
+
+    suspend fun getUserPostsPager(visitedUserId: Int): Pager<Int, PostDto>
 
     suspend fun editUser(
         myUserId: Int, firstName: String, lastName: String,
