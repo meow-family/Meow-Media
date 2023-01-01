@@ -58,7 +58,6 @@ fun ProfileScreen(
         onClickPost = { postId, postOwnerId ->
             navController.navigateToPostScreen(postId, postOwnerId)
         },
-
         onClickItem = {
             navController.navigateToUserProfileScreen(it)
             scope.launch { sheetState.hide() }
@@ -82,89 +81,94 @@ private fun ProfileContent(
     onClickItem: (Int) -> Unit,
 ) {
 
-    if (state.isLoading) {
-        LottieLoading()
-    }
     val posts = state.profilePosts.collectAsLazyPagingItems()
     val isEmptyFlow = posts.itemSnapshotList.isEmpty()
 
-    ModalBottomSheetLayout(sheetState = sheetState,
-        modifier = Modifier.padding(top = 20.dp),
-        sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
-        sheetContent = {
-            Friends(state.friends, onClickItem)
-        }) {
+    if (state.isLoading) {
+        LottieLoading()
+    } else {
+        ModalBottomSheetLayout(sheetState = sheetState,
+            modifier = Modifier.padding(top = 20.dp),
+            sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
+            sheetContent = {
+                Friends(state.friends, onClickItem)
+            }) {
 
-        LazyVerticalGrid(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
-                .fillMaxSize(),
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(spacingSmall),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            item(span = { GridItemSpan(3) }) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    UserDetails(
-                        state.userDetails,
-                        onClickShowFriends = {
-                            scope.launch { sheetState.show() }
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .background(MaterialTheme.colors.background)
+                    .fillMaxSize(),
+                columns = GridCells.Fixed(3),
+                verticalArrangement = Arrangement.spacedBy(spacingSmall),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                item(span = { GridItemSpan(3) }) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        UserDetails(
+                            state.userDetails,
+                            onClickShowFriends = {
+                                scope.launch { sheetState.show() }
+                            }
+                        )
+
+                        Row {
+                            if (state.isMyProfile) {
+                                MyProfileLayout(
+                                    state = state,
+                                    onClickEditProfile = onClickEditProfile,
+                                    onClickLogout = onClickLogout
+                                )
+                            } else {
+                                VisitedProfileLayout(
+                                    state = state,
+                                    onClickAddFriend = onClickAddFriend,
+                                    onClickRemoveFriend = {},
+                                    onClickMessage = onClickMessage
+                                )
+                            }
                         }
-                    )
+                        SpaceVertically8dp()
+                        Divider()
+                    }
 
-                    Row {
-                        if (state.isMyProfile) {
-                            MyProfileLayout(
-                                state = state,
-                                onClickEditProfile = onClickEditProfile,
-                                onClickLogout = onClickLogout
-                            )
-                        } else {
-                            VisitedProfileLayout(
-                                state = state,
-                                onClickAddFriend = onClickAddFriend,
-                                onClickRemoveFriend = {},
-                                onClickMessage = onClickMessage
-                            )
+                }
+
+                when {
+                    state.isLoading -> item(span = { GridItemSpan(3) }) {
+                        LottieLoading(modifier = Modifier.padding(vertical = spacingExtraLarge))
+                    }
+
+                    state.isError -> item(span = { GridItemSpan(3) }) {
+                        LottieError(onClickTryAgain)
+                    }
+
+                    isEmptyFlow -> item(span = { GridItemSpan(3) }) {
+                        ImageForEmptyList()
+                    }
+
+                    else -> {
+                        items(posts.itemCount) { index ->
+                            posts[index]?.let {
+                                ProfilePostItem(post = it, onClickPost = onClickPost)
+                            }
                         }
                     }
-                    SpaceVertically8dp()
-                    Divider()
                 }
+                when (posts.loadState.append) {
+                    is LoadState.NotLoading -> Unit
+                    LoadState.Loading -> {
+                        item { LottieLoading(modifier = Modifier.size(70.dp)) }
+                    }
 
-            }
-
-            when {
-                state.isLoading -> item(span = { GridItemSpan(3) }) {
-                    LottieLoading(modifier = Modifier.padding(vertical = spacingExtraLarge))
-                }
-                state.isError -> item(span = { GridItemSpan(3) }) {
-                    LottieError(onClickTryAgain)
-                }
-                isEmptyFlow -> item(span = { GridItemSpan(3) }) {
-                    ImageForEmptyList()
-                }
-                else -> {
-                    items(posts.itemCount) { index ->
-                        posts[index]?.let {
-                            ProfilePostItem(post = it, onClickPost = onClickPost)
-                        }
+                    is LoadState.Error -> {
+                        item { LottieLoading(modifier = Modifier.size(70.dp)) }
                     }
                 }
-            }
-            when (posts.loadState.append) {
-                is LoadState.NotLoading -> Unit
-                LoadState.Loading -> {
-                    item {  LottieLoading(modifier = Modifier.size(70.dp)) }
-                }
-                is LoadState.Error -> {
-                    item { LottieLoading(modifier = Modifier.size(70.dp)) }
-                }
-            }
 
+            }
         }
     }
 
