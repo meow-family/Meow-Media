@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
 import com.octopus.socialnetwork.domain.usecase.notifications.FetchNotificationsCountUseCase
-import com.octopus.socialnetwork.domain.usecase.post.FetchPostsUseCase
+import com.octopus.socialnetwork.domain.usecase.post.FetchNewsFeedPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
 import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
@@ -21,14 +21,16 @@ class HomeViewModel @Inject constructor(
     private val toggleLike: ToggleLikeUseCase,
     private val fetchNotificationsCount: FetchNotificationsCountUseCase,
     private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
-    private val fetchNewsFeed: FetchPostsUseCase,
+    private val fetchNewsFeed: FetchNewsFeedPostsUseCase,
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
 
     init {
+        _homeUiState.update { it.copy(isLoading = true) }
         getNewsFeed()
+        _homeUiState.update { it.copy(isLoading = false) }
         getFriendRequestsCount()
         getNotificationsCount()
     }
@@ -40,11 +42,11 @@ class HomeViewModel @Inject constructor(
                     pagingData.map { post -> post.toPostUiState() }
                 }
                 _homeUiState.update {
-                    it.copy(posts = posts, isLoading = false, isError = false,)
+                    it.copy(posts = posts, isError = false,)
                 }
             } catch (e: Exception) {
                 _homeUiState.update {
-                    it.copy(isLoading = false, isError = true, posts = emptyFlow())
+                    it.copy(isLoading = false, isError = true)
                 }
             }
         }
@@ -57,7 +59,8 @@ class HomeViewModel @Inject constructor(
                 _homeUiState.update { it.copy(isError = false) }
 
             } catch (e: Exception) {
-               _homeUiState.update { it.copy(isError = true) }
+                _homeUiState.update { it.copy(isLoading = false, isError = true)}
+
             }
         }
     }
@@ -70,7 +73,7 @@ class HomeViewModel @Inject constructor(
                 val friendRequestsCount = fetchFriendRequestsList().map { it.toUserDetailsUiState() }.size
                 _homeUiState.update { it.copy(friendRequestsCount = friendRequestsCount) }
             } catch (e: Exception) {
-                _homeUiState.update { it.copy(isError = true) }
+                _homeUiState.update { it.copy(friendRequestsCount = 0) }
             }
         }
     }
@@ -81,7 +84,7 @@ class HomeViewModel @Inject constructor(
                 val currentNotificationsCount = fetchNotificationsCount().notifications
                 _homeUiState.update { it.copy(notificationsCount = currentNotificationsCount) }
             } catch (e: Exception) {
-                _homeUiState.update { it.copy(isError = false) }
+                _homeUiState.update { it.copy(notificationsCount = 0) }
             }
         }
     }

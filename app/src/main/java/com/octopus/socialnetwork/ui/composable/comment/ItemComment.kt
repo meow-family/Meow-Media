@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.Avatar
+import com.octopus.socialnetwork.ui.composable.post.setLikeColor
 import com.octopus.socialnetwork.ui.screen.comments.state.CommentDetailsUiState
 import com.octopus.socialnetwork.ui.theme.light_outline
 
@@ -32,6 +34,8 @@ fun ItemComment(
     modifier: Modifier = Modifier,
     onLike: (Int, Int, Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
+
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
@@ -82,7 +86,8 @@ fun ItemComment(
                     start.linkTo(userImage.start)
                 })
 
-        IconButton(onClick = { onLike(state.commentId, state.likeCounter, state.isLikedByUser) },
+        IconButton(onClick = {
+            onLike(state.commentId, state.likeCounter, state.isLikedByUser)  },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)
@@ -91,12 +96,9 @@ fun ItemComment(
                     start.linkTo(postText.start)
                 }) {
             Icon(
-                painterResource(
-                    if (state.isLikedByUser) R.drawable.ic_like_12
-                    else R.drawable.ic_un_like_12
-                ),
+                painterResource(R.drawable.ic_cat_foot),
                 contentDescription = stringResource(id = R.string.like),
-                tint = if (state.isLikedByUser) MaterialTheme.colors.primary else Color.Gray
+                tint = setLikeColor(state.isLikedByUser, true)
             )
         }
 

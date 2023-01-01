@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.domain.mapper.user
 
+import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.remote.response.dto.user.UserDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
@@ -36,5 +37,21 @@ fun PostsDto.toPosts(): Posts {
     return Posts(
         posts = posts?.map { it.toPost() }?: emptyList(),
         count = count ?: 0
+    )
+}
+
+fun UserEntity.toUser() : User{
+    return User(
+        id = id ,
+        firstName = firstName,
+        lastName = lastName,
+        fullName = fullName ,
+        username = username ,
+        email = email ,
+        birthDate = birthDate ,
+        gender = gender ,
+        avatar = avatar,
+        coverUrl = coverUrl,
+        language = language ,
     )
 }

@@ -8,4 +8,6 @@ data class PostsDto(
     val posts: List<PostDto>?,
     @SerializedName("count")
     val count: Int?,
+    @SerializedName("offset")
+    val offset: Int,
 )

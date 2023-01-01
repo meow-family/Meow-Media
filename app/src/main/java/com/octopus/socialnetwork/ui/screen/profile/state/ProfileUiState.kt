@@ -1,6 +1,9 @@
 package com.octopus.socialnetwork.ui.screen.profile.state
 
+import androidx.paging.PagingData
 import com.octopus.socialnetwork.ui.util.UserRelationUiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 data class ProfileUiState(
     val isLoading: Boolean = true,
@@ -9,7 +12,7 @@ data class ProfileUiState(
     val isUserVisitor: Boolean = false,
     val isLogout: Boolean = false,
     val userDetails: UserDetailsUiState = UserDetailsUiState(),
-    val profilePosts: List<ProfilePostUiState> = emptyList(),
+    val profilePosts: Flow<PagingData<ProfilePostUiState>> = emptyFlow(),
     val isFriend: Boolean = false,
     val isRequestExists: Boolean = false,
     val friends: List<UserDetailsUiState> = emptyList(),
@@ -19,8 +22,8 @@ data class UserDetailsUiState(
     val userId: Int = 0,
     val fullName: String = "",
     val username: String = "",
-    val friendsCount: String = "0",
-    val postCount: String = "0",
+    val friendsCount: String = "",
+    val postCount: String = "",
     val profileAvatar: String = "",
     val profileCover: String = "",
     var relation: UserRelationUiState = UserRelationUiState.ME,

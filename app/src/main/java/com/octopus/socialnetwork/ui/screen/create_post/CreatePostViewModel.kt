@@ -48,7 +48,6 @@ class CreatePostViewModel @Inject constructor(
     }
 
 
-
     private fun setLoading(state: Boolean) {
         _state.update { it.copy(isLoading = state) }
     }

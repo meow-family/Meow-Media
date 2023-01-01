@@ -1,11 +1,20 @@
 package com.octopus.socialnetwork.data.repository.social
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.octopus.socialnetwork.BuildConfig
+import com.octopus.socialnetwork.data.local.dao.UserDao
+import com.octopus.socialnetwork.data.local.dao.PostsDao
 import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
+import com.octopus.socialnetwork.data.local.entity.UserEntity
+import com.octopus.socialnetwork.data.mapper.toUserEntity
+import com.octopus.socialnetwork.data.paging.CommentDataSource
+import com.octopus.socialnetwork.data.paging.NotificationDataSource
+import com.octopus.socialnetwork.data.paging.PostDataSource
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
@@ -38,6 +47,7 @@ import com.octopus.socialnetwork.data.utils.Constants.PRIVACY
 import com.octopus.socialnetwork.data.utils.Constants.PUBLIC_PRIVACY
 import com.octopus.socialnetwork.data.utils.Constants.TYPE
 import com.octopus.socialnetwork.data.utils.Constants.USER_PHOTO
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -49,12 +59,24 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialService: SocialService,
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
-    private val commentDataSource: CommentDataSource
+    private val userDao: UserDao,
+    private val commentDataSource: CommentDataSource,
+    private val notificationDataSource: NotificationDataSource,
+    private val postDataSource: PostDataSource,
+    private val postsDao: PostsDao,
 ) : SocialRepository {
 
     //region user
     override suspend fun getUserDetails(visitedUserId: Int): UserDto {
         return socialService.getUserDetails(visitedUserId).result
+    }
+
+    override suspend fun insertProfileDetails(userId: Int) {
+        return userDao.insertProfileDetails(getUserDetails(userId).toUserEntity())
+    }
+
+    override suspend fun getMyProfileDetails(): Flow<UserEntity> {
+        return userDao.getProfileDetails()
     }
 
     override suspend fun getFriends(visitedUserId: Int): FriendsDto {
@@ -65,8 +87,18 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.checkUserFriend(myUserId, userIdWantedToCheck).result
     }
 
-    override suspend fun getUserPosts(visitedUserId: Int, myUserId: Int): PostsDto {
-        return socialService.getUserPosts(visitedUserId, myUserId).result
+    override suspend fun getPostsCount(visitedUserId: Int, myUserId: Int): PostsDto {
+        return socialService.getUserPosts(visitedUserId, myUserId,1).result
+    }
+
+    override suspend fun getUserPostsPager(visitedUserId: Int): Pager<Int, PostDto> {
+        val dataSource = postDataSource
+        dataSource.setUserID(visitedUserId)
+        Log.e("TESTING","IN REPOSETORY $dataSource")
+        return Pager(
+            config = PagingConfig(5,
+                prefetchDistance = 5,enablePlaceholders = true) ,
+            pagingSourceFactory = { dataSource })
     }
 
     override suspend fun editUser(myUserId: Int, firstName: String, lastName: String, email: String,
@@ -101,14 +133,6 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.viewUserPosts(visitedUserId, myUserId,)
     }
 
-    override fun getNewsFeedPager(): Pager<Int, PostEntity> {
-        return Pager(
-            config = PagingConfig(10),
-            remoteMediator = postsRemoteMediator,
-            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
-        )
-    }
-
     override suspend fun createPost(myUserId: Int, posterOwnerId: Int, post: String, type: String,
         photo: File): PostDto {
         val photoExtension = if (photo.extension== JPG ) JPEG else photo.extension
@@ -124,6 +148,14 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.createPost(requestBody).result
     }
 
+    override fun getNewsFeedPager(): Flow<PagingData<PostEntity>> {
+        return Pager(
+            config = PagingConfig(10, prefetchDistance = 5),
+            remoteMediator = postsRemoteMediator,
+            pagingSourceFactory = { socialDatabase.postsDao().getAllPosts() }
+        ).flow
+    }
+
     override suspend fun deletePost(postId: Int, postOwnerId: Int): PostDto {
         return socialService.deletePost(postId, postOwnerId).result
     }
@@ -136,11 +168,22 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.unlike(myUserId, contentId, typeContent).result
     }
 
-    override suspend fun getNotifications(myUserId: Int, ): NotificationsResponse {
-        return socialService.getUserNotifications(myUserId).result
+    override suspend fun getNotifications(myUserId: Int): NotificationsResponse {
+        return socialService.getUserNotifications(myUserId = myUserId, page = 1).result
     }
 
-    override suspend fun getNotificationsCount(myUserId: Int, ): NotificationsCountDto {
+    override suspend fun getNotificationsPager(myUserId: Int): Pager<Int, NotificationItemsDto> {
+        val dataSource = notificationDataSource
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = { dataSource })
+    }
+
+
+    override suspend fun getNotificationsCount(myUserId: Int): NotificationsCountDto {
         return socialService.getUserNotificationsCount(myUserId).result
     }
 
@@ -152,8 +195,8 @@ class SocialRepositoryImpl @Inject constructor(
         val dataSource = commentDataSource
         dataSource.setCommentID(postId)
         return Pager(
-            config = PagingConfig(100,
-            prefetchDistance = 5,enablePlaceholders = false) ,
+            config = PagingConfig(5,
+            prefetchDistance = 5,enablePlaceholders = true) ,
             pagingSourceFactory = { dataSource })
     }
 
@@ -221,6 +264,10 @@ class SocialRepositoryImpl @Inject constructor(
 
     override suspend fun search(myUserId: Int, query: String): SearchDto {
         return socialService.search(myUserId, query).result
+    }
+
+    override suspend fun insertPosts(posts: List<PostEntity>) {
+        postsDao.insertPosts(posts)
     }
     //endregion
 

@@ -1,6 +1,6 @@
 package com.octopus.socialnetwork.domain.model.notifications
 
-data class NotificationItems(
+data class NotificationItem(
     val notification: Notification,
     val postOwner: PostOwner,
     val entity: Boolean,

@@ -12,10 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -39,13 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.ImageWithShadow
-import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
-import com.octopus.socialnetwork.ui.composable.LoadingDialog
-import com.octopus.socialnetwork.ui.composable.SpacerVertical16
-import com.octopus.socialnetwork.ui.composable.SpacerVertical32
-import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.login.state.LoginViewModel
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
@@ -71,6 +62,13 @@ fun LoginScreen(
         onClickShowPassword = viewModel::changePasswordVisibility,
         showErrorValidationInput = viewModel::showErrorValidationInput
     )
+
+        if (state.errorMessage.isNotEmpty()) {
+            CustomSnackBar(message = state.errorMessage) {
+                viewModel.clearErrorMessage()
+            }
+        }
+
 
 }
 
@@ -103,7 +101,6 @@ private fun LoginContent(
                 .wrapContentSize(Alignment.BottomCenter),
             painter = painterResource(id = R.drawable.login_image)
         )
-
 
         Text(
             modifier = Modifier.padding(vertical = 24.dp),

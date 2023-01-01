@@ -76,7 +76,8 @@ interface SocialService {
     suspend fun getUserPosts(
         @Query("uguid") visitedUserId: Int,
         @Query("guid") myUserId: Int,
-    ): BaseResponse<PostsDto>
+        @Query("offset") page: Int,
+        ): BaseResponse<PostsDto>
 
     @GET("photos_view_profile")
     suspend fun getPhotoViewProfile(
@@ -183,6 +184,7 @@ interface SocialService {
     @GET("notifications_list_user")
     suspend fun getUserNotifications(
         @Query("owner_guid") myUserId: Int,
+        @Query("offset") page: Int,
     ): BaseResponse<NotificationsResponse>
 
     @GET("notifications_count")

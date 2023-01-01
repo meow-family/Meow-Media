@@ -56,7 +56,8 @@ private fun SearchContent(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background).padding(horizontal = 16.dp),
+            .background(MaterialTheme.colors.background)
+            .padding(horizontal = 16.dp),
     ) {
         AppBar(title = stringResource(R.string.search), showBackButton = false)
         Divider(color = MaterialTheme.colors.outLine, thickness = 1.dp)
@@ -68,15 +69,19 @@ private fun SearchContent(
             LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
         } else {
 
-            LazyColumn {
                 if (state.query.isEmpty()) {
-                    item { LottieSearch() }
+                     LottieSearch()
                 } else {
                     if (state.isLoading) {
-                        item { LottieLoading() }
+                         LottieLoading()
                     } else if (state.users.isEmpty()) {
-                        item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                        ImageForEmptyList(
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                                .fillMaxSize()
+                        )
                     } else {
+                        LazyColumn {
                         items(state.users) { searchItem ->
                             UserDetailsItem(
                                 state = searchItem,

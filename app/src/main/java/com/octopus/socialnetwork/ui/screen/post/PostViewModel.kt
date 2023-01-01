@@ -18,19 +18,18 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-    private val toggleLike: ToggleLikeUseCase,
+        private val toggleLike: ToggleLikeUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val args: PostScreenArgs = PostScreenArgs(savedStateHandle)
 
+    private val _state = MutableStateFlow(PostMainUiState())
+    val state = _state.asStateFlow()
 
     init {
         getPostDetails()
     }
-
-    private val _state = MutableStateFlow(PostMainUiState())
-    val state = _state.asStateFlow()
 
     private fun getPostDetails() {
         viewModelScope.launch(Dispatchers.IO) {

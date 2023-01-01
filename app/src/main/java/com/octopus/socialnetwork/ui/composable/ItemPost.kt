@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.home.SmallPostDetails
+import com.octopus.socialnetwork.ui.composable.post.setLikeColor
+import com.octopus.socialnetwork.ui.composable.post.setLikeSize
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionGroup
 import com.octopus.socialnetwork.ui.composable.social_elements.interaction.InteractionIcon
 import com.octopus.socialnetwork.ui.screen.post.state.PostUiState
@@ -85,8 +87,8 @@ fun ItemPost(
                         onClick = {
                             onLike(post.postId, post.likeCount.toInt(), post.isLiked)
                         },
-                        tint = iconColor,
-                        modifier = Modifier.size(iconSize)
+                        tint = setLikeColor(post.isLiked),
+                        modifier = Modifier.size(setLikeSize(post.isLiked))
                     )
                 }, {
                     InteractionIcon(

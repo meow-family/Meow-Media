@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeQuery(newValue: String) {
-        _state.update { it.copy(query = newValue) }
+        _state.update { it.copy(query = newValue, isLoading = true, isError = false) }
         viewModelScope.launch {
             query.emit(newValue)
         }
@@ -57,7 +57,7 @@ class SearchViewModel @Inject constructor(
                     updateSearchUiState(search)
                 }
             } catch (e: Exception) {
-                _state.update { it.copy(isError = false) }
+                _state.update { it.copy(isError = true) }
 
             }
         }

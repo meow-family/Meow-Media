@@ -1,11 +1,11 @@
 package com.octopus.socialnetwork.ui.screen.notifications.mapper
 
-import com.octopus.socialnetwork.domain.model.notifications.NotificationItems
+import com.octopus.socialnetwork.domain.model.notifications.NotificationItem
 import com.octopus.socialnetwork.ui.screen.notifications.state.NotificationItemsUiState
 import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 
 
-fun NotificationItems.toNotificationsUiState(): NotificationItemsUiState {
+fun NotificationItem.toNotificationsUiState(): NotificationItemsUiState {
     return NotificationItemsUiState(
         id = notification.notificationId,
         type = notification.type,
