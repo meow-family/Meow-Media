@@ -91,7 +91,7 @@ private fun ProfileContent(
             modifier = Modifier.padding(top = 20.dp),
             sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
             sheetContent = {
-                Friends(state.friends, onClickItem)
+                Friends(state.friends, onClickItem, {})
             }) {
 
             LazyVerticalGrid(

@@ -1,6 +1,10 @@
 package com.octopus.socialnetwork.ui.composable.profile
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.CircleButton
 import com.octopus.socialnetwork.ui.composable.ReduceButton
@@ -26,13 +30,16 @@ fun VisitedProfileLayout(
         ReduceButton(
             onClick = { onClickRemoveFriend(state.userDetails.userId) },
             isSelected = state.isRequestExists,
-            idTitleResource = R.string.remove_friend,
+            idTitleResource = R.string.remove,
             idIconResource = R.drawable.add_person,
         )
     }
 
     SpaceHorizontally8dp()
     CircleButton(
+        modifier = Modifier
+            .height(25.dp)
+            .width(29.dp),
         onClick = { onClickMessage(state.userDetails.userId) },
         idIconResource = R.drawable.massage,
         idTitleResource = R.string.send_message

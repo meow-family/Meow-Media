@@ -4,5 +4,6 @@ enum class UserRelationUiState {
     ME,
     IS_FRIEND,
     NOT_FRIEND,
-    REQUESTED
+    REQUESTED,
+    UNKNOWN
 }

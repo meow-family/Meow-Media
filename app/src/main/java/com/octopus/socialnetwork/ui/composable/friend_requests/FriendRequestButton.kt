@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightSmallButton
@@ -24,12 +25,13 @@ fun FriendRequestButton(
     onClick: () -> Unit,
     borderStroke: BorderStroke,
     backgroundColor: Color,
-    textColor: Color
+    textColor: Color,
+    widthButton: Dp = widthSmallButton,
 ) {
     Button(
         onClick = { onClick() },
         modifier
-            .width(widthSmallButton)
+            .width(widthButton)
             .height(heightSmallButton),
         shape = Shapes.large,
         colors = ButtonDefaults.buttonColors(
