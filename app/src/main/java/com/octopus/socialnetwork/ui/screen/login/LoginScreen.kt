@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -36,7 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.CustomButton
+import com.octopus.socialnetwork.ui.composable.CustomSnackBar
+import com.octopus.socialnetwork.ui.composable.ImageWithShadow
+import com.octopus.socialnetwork.ui.composable.InputTextFieldValidation
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
+import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.SpacerVertical32
+import com.octopus.socialnetwork.ui.composable.TextWithAction
 import com.octopus.socialnetwork.ui.screen.login.state.LoginUiState
 import com.octopus.socialnetwork.ui.screen.login.state.LoginViewModel
 import com.octopus.socialnetwork.ui.screen.main.navigateToMain
@@ -55,12 +66,11 @@ fun LoginScreen(
     LoginContent(
         state = state,
         navController = navController,
-        login = viewModel::login,
+        onClickLogin = viewModel::checkValidateToLogin,
         onChangeUsername = viewModel::onChangeUsername,
         onChangePassword = viewModel::onChangePassword,
         signUp = { navController.navigateToRegister() },
         onClickShowPassword = viewModel::changePasswordVisibility,
-        showErrorValidationInput = viewModel::showErrorValidationInput
     )
 
         if (state.errorMessage.isNotEmpty()) {
@@ -79,10 +89,9 @@ private fun LoginContent(
     navController: NavController,
     onChangeUsername: (String) -> Unit,
     onChangePassword: (String) -> Unit,
-    login: () -> Unit,
+    onClickLogin: () -> Unit,
     onClickShowPassword: () -> Unit,
     signUp: () -> Unit,
-    showErrorValidationInput: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -137,6 +146,9 @@ private fun LoginContent(
             icon = Icons.Default.Lock,
             keyboardType = KeyboardType.Password,
             keyboardAction = ImeAction.Done,
+            onClickKeyboardAction = KeyboardActions(
+                onDone = { onClickLogin() }
+            ),
             showError = state.isDisplayErrorValidationInputs
         ) {
             IconButton(onClick = onClickShowPassword) {
@@ -152,14 +164,7 @@ private fun LoginContent(
         CustomButton(
             modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(R.string.login),
-            onClick = {
-                val userInput = state.userInput
-                if (userInput.userName.isValid && userInput.password.isValid) {
-                    login()
-                } else {
-                    showErrorValidationInput()
-                }
-            }
+            onClick = { onClickLogin() }
         )
         TextWithAction(
             text = stringResource(R.string.donot_have_account),

@@ -87,6 +87,15 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun checkValidateToLogin(){
+        val userInput = state.value.userInput
+        if (userInput.userName.isValid && userInput.password.isValid) {
+            login()
+        } else {
+            showErrorValidationInput()
+        }
+    }
+
     fun login() {
         onLoading()
         val userInput = _state.value.userInput
