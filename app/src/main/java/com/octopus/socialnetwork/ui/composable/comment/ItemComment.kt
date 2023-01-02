@@ -34,8 +34,6 @@ fun ItemComment(
     modifier: Modifier = Modifier,
     onLike: (Int, Int, Boolean) -> Unit,
 ) {
-    val context = LocalContext.current
-
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()

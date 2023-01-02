@@ -52,7 +52,6 @@ fun ItemPost(
             stiffness = Spring.StiffnessMediumLow
         )
     )
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier

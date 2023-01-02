@@ -4,17 +4,16 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemsIndexed
 import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
@@ -51,6 +50,9 @@ fun ChatScreenContent(
     onClickTryAgain: () -> Unit
 ) {
     val listState = rememberLazyListState()
+    val messages = state.messages.collectAsLazyPagingItems()
+    val isEmptyFlow = messages.itemSnapshotList.isEmpty()
+
 
     if (state.isLoading) {
         LottieLoading()
@@ -74,18 +76,31 @@ fun ChatScreenContent(
                     .weight(.1f),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                state = listState
+                state = listState,
+                reverseLayout = true,
             ) {
 
-                if(state.messages.isEmpty()){
+                if(isEmptyFlow){
                     item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                } else{
-                    items(state.messages) { message ->
+                } else {
 
-                        if (message.isSentByMe) {
-                            SentMessage(message)
-                        } else {
-                            ReceivedMessage(message)
+                    itemsIndexed(messages) { index, message ->
+                            message?.let { chatMessage ->
+                                if (chatMessage.isSentByMe) {
+                                    SentMessage(chatMessage)
+                                } else {
+                                    ReceivedMessage(chatMessage)
+                                }
+                            }
+                    }
+
+                    when (messages.loadState.append) {
+                        is LoadState.NotLoading -> Unit
+                        LoadState.Loading -> {
+                            item {  LottieLoading() }
+                        }
+                        is LoadState.Error -> {
+                            item { LottieLoading() }
                         }
                     }
                 }
@@ -101,7 +116,7 @@ fun ChatScreenContent(
     }
 
     LaunchedEffect(key1 = state.isSuccess){
-        listState.animateScrollToItem(index = state.messages.lastIndexOrZero())
+        listState.animateScrollToItem(index = messages.itemSnapshotList.lastIndexOrZero())
     }
 
 

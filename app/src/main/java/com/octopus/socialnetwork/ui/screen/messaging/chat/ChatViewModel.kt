@@ -4,19 +4,17 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
-import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -65,7 +63,9 @@ class ChatViewModel @Inject constructor(
     private fun getMessagesWithUser(friendId: Int) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
-                val messages = getMessageList(friendId).map { it.toChatUiState() }
+                val messages = getMessageList(friendId).map { pagerMessages ->
+                    pagerMessages.map { messages -> messages.toChatUiState() }
+                }
                 _state.update {
                     it.copy(
                         isFail = false,
@@ -106,8 +106,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
 
-                val updatedMessages =
-                    _state.value.messages + ChatUiState(message = message)
+                val updatedMessages = _state.value.messages
 
                 _state.update { it.copy(messages = updatedMessages) }
 

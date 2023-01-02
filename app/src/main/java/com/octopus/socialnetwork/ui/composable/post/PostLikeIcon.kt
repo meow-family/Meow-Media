@@ -57,7 +57,6 @@ fun InteractionLikeIcon(
     onClickLike: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier

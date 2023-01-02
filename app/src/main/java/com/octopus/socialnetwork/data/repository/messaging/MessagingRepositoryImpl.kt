@@ -1,5 +1,8 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.octopus.socialnetwork.data.paging.ChatDataSource
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
@@ -13,6 +16,7 @@ import javax.inject.Inject
 class MessagingRepositoryImpl @Inject constructor(
     private val service: SocialService,
     private val cloudMessagingService: CloudMessagingService,
+    private val chatDataSource: ChatDataSource,
 ) : MessagingRepository {
 
     override suspend fun getRecentMassagesList(messageReceiver: Int): MessageResponse {
@@ -35,8 +39,13 @@ class MessagingRepositoryImpl @Inject constructor(
         return service.unreadMessages(messageSenderId, messageReceiverId, markAllRead).result
     }
 
-    override suspend fun getMessages(myUserId: Int, friendId: Int): MessageResponse {
-        return service.getMessagesList(myUserId, friendId).result
+    override suspend fun getMessagesPager(friendId: Int): Pager<Int, MessageDto> {
+        val dataSource = chatDataSource
+        dataSource.setFriendID(friendId)
+        return Pager(
+            config = PagingConfig(5,
+                prefetchDistance = 5,enablePlaceholders = true) ,
+            pagingSourceFactory = { dataSource })
     }
 
 

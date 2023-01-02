@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
+import androidx.paging.Pager
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
@@ -21,7 +22,7 @@ interface MessagingRepository {
         markAllRead: Int,
     ): MessageResponse
 
-    suspend fun getMessages(myUserId: Int, friendId: Int): MessageResponse
+    suspend fun getMessagesPager(friendId: Int): Pager<Int, MessageDto>
 
     suspend fun postNotification(notification: MessageNotificationDto): Boolean
 
