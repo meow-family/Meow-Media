@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.conversations.CacheMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
@@ -26,6 +27,7 @@ class ChatViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val sendMessage: SendMessagesUseCase,
     private val receiveMessageUseCase: ReceiveMessageUseCase,
+    private val cacheMessagesUseCase: CacheMessagesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -112,6 +114,7 @@ class ChatViewModel @Inject constructor(
                 _state.update { it.copy(messages = updatedMessages) }
 
                 sendMessage(args.friendId.toInt(), message)
+                cacheMessagesUseCase()
 
                 getMessagesWithUser(args.friendId.toInt())
 

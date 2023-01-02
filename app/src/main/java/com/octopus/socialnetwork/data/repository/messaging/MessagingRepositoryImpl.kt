@@ -1,15 +1,16 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
+import android.util.Log
 import com.octopus.socialnetwork.data.local.dao.ConversationsDao
 import com.octopus.socialnetwork.data.local.entity.MessageEntity
 import com.octopus.socialnetwork.data.mapper.toMessageEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
-import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
+import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
+import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.fcm.FirebaseCloudMessagingService
-import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -55,18 +56,22 @@ class MessagingRepositoryImpl @Inject constructor(
 
     override suspend fun insertConversations(userId: Int) {
         try {
+            Log.i("MESSAGING", "will insert messages for user $userId")
             with(service.getMessagesListRecent(userId).result) {
                 if (this.count != 0) {
-                    val messagesList = this.messages?.map { messageDto ->
+                    this.messages?.map { messageDto ->
                         messageDto.toMessageEntity(userId)
-                    }
-                    messagesList?.let { messagesEntity ->
-
+                    }?.let { messagesEntity ->
                         conversationsDao.insertConversations(messagesEntity)
+                        Log.i("MESSAGING", "successfully inserted messages")
                     }
+                    Log.i("MESSAGING", "done")
                 }
             }
-        } catch (throwable: Throwable) { }
+        } catch (throwable: Throwable) {
+            Log.i("MESSAGING", "encountred this error in ${this.javaClass.simpleName} ${throwable.stackTrace} ")
+
+        }
     }
 
     override fun getAllConversations(): Flow<List<MessageEntity>> {

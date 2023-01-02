@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConversationsViewModel @Inject constructor(
-    private val fetchRecentMessages: GetRecentMessagesListUseCase,
+    private val getRecentMessagesList: GetRecentMessagesListUseCase,
     private val search: SearchUseCase,
     private val receiveMessage: ReceiveMessageUseCase,
 ) : ViewModel() {
@@ -55,8 +55,9 @@ class ConversationsViewModel @Inject constructor(
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                fetchRecentMessages().collect { messages ->
+                getRecentMessagesList().collect { messages ->
                     val recentMessages = messages.map { it.toConversationUiState() }
+                    Log.i("MESSAGING","received messages $recentMessages")
                     _state.update {
                         it.copy(
                             isFail = false, isSuccess = true, isLoading = false, messages = recentMessages,

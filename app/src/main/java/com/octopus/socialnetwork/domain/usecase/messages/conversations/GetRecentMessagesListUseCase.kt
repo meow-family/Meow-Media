@@ -7,19 +7,27 @@ import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCas
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetRecentMessagesListUseCase @Inject constructor(
     private val messagingRepository: MessagingRepository,
-    private val fetchUserIdUseCase: FetchUserIdUseCase,
 ) {
     suspend operator fun invoke(): Flow<List<Messages>> {
-        val userId = fetchUserIdUseCase()
-
-        messagingRepository.insertConversations(userId)
-
-        return messagingRepository.getAllConversations().flatMapConcat { messagesEntity ->
-            flowOf(messagesEntity.map { it.toMessage() })
+        return messagingRepository.getAllConversations().map { messages ->
+            messages.map { it.toMessage() }
         }
     }
 }
+class CacheMessagesUseCase @Inject constructor(
+    private val fetchUserIdUseCase: FetchUserIdUseCase,
+    private val messagingRepository: MessagingRepository,
+) {
+    suspend operator fun invoke() : Boolean {
+        val userId = fetchUserIdUseCase()
+        messagingRepository.insertConversations(userId)
+        return true
+    }
+
+}
+
