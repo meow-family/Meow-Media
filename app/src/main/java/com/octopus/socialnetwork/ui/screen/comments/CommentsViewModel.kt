@@ -38,13 +38,13 @@ class CommentsViewModel @Inject constructor(
 
     private fun getPostComments() {
         _state.update { it.copy(isLoading = true, error = "") }
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
                 getPostComments(args.postId.toInt()).map { it.toCommentDetailsUiState() }
                 swipeToRefresh()
+            } catch (t: Throwable) {
+                _state.update { it.copy(isError = true) }
             }
-        } catch (t: Throwable) {
-            _state.update { it.copy(isError = true) }
         }
     }
 

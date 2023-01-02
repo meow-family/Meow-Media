@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.send"/>
 
-    <uses-permission android:name="com.google.android.c2dm.permission.Receive"/>
     <application
         android:name=".SocialNetworkApplication"
         android:allowBackup="true"
@@ -40,6 +38,7 @@
 
         <service
             android:name=".data.remote.service.fcm.FirebaseCloudMessagingService"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
