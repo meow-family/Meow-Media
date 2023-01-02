@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
-import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchPostsCountUseCase
+import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
@@ -47,10 +47,14 @@ class ProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        chickIfMyProfile()
+        updateProfileUiState()
+        getUserDetails()
+        if (_state.value.isMyProfile.not()) {
+            isRequestSent(_state.value.userDetails.userId)
+        }
     }
 
-    private fun chickIfMyProfile() {
+    private fun updateProfileUiState() {
         viewModelScope.launch {
             val myUserId = fetchUserId()
             val visitedUserId = args.visitedUserId?.toIntOrNull() ?: myUserId
@@ -62,14 +66,6 @@ class ProfileViewModel @Inject constructor(
                     )
                 )
             }
-            if (_state.value.isMyProfile) {
-                getUserDetails()
-            } else {
-                getFriendDetails()
-            }
-            if (_state.value.isMyProfile.not()) {
-                isRequestSent(_state.value.userDetails.userId)
-            }
         }
     }
 
@@ -77,10 +73,18 @@ class ProfileViewModel @Inject constructor(
     private fun getUserDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                insertUserDetailsLocally()
+                if (_state.value.isMyProfile) {
+                    insertUserDetailsLocally()
+                }
                 getFriends()
                 getPosts()
-                fetchUserDetails().map { it.toUserDetailsUiState() }.collect { user ->
+                if (_state.value.isMyProfile) {
+                    fetchUserDetails().map { it.toUserDetailsUiState() }.collect { user ->
+                        updateDetails(user)
+                    }
+                } else {
+                    val user =
+                        fetchFriendDetails(_state.value.userDetails.userId).toUserDetailsUiState()
                     updateDetails(user)
                 }
             } catch (e: Exception) {
@@ -89,19 +93,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getFriendDetails() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                getFriends()
-                getPosts()
-                val user =
-                    fetchFriendDetails(_state.value.userDetails.userId).toUserDetailsUiState()
-                updateDetails(user)
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isError = true) }
-            }
-        }
-    }
 
     private fun updateDetails(user: UserDetailsUiState) {
         _state.update { profileUiState ->
@@ -197,7 +188,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickTryAgain() {
-        if (_state.value.isMyProfile) getUserDetails() else getFriendDetails()
+        getUserDetails()
         if (_state.value.isMyProfile.not()) {
             isRequestSent(_state.value.userDetails.userId)
         }
