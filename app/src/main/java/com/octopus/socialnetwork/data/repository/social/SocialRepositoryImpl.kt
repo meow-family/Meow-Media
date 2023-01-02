@@ -12,11 +12,11 @@ import com.octopus.socialnetwork.data.local.database.SocialDatabase
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.mapper.toUserEntity
-import com.octopus.socialnetwork.data.paging.CommentDataSource
 import com.octopus.socialnetwork.data.paging.NotificationDataSource
 import com.octopus.socialnetwork.data.paging.PostDataSource
 import com.octopus.socialnetwork.data.paging.PostsRemoteMediator
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentAddDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse
@@ -60,7 +60,6 @@ class SocialRepositoryImpl @Inject constructor(
     private val socialDatabase: SocialDatabase,
     private val postsRemoteMediator: PostsRemoteMediator,
     private val userDao: UserDao,
-    private val commentDataSource: CommentDataSource,
     private val notificationDataSource: NotificationDataSource,
     private val postDataSource: PostDataSource,
     private val postsDao: PostsDao,
@@ -191,13 +190,8 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.markUserNotificationsAsViewed(notificationId).result
     }
 
-    override suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto> {
-        val dataSource = commentDataSource
-        dataSource.setCommentID(postId)
-        return Pager(
-            config = PagingConfig(5,
-            prefetchDistance = 5,enablePlaceholders = true) ,
-            pagingSourceFactory = { dataSource })
+    override suspend fun getCommentsPager(myUserId:Int,type: String,postId: Int, page: Int): List<CommentDto>? {
+        return socialService.getCommentsList(myUserId,postId,type,page).result?.comments
     }
 
 
@@ -214,7 +208,7 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.getPhoto(photoId, userId).result
     }
 
-    override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDto {
+    override suspend fun addComment(postId: Int, comment: String, userId: Int): CommentAddDto {
         return socialService.addComment(postId, comment, userId).result
     }
 

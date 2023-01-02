@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import com.octopus.socialnetwork.data.local.entity.PostEntity
 import com.octopus.socialnetwork.data.local.entity.UserEntity
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentAddDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse
@@ -83,13 +84,13 @@ interface SocialRepository {
 
     suspend fun markUserNotificationsAsViewed(notificationId: Int): NotificationItemsDto
 
-    suspend fun getCommentsPager(postId: Int): Pager<Int, CommentDto>
+    suspend fun getCommentsPager(myUserId:Int,type: String,postId: Int, page: Int): List<CommentDto>?
 
     suspend fun editComment(commentId: Int, comment: String): CommentEditResponse
 
     suspend fun deleteComment(commentId: Int, userId: Int): Boolean
 
-    suspend fun addComment(postId: Int, comment: String, userId: Int): CommentDto
+    suspend fun addComment(postId: Int, comment: String, userId: Int): CommentAddDto
 
     suspend fun updatePostLikeStatusLocally(id: Int, isLikedByUser: Boolean, newLikesCount: Int)
     //endregion
