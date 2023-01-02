@@ -11,11 +11,21 @@ class AddFriendUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
     private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {
-    suspend operator fun invoke(userIdWantedToAdd: Int): FriendValidator {
+    suspend operator fun invoke(userIdWantedToAdd: Int, isFriend: Boolean): FriendValidator {
         Log.i("MEOW","userIdWantedToAdd usecase $userIdWantedToAdd")
-        return socialRepository.addFriend(
-            myUserId = fetchUserIdUseCase(),
-            userIdWantedToAdd = userIdWantedToAdd
-        ).toCheckUserFriend()
+        return if (isFriend) {
+            Log.i("FRIEND","removing friend")
+            socialRepository.removeFriend(
+                myUserId = fetchUserIdUseCase(),
+                userIdWantedToAdd = userIdWantedToAdd
+            ).toCheckUserFriend()
+        } else {
+            Log.i("FRIEND","adding friend")
+            socialRepository.addFriend(
+                myUserId = fetchUserIdUseCase(),
+                userIdWantedToAdd = userIdWantedToAdd
+            ).toCheckUserFriend()
+        }
+
     }
 }

@@ -36,7 +36,6 @@ class ProfileViewModel @Inject constructor(
     private val fetchPosts: FetchPostsUseCase,
     private val fetchUserId: FetchUserIdUseCase,
     private val addFriend: AddFriendUseCase,
-    private val removeFriend: RemoveFriendUseCase,
     private val checkUserIsFriend: CheckUserIsFriendUseCase,
     private val logout: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
@@ -157,24 +156,16 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickAddFriend(friendId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (_state.value.isRequestExists.not()) {
-                _state.update { it.copy(isRequestExists = true) }
-                val result = addFriend(friendId)
-                _state.update {
-                    it.copy(
-                        isRequestExists = result.requestExists,
-                        isFriend = result.isFriend
-                    )
-                }
-            } else {
-                _state.update { it.copy(isFriend = false) }
-                val result = removeFriend(friendId)
-                _state.update {
-                    it.copy(
-                        isRequestExists = result.requestExists,
-                        isFriend = result.isFriend
-                    )
-                }
+            _state.update { it.copy(
+                isRequestExists = _state.value.isRequestExists.not(),
+                isFriend = _state.value.isFriend.not(),
+            ) }
+            val result = addFriend(friendId,_state.value.isRequestExists.not())
+            _state.update {
+                it.copy(
+                    isRequestExists = result.requestExists,
+                    isFriend = result.isFriend
+                )
             }
 
         }
@@ -183,7 +174,6 @@ class ProfileViewModel @Inject constructor(
     fun onClickLogout() {
         viewModelScope.launch(Dispatchers.IO) {
             logout()
-            _state.update { it.copy(isLogout = true) }
         }
     }
 
