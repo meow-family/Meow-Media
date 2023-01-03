@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.data.remote.service.apiService
 import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.LoginDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
+import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentAddDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
@@ -252,7 +253,7 @@ interface SocialService {
         @Query("subject_guid") postId: Int,
         @Query("comment") comment: String,
         @Query("uguid") userId: Int
-    ): BaseResponse<CommentDto>
+    ): BaseResponse<CommentAddDto>
     //endregion
 
     //region Photo
