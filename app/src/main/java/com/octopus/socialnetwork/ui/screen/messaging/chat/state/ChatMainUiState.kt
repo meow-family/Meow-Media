@@ -9,4 +9,8 @@ data class ChatMainUiState(
     val message: String = "",
     val fullName: String = "",
     val profileAvatar: String = "",
+    val isPagerLoading: Boolean = false,
+    val isEndOfPager: Boolean = false,
+    val error: String = "",
+    val pagerError: String = "",
 )
