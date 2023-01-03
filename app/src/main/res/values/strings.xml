@@ -127,4 +127,9 @@
     <string name="image">Image</string>
     <string name="email_app_not_found">you don`t have an email app</string>
 
+    <string name="delete_post">Delete the post!</string>
+    <string name="confirm_delete_post">Meow Meow! Are you sure that you want to delete this post?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

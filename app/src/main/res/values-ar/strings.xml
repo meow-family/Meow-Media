@@ -115,8 +115,8 @@
     <string name="image_post">صور المنشور </string>
     <string name="back">رجوع</string>
 
-    <string name="image_post_rejected">تم دفض صوره المنشور</string>
-    <string name="image_post_rejected_description">الصوره يجب ان تتضمن صوره</string>
+    <string name="image_post_rejected">تم رفض صوره المنشور</string>
+    <string name="image_post_rejected_description">الصوره يجب ان تتضمن قط</string>
 
 
     <string name="no_items">يبدو انه لا توجد عناصر meows هنا!</string>
@@ -128,5 +128,10 @@
     <string name="remove_friend">أزالة صديق</string>
     <string name="image">Image</string>
     <string name="email_app_not_found">you don`t have an email app</string>
+
+    <string name="delete_post">حذف المنشور!</string>
+    <string name="confirm_delete_post">ميو ميو! هل انت متأكد انك تريد حذف هذا المنشور؟</string>
+    <string name="yes">نعم</string>
+    <string name="cancel">الغاء</string>
 
 </resources>

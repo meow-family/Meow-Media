@@ -1,22 +1,19 @@
 package com.octopus.socialnetwork.ui.screen.post
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -39,6 +38,8 @@ import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
 import com.octopus.socialnetwork.ui.util.Constants
+import kotlinx.coroutines.delay
+
 
 @Composable
 fun PostScreen(
@@ -57,10 +58,12 @@ fun PostScreen(
             )
         },
         onShare = { },
+        onClickDelete = viewModel::onClickDelete,
         onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun PostContent(
     state: PostMainUiState,
@@ -68,8 +71,13 @@ private fun PostContent(
     onClickLike: () -> Unit,
     onComment: () -> Unit,
     onShare: () -> Unit,
+    onClickDelete: (Int) -> Unit,
     onClickTryAgain: () -> Unit
 ) {
+
+    var isDeletionDialogVisible by remember { mutableStateOf(false) }
+    var isAgreeDeletion by remember { mutableStateOf(false) }
+    val changeDeletionDialogVisibility = { isDeletionDialogVisible = !isDeletionDialogVisible }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -94,8 +102,36 @@ private fun PostContent(
                     modifier = Modifier.size(20.dp).padding(start = 4.dp)
                 )
             }
-
         }
+
+        if (state.isMyPost) {
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 24.dp)
+                    .clip(CircleShape)
+                    .background(color = LightBlack_65)
+                    .zIndex(1f)
+                    .size(32.dp)
+                    .align(alignment = Alignment.TopEnd)
+            ) {
+                IconButton(
+                    onClick = {
+                        isDeletionDialogVisible = !isDeletionDialogVisible
+                        Log.i("CHECK_ID", "in in delete icon " +
+                                " ---------- isDialogVisible : $isDeletionDialogVisible" +
+                                " ---------- isAgree: $isAgreeDeletion")
+                    },
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_delete),
+                        contentDescription = stringResource(id = R.string.icon_arrow_back),
+                        tint = White50,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+
 
         if (state.isLoading) {
             LottieLoading()
@@ -150,9 +186,40 @@ private fun PostContent(
             )
         }
 
-
     }
 
+    AnimatedVisibility(
+        visible = isDeletionDialogVisible,
+        enter = scaleIn(animationSpec = tween(200)),
+        exit = scaleOut(animationSpec = tween(200)),
+    ) {
+        Dialog(
+            onDismissRequest = { isDeletionDialogVisible = !isDeletionDialogVisible },
+            properties = DialogProperties(dismissOnClickOutside = false)
+        ) {
+            DeletionDialog(
+                title = stringResource(R.string.delete_post),
+                description = stringResource(R.string.confirm_delete_post),
+                iconId = R.drawable.ic_hide_image,
+                onClickPrimaryAction = {
+                    isAgreeDeletion = !isAgreeDeletion
+                    isDeletionDialogVisible = !isDeletionDialogVisible
+                    onClickDelete(state.postDetails.postId)
+                    Log.i("CHECK_ID", "in in yes button " +
+                            " ---------- isDialogVisible : $isDeletionDialogVisible" +
+                            " ---------- isAgree: $isAgreeDeletion")
+                },
+                onClickCancel = changeDeletionDialogVisibility
+            )
+        }
+    }
 
+    if(isAgreeDeletion){ LottieLoading() }
+
+    LaunchedEffect(key1 = isAgreeDeletion) {
+        if (isAgreeDeletion) {
+            delay(3000)
+            onClickBack()
+        }
+    }
 }
-
