@@ -33,7 +33,7 @@ fun ImageWithShadow(imageUrl: String? = null, painter: Painter? = null, modifier
             Image(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.LightGray),
+                    .background(color = MaterialTheme.colors.background),
                 painter = painter,
                 contentScale =  ContentScale.Crop,
                 contentDescription = stringResource(R.string.background),

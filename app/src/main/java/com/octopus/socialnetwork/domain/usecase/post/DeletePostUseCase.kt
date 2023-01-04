@@ -10,6 +10,7 @@ class DeletePostUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(postId: Int) {
         socialRepository.deletePost(postId, fetchUserIdUseCase())
+        socialRepository.deletePostFromDB(postId)
     }
 
 }

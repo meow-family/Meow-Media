@@ -263,6 +263,10 @@ class SocialRepositoryImpl @Inject constructor(
     override suspend fun insertPosts(posts: List<PostEntity>) {
         postsDao.insertPosts(posts)
     }
+
+    override suspend fun deletePostFromDB(postId: Int) {
+        postsDao.deletePost(postId)
+    }
     //endregion
 
 }

@@ -37,7 +37,6 @@ fun DeletionDialog(
                 painter = painterResource(id = iconId),
                 modifier = Modifier.padding(top = spacingLarge).height(70.dp).fillMaxWidth(),
                 contentScale = ContentScale.Fit,
-                colorFilter = ColorFilter.tint(color = Color.Gray),
                 contentDescription = stringResource(R.string.icon),
             )
 
@@ -67,7 +66,7 @@ fun DeletionDialog(
             ) {
 
                 OutlinedButton(
-                    onClick = { onClickCancel() },
+                    onClick = onClickCancel,
                     modifier = Modifier.padding(horizontal = spacing).weight(1f)
                 ) {
                     Text(
@@ -79,7 +78,7 @@ fun DeletionDialog(
 
 
                 Button(
-                    onClick = { onClickPrimaryAction() },
+                    onClick = onClickPrimaryAction,
                     modifier = Modifier.padding(horizontal = spacing).weight(1f)
                 ) {
                     Text(
