@@ -1,5 +1,6 @@
 package com.octopus.socialnetwork.data.repository.messaging
 
+import com.octopus.socialnetwork.data.local.entity.ConversationEntity
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageDto
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageResponse
 import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageNotificationDto
@@ -27,5 +28,9 @@ interface MessagingRepository {
 
     fun onReceiveNotification(): Flow<NotificationData>
 
+
+    suspend fun insertConversations(conversations: List<ConversationEntity>)
+    fun getAllConversations() :Flow<List<ConversationEntity>>
+    suspend fun updateConversation(friendId:Int, message: String, time:String)
 
 }

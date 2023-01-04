@@ -7,15 +7,11 @@ import com.octopus.socialnetwork.domain.usecase.messages.conversations.GetRecent
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.mapper.toConversationUiState
-import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationsMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,10 +47,7 @@ class ConversationsViewModel @Inject constructor(
                     it.copy(
                         messages = it.messages.map {
                             if (it.otherUser.userId == message.friendId) {
-                                it.copy(
-                                    lastSendTime = message.time,
-                                    lastMessage = message.message
-                                )
+                                it.copy(lastSendTime = message.time, lastMessage = message.message)
                             } else {
                                 it
                             }
@@ -70,13 +63,17 @@ class ConversationsViewModel @Inject constructor(
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages = fetchRecentMessages().map { it.toConversationUiState() }
-                _state.update {
-                    it.copy(
-                        isFail = false, isLoading = false, messages = recentMessages,
-                        isSuccess = true
-                    )
-                }
+                val recentMessages =
+                    fetchRecentMessages().map { it.map { it.toConversationUiState() } }
+                        .collect { recentMessages ->
+                            Log.i("MESSAGING","recent messages are with users ${recentMessages.map { it.otherUser.userId }}")
+                            _state.update {
+                                it.copy(
+                                    isFail = false, isLoading = false, messages = recentMessages,
+                                    isSuccess = true
+                                )
+                            }
+                        }
             } catch (e: Exception) {
                 Log.i("TESTING", "$e was catched! in ${this.javaClass.simpleName}")
                 _state.update { it.copy(isLoading = false, isFail = true) }

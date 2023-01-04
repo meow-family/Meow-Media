@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.data.local.dao.ConversationDao
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
@@ -26,6 +27,7 @@ class ChatViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val sendMessage: SendMessagesUseCase,
     private val receiveMessageUseCase: ReceiveMessageUseCase,
+    private val conversationDao /* for test */ : ConversationDao,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -53,7 +55,11 @@ class ChatViewModel @Inject constructor(
                             lastSendTime = message.time,
                             isSentByMe = false
                         )
-
+                        conversationDao.updateConversation(
+                            message.friendId,
+                            message.message,
+                            message.time
+                        )
                         _state.update { it.copy(messages = it.messages + receivedMessage) }
                     }
                 }
