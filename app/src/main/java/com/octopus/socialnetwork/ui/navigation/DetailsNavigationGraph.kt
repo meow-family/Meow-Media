@@ -1,7 +1,5 @@
 package com.octopus.socialnetwork.ui.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
@@ -16,7 +14,6 @@ import com.octopus.socialnetwork.ui.screen.post.postRoute
 import com.octopus.socialnetwork.ui.screen.profile.userProfileRoute
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.detailsNavigationGraph(navController: NavHostController) {
     navigation(
         startDestination = ROUTE_NOTIFICATION,

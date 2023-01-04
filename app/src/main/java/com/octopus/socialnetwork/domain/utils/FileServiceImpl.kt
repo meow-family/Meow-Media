@@ -2,9 +2,7 @@ package com.octopus.socialnetwork.domain.utils
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.provider.OpenableColumns
-import androidx.annotation.RequiresApi
 import com.google.mlkit.vision.common.InputImage
 import java.io.File
 import java.io.FileOutputStream
@@ -18,19 +16,11 @@ class FileServiceImpl @Inject constructor(
         return InputImage.fromFilePath(context, uri)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun openFile(fileUri: Uri): File {
-        var fileName = ""
 
-        fileUri.let { returnUri ->
-            context.contentResolver.query(returnUri, null, null, null)
-        }?.use { cursor ->
-            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            cursor.moveToFirst()
-            fileName = cursor.getString(nameIndex)
-        }
+    override fun openFile(uri: Uri): File {
+        val fileName = uri.getFileName(context).toString()
 
-        val iStream = context.contentResolver.openInputStream(fileUri)!!
+        val iStream = context.contentResolver.openInputStream(uri)!!
         val outputDir = context.cacheDir!!
 
         val outputFile = File(outputDir, fileName)
@@ -53,5 +43,13 @@ class FileServiceImpl @Inject constructor(
                 output.flush()
             }
         }
+    }
+    private fun Uri.getFileName(context: Context): String? {
+        return context.contentResolver.query(this, null, null, null, null)?.use {
+            val nameColumnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            it.moveToFirst()
+            it.getString(nameColumnIndex)
+        }
+
     }
 }

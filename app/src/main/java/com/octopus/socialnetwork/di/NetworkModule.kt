@@ -6,7 +6,6 @@ import com.octopus.socialnetwork.data.remote.interceptor.DdosInterceptor
 import com.octopus.socialnetwork.data.remote.service.apiService.SocialService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService
 import com.octopus.socialnetwork.data.remote.service.fcm.CloudMessagingService.Companion.FCM_BASE_URL
-import com.simplemented.okdelay.DelayInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

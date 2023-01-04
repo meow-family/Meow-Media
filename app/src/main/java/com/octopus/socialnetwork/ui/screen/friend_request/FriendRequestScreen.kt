@@ -92,7 +92,7 @@ private fun FriendRequestContent(
                     items(state.requests) {
                         UserDetailsItem(
                             state = it,
-                            friendRequest = true,
+                            userRelationUiState = UserRelationUiState.REQUESTED,
                             onClickAccept = onClickAccept,
                             onClickDecline = onClickDecline,
                             onClickItem = onClickRequest

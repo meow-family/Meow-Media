@@ -1,8 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -99,7 +97,7 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun onClickChangeImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -110,7 +108,6 @@ class EditProfileViewModel @Inject constructor(
             }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
     fun changeCoverImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
