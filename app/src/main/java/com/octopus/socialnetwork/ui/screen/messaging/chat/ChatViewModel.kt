@@ -48,7 +48,14 @@ class ChatViewModel @Inject constructor(
                         "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
                     )
                     if (message.friendId == args.friendId.toInt()) {
-                        getMessagesWithUser(message.friendId)
+                        _state.update {
+                            it.copy(
+                                isFail = false,
+                                isLoading = false,
+                                isSuccess = true,
+                                messages = it.messages + ChatUiState(message = message.message, lastSendTime = message.time, isSentByMe = false),
+                            )
+                        }
                     }
                 }
             }catch (e: Exception) {
