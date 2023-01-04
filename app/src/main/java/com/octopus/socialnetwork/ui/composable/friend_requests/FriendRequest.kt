@@ -26,7 +26,7 @@ fun FriendRequest(
     ) {
         FriendRequestButton(
             text = stringResource(id = R.string.decline),
-            onClick = onClickAccept,
+            onClick = onClickDecline,
             borderStroke = BorderStroke(0.5.dp, color = MaterialTheme.colors.primary),
             backgroundColor = MaterialTheme.colors.background,
             textColor = MaterialTheme.colors.primary
@@ -34,7 +34,7 @@ fun FriendRequest(
         SpaceHorizontally8dp()
         FriendRequestButton(
             text = stringResource(id = R.string.Accept),
-            onClick = onClickDecline,
+            onClick = onClickAccept,
             borderStroke = BorderStroke(0.dp, color = MaterialTheme.colors.primary),
             backgroundColor = MaterialTheme.colors.primary,
             textColor = MaterialTheme.colors.onPrimary
