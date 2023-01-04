@@ -3,7 +3,9 @@ package com.octopus.socialnetwork.ui.screen.post
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.like.ToggleLikeUseCase
+import com.octopus.socialnetwork.domain.usecase.post.DeletePostUseCase
 import com.octopus.socialnetwork.domain.usecase.post.FetchPostDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
@@ -18,7 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val fetchPostDetails: FetchPostDetailsUseCase,
-        private val toggleLike: ToggleLikeUseCase,
+    private val toggleLike: ToggleLikeUseCase,
+    private val deletePost: DeletePostUseCase,
+    private val fetchUserId: FetchUserIdUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -35,7 +39,8 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val post = fetchPostDetails(args.postId.toInt()).toPostUiState()
-                _state.update { it.copy(isLoading = false, isError = false, postDetails = post) }
+                _state.update { it.copy(isLoading = false, isError = false, postDetails = post,
+                isMyPost = fetchUserId() == args.postOwnerId.toInt() ) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -75,6 +80,17 @@ class PostViewModel @Inject constructor(
 
     fun onClickShare() {
         //
+    }
+
+    fun onClickDelete(postId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                deletePost(postId)
+                _state.update { it.copy(isLoading = false, isError = false) }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+        }
     }
 
     fun onClickTryAgain() {
