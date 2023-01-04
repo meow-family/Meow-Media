@@ -7,6 +7,7 @@ import com.octopus.socialnetwork.domain.usecase.messages.conversations.GetRecent
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.search.SearchUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.mapper.toConversationUiState
+import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationUiState
 import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.ConversationsMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +47,21 @@ class ConversationsViewModel @Inject constructor(
                     "TESTING",
                     "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
                 )
-                getMessagesDetails()
+                _state.update {
+                    it.copy(
+                        messages = it.messages.map {
+                            if (it.otherUser.userId == message.friendId) {
+                                it.copy(
+                                    lastSendTime = message.time,
+                                    lastMessage = message.message
+                                )
+                            } else {
+                                it
+                            }
+                        }
+                    )
+
+                }
             }
 
         }

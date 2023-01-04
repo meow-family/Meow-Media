@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
-import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
+import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
@@ -48,18 +48,17 @@ class ChatViewModel @Inject constructor(
                         "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
                     )
                     if (message.friendId == args.friendId.toInt()) {
-                        _state.update {
-                            it.copy(
-                                isFail = false,
-                                isLoading = false,
-                                isSuccess = true,
-                                messages = it.messages + ChatUiState(message = message.message, lastSendTime = message.time, isSentByMe = false),
-                            )
-                        }
+                        val receivedMessage = ChatUiState(
+                            message = message.message,
+                            lastSendTime = message.time,
+                            isSentByMe = false
+                        )
+
+                        _state.update { it.copy(messages = it.messages + receivedMessage) }
                     }
                 }
-            }catch (e: Exception) {
-                Log.i("MESSAGING","catched this exception $e")
+            } catch (e: Exception) {
+                Log.i("MESSAGING", "catched this exception $e")
             }
 
         }
