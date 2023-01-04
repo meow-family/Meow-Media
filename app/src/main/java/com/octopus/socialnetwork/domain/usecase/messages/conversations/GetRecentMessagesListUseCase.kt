@@ -1,8 +1,8 @@
 package com.octopus.socialnetwork.domain.usecase.messages.conversations
 
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
-import com.octopus.socialnetwork.domain.mapper.messages.toMessages
 import com.octopus.socialnetwork.domain.mapper.messages.toConversationsEntity
+import com.octopus.socialnetwork.domain.mapper.messages.toMessages
 import com.octopus.socialnetwork.domain.model.messages.Messages
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import kotlinx.coroutines.flow.Flow
@@ -16,18 +16,19 @@ class GetRecentMessagesListUseCase @Inject constructor(
     suspend operator fun invoke(): Flow<List<Messages>> {
         val userId = fetchUserIdUseCase()
 
-        val response = messagingRepository.getRecentMassagesList(userId)
-
-        messagingRepository.insertConversations(response.messages?.map {
-            it.toConversationsEntity(userId)
-        } ?: emptyList())
+        val cachedMessages =
+            messagingRepository.getAllConversations()
 
 
-        val messages = response.messages?.map {
-            it.toMessages(userId)
+        return try {
+            val response = messagingRepository.getRecentMassagesList(userId)
+            messagingRepository.insertConversations(response.messages?.map {
+                it.toConversationsEntity(userId)
+            } ?: emptyList())
+            cachedMessages.map { it.map { it.toMessages() } }
+        } catch (e: Exception) {
+            cachedMessages.map { it.map { it.toMessages() } }
         }
-
-        return messagingRepository.getAllConversations().map { it.map { it.toMessages() } }
 
     }
 }

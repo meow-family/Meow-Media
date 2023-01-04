@@ -42,6 +42,6 @@ fun ConversationEntity.toMessages() : Messages {
         message = lastMessage,
         time = Calendar.getInstance().time,
         isSentByMe = false,
-        otherUser = MessageUser()
+        otherUser = MessageUser(userId = friendId)
     )
 }
