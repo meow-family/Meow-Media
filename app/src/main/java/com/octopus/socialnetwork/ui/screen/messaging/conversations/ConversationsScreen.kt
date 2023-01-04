@@ -28,10 +28,10 @@ import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
 import com.octopus.socialnetwork.ui.composable.MessageItem
 import com.octopus.socialnetwork.ui.composable.SpacerVertical16
+import com.octopus.socialnetwork.ui.composable.friend_requests.UserDetailsItem
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
-import com.octopus.socialnetwork.ui.composable.search.SearchItem
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
 import com.octopus.socialnetwork.ui.composable.search.ShowSearchView
 import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
@@ -112,15 +112,22 @@ fun ConversationsContent(
                                 horizontalArrangement = Arrangement.Start,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                IconButton(onClick = onClickSearch, modifier = Modifier
-                                    .padding(start = spacingSmall).size(24.dp)) {
+                                IconButton(
+                                    onClick = onClickSearch, modifier = Modifier
+                                        .padding(start = spacingSmall)
+                                        .size(24.dp)
+                                ) {
                                     Icon(
                                         painter = painterResource(
-                                            id = R.drawable.ic_baseline_arrow_back_ios_24),
+                                            id = R.drawable.ic_baseline_arrow_back_ios_24
+                                        ),
                                         contentDescription = stringResource(
-                                            id = R.string.icon_arrow_back),
+                                            id = R.string.icon_arrow_back
+                                        ),
                                         tint = Color.Gray,
-                                        modifier = Modifier.size(24.dp).padding(start = 4.dp)
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .padding(start = 4.dp)
                                     )
                                 }
 
@@ -136,15 +143,21 @@ fun ConversationsContent(
 
                             SpacerVertical16()
 
-                            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp)
+                            ) {
 
                                 when {
                                     state.query.isEmpty() -> {
                                         item { LottieSearch() }
                                     }
+
                                     state.isLoading -> {
                                         item { LottieLoading() }
                                     }
+
                                     state.users.isEmpty() -> {
                                         item {
                                             ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp))
@@ -152,9 +165,10 @@ fun ConversationsContent(
                                     }
                                     else -> {
                                         items(state.users) { searchItem ->
-                                            SearchItem(
+                                            UserDetailsItem(
                                                 state = searchItem,
-                                                onClickItem = onClickMessage
+                                                onClickItem = onClickMessage,
+                                                hiddenChat = true
                                             )
                                         }
                                     }

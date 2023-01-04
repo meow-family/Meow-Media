@@ -13,8 +13,8 @@ fun NavController.navigateToRegister() {
 }
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
-fun NavGraphBuilder.registerRoute(navController: NavController) {
+fun NavGraphBuilder.registerRoute(navController: NavController, viewModel: RegisterViewModel) {
     composable(ROUTE) {
-        RegisterScreen(navController)
+        RegisterScreen(navController, viewModel)
     }
 }

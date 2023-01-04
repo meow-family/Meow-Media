@@ -26,6 +26,7 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.lotties.LottieSearch
 import com.octopus.socialnetwork.ui.composable.search.SearchViewItem
+import com.octopus.socialnetwork.ui.screen.messaging.chat.navigateToChat
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.screen.search.state.SearchUiState
 import com.octopus.socialnetwork.ui.theme.outLine
@@ -38,6 +39,7 @@ fun SearchScreen(
     val state by viewModel.state.collectAsState()
     SearchContent(
         state = state,
+        onClickMessage = navController::navigateToChat,
         onChangeTypingSearch = viewModel::onChangeQuery,
         onClickItem = { navController.navigateToUserProfileScreen(it) },
         onClickTryAgain = viewModel::onClickTryAgain
@@ -50,6 +52,7 @@ private fun SearchContent(
     state: SearchUiState,
     onChangeTypingSearch: (String) -> Unit,
     onClickItem: (Int) -> Unit,
+    onClickMessage: (Int) -> Unit,
     onClickTryAgain: (String) -> Unit,
 ) {
     Column(
@@ -86,6 +89,7 @@ private fun SearchContent(
                             UserDetailsItem(
                                 state = searchItem,
                                 onClickItem = onClickItem,
+                                onClickMessage = onClickMessage
                             )
 
                         }
