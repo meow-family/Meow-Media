@@ -44,6 +44,7 @@ fun UserDetailsItem(
     onClickAccept: (Int) -> Unit = {},
     onClickDecline: (Int) -> Unit = {},
     onClickRemoveFriend: (Int) -> Unit = {},
+    hiddenChat: Boolean = false
 ) {
     Row(
         modifier = Modifier
@@ -96,16 +97,17 @@ fun UserDetailsItem(
             }
 
             else -> {
-                CircleButton(
-                    modifier = Modifier
-                        .height(30.dp)
-                        .width(50.dp),
-                    onClick = { onClickMessage(state.userId) },
-                    iconModifier = Modifier.size(15.dp),
-                    shape = Shapes.medium,
-                    idIconResource = R.drawable.massage,
-                    idTitleResource = R.string.send_message
-                )
+                if (!hiddenChat)
+                    CircleButton(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .width(50.dp),
+                        onClick = { onClickMessage(state.userId) },
+                        iconModifier = Modifier.size(15.dp),
+                        shape = Shapes.medium,
+                        idIconResource = R.drawable.massage,
+                        idTitleResource = R.string.send_message
+                    )
             }
         }
 
