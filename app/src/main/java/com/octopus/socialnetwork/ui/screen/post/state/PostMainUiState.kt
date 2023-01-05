@@ -5,4 +5,6 @@ data class PostMainUiState(
     val isError: Boolean = false,
     val postDetails: PostUiState = PostUiState(),
     val isMyPost: Boolean = false,
+    val isDeletionDialogVisible: Boolean = false,
+    val isAgreeDeletion: Boolean = false,
 )

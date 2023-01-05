@@ -82,16 +82,30 @@ class PostViewModel @Inject constructor(
         //
     }
 
+    private fun setLoading(loadingState: Boolean) {
+        _state.update { it.copy(isLoading = loadingState, isError = false) }
+    }
+
+    fun changeDeletionDialogVisibility() {
+        _state.update { it.copy(isDeletionDialogVisible = !it.isDeletionDialogVisible) }
+    }
+
+    fun changeAgreeDeletionState() {
+        _state.update { it.copy(isAgreeDeletion = !it.isAgreeDeletion) }
+    }
+
     fun onClickDelete(postId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                setLoading(true)
                 deletePost(postId)
-                _state.update { it.copy(isLoading = false, isError = false) }
+                setLoading(false)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
         }
     }
+
 
     fun onClickTryAgain() {
         getPostDetails()

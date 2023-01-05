@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.post
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -27,6 +26,7 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.composable.LoadingDialog
 import com.octopus.socialnetwork.ui.composable.backgroundTextShadow
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
@@ -38,7 +38,6 @@ import com.octopus.socialnetwork.ui.screen.post.state.PostMainUiState
 import com.octopus.socialnetwork.ui.theme.LightBlack_65
 import com.octopus.socialnetwork.ui.theme.White50
 import com.octopus.socialnetwork.ui.util.Constants
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -59,7 +58,9 @@ fun PostScreen(
         },
         onShare = { },
         onClickDelete = viewModel::onClickDelete,
-        onClickTryAgain = viewModel::onClickTryAgain
+        onClickTryAgain = viewModel::onClickTryAgain,
+        changeDeletionDialogVisibility = viewModel::changeDeletionDialogVisibility,
+        changeAgreeDeletionState = viewModel::changeAgreeDeletionState,
     )
 }
 
@@ -72,12 +73,10 @@ private fun PostContent(
     onComment: () -> Unit,
     onShare: () -> Unit,
     onClickDelete: (Int) -> Unit,
-    onClickTryAgain: () -> Unit
+    onClickTryAgain: () -> Unit,
+    changeDeletionDialogVisibility: () -> Unit,
+    changeAgreeDeletionState: () -> Unit,
 ) {
-
-    var isDeletionDialogVisible by remember { mutableStateOf(false) }
-    var isAgreeDeletion by remember { mutableStateOf(false) }
-    val changeDeletionDialogVisibility = { isDeletionDialogVisible = !isDeletionDialogVisible }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -115,12 +114,7 @@ private fun PostContent(
                     .align(alignment = Alignment.TopEnd)
             ) {
                 IconButton(
-                    onClick = {
-                        isDeletionDialogVisible = !isDeletionDialogVisible
-                        Log.i("CHECK_ID", "in in delete icon " +
-                                " ---------- isDialogVisible : $isDeletionDialogVisible" +
-                                " ---------- isAgree: $isAgreeDeletion")
-                    },
+                    onClick = changeDeletionDialogVisibility,
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
@@ -141,33 +135,33 @@ private fun PostContent(
             PostImage(postImage = state.postDetails.postImage)
         }
 
-            Card(
-                modifier = Modifier
-                    .height(210.dp)
-                    .align(alignment = Alignment.CenterEnd)
-                    .width(48.dp),
-                elevation = 0.dp,
-                shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-                backgroundColor = Color.Transparent,
-            ) {
-                InteractionGroup(
-                    interactions =
-                    listOf({
-                        InteractionLikeIcon(state.postDetails, onClickLike)
-                    }, {
-                        InteractionIcon(
-                            icon = R.drawable.ic_baseline_comment_24,
-                            count = state.postDetails.commentCount,
-                            onClick = onComment,
-                            tint = Color.White
-                        )
-                    }, {
-                        InteractionIcon(
-                            icon = R.drawable.ic_send,
-                            onClick = onShare, tint = Color.White
-                        )
-                    })
-                )
+        Card(
+            modifier = Modifier
+                .height(210.dp)
+                .align(alignment = Alignment.CenterEnd)
+                .width(48.dp),
+            elevation = 0.dp,
+            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+            backgroundColor = Color.Transparent,
+        ) {
+            InteractionGroup(
+                interactions =
+                listOf({
+                    InteractionLikeIcon(state.postDetails, onClickLike)
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_baseline_comment_24,
+                        count = state.postDetails.commentCount,
+                        onClick = onComment,
+                        tint = Color.White
+                    )
+                }, {
+                    InteractionIcon(
+                        icon = R.drawable.ic_send,
+                        onClick = onShare, tint = Color.White
+                    )
+                })
+            )
 
         }
 
@@ -188,37 +182,33 @@ private fun PostContent(
 
     }
 
+    if (state.isLoading) { LoadingDialog() }
+
     AnimatedVisibility(
-        visible = isDeletionDialogVisible,
+        visible = state.isDeletionDialogVisible,
         enter = scaleIn(animationSpec = tween(200)),
         exit = scaleOut(animationSpec = tween(200)),
     ) {
         Dialog(
-            onDismissRequest = { isDeletionDialogVisible = !isDeletionDialogVisible },
+            onDismissRequest = changeDeletionDialogVisibility,
             properties = DialogProperties(dismissOnClickOutside = false)
         ) {
             DeletionDialog(
                 title = stringResource(R.string.delete_post),
                 description = stringResource(R.string.confirm_delete_post),
-                iconId = R.drawable.ic_hide_image,
+                iconId = R.drawable.ic_crying_cat_face,
                 onClickPrimaryAction = {
-                    isAgreeDeletion = !isAgreeDeletion
-                    isDeletionDialogVisible = !isDeletionDialogVisible
+                    changeDeletionDialogVisibility()
                     onClickDelete(state.postDetails.postId)
-                    Log.i("CHECK_ID", "in in yes button " +
-                            " ---------- isDialogVisible : $isDeletionDialogVisible" +
-                            " ---------- isAgree: $isAgreeDeletion")
+                    changeAgreeDeletionState()
                 },
                 onClickCancel = changeDeletionDialogVisibility
             )
         }
     }
 
-    if(isAgreeDeletion){ LottieLoading() }
-
-    LaunchedEffect(key1 = isAgreeDeletion) {
-        if (isAgreeDeletion) {
-            delay(3000)
+    LaunchedEffect(key1 = state.isAgreeDeletion) {
+        if (state.isAgreeDeletion) {
             onClickBack()
         }
     }
