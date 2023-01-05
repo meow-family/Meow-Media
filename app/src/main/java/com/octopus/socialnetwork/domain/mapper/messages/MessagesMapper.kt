@@ -6,8 +6,7 @@ import com.octopus.socialnetwork.data.remote.response.dto.messages.MessageUserDt
 import com.octopus.socialnetwork.domain.model.messages.MessageUser
 import com.octopus.socialnetwork.domain.model.messages.Messages
 import com.octopus.socialnetwork.domain.utils.toFormattedDate
-import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
-import java.util.Calendar
+import java.util.*
 
 fun MessageDto.toMessages(userId: Int): Messages {
     return Messages(
@@ -29,19 +28,22 @@ fun MessageUserDto.toMessageUser(): MessageUser {
 }
 
 fun MessageDto.toConversationsEntity(myUserId: Int): ConversationEntity {
+    val otherUser = if (messageSender?.userId == myUserId) messageReceiver?.toMessageUser()
+        ?: MessageUser() else messageSender?.toMessageUser() ?: MessageUser()
     return ConversationEntity(
         lastMessage = message ?: "",
-        friendId = if (messageSender?.userId == myUserId) messageReceiver?.toMessageUser()?.userId
-            ?: 0 else messageSender?.toMessageUser()?.userId ?: 0,
-        time = time.toFormattedDate().getHourAndMinutes(),
-        )
+        friendId = otherUser.userId,
+        friendName = otherUser.fullName,
+        avatar = otherUser.avatar,
+        time = this.time ?: Calendar.getInstance().time.time,
+    )
 }
 
-fun ConversationEntity.toMessages() : Messages {
+fun ConversationEntity.toMessages(): Messages {
     return Messages(
         message = lastMessage,
-        time = Calendar.getInstance().time,
+        time = Date(time),
         isSentByMe = false,
-        otherUser = MessageUser(userId = friendId)
+        otherUser = MessageUser(userId = friendId, fullName = friendName, avatar = avatar)
     )
 }
