@@ -1,6 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.friend_request
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
@@ -21,7 +20,6 @@ class FriendRequestViewModel @Inject constructor(
     private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
     private val addFriend: AddFriendUseCase,
     private val removeFriend: RemoveFriendUseCase,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FriendRequestUiState())

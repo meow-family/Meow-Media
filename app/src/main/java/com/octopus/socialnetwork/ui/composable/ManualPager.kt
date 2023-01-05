@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments
+package com.octopus.socialnetwork.ui.composable
 
 import android.util.Log
 import androidx.compose.foundation.background

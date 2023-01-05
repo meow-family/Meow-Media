@@ -20,6 +20,7 @@ import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
 import com.octopus.socialnetwork.ui.composable.Divider
 import com.octopus.socialnetwork.ui.composable.ImageForEmptyList
+import com.octopus.socialnetwork.ui.composable.ManualPager
 import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.comment.TypingField
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError

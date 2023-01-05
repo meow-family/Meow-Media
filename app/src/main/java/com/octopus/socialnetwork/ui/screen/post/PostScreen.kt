@@ -53,10 +53,9 @@ fun PostScreen(
         onComment = {
             navController.navigateToCommentsScreen(
                 postId = state.postDetails.postId,
-                type = Constants.COMMENT_TYPE
+                type = Constants.POST
             )
         },
-        onShare = { },
         onClickDelete = viewModel::onClickDelete,
         onClickTryAgain = viewModel::onClickTryAgain,
         changeDeletionDialogVisibility = viewModel::changeDeletionDialogVisibility,
@@ -71,7 +70,6 @@ private fun PostContent(
     onClickBack: () -> Unit,
     onClickLike: () -> Unit,
     onComment: () -> Unit,
-    onShare: () -> Unit,
     onClickDelete: (Int) -> Unit,
     onClickTryAgain: () -> Unit,
     changeDeletionDialogVisibility: () -> Unit,
@@ -154,11 +152,6 @@ private fun PostContent(
                         count = state.postDetails.commentCount,
                         onClick = onComment,
                         tint = Color.White
-                    )
-                }, {
-                    InteractionIcon(
-                        icon = R.drawable.ic_send,
-                        onClick = onShare, tint = Color.White
                     )
                 })
             )

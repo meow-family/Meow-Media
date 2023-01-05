@@ -11,9 +11,10 @@ import com.octopus.socialnetwork.ui.screen.messaging.conversations.uistate.Conve
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,21 +22,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ConversationsViewModel @Inject constructor(
     private val fetchRecentMessages: GetRecentMessagesListUseCase,
-    private val search: SearchUseCase,
+    private val searchUser: SearchUseCase,
     private val receiveMessage: ReceiveMessageUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ConversationsMainUiState())
     val state = _state.asStateFlow()
-    private val query = MutableStateFlow("")
 
 
     init {
         getMessagesDetails()
         onReceiveMessage()
-        viewModelScope.launch(Dispatchers.IO) {
-            search()
-        }
     }
 
 
@@ -76,31 +73,29 @@ class ConversationsViewModel @Inject constructor(
 
     fun onChangeText(newValue: String) {
         _state.update { it.copy(query = newValue) }
-        viewModelScope.launch {
-            query.emit(newValue)
-        }
+        search()
     }
 
-    private suspend fun search() {
-        query.debounce(1500).collect { query ->
-            if (_state.value.isSearchVisible && query.isNotEmpty()) {
-                try {
-                    val searchResult =
-                        search(query = query).searchResults.map { it.toUserDetailsUiState() }
-                    _state.update { searchUiState ->
-                        searchUiState.copy(
-                            users = searchResult,
-                            isLoading = false,
-                            isFail = false,
-                        )
-                    }
-                } catch (e: Exception) {
-                    _state.update { it.copy(isLoading = false, isFail = true) }
+    private var searchJob: Job? = null
+    private fun search() {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(1000)
+            try {
+                val searchResults = searchUser(query = _state.value.query).users.map {
+                    it.toUserDetailsUiState()
                 }
+                _state.update { searchUiState ->
+                    searchUiState.copy(
+                        users = searchResults,
+                        isLoading = false,
+                        isFail = false,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isFail = true) }
             }
-
         }
-
     }
 
     fun onClickTryAgain() {

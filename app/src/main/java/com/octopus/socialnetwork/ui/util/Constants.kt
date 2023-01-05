@@ -3,7 +3,7 @@ package com.octopus.socialnetwork.ui.util
 object Constants {
     const val ITEMS_PER_PAGE = 10
     const val LIKE_TYPE = "annotation"
-    const val COMMENT_TYPE = "post"
+    const val POST = "post"
 
     object NotificationsTypes {
         const val LIKE_POST = "like:post"

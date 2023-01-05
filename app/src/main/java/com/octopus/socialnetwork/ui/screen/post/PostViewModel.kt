@@ -77,11 +77,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-
-    fun onClickShare() {
-        //
-    }
-
     private fun setLoading(loadingState: Boolean) {
         _state.update { it.copy(isLoading = loadingState, isError = false) }
     }

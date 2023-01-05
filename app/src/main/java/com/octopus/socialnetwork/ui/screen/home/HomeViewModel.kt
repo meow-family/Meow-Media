@@ -11,6 +11,7 @@ import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriend
 import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.post.mapper.toPostUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
+import com.octopus.socialnetwork.ui.util.Constants.POST
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ class HomeViewModel @Inject constructor(
     fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean) {
         viewModelScope.launch {
             try {
-                toggleLike(postId, totalLikes, isLiked,"post")
+                toggleLike(postId, totalLikes, isLiked,POST)
                 _homeUiState.update { it.copy(isError = false) }
 
             } catch (e: Exception) {

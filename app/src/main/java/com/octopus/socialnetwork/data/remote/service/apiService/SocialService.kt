@@ -4,7 +4,6 @@ import com.octopus.socialnetwork.data.remote.response.base.BaseResponse
 import com.octopus.socialnetwork.data.remote.response.dto.auth.LoginDto
 import com.octopus.socialnetwork.data.remote.response.dto.auth.RegisterDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentAddDto
-import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentDto
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentResponse
 import com.octopus.socialnetwork.data.remote.response.dto.comment.CommentEditResponse
 import com.octopus.socialnetwork.data.remote.response.dto.like.LikeResponse

@@ -25,8 +25,6 @@ import com.octopus.socialnetwork.ui.theme.Red500
 @Composable
 fun LottieError(
     onClickTryAgain: () -> Unit = {},
-    queryText: String? = null,
-    onClickTryAgainWithArg: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_error_cat))
@@ -40,7 +38,7 @@ fun LottieError(
 
         Text(
             modifier = Modifier.padding(10.dp)
-                .clickable { if(queryText == null) onClickTryAgain() else onClickTryAgainWithArg(queryText) }
+                .clickable {  onClickTryAgain() }
                 .background(color = Color.Transparent, shape = RoundedCornerShape(24.dp))
                 .padding(horizontal = 16.dp, vertical = 4.dp),
             text = stringResource(id = R.string.try_again),

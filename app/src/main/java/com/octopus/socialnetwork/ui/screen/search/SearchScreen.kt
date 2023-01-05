@@ -53,7 +53,7 @@ private fun SearchContent(
     onChangeTypingSearch: (String) -> Unit,
     onClickItem: (Int) -> Unit,
     onClickMessage: (Int) -> Unit,
-    onClickTryAgain: (String) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -69,7 +69,7 @@ private fun SearchContent(
         SearchViewItem(query = state.query, onValueChange = onChangeTypingSearch)
 
         if (state.isError) {
-            LottieError(queryText = state.query, onClickTryAgainWithArg = onClickTryAgain)
+            LottieError( onClickTryAgain = onClickTryAgain)
         } else {
 
                 if (state.query.isEmpty()) {
