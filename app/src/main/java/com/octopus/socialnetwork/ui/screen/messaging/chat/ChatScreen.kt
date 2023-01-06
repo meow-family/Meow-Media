@@ -3,9 +3,7 @@ package com.octopus.socialnetwork.ui.screen.messaging.chat
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.*
-import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
@@ -72,29 +69,6 @@ fun ChatScreenContent(
         ) {
 
             ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
-
-//            LazyColumn(
-//                Modifier
-//                    .fillMaxWidth()
-//                    .weight(.1f),
-//                contentPadding = PaddingValues(16.dp),
-//                verticalArrangement = Arrangement.spacedBy(16.dp),
-//                state = listState
-//            ) {
-//
-//                if (state.messages.isEmpty()) {
-//                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-//                } else {
-//                    items(state.messages) { message ->
-//
-//                        if (message.isSentByMe) {
-//                            SentMessage(message)
-//                        } else {
-//                            ReceivedMessage(message)
-//                        }
-//                    }
-//                }
-//            }
 
             ManualPager(
                 onRefresh = onRefresh,

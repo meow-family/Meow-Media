@@ -9,7 +9,6 @@ import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseC
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
-import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
@@ -39,17 +38,17 @@ class ChatViewModel @Inject constructor(
 
 
     init {
-
         _state.update { it.copy(userId = args.friendId.toInt()) }
-        getMessagesWithUser(args.friendId.toInt())
+        swipeToRefresh()
         getUserInfo(args.friendId.toInt())
+        receiveMessage()
+    }
+
+    private fun receiveMessage() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 receiveMessageUseCase().collect { message ->
-                    Log.i(
-                        "MESSAGING",
-                        "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
-                    )
+
                     if (message.friendId == args.friendId.toInt()) {
                         val receivedMessage = ChatUiState(
                             message = message.message,
@@ -61,11 +60,12 @@ class ChatViewModel @Inject constructor(
                             message.message,
                             message.time
                         )
-                        _state.update { it.copy(messages = it.messages + receivedMessage) }
+                        val updatedMessages = _state.value.messages.reversed() + receivedMessage
+                        _state.update { it.copy(messages = updatedMessages.reversed() ) }
                     }
                 }
             } catch (e: Exception) {
-                Log.i("MESSAGING", "catched this exception $e")
+                Log.i("MESSAGING", "cached this exception $e")
             }
 
         }
@@ -75,29 +75,11 @@ class ChatViewModel @Inject constructor(
         _state.update { it.copy(message = newValue) }
     }
 
-    private fun getMessagesWithUser(friendId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val messages = getMessageList(friendId).map { it.toChatUiState() }
-                _state.update {
-                    it.copy(
-                        isFail = false, isLoading = false, isSuccess = true, messages = messages,
-                    )
-                }
-
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, isFail = true) }
-            }
-        }
-
-    }
-
     fun swipeToRefresh() {
         viewModelScope.launch {
             _state.update { it.copy(isPagerLoading = true, pagerError = "") }
             try {
-                val messages =
-                    getMessageList(args.friendId.toInt()).map { it.toChatUiState() }
+                val messages = getMessageList(args.friendId.toInt()).map { it.toChatUiState() }
                 _state.update {
                     it.copy(
                         isPagerLoading = false, isLoading = false,
@@ -105,7 +87,6 @@ class ChatViewModel @Inject constructor(
                         messages = (it.messages + messages),
                     )
                 }
-
             } catch (t: Throwable) {
                 _state.update {
                     it.copy(
@@ -145,8 +126,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
 
-                val updatedMessages =
-                    _state.value.messages.reversed() + ChatUiState(message = message)
+                val updatedMessages = _state.value.messages.reversed() + ChatUiState(message = message)
 
                 _state.update { it.copy(messages = updatedMessages.reversed()) }
 
@@ -161,7 +141,7 @@ class ChatViewModel @Inject constructor(
 
 
     fun onClickTryAgain() {
-        getMessagesWithUser(args.friendId.toInt())
+        swipeToRefresh()
         getUserInfo(args.friendId.toInt())
     }
 
