@@ -9,6 +9,7 @@ import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseC
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
+import com.octopus.socialnetwork.ui.screen.comments.mapper.toCommentDetailsUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
@@ -75,22 +76,49 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun getMessagesWithUser(friendId: Int) {
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
                 val messages = getMessageList(friendId).map { it.toChatUiState() }
                 _state.update {
                     it.copy(
-                        isFail = false,
-                        isLoading = false,
-                        isSuccess = true,
-                        messages = messages,
+                        isFail = false, isLoading = false, isSuccess = true, messages = messages,
                     )
                 }
+
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, isFail = true) }
             }
-        } catch (e: Exception) {
-            _state.update { it.copy(isLoading = false, isFail = true) }
         }
 
+    }
+
+    fun swipeToRefresh() {
+        viewModelScope.launch {
+            _state.update { it.copy(isPagerLoading = true, pagerError = "") }
+            try {
+                val messages =
+                    getMessageList(args.friendId.toInt()).map { it.toChatUiState() }
+                _state.update {
+                    it.copy(
+                        isPagerLoading = false, isLoading = false,
+                        isEndOfPager = messages.isEmpty(),
+                        messages = (it.messages + messages),
+                    )
+                }
+
+            } catch (t: Throwable) {
+                _state.update {
+                    it.copy(
+                        isPagerLoading = false, isLoading = false,
+                        pagerError = if (_state.value.messages.isNotEmpty()) t.message.toString() else "",
+                        error = if (_state.value.messages.isEmpty()) {
+                            t.message.toString()
+                        } else "",
+
+                        )
+                }
+            }
+        }
     }
 
     private fun getUserInfo(friendId: Int) {
@@ -114,19 +142,15 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun sendMessage(message: String) {
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
 
                 val updatedMessages =
-                    _state.value.messages + ChatUiState(message = message)
+                    _state.value.messages.reversed() + ChatUiState(message = message)
 
-                _state.update { it.copy(messages = updatedMessages) }
+                _state.update { it.copy(messages = updatedMessages.reversed()) }
 
                 sendMessage(args.friendId.toInt(), message)
-
-                getMessagesWithUser(args.friendId.toInt())
-
                 _state.update { it.copy(isLoading = false, isFail = false) }
 
             } catch (e: Exception) {

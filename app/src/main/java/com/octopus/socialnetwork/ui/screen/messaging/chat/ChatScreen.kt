@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -16,10 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.ui.composable.*
+import com.octopus.socialnetwork.ui.composable.comment.ItemComment
 import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
+import com.octopus.socialnetwork.ui.screen.comments.ManualPager
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
@@ -37,7 +40,8 @@ fun ChatScreen(
         onClickBack = { navController.popBackStack() },
         onClickSend = viewModel::onClickSend,
         onClickTryAgain = viewModel::onClickTryAgain,
-        onClickImage =  navController::navigateToUserProfileScreen
+        onClickImage = navController::navigateToUserProfileScreen,
+        onRefresh = viewModel::swipeToRefresh
     )
 }
 
@@ -48,13 +52,14 @@ fun ChatScreenContent(
     onClickBack: () -> Unit,
     onClickSend: () -> Unit,
     onClickImage: (Int) -> Unit,
-    onClickTryAgain: () -> Unit
-) {
+    onClickTryAgain: () -> Unit,
+    onRefresh: () -> Unit,
+    ) {
     val listState = rememberLazyListState()
 
     if (state.isLoading) {
         LottieLoading()
-    } else if (state.isFail ) {
+    } else if (state.isFail) {
         LottieError(onClickTryAgain)
     } else {
         Column(
@@ -68,24 +73,53 @@ fun ChatScreenContent(
 
             ChatScreenTopBar(state, onClickBack = onClickBack, onClickImage = onClickImage)
 
-            LazyColumn(
-                Modifier
+//            LazyColumn(
+//                Modifier
+//                    .fillMaxWidth()
+//                    .weight(.1f),
+//                contentPadding = PaddingValues(16.dp),
+//                verticalArrangement = Arrangement.spacedBy(16.dp),
+//                state = listState
+//            ) {
+//
+//                if (state.messages.isEmpty()) {
+//                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+//                } else {
+//                    items(state.messages) { message ->
+//
+//                        if (message.isSentByMe) {
+//                            SentMessage(message)
+//                        } else {
+//                            ReceivedMessage(message)
+//                        }
+//                    }
+//                }
+//            }
+
+            ManualPager(
+                onRefresh = onRefresh,
+                contentPadding = PaddingValues(16.dp),
+                reverseLayout = true,
+                isLoading = state.isPagerLoading,
+                error = state.pagerError,
+                isEndOfPager = state.isEndOfPager,
+                modifier = Modifier
                     .fillMaxWidth()
                     .weight(.1f),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                state = listState
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                if(state.messages.isEmpty()){
-                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
-                } else{
-                    items(state.messages) { message ->
 
-                        if (message.isSentByMe) {
-                            SentMessage(message)
-                        } else {
-                            ReceivedMessage(message)
+                if (state.messages.isEmpty()) {
+                    item { ImageForEmptyList(modifier = Modifier.padding(vertical = 100.dp)) }
+                } else {
+                    items(state.messages) { message ->
+                        if (state.error.isEmpty()) {
+                            if (message.isSentByMe) {
+                                SentMessage(message)
+                            } else {
+                                ReceivedMessage(message)
+                            }
                         }
                     }
                 }
@@ -100,7 +134,7 @@ fun ChatScreenContent(
 
     }
 
-    LaunchedEffect(key1 = state.isSuccess){
+    LaunchedEffect(key1 = state.isSuccess) {
         listState.animateScrollToItem(index = state.messages.lastIndexOrZero())
     }
 

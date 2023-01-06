@@ -41,7 +41,6 @@ class CommentsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 getPostComments(args.postId.toInt()).map { it.toCommentDetailsUiState() }
-                swipeToRefresh()
             } catch (t: Throwable) {
                 _state.update { it.copy(isError = true) }
             }

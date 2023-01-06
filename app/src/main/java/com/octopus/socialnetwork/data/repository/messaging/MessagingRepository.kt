@@ -22,7 +22,7 @@ interface MessagingRepository {
         markAllRead: Int,
     ): MessageResponse
 
-    suspend fun getMessages(myUserId: Int, friendId: Int): MessageResponse
+    suspend fun getMessages(myUserId: Int, friendId: Int,page: Int): MessageResponse
 
     suspend fun postNotification(notification: MessageNotificationDto): Boolean
 

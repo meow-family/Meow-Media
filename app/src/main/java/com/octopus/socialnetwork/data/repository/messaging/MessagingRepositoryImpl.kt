@@ -38,8 +38,8 @@ class MessagingRepositoryImpl @Inject constructor(
         return service.unreadMessages(messageSenderId, messageReceiverId, markAllRead).result
     }
 
-    override suspend fun getMessages(myUserId: Int, friendId: Int): MessageResponse {
-        return service.getMessagesList(myUserId, friendId).result
+    override suspend fun getMessages(myUserId: Int, friendId: Int, page: Int): MessageResponse {
+        return service.getMessagesList(myUserId, friendId, page).result
     }
 
 
