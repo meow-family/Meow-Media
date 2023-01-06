@@ -50,7 +50,7 @@ class FriendRequestViewModel @Inject constructor(
     fun onClickAccept(clickedUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = addFriend.invoke(clickedUserId).requestExists
+                val isRequestExists = addFriend.invoke(clickedUserId,false).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
@@ -61,7 +61,7 @@ class FriendRequestViewModel @Inject constructor(
     fun onClickDecline(clickedUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestExists = removeFriend.invoke(clickedUserId).requestExists
+                val isRequestExists = addFriend.invoke(clickedUserId,true).requestExists
                 removeRequestIfNotExists(isRequestExists,clickedUserId)
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }

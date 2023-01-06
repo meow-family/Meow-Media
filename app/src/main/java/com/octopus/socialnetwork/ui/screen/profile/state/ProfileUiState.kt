@@ -10,7 +10,6 @@ data class ProfileUiState(
     val isError: Boolean = false,
     val isMyProfile: Boolean = false,
     val isUserVisitor: Boolean = false,
-    val isLogout: Boolean = false,
     val userDetails: UserDetailsUiState = UserDetailsUiState(),
     val profilePosts: Flow<PagingData<ProfilePostUiState>> = emptyFlow(),
     val isFriend: Boolean = false,
