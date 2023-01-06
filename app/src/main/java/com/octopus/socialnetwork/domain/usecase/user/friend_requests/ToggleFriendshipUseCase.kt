@@ -7,7 +7,7 @@ import com.octopus.socialnetwork.domain.model.user.FriendValidator
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import javax.inject.Inject
 
-class AddFriendUseCase @Inject constructor(
+class ToggleFriendshipUseCase @Inject constructor(
     private val socialRepository: SocialRepository,
     private val fetchUserIdUseCase: FetchUserIdUseCase
 ) {

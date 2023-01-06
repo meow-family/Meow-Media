@@ -2,7 +2,7 @@ package com.octopus.socialnetwork.ui.screen.friend_request
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.ToggleFriendshipUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.FetchFriendRequestsListUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
 import com.octopus.socialnetwork.ui.screen.friend_request.state.FriendRequestUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FriendRequestViewModel @Inject constructor(
     private val fetchFriendRequestsList: FetchFriendRequestsListUseCase,
-    private val addFriend: AddFriendUseCase,
+    private val addFriend: ToggleFriendshipUseCase,
     private val removeFriend: RemoveFriendUseCase,
 ) : ViewModel() {
 

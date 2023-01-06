@@ -8,9 +8,8 @@ import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCas
 import com.octopus.socialnetwork.domain.usecase.authentication.logout.LogoutUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchPostsCountUseCase
 import com.octopus.socialnetwork.domain.usecase.user.FetchPostsUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.AddFriendUseCase
 import com.octopus.socialnetwork.domain.usecase.user.friend_requests.CheckUserIsFriendUseCase
-import com.octopus.socialnetwork.domain.usecase.user.friend_requests.RemoveFriendUseCase
+import com.octopus.socialnetwork.domain.usecase.user.friend_requests.ToggleFriendshipUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchFriendsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchMyProfileDetailsUseCase
 import com.octopus.socialnetwork.domain.usecase.user.user_details.FetchUserDetailsUseCase
@@ -21,7 +20,10 @@ import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.screen.profile.state.UserDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,7 +37,7 @@ class ProfileViewModel @Inject constructor(
     private val fetchPostsCount: FetchPostsCountUseCase,
     private val fetchPosts: FetchPostsUseCase,
     private val fetchUserId: FetchUserIdUseCase,
-    private val addFriend: AddFriendUseCase,
+    private val toggleFriendship: ToggleFriendshipUseCase,
     private val checkUserIsFriend: CheckUserIsFriendUseCase,
     private val logout: LogoutUseCase,
     savedStateHandle: SavedStateHandle,
@@ -156,18 +158,16 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickAddFriend(friendId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(
-                isRequestExists = _state.value.isRequestExists.not(),
-                isFriend = _state.value.isFriend.not(),
-            ) }
-            val result = addFriend(friendId,_state.value.isRequestExists.not())
             _state.update {
                 it.copy(
-                    isRequestExists = result.requestExists,
-                    isFriend = result.isFriend
+                    isRequestExists = _state.value.isRequestExists.not(),
+                    isFriend = _state.value.isFriend.not(),
                 )
             }
-
+            val result = toggleFriendship(friendId, _state.value.isRequestExists.not())
+            _state.update {
+                it.copy(isRequestExists = result.requestExists, isFriend = result.isFriend)
+            }
         }
     }
 
