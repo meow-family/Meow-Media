@@ -79,11 +79,21 @@ fun UserDetailsItem(
         )
         when (userRelationUiState) {
             UserRelationUiState.REQUESTED -> {
-
+                FriendRequest(
+                    onClickAccept = { onClickAccept(state.userId) },
+                    onClickDecline = { onClickDecline(state.userId) }
+                )
             }
 
             UserRelationUiState.IS_FRIEND -> {
-
+                FriendRequestButton(
+                    widthButton = 80.dp,
+                    text = stringResource(id = R.string.remove),
+                    onClick = { onClickRemoveFriend(state.userId) },
+                    borderStroke = BorderStroke(0.dp, color = MaterialTheme.colors.primary),
+                    backgroundColor = MaterialTheme.colors.primary,
+                    textColor = MaterialTheme.colors.onPrimary
+                )
             }
 
             else -> {

@@ -132,7 +132,7 @@ class ProfileViewModel @Inject constructor(
             val postsCount = fetchPostsCount(_state.value.userDetails.userId)
             _state.update {
                 it.copy(
-                    isError = false,
+                    isLoading = false, isError = false,
                     profilePosts = posts,
                     userDetails = it.userDetails.copy(postCount = postsCount.toString())
                 )

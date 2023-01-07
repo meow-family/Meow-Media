@@ -1,4 +1,4 @@
-package com.octopus.socialnetwork.ui.screen.comments
+    package com.octopus.socialnetwork.ui.screen.comments
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -75,10 +75,6 @@ private fun CommentsContent(
         if (state.isError) {
             LottieError(onClickTryAgain)
         }
-        if (state.comments.isEmpty()) {
-            ImageForEmptyList(modifier = Modifier.padding(vertical = 64.dp))
-        }
-
 
 
         ManualPager(
@@ -90,12 +86,14 @@ private fun CommentsContent(
             modifier = Modifier.fillMaxWidth().weight(.8f),
         ) {
 
-
+            if (state.comments.isEmpty()) {
+               item { ImageForEmptyList(modifier = Modifier.padding(vertical = 64.dp)) }
+            }
             itemsIndexed(state.comments) { index, comment ->
+
                 if (state.error.isEmpty()) {
                     ItemComment(state = comment, onLike = onClickLike)
                     if (index < state.comments.lastIndex) Divider()
-
                 }
             }
         }
