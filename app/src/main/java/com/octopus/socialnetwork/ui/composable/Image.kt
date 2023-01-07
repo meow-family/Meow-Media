@@ -47,14 +47,14 @@ fun ImageForEmptyList(
         Image(
             painter = painterResource(id = R.drawable.no_items),
             contentDescription = null,
-            modifier = Modifier.size(128.dp)
+            modifier = Modifier.size(80.dp)
 
         )
 
         Text(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             text = stringResource(id = textId),
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colors.onSecondary,
             textAlign = TextAlign.Center

@@ -144,7 +144,7 @@ private fun EditProfileContent(
                                 .size(20.dp)
                                 .zIndex(1f)
                                 .constrainAs(arrowBack) {
-                                    start.linkTo(circle.start, 8.dp)
+                                    start.linkTo(circle.start, 2.dp)
                                     top.linkTo(circle.top)
                                     bottom.linkTo(circle.bottom)
                                 }

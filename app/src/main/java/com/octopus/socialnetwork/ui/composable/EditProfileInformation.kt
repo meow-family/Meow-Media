@@ -2,11 +2,7 @@ package com.octopus.socialnetwork.ui.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -45,7 +41,7 @@ fun EditProfileInformation(
                 .align(alignment = Alignment.BottomCenter)
         ) {
             ProfileImage(
-                imageUrl = profileImage, modifier = Modifier
+                imageUrl = profileImage, modifier = Modifier.fillMaxSize()
                     .clip(CircleShape)
                     .border(1.dp, color = Color.LightGray, shape = CircleShape)
             )

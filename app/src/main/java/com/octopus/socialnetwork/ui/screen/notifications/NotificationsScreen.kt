@@ -99,15 +99,18 @@ private fun NotificationsContent(
 
         if (state.isLoading) {
             LottieLoading()
-        } else if (state.isError) {
+        }
+        if (state.isError) {
             LottieError(onClickTryAgain)
-        } else if (isEmptyFlow) {
+        }
+        if (isEmptyFlow) {
             ImageForEmptyList(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
                     .fillMaxSize()
             )
-        } else {
+        }
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -130,7 +133,7 @@ private fun NotificationsContent(
 
 
             }
-        }
+
 
 
     }

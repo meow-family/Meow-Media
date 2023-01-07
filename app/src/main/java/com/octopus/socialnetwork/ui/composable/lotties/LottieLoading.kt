@@ -28,7 +28,7 @@ fun LottieLoading(modifier: Modifier = Modifier) {
         LottieAnimation(
             composition = composition,
             iterations = Int.MAX_VALUE,
-            modifier = modifier.size(100.dp)
+            modifier = modifier.size(80.dp)
         )
     }
 }

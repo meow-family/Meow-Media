@@ -27,7 +27,7 @@ fun ProfilePostItem(
 
     Box(
         modifier = modifier
-            .height(130.dp).padding(horizontal = 8.dp )
+            .height(130.dp)
             .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
             .clip(shape = RoundedCornerShape(8.dp))
             .clickable { onClickPost(post.postId, post.postOwnerId) },

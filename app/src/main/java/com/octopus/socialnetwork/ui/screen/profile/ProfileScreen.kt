@@ -30,6 +30,7 @@ import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
 import com.octopus.socialnetwork.ui.screen.profile.state.ProfileUiState
 import com.octopus.socialnetwork.ui.theme.spacingExtraLarge
 import com.octopus.socialnetwork.ui.theme.spacingSmall
+import com.octopus.socialnetwork.ui.theme.spacingXSmall
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -90,17 +91,18 @@ private fun ProfileContent(
         ModalBottomSheetLayout(sheetState = sheetState,
             modifier = Modifier.padding(top = 20.dp),
             sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
+            sheetBackgroundColor = MaterialTheme.colors.background,
             sheetContent = {
                 Friends(state.friends, onClickItem, {})
             }) {
-
             LazyVerticalGrid(
                 modifier = Modifier
                     .background(MaterialTheme.colors.background)
                     .fillMaxSize(),
                 columns = GridCells.Fixed(3),
+                contentPadding = PaddingValues(spacingXSmall),
                 verticalArrangement = Arrangement.spacedBy(spacingSmall),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.spacedBy(spacingSmall)
             ) {
                 item(span = { GridItemSpan(3) }) {
                     Column(
