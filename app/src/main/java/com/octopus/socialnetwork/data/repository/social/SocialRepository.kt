@@ -31,6 +31,7 @@ interface SocialRepository {
     //region user
     suspend fun getUserDetails(visitedUserId: Int): UserDto
 
+
     suspend fun insertProfileDetails(userId: Int)
 
     suspend fun getMyProfileDetails(): Flow<UserEntity>
@@ -47,9 +48,10 @@ interface SocialRepository {
         myUserId: Int, firstName: String, lastName: String,
         email: String, currentPassword: String, newPassword: String
     ): UserDto
+    suspend fun removeFriendRequest(userID: Int, friendRequestID: Int): Boolean
 
     suspend fun addFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse
-    suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse
+   // suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse
     suspend fun getFriendRequests(myUserId: Int): FriendRequestsResponse
 
     //endregion

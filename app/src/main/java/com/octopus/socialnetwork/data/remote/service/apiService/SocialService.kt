@@ -25,10 +25,8 @@ import com.octopus.socialnetwork.data.remote.response.dto.user.FriendsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.PostsDto
 import com.octopus.socialnetwork.data.remote.response.dto.user.friend_requests.FriendRequestsResponse
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.Response
+import retrofit2.http.*
 
 interface SocialService {
 
@@ -57,6 +55,8 @@ interface SocialService {
     suspend fun getUserDetails(
         @Query("guid") visitedUserId: Int,
     ): BaseResponse<UserDto>
+
+
 
     @GET("user_friends")
     suspend fun getUserFriends(
@@ -116,10 +116,11 @@ interface SocialService {
         @Query("user_b") receiverUser: Int
     ): BaseResponse<FriendValidatorResponse>
 
+    @FormUrlEncoded
     @POST("user_remove_friend")
     suspend fun removeFriend(
-        @Query("user_a") senderUser: Int,
-        @Query("user_b") receiverUser: Int
+        @Field("user_a") userID: Int,
+        @Field("user_b") otherUserID: Int
     ): BaseResponse<FriendValidatorResponse>
 
     @GET("user_friend_requests")

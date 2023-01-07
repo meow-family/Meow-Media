@@ -110,8 +110,8 @@ class SocialRepositoryImpl @Inject constructor(
         return socialService.addFriend(myUserId, userIdWantedToAdd).result
     }
 
-    override suspend fun removeFriend(myUserId: Int, userIdWantedToAdd: Int): FriendValidatorResponse {
-        return socialService.removeFriend(myUserId, userIdWantedToAdd).result
+    override suspend fun removeFriendRequest(userID: Int, friendRequestID: Int): Boolean {
+        return socialService.removeFriend(userID, friendRequestID).result.success?:false
     }
 
     override suspend fun getFriendRequests(myUserId: Int): FriendRequestsResponse {
