@@ -29,7 +29,9 @@ fun ManualPager(
     onRefresh: () -> Unit,
     isLoading: Boolean,
     error: String,
+    reverseLayout: Boolean = false,
     isEndOfPager: Boolean,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(16.dp),
     contentPadding: PaddingValues,
     content: LazyListScope.() -> Unit,
 ) {
@@ -41,7 +43,8 @@ fun ManualPager(
             .fillMaxSize(),
         state = scrollState,
         contentPadding = contentPadding,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        reverseLayout = reverseLayout,
+        verticalArrangement = verticalArrangement,
 
     ) {
         content()

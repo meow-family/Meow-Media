@@ -114,7 +114,7 @@ class LoginViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isError = true,
-                        errorMessage = e.localizedMessage.toString(),
+                        errorMessage = if (e is java.lang.NullPointerException) "the username or password might be wrong" else e.localizedMessage.toString(),
                         isLoading = false
                     )
                 }

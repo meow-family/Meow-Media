@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +34,9 @@ class ConversationsViewModel @Inject constructor(
     init {
         getMessagesDetails()
         onReceiveMessage()
+        viewModelScope.launch(Dispatchers.IO) {
+            search()
+        }
     }
 
 
@@ -43,7 +47,18 @@ class ConversationsViewModel @Inject constructor(
                     "TESTING",
                     "received ${message.message} at ${message.time} from ${message.friendId}, your id is ${message.id}"
                 )
-                getMessagesDetails()
+                _state.update {
+                    it.copy(
+                        messages = it.messages.map {
+                            if (it.otherUser.userId == message.friendId) {
+                                it.copy(lastSendTime = message.time, lastMessage = message.message)
+                            } else {
+                                it
+                            }
+                        }
+                    )
+
+                }
             }
 
         }
@@ -52,13 +67,19 @@ class ConversationsViewModel @Inject constructor(
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages = fetchRecentMessages().map { it.toConversationUiState() }
-                _state.update {
-                    it.copy(
-                        isFail = false, isLoading = false, messages = recentMessages,
-                        isSuccess = true
-                    )
-                }
+                fetchRecentMessages().map { it.map { it.toConversationUiState() } }
+                    .collect { recentMessages ->
+                        Log.i(
+                            "MESSAGING",
+                            "last time of messages is ${recentMessages.map { it.lastSendTime }}"
+                        )
+                        _state.update {
+                            it.copy(
+                                isFail = false, isLoading = false, messages = recentMessages,
+                                isSuccess = true
+                            )
+                        }
+                    }
             } catch (e: Exception) {
                 Log.i("TESTING", "$e was catched! in ${this.javaClass.simpleName}")
                 _state.update { it.copy(isLoading = false, isFail = true) }

@@ -4,6 +4,8 @@ import android.util.Log
 import com.octopus.socialnetwork.data.repository.messaging.MessagingRepository
 import com.octopus.socialnetwork.domain.usecase.authentication.FetchUserIdUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.SendNotificationFCMUserCase
+import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
+import java.util.*
 import javax.inject.Inject
 
 class SendMessagesUseCase @Inject constructor(
@@ -13,6 +15,7 @@ class SendMessagesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(to: Int, message: String) {
         messagingRepository.sendMessage(fetchUserId(), to, message)
+        messagingRepository.updateConversation(to,message, Calendar.getInstance().time.time.toString())
         Log.i("MESSAGING","sent message $message")
         SendNotification(fetchUserId(), to, message)
         Log.i("MESSAGING","sent notification $message to $to")

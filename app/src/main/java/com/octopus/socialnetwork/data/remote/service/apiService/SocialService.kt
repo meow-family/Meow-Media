@@ -223,7 +223,8 @@ interface SocialService {
     suspend fun getMessagesList(
         @Query("guid") myUserId: Int,
         @Query("to") friendId: Int,
-    ): BaseResponse<MessageResponse>
+        @Query("offset") page: Int,
+        ): BaseResponse<MessageResponse>
     //endregion
 
     //region Comment

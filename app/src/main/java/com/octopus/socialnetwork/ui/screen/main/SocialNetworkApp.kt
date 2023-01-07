@@ -20,7 +20,7 @@ fun SocialNetworkApp() {
         if (appState.value.isLoading) {
             Loading()
         } else {
-            Log.i("LOGOUT","appState is ${appState.value}")
+            Log.i("LOGOUT", "appState is ${appState.value}")
             RootNavigationGraph(navController, isLoggedOut = appState.value.isLoggedIn.not())
         }
     }

@@ -3,13 +3,7 @@ package com.octopus.socialnetwork.ui.screen.register
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
@@ -32,11 +26,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.octopus.socialnetwork.R
-import com.octopus.socialnetwork.ui.composable.CustomButton
-import com.octopus.socialnetwork.ui.composable.CustomSnackBar
-import com.octopus.socialnetwork.ui.composable.LoadingDialog
-import com.octopus.socialnetwork.ui.composable.SpacerVertical32
-import com.octopus.socialnetwork.ui.composable.TextWithAction
+import com.octopus.socialnetwork.ui.composable.*
 import com.octopus.socialnetwork.ui.composable.register.AccountInformation
 import com.octopus.socialnetwork.ui.composable.register.PersonalInformation
 import com.octopus.socialnetwork.ui.composable.register.RegisterDialog
@@ -58,7 +48,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 fun RegisterScreen(
     navController: NavController,
-    viewModel: RegisterViewModel
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val pagerState = rememberPagerState(state.initPage)

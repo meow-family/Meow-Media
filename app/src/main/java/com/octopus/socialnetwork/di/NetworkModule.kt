@@ -39,8 +39,6 @@ object NetworkModule {
             .addInterceptor(ddosInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
-            .callTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()
     }
 
@@ -53,12 +51,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFirebaseCloudMessagingService(
-        okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): CloudMessagingService =
         Retrofit.Builder()
             .baseUrl(FCM_BASE_URL)
-            .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(CloudMessagingService::class.java)
