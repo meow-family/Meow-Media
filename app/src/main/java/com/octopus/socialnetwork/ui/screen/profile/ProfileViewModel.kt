@@ -88,6 +88,8 @@ class ProfileViewModel @Inject constructor(
                         fetchFriendDetails(_state.value.userDetails.userId).toUserDetailsUiState()
                     updateDetails(user)
                 }
+                _state.update { it.copy(isLoading = false, isError = false) }
+
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -107,41 +109,38 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getFriends() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val friend = fetchFriends(_state.value.userDetails.userId)
-                _state.update {
-                    it.copy(
-                        isLoading = false, isError = false,
-                        friends = friend.friends.map { it.toUserDetailsUiState() },
-                        userDetails = it.userDetails.copy(friendsCount = friend.total.toString())
-                    )
-                }
-            } catch (e: Throwable) {
-                _state.update { it.copy(isLoading = false, isError = true) }
+    private suspend fun getFriends() {
+        try {
+            val friend = fetchFriends(_state.value.userDetails.userId)
+            _state.update {
+                it.copy(
+                    isLoading = false, isError = false,
+                    friends = friend.friends.map { it.toUserDetailsUiState() },
+                    userDetails = it.userDetails.copy(friendsCount = friend.total.toString())
+                )
             }
+        } catch (e: Throwable) {
+            _state.update { it.copy(isLoading = false, isError = true) }
         }
+
     }
 
-    private fun getPosts() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun getPosts() {
 
-            try {
-                val posts = fetchPosts(_state.value.userDetails.userId).map { pager ->
-                    pager.map { it.toProfilePostUiState() }
-                }
-                val postsCount = fetchPostsCount(_state.value.userDetails.userId)
-                _state.update {
-                    it.copy(
-                        isLoading = false, isError = false,
-                        profilePosts = posts,
-                        userDetails = it.userDetails.copy(postCount = postsCount.toString())
-                    )
-                }
-            } catch (e: Throwable) {
-                _state.update { it.copy(isLoading = false, isError = true) }
+        try {
+            val posts = fetchPosts(_state.value.userDetails.userId).map { pager ->
+                pager.map { it.toProfilePostUiState() }
             }
+            val postsCount = fetchPostsCount(_state.value.userDetails.userId)
+            _state.update {
+                it.copy(
+                    isLoading = false, isError = false,
+                    profilePosts = posts,
+                    userDetails = it.userDetails.copy(postCount = postsCount.toString())
+                )
+            }
+        } catch (e: Throwable) {
+            _state.update { it.copy(isLoading = false, isError = true) }
         }
     }
 
@@ -149,7 +148,12 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val friendshipState = checkUserIsFriend(visitedUserId)
-                _state.update { it.copy(isRequestExists = friendshipState.requestExists, isFriend =friendshipState.isFriend ) }
+                _state.update {
+                    it.copy(
+                        isRequestExists = friendshipState.requestExists,
+                        isFriend = friendshipState.isFriend
+                    )
+                }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -164,7 +168,10 @@ class ProfileViewModel @Inject constructor(
                     isFriend = _state.value.isFriend.not(),
                 )
             }
-            val result = toggleFriendship(friendId, _state.value.isFriend.not() || _state.value.isRequestExists.not())
+            val result = toggleFriendship(
+                friendId,
+                _state.value.isFriend.not() || _state.value.isRequestExists.not()
+            )
             _state.update {
                 it.copy(isFriend = result.isFriend, isRequestExists = result.requestExists)
             }
