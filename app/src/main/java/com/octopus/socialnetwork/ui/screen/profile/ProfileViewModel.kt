@@ -148,8 +148,8 @@ class ProfileViewModel @Inject constructor(
     private fun isRequestSent(visitedUserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val isRequestSent = checkUserIsFriend(visitedUserId).requestExists
-                _state.update { it.copy(isRequestExists = isRequestSent) }
+                val friendshipState = checkUserIsFriend(visitedUserId)
+                _state.update { it.copy(isRequestExists = friendshipState.requestExists, isFriend =friendshipState.isFriend ) }
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
@@ -164,9 +164,9 @@ class ProfileViewModel @Inject constructor(
                     isFriend = _state.value.isFriend.not(),
                 )
             }
-            val result = toggleFriendship(friendId, _state.value.isRequestExists.not())
+            val result = toggleFriendship(friendId, _state.value.isFriend.not() || _state.value.isRequestExists.not())
             _state.update {
-                it.copy(isRequestExists = result.requestExists, isFriend = result.isFriend)
+                it.copy(isFriend = result.isFriend)
             }
         }
     }
