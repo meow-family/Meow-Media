@@ -55,7 +55,6 @@ class CommentsViewModel @Inject constructor(
                 val postComments =
                     getPostComments(args.postId.toInt()).map { it.toCommentDetailsUiState() }
                         .reversed()
-                Log.e("COMEENT", "relly COMEENT :${postComments}")
                 _state.update {
                     it.copy(
                         isPagerLoading = false, isLoading = false,
@@ -63,9 +62,6 @@ class CommentsViewModel @Inject constructor(
                         comments = (it.comments + postComments.distinctBy { it.commentId }),
                     )
                 }
-                Log.e("COMEENT", "SHAFALID COMEENT :${_state.value.comments}")
-
-
             } catch (t: Throwable) {
                 _state.update {
                     it.copy(
@@ -104,10 +100,25 @@ class CommentsViewModel @Inject constructor(
     }
 
 
-    fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean) {
+    fun onClickLike(postId: Int, totalLikes: Int, isLiked: Boolean,id:Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                likeToggle(postId, totalLikes, isLiked, Constants.LIKE_TYPE)
+
+                    likeToggle(postId,totalLikes,isLiked , Constants.LIKE_TYPE)
+                _state.update { it.copy(comments = it.comments.map { comment ->
+                    if (comment.commentId == id) {
+                        comment.copy(
+                            isLikedByUser = !comment.isLikedByUser,
+                            likeCounter = if (comment.isLikedByUser) {
+                                comment.likeCounter - 1
+                            } else {
+                                comment.likeCounter + 1
+                            }
+                        )
+                    } else {
+                        comment
+                    }
+                }) }
                 _state.update { it.copy(isError = false) }
             } catch (e: Exception) {
                 _state.update { it.copy(isError = true) }

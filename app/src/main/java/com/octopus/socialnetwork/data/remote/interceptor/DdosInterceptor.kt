@@ -6,23 +6,23 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class DdosInterceptor @Inject constructor(): Interceptor {  
+class DdosInterceptor @Inject constructor(): Interceptor {
+
 
 
     override fun intercept(chain: Interceptor.Chain): Response {
-
         val request = chain.request()
-        return try {
-            requestsHashCodeBuffer.add(0, request.hashCode())
-            while (requestsHashCodeBuffer.last() != request.hashCode()){
-                runBlocking {
-                    delay(DELAY_PERIOD)
-                }
+        requestsHashCodeBuffer.add(0, request.hashCode())
+        while (requestsHashCodeBuffer.last() != request.hashCode()){
+            runBlocking {
+                delay(DELAY_PERIOD)
             }
+        }
+        return try {
             chain.proceed(request).also {
                 requestsHashCodeBuffer.removeLast()
             }
-        } catch (e: Exception) {
+        }catch (e: Exception) {
             requestsHashCodeBuffer.removeLast()
             chain.proceed(request)
         }

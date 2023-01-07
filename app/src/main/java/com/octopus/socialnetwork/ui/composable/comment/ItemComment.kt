@@ -32,7 +32,7 @@ import com.octopus.socialnetwork.ui.theme.light_outline
 fun ItemComment(
     state: CommentDetailsUiState,
     modifier: Modifier = Modifier,
-    onLike: (Int, Int, Boolean) -> Unit,
+    onLike: (Int, Int, Boolean,Int) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -87,7 +87,7 @@ fun ItemComment(
                 })
 
         IconButton(onClick = {
-            onLike(state.commentId, state.likeCounter, state.isLikedByUser)  },
+            onLike(state.commentId, state.likeCounter, state.isLikedByUser,state.commentId)  },
             modifier = Modifier
                 .width(12.dp)
                 .height(12.dp)
