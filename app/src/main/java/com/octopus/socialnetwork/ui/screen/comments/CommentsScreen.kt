@@ -53,7 +53,7 @@ private fun CommentsContent(
     onChangeTypingComment: (String) -> Unit,
     onClickSend: () -> Unit,
     onClickBack: () -> Unit,
-    onClickLike: (Int, Int, Boolean) -> Unit,
+    onClickLike: (Int, Int, Boolean,Int) -> Unit,
     onClickTryAgain: () -> Unit,
     onRefresh: () -> Unit,
     ) {

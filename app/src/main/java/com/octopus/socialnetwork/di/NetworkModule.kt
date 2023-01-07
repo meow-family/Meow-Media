@@ -39,8 +39,6 @@ object NetworkModule {
             .addInterceptor(ddosInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
-            .callTimeout(1, TimeUnit.MINUTES)
-            .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()
     }
 
