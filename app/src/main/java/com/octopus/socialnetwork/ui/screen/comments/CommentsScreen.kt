@@ -1,4 +1,4 @@
-    package com.octopus.socialnetwork.ui.screen.comments
+package com.octopus.socialnetwork.ui.screen.comments
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -7,14 +7,15 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import com.octopus.socialnetwork.R
 import com.octopus.socialnetwork.ui.composable.AppBar
@@ -54,10 +55,10 @@ private fun CommentsContent(
     onChangeTypingComment: (String) -> Unit,
     onClickSend: () -> Unit,
     onClickBack: () -> Unit,
-    onClickLike: (Int, Int, Boolean,Int) -> Unit,
+    onClickLike: (Int, Int, Boolean, Int) -> Unit,
     onClickTryAgain: () -> Unit,
     onRefresh: () -> Unit,
-    ) {
+) {
     val listState = rememberLazyListState()
 
 
@@ -83,11 +84,13 @@ private fun CommentsContent(
             isLoading = state.isPagerLoading,
             error = state.pagerError,
             isEndOfPager = state.isEndOfPager,
-            modifier = Modifier.fillMaxWidth().weight(.8f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(.8f),
         ) {
 
             if (state.comments.isEmpty()) {
-               item { ImageForEmptyList(modifier = Modifier.padding(vertical = 64.dp)) }
+                item { ImageForEmptyList(modifier = Modifier.padding(vertical = 64.dp)) }
             }
             itemsIndexed(state.comments) { index, comment ->
 

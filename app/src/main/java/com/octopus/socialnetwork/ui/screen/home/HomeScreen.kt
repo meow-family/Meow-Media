@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -25,6 +28,7 @@ import com.octopus.socialnetwork.ui.screen.friend_request.navigateToFriendReques
 import com.octopus.socialnetwork.ui.screen.home.state.HomeUiState
 import com.octopus.socialnetwork.ui.screen.notifications.navigateToNotificationsScreen
 import com.octopus.socialnetwork.ui.screen.post.navigateToPostScreen
+import com.octopus.socialnetwork.ui.util.extensions.observeAsState
 
 
 @Composable
@@ -33,7 +37,12 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.homeUiState.collectAsState()
-
+    val lifecycleState = LocalLifecycleOwner.current.lifecycle.observeAsState()
+    LaunchedEffect(key1 = lifecycleState.value) {
+        if (lifecycleState.value == Lifecycle.Event.ON_RESUME) {
+            viewModel.onClickTryAgain()
+        }
+    }
 
     HomeContent(
         state = state,
