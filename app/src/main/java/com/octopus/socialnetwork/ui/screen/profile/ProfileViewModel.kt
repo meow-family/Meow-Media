@@ -50,9 +50,6 @@ class ProfileViewModel @Inject constructor(
     init {
         updateProfileUiState()
         getUserDetails()
-        if (_state.value.isMyProfile.not()) {
-            isRequestSent(_state.value.userDetails.userId)
-        }
     }
 
     private fun updateProfileUiState() {
@@ -87,6 +84,7 @@ class ProfileViewModel @Inject constructor(
                     val user =
                         fetchFriendDetails(_state.value.userDetails.userId).toUserDetailsUiState()
                     updateDetails(user)
+                    isRequestSent(_state.value.userDetails.userId)
                 }
                 _state.update { it.copy(isLoading = false, isError = false) }
 
@@ -114,7 +112,7 @@ class ProfileViewModel @Inject constructor(
             val friend = fetchFriends(_state.value.userDetails.userId)
             _state.update {
                 it.copy(
-                    isLoading = false, isError = false,
+                    isError = false,
                     friends = friend.friends.map { it.toUserDetailsUiState() },
                     userDetails = it.userDetails.copy(friendsCount = friend.total.toString())
                 )
@@ -134,7 +132,7 @@ class ProfileViewModel @Inject constructor(
             val postsCount = fetchPostsCount(_state.value.userDetails.userId)
             _state.update {
                 it.copy(
-                    isLoading = false, isError = false,
+                    isError = false,
                     profilePosts = posts,
                     userDetails = it.userDetails.copy(postCount = postsCount.toString())
                 )
@@ -144,8 +142,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun isRequestSent(visitedUserId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun isRequestSent(visitedUserId: Int) {
             try {
                 val friendshipState = checkUserIsFriend(visitedUserId)
                 _state.update {
@@ -157,7 +154,7 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, isError = true) }
             }
-        }
+
     }
 
     fun onClickAddFriend(friendId: Int) {
@@ -186,8 +183,5 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickTryAgain() {
         getUserDetails()
-        if (_state.value.isMyProfile.not()) {
-            isRequestSent(_state.value.userDetails.userId)
-        }
     }
 }
