@@ -21,12 +21,10 @@ fun VisitedProfileLayout(
     ReduceButton(
         onClick = { onClickAddFriend(state.userDetails.userId) },
         isSelected = state.isRequestExists || state.isFriend,
-        idTitleResource = if (state.isFriend) {
-            R.string.remove
-        } else if (state.isRequestExists) {
-            R.string.requested
-        } else {
-            R.string.add_friend
+        idTitleResource = when {
+            state.isFriend -> { R.string.remove }
+            state.isRequestExists -> { R.string.requested }
+            else -> { R.string.add_friend }
         },
         idIconResource = R.drawable.add_person
 
