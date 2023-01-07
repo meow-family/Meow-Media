@@ -123,7 +123,7 @@
 
     <string name="decline">Decline</string>
     <string name="Accept">Accept</string>
-    <string name="remove_friend">Remove Friend</string>
+    <string name="remove">Remove</string>
     <string name="image">Image</string>
     <string name="email_app_not_found">you don`t have an email app</string>
 

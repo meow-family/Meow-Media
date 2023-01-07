@@ -56,7 +56,7 @@
 
     <!-- Profile  -->
     <string name="save">حفظ</string>
-    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
     <string name="current_password">كلمة المرور الحالية</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="home">الصفحة الرئيسية</string>
@@ -125,7 +125,7 @@
 
     <string name="decline">رفض</string>
     <string name="Accept">قبول</string>
-    <string name="remove_friend">أزالة صديق</string>
+    <string name="remove">أزالة</string>
     <string name="image">Image</string>
     <string name="email_app_not_found">you don`t have an email app</string>
 

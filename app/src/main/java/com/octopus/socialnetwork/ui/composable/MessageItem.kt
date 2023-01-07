@@ -53,7 +53,7 @@ fun MessageItem(
             SpaceVertically4dp()
             Text(
                 text = state.lastMessage,
-                modifier = Modifier.width(230.dp),
+                modifier = Modifier.width(224.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Light,
@@ -64,11 +64,8 @@ fun MessageItem(
             )
         }
 
-        Spacer(
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        )
+        Spacer(Modifier.weight(1f).fillMaxWidth())
+
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,7 +73,8 @@ fun MessageItem(
         ) {
             Text(
                 text = state.lastSendTime,
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier.align(Alignment.End).width(64.dp),
+                maxLines = 1,
                 fontWeight = FontWeight.Light,
                 fontFamily = PoppinsTypography.overline.fontFamily,
                 fontStyle = PoppinsTypography.overline.fontStyle,

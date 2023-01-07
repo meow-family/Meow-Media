@@ -42,22 +42,22 @@ fun MainScreen(navController: NavHostController, rootNavController: NavControlle
                     BottomNavItem(
                         name = stringResource(R.string.home),
                         route = MainRoute.Home,
-                        icon = painterResource(R.drawable.home),
+                        icon = painterResource(R.drawable.ic_home),
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.search),
                         route = MainRoute.Search,
-                        icon = painterResource(R.drawable.search),
+                        icon = painterResource(R.drawable.ic_search),
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.chat),
                         route = MainRoute.Conversations,
-                        icon = painterResource(R.drawable.chat),
+                        icon = painterResource(R.drawable.ic_chat),
                     ),
                     BottomNavItem(
                         name = stringResource(R.string.profile),
                         route = MainRoute.Profile,
-                        icon = painterResource(R.drawable.profile),
+                        icon = painterResource(R.drawable.ic_profile),
                     ),
                 ),
                 navController = navController,

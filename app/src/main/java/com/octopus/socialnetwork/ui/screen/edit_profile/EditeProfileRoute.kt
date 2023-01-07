@@ -1,7 +1,5 @@
 package com.octopus.socialnetwork.ui.screen.edit_profile
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,7 +15,6 @@ fun NavController.navigateToEditeProfileRoute(userId: Int) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.editeProfileRouteRoute(navController: NavController) {
     composable(
         route = "${ROUTE}/{${EditProfileScreenArgs.USER_ID}}",

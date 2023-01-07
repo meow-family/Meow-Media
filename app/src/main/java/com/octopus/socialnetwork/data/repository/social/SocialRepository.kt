@@ -115,6 +115,7 @@ interface SocialRepository {
 
     suspend fun insertPosts(posts: List<PostEntity>)
 
+    suspend fun deletePostFromDB(postId: Int)
 //endregion
 
 }

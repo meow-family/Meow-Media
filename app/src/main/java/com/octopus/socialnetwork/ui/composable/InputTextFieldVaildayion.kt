@@ -3,6 +3,7 @@ package com.octopus.socialnetwork.ui.composable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -19,13 +20,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.octopus.socialnetwork.R
+import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
 import com.octopus.socialnetwork.ui.theme.Shapes
 import com.octopus.socialnetwork.ui.theme.heightDefaultButton
 import com.octopus.socialnetwork.ui.theme.spacingMedium
 import com.octopus.socialnetwork.ui.theme.textPrimaryColor
 import com.octopus.socialnetwork.ui.theme.textThirdColor
-import com.octopus.socialnetwork.ui.screen.register.state.uistate.TextFieldUiState
-import com.octopus.socialnetwork.ui.theme.*
 
 @Composable
 fun InputTextFieldValidation(
@@ -40,6 +40,7 @@ fun InputTextFieldValidation(
     isEnabled: Boolean = true,
     keyboardAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
+    onClickKeyboardAction: KeyboardActions = KeyboardActions(),
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
@@ -59,6 +60,7 @@ fun InputTextFieldValidation(
             imeAction = keyboardAction,
             keyboardType = keyboardType
         ),
+        keyboardActions = onClickKeyboardAction,
         placeholder = {
             Text(
                 text = placeholder, style = MaterialTheme.typography.h6,

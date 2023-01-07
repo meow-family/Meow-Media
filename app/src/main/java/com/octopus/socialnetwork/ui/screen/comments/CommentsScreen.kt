@@ -10,7 +10,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,7 +53,7 @@ private fun CommentsContent(
     onChangeTypingComment: (String) -> Unit,
     onClickSend: () -> Unit,
     onClickBack: () -> Unit,
-    onClickLike: (Int, Int, Boolean) -> Unit,
+    onClickLike: (Int, Int, Boolean,Int) -> Unit,
     onClickTryAgain: () -> Unit,
     onRefresh: () -> Unit,
     ) {
@@ -76,14 +75,8 @@ private fun CommentsContent(
             LottieError(onClickTryAgain)
         }
         if (state.comments.isEmpty()) {
-            ImageForEmptyList(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .align(alignment = Alignment.CenterHorizontally)
-            )
+            ImageForEmptyList(modifier = Modifier.padding(vertical = 64.dp))
         }
-
 
 
 

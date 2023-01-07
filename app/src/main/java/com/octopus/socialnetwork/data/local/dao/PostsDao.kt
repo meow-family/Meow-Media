@@ -23,4 +23,7 @@ interface PostsDao {
 
     @Query("UPDATE posts_table SET isLikedByUser = :isLikedByUser, totalLikes = :newLikesCount WHERE id = :id")
     suspend fun updatePostLikeStatus(id: Int, isLikedByUser: Boolean, newLikesCount: Int)
+
+    @Query("DELETE FROM posts_table WHERE id = :postId")
+    suspend fun deletePost(postId: Int)
 }

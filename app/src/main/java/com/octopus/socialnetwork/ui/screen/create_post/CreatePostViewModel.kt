@@ -1,8 +1,6 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.create_post.CreatePostUseCase
@@ -28,7 +26,7 @@ class CreatePostViewModel @Inject constructor(
     private val _state = MutableStateFlow(CreatePostUiState())
     val state = _state.asStateFlow()
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun onClickPost(uri: Uri) {
         _state.update { it.copy(isPostButtonEnabled = false) }
         viewModelScope.launch(Dispatchers.IO) {
