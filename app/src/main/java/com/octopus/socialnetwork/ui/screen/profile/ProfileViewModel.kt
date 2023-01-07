@@ -166,7 +166,7 @@ class ProfileViewModel @Inject constructor(
             }
             val result = toggleFriendship(friendId, _state.value.isFriend.not() || _state.value.isRequestExists.not())
             _state.update {
-                it.copy(isFriend = result.isFriend)
+                it.copy(isFriend = result.isFriend, isRequestExists = result.requestExists)
             }
         }
     }
