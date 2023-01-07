@@ -15,7 +15,7 @@ class SendMessagesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(to: Int, message: String) {
         messagingRepository.sendMessage(fetchUserId(), to, message)
-        messagingRepository.updateConversation(to,message, Calendar.getInstance().time.getHourAndMinutes())
+        messagingRepository.updateConversation(to,message, Calendar.getInstance().time.time.toString())
         Log.i("MESSAGING","sent message $message")
         SendNotification(fetchUserId(), to, message)
         Log.i("MESSAGING","sent notification $message to $to")

@@ -1,6 +1,9 @@
 package com.octopus.socialnetwork.data.remote.response.dto.messages
 
 import com.google.gson.annotations.SerializedName
+import java.util.Calendar
+import java.util.Date
+
 object NotificationKeys{
     const val ID_KEY = "id"
     const val FRIEND_ID_KEY = "friendId"

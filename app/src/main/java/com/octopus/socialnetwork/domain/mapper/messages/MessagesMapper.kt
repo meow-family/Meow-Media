@@ -35,7 +35,7 @@ fun MessageDto.toConversationsEntity(myUserId: Int): ConversationEntity {
         friendId = otherUser.userId,
         friendName = otherUser.fullName,
         avatar = otherUser.avatar,
-        time = this.time ?: Calendar.getInstance().time.time,
+        time = (time?.times(1000)) ?: Calendar.getInstance().time.time,
     )
 }
 

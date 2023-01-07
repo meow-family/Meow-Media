@@ -7,14 +7,13 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class DdosInterceptor @Inject constructor(): Interceptor {  
+class DdosInterceptor @Inject constructor(): Interceptor {
 
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val request = chain.request()
-        Log.i("DDOS_INTERCEPTOR","will add request")
-        Log.i("DDOS_INTERCEPTOR","request is ${request.url} with hashcode of ${request.hashCode()}")
+        Log.i("DDOS_INTERCEPTOR","request of hashcode ${request.hashCode()} will be added")
 
         requestsHashCodeBuffer.add(0, request.hashCode())
         while (requestsHashCodeBuffer.last() != request.hashCode()){
@@ -27,6 +26,7 @@ class DdosInterceptor @Inject constructor(): Interceptor {
                 requestsHashCodeBuffer.removeLast()
             }
         } catch (e: Exception) {
+            Log.i("DDOS_INTERCEPTOR","catched this exception $e")
             requestsHashCodeBuffer.removeLast()
             chain.proceed(request)
         }

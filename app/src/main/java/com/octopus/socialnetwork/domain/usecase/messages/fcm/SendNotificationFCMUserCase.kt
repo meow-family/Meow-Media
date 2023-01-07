@@ -21,7 +21,7 @@ class SendNotificationFCMUserCase @Inject constructor(
 
             val notificationData = NotificationData(
                 friendId = from, id = to, message = message,
-                time = Calendar.getInstance().time.getHourAndMinutes()
+                time = Calendar.getInstance().time.time.toString()
             )
 
             cloudMessagingService.postNotification(

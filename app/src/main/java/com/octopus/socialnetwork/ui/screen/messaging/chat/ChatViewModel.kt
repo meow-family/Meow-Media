@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.octopus.socialnetwork.data.local.dao.ConversationDao
+import com.octopus.socialnetwork.data.remote.response.dto.messages.NotificationData
 import com.octopus.socialnetwork.domain.usecase.messages.chat.GetMessageListUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.chat.SendMessagesUseCase
 import com.octopus.socialnetwork.domain.usecase.messages.fcm.ReceiveMessageUseCase
@@ -13,12 +13,14 @@ import com.octopus.socialnetwork.ui.screen.messaging.chat.mapper.toChatUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatUiState
 import com.octopus.socialnetwork.ui.screen.profile.mapper.toUserDetailsUiState
+import com.octopus.socialnetwork.ui.util.extensions.getHourAndMinutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +29,6 @@ class ChatViewModel @Inject constructor(
     private val fetchUserDetailS: FetchUserDetailsUseCase,
     private val sendMessage: SendMessagesUseCase,
     private val receiveMessageUseCase: ReceiveMessageUseCase,
-    private val conversationDao /* for test */ : ConversationDao,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -48,20 +49,8 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 receiveMessageUseCase().collect { message ->
-
-                    if (message.friendId == args.friendId.toInt()) {
-                        val receivedMessage = ChatUiState(
-                            message = message.message,
-                            lastSendTime = message.time,
-                            isSentByMe = false
-                        )
-                        conversationDao.updateConversation(
-                            message.friendId,
-                            message.message,
-                            message.time
-                        )
-                        val updatedMessages = _state.value.messages.reversed() + receivedMessage
-                        _state.update { it.copy(messages = updatedMessages.reversed() ) }
+                    if (message.friendId == args.friendId.toInt() && message.friendId != message.id) {
+                        addMessageToChat(message)
                     }
                 }
             } catch (e: Exception) {
@@ -69,6 +58,18 @@ class ChatViewModel @Inject constructor(
             }
 
         }
+    }
+
+    private fun addMessageToChat(message: NotificationData) {
+        val receivedMessage = ChatUiState(
+            message = message.message,
+            lastSendTime = Date(message.time.toLong()).getHourAndMinutes(),
+            isSentByMe = false
+        )
+
+        val updatedMessages = _state.value.messages.reversed() + receivedMessage
+        _state.update { it.copy(messages = updatedMessages.reversed()) }
+
     }
 
     fun onTextChange(newValue: String) {
@@ -126,7 +127,10 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
 
-                val updatedMessages = _state.value.messages.reversed() + ChatUiState(message = message)
+                val updatedMessages = _state.value.messages.reversed() + ChatUiState(
+                    message = message,
+                    lastSendTime = Calendar.getInstance().time.getHourAndMinutes()
+                )
 
                 _state.update { it.copy(messages = updatedMessages.reversed()) }
 

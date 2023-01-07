@@ -53,12 +53,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFirebaseCloudMessagingService(
-        okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): CloudMessagingService =
         Retrofit.Builder()
             .baseUrl(FCM_BASE_URL)
-            .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(CloudMessagingService::class.java)

@@ -22,16 +22,10 @@ class MainViewModel @Inject constructor(
     val appState = MutableStateFlow(MainUiState())
 
     init {
-
         viewModelScope.launch(Dispatchers.IO) {
             checkIsLoggedIn().collect { loginState ->
                 Log.i("LOGOUT", "logout state is ${loginState}")
-                appState.update {
-                    it.copy(
-                        isLoading = false,
-                        isLoggedIn = loginState
-                    )
-                }
+                appState.update { it.copy(isLoading = false, isLoggedIn = loginState) }
             }
         }
 

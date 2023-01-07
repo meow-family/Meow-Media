@@ -63,17 +63,19 @@ class ConversationsViewModel @Inject constructor(
     private fun getMessagesDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val recentMessages =
-                    fetchRecentMessages().map { it.map { it.toConversationUiState() } }
-                        .collect { recentMessages ->
-                            Log.i("MESSAGING","recent messages are with users ${recentMessages.map { it.otherUser.userId }}")
-                            _state.update {
-                                it.copy(
-                                    isFail = false, isLoading = false, messages = recentMessages,
-                                    isSuccess = true
-                                )
-                            }
+                fetchRecentMessages().map { it.map { it.toConversationUiState() } }
+                    .collect { recentMessages ->
+                        Log.i(
+                            "MESSAGING",
+                            "last time of messages is ${recentMessages.map { it.lastSendTime }}"
+                        )
+                        _state.update {
+                            it.copy(
+                                isFail = false, isLoading = false, messages = recentMessages,
+                                isSuccess = true
+                            )
                         }
+                    }
             } catch (e: Exception) {
                 Log.i("TESTING", "$e was catched! in ${this.javaClass.simpleName}")
                 _state.update { it.copy(isLoading = false, isFail = true) }
