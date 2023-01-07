@@ -115,6 +115,9 @@
     <string name="image_post">Post Image</string>
     <string name="back">Back</string>
     <string name="image_post_rejected">Image Rejected!</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="no_internet_description">please check your internet connection</string>
+
     <string name="image_post_rejected_description">Meow Meow! your image doesn\'t contain a cat! this app is for meows only.</string>
 
     <string name="no_items">Look like there\'s no meows\n items here!</string>

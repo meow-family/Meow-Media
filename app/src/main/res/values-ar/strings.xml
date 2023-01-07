@@ -43,6 +43,8 @@
     <string name="icon">icon</string>
     <string name="notification">الاشعارات</string>
     <string name="friend_requests">طلبات الصداقة</string>
+    <string name="no_internet">لا يوجد إنترنت</string>
+    <string name="no_internet_description">يرجى التحقق من اتصالك بالإنترنت</string>
 
 
     <string name="image_register">صورة التسجيل</string>
@@ -115,8 +117,8 @@
     <string name="image_post">صور المنشور </string>
     <string name="back">رجوع</string>
 
-    <string name="image_post_rejected">تم رفض صوره المنشور</string>
-    <string name="image_post_rejected_description">الصوره يجب ان تتضمن قط</string>
+    <string name="image_post_rejected">تم رفض الصورة</string>
+    <string name="image_post_rejected_description">ميو ميو! لا توجد ميو في الصورة، يرجى اختيار صورة تحتوي على ميو</string>
 
 
     <string name="no_items">يبدو انه لا توجد عناصر meows هنا!</string>

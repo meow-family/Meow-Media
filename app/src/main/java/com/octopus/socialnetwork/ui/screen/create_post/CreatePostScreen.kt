@@ -31,10 +31,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -208,6 +205,19 @@ fun CreatePostContent(
 
     if (state.isLoading) {
         LoadingDialog()
+    }
+    if (state.isError) {
+        Dialog(onDismissRequest = { navController.popBackStack()}) {
+            CustomDialog(
+                icon = Icons.Default.Error,
+                title = stringResource(R.string.no_internet),
+                description = stringResource(R.string.no_internet_description),
+                actionTitle = stringResource(id = R.string.ok),
+                onClickPrimaryAction = {
+                    navController.popBackStack()
+                },
+            )
+        }
     }
     if (state.isInvalidImage) {
         Dialog(onDismissRequest = { onClickEdit()}) {

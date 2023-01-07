@@ -1,6 +1,7 @@
 package com.octopus.socialnetwork.ui.screen.create_post
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.octopus.socialnetwork.domain.usecase.post.create_post.CreatePostUseCase
@@ -30,20 +31,32 @@ class CreatePostViewModel @Inject constructor(
     fun onClickPost(uri: Uri) {
         _state.update { it.copy(isPostButtonEnabled = false) }
         viewModelScope.launch(Dispatchers.IO) {
-            val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
+            try {
+                val isImageValid = state.value.imageUri?.let { uri -> detectCat(uri) } ?: false
 
-            setLoading(true)
-            if (isImageValid) {
-                val result = createPost(_state.value.captionText, fileService.openFile(uri))
-                result?.let {
+                setLoading(true)
+                if (isImageValid) {
+                    val result = createPost(_state.value.captionText, fileService.openFile(uri))
+                    result?.let {
+                        setLoading(false)
+                        onUploadPostSuccess()
+                    } ?: setLoading(false)
+                } else {
                     setLoading(false)
-                    onUploadPostSuccess()
-                } ?: setLoading(false)
-            } else {
-                setLoading(false)
-                onInvalidImageDetection()
+                    onInvalidImageDetection()
+                }
+                _state.update { it.copy(isPostButtonEnabled = true) }
+
+            } catch (e: Exception) {
+                Log.i("CREATE_POST", "catched this exception $e")
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        isPostButtonEnabled = true,
+                        isError = true
+                    )
+                }
             }
-            _state.update { it.copy(isPostButtonEnabled = true) }
         }
     }
 
