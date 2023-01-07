@@ -19,7 +19,6 @@ import com.octopus.socialnetwork.ui.composable.lotties.LottieError
 import com.octopus.socialnetwork.ui.composable.lotties.LottieLoading
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.ReceivedMessage
 import com.octopus.socialnetwork.ui.composable.social_elements.messages.SentMessage
-import com.octopus.socialnetwork.ui.screen.comments.ManualPager
 import com.octopus.socialnetwork.ui.screen.messaging.chat.state.ChatMainUiState
 import com.octopus.socialnetwork.ui.screen.profile.navigateToUserProfileScreen
 import com.octopus.socialnetwork.ui.util.extensions.lastIndexOrZero
