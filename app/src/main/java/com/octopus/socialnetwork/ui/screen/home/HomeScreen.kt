@@ -90,10 +90,12 @@ private fun HomeContent(
         } else if (state.isError) {
             LottieError(onClickTryAgain)
         } else {
-            if (isEmptyFlow && state.isLoading.not()) {
-                ImageForEmptyList(modifier = Modifier
-                    .fillMaxSize()
-                    .align(alignment = Alignment.CenterHorizontally))
+            if (isEmptyFlow) {
+                ImageForEmptyList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(alignment = Alignment.CenterHorizontally)
+                )
             } else {
                 LazyColumn(
                     Modifier.fillMaxSize(),
@@ -115,7 +117,7 @@ private fun HomeContent(
                     when (posts.loadState.append) {
                         is LoadState.NotLoading -> Unit
                         LoadState.Loading -> {
-                            item {  LottieLoading(modifier = Modifier.size(70.dp)) }
+                            item { LottieLoading(modifier = Modifier.size(70.dp)) }
                         }
                         is LoadState.Error -> {
                             item { LottieLoading(modifier = Modifier.size(70.dp)) }

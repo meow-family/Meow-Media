@@ -32,9 +32,7 @@ class PostsRemoteMediator @Inject constructor(
         return try {
             val currentPage = when (loadType) {
                 LoadType.REFRESH -> {
-                    val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                    Log.i("PAGING", "refrishing ${remoteKey?.nextPage}")
-                    remoteKey?.nextPage?.minus(1) ?: 1
+                    1
                 }
                 LoadType.PREPEND -> {
                     val remoteKey = getRemoteKeyForFirstItem(state)
@@ -44,7 +42,7 @@ class PostsRemoteMediator @Inject constructor(
                 LoadType.APPEND -> {
                     val remoteKey = getRemoteKeyForLastItem(state)
                     Log.i("PAGING", "appending ${remoteKey?.nextPage}")
-                    remoteKey?.nextPage ?: return MediatorResult.Success(remoteKey == null)
+                    remoteKey?.nextPage ?: return MediatorResult.Success(remoteKey != null)
                 }
             }
 
