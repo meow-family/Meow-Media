@@ -37,12 +37,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.homeUiState.collectAsState()
-    val lifecycleState = LocalLifecycleOwner.current.lifecycle.observeAsState()
-    LaunchedEffect(key1 = lifecycleState.value) {
-        if (lifecycleState.value == Lifecycle.Event.ON_RESUME) {
-            viewModel.onClickTryAgain()
-        }
-    }
 
     HomeContent(
         state = state,
