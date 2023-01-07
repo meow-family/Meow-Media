@@ -8,13 +8,13 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.octopus.socialnetwork.R
 import kotlinx.coroutines.Dispatchers
-
-@Composable
-fun customImageLoad(imageUrl: String): Painter {
-    return rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl).crossfade(100).dispatcher(Dispatchers.IO).build(),
-        placeholder = painterResource(id = R.drawable.loading_image),
-        error = painterResource(id = R.drawable.error_image),
-    )
-}
+//
+//@Composable
+//fun customImageLoad(imageUrl: String): Painter {
+//    return rememberAsyncImagePainter(
+//        model = ImageRequest.Builder(LocalContext.current)
+//            .data(imageUrl).crossfade(100).dispatcher(Dispatchers.IO).build(),
+//        placeholder = painterResource(id = R.drawable.loading_image),
+//        error = painterResource(id = R.drawable.error_image),
+//    )
+//}
