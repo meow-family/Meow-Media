@@ -165,7 +165,7 @@ private fun LoginContent(
         CustomButton(
             modifier = Modifier.padding(horizontal = spacingMedium),
             text = stringResource(R.string.login),
-            onClick = { onClickLogin() }
+            onClick = onClickLogin
         )
         TextWithAction(
             text = stringResource(R.string.donot_have_account),

@@ -34,9 +34,8 @@ class ConversationsViewModel @Inject constructor(
     init {
         getMessagesDetails()
         onReceiveMessage()
-        viewModelScope.launch(Dispatchers.IO) {
-            search()
-        }
+        search()
+
     }
 
 

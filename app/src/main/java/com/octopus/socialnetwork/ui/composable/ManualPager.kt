@@ -115,15 +115,6 @@ fun PagerStatusItem(
                 )
             }
 
-        } else if (isEndOfPager) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.no_items),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colors.secondaryVariant,
-                fontSize = 14.sp
-            )
         }
     }
 }

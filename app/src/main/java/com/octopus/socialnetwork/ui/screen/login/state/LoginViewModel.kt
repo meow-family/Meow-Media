@@ -103,7 +103,7 @@ class LoginViewModel @Inject constructor(
             try {
                 val loginResponse =
                     loginUseCase(userInput.userName.text, userInput.password.text)
-                Log.i("TESTING",loginResponse.toString() + " is login response")
+                Log.i("TESTING", "$loginResponse is login response")
                 if (loginResponse.username.isNullOrEmpty()) {
                     _state.update { it.copy(isError = true, isLoading = false) }
                 } else {
@@ -126,7 +126,7 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(errorMessage = "") }
     }
 
-    fun showErrorValidationInput() {
+    private fun showErrorValidationInput() {
         _state.update { it.copy(isDisplayErrorValidationInputs = true) }
     }
 
